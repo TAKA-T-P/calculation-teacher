@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "grade": 1,
+  "unit": "expressions",
+  "questions": [
+    {
+      "id": "J1-EX-0001",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times a\\times b\\div3-b\\times2",
+      "answerLines": [
+        "a\\times a\\times b\\div3-b\\times2",
+        "=\\frac{2ab}{3}-2b"
+      ],
+      "errorLine": 1,
+      "errorType": "同じ文字の積を係数で表した誤り",
+      "explanation": "同じ文字の積は、指数を使って表します。$a\\times a=a^2$ です。$2a$ は $a+a$ のことなので、$a\\times a$ を $2a$ とするのは誤りです。$\\div3$ を分母が $3$ の分数で表すことと、$b\\times2$ を $2b$ と書くことは正しくできています。",
+      "correctSolution": [
+        "a\\times a\\times b\\div3-b\\times2",
+        "=\\frac{a^2b}{3}-2b"
+      ],
+      "hint": "$a\\times a$ は $a$ を何回かけていますか？ 同じ文字の積はどう表しますか？"
+    },
+    {
+      "id": "J1-EX-0002",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$x=-4$ のとき、次の式の値を求めなさい。",
+      "substitution": { "x": "-4" },
+      "question": "-x^2+3x",
+      "answerLines": [
+        "-x^2+3x",
+        "=-(-4)^2+3\\times(-4)",
+        "=16-12",
+        "=4"
+      ],
+      "errorLine": 2,
+      "errorType": "累乗の前の負号の処理ミス",
+      "explanation": "$-(-4)^2$ は「$(-4)^2$ に $-$ をつけたもの」です。$(-4)^2=16$ なので、$-(-4)^2=-16$ になります。代入した式は正しいのですが、$-(-4)^2$ を $16$ としたところが誤りです。",
+      "correctSolution": [
+        "-x^2+3x",
+        "=-(-4)^2+3\\times(-4)",
+        "=-16-12",
+        "=-28"
+      ],
+      "hint": "$-(-4)^2$ は、$(-4)\\times(-4)$ を先に計算してから $-$ をつけます。"
+    },
+    {
+      "id": "J1-EX-0003",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$a=-2$, $b=3$ のとき、次の式の値を求めなさい。",
+      "substitution": { "a": "-2", "b": "3" },
+      "question": "3a-b^2",
+      "answerLines": [
+        "3a-b^2",
+        "=3\\times(-2)-3^2",
+        "=-6-9",
+        "=-15"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数を代入するときはかっこをつけて $3\\times(-2)$ とします。$b^2=3^2=9$ なので $-b^2=-9$ となり、$-6-9=-15$ です。",
+      "correctSolution": [
+        "3a-b^2",
+        "=3\\times(-2)-3^2",
+        "=-6-9",
+        "=-15"
+      ],
+      "hint": "代入した式と、$-b^2$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0004",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "7x-4-3x+9",
+      "answerLines": [
+        "7x-4-3x+9",
+        "=7x+3x-4+9",
+        "=10x+5"
+      ],
+      "errorLine": 1,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "項を並べかえるときは、項の前の符号もいっしょに移動します。$-3x$ は $-3x$ のまま並べかえるので、$7x-3x-4+9$ となります。",
+      "correctSolution": [
+        "7x-4-3x+9",
+        "=7x-3x-4+9",
+        "=4x+5"
+      ],
+      "hint": "$-3x$ の項を移動したとき、符号は変わりますか？"
+    },
+    {
+      "id": "J1-EX-0005",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "5a-8+3a+2",
+      "answerLines": [
+        "5a-8+3a+2",
+        "=5a+3a-8+2",
+        "=8a^2-6"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項をまとめるときに文字をかけてしまう誤り",
+      "explanation": "同類項をまとめるときは、係数どうしを計算し、文字はそのままにします。$5a+3a=(5+3)a=8a$ です。$a\\times a$ ではないので $a^2$ にはなりません。項の並べかえは正しくできています。",
+      "correctSolution": [
+        "5a-8+3a+2",
+        "=5a+3a-8+2",
+        "=8a-6"
+      ],
+      "hint": "$5a+3a$ は、$a$ が何個分ですか？"
+    },
+    {
+      "id": "J1-EX-0006",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "\\frac{2}{3}x-1-\\frac{1}{4}x+\\frac{1}{2}",
+      "answerLines": [
+        "\\frac{2}{3}x-1-\\frac{1}{4}x+\\frac{1}{2}",
+        "=\\frac{2}{3}x-\\frac{1}{4}x-1+\\frac{1}{2}",
+        "=\\frac{8}{12}x-\\frac{3}{12}x-\\frac{1}{2}",
+        "=\\frac{5}{12}x-\\frac{1}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。文字の項と数の項に分けて並べかえ、$\\frac{2}{3}x-\\frac{1}{4}x=\\frac{8}{12}x-\\frac{3}{12}x=\\frac{5}{12}x$、$-1+\\frac{1}{2}=-\\frac{1}{2}$ と計算しています。",
+      "correctSolution": [
+        "\\frac{2}{3}x-1-\\frac{1}{4}x+\\frac{1}{2}",
+        "=\\frac{2}{3}x-\\frac{1}{4}x-1+\\frac{1}{2}",
+        "=\\frac{8}{12}x-\\frac{3}{12}x-\\frac{1}{2}",
+        "=\\frac{5}{12}x-\\frac{1}{2}"
+      ],
+      "hint": "文字の項どうし、数の項どうしを、それぞれ正しく計算できているか確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0007",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "4(2a-1)-3(a-2)",
+      "answerLines": [
+        "4(2a-1)-3(a-2)",
+        "=8a-1-3a+6",
+        "=5a+5"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "分配法則では、かっこの前の数をかっこの中のすべての項にかけます。$4(2a-1)=4\\times2a+4\\times(-1)=8a-4$ です。$-1$ に $4$ をかけ忘れています。後半の $-3(a-2)=-3a+6$ は正しくできています。",
+      "correctSolution": [
+        "4(2a-1)-3(a-2)",
+        "=8a-4-3a+6",
+        "=5a+2"
+      ],
+      "hint": "$4(2a-1)$ の $-1$ にも $4$ をかけましたか？"
+    },
+    {
+      "id": "J1-EX-0008",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "\\frac{2x-1}{3}\\times(-6)",
+      "answerLines": [
+        "\\frac{2x-1}{3}\\times(-6)",
+        "=(2x-1)\\times(-2)",
+        "=-4x-2"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$(2x-1)\\times(-2)$ では、$-1$ にも $-2$ をかけます。$(-1)\\times(-2)=+2$ なので、$-4x+2$ になります。約分して $(2x-1)\\times(-2)$ とした計算は正しくできています。",
+      "correctSolution": [
+        "\\frac{2x-1}{3}\\times(-6)",
+        "=(2x-1)\\times(-2)",
+        "=-4x+2"
+      ],
+      "hint": "$(-1)\\times(-2)$ の符号は何になりますか？"
+    },
+    {
+      "id": "J1-EX-0009",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "\\frac{3x-1}{2}-\\frac{x-2}{3}",
+      "answerLines": [
+        "\\frac{3x-1}{2}-\\frac{x-2}{3}",
+        "=\\frac{3(3x-1)-2(x-2)}{6}",
+        "=\\frac{9x-3-2x-4}{6}",
+        "=\\frac{7x-7}{6}"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "$-2(x-2)$ のかっこをはずすと $-2x+4$ になります。かっこの中の $-2$ にも $-2$ をかけるので、$(-2)\\times(-2)=+4$ です。分子の中にあるかっこなので、符号の変化を見落としやすいところです。",
+      "correctSolution": [
+        "\\frac{3x-1}{2}-\\frac{x-2}{3}",
+        "=\\frac{3(3x-1)-2(x-2)}{6}",
+        "=\\frac{9x-3-2x+4}{6}",
+        "=\\frac{7x+1}{6}"
+      ],
+      "hint": "$-2(x-2)$ のかっこをはずすとき、$-2$ はかっこの中のどの項にもかけます。"
+    },
+    {
+      "id": "J1-EX-0010",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "\\frac{1}{3}(6a-9)-\\frac{1}{2}(4a-2)",
+      "answerLines": [
+        "\\frac{1}{3}(6a-9)-\\frac{1}{2}(4a-2)",
+        "=2a-3-2a+1",
+        "=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{1}{3}(6a-9)=2a-3$、$-\\frac{1}{2}(4a-2)=-2a+1$ です。$2a-2a=0$ となって文字の項が消えるので、答えは数だけの $-2$ になります。",
+      "correctSolution": [
+        "\\frac{1}{3}(6a-9)-\\frac{1}{2}(4a-2)",
+        "=2a-3-2a+1",
+        "=-2"
+      ],
+      "hint": "答えに文字が残らないこともあります。かっこをはずしたときの各項の符号を確かめましょう。"
+    }
+  ]
+}

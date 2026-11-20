@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "grade": 1,
+  "unit": "equation",
+  "questions": [
+    {
+      "id": "J1-EQ-9001", "grade": 1, "unit": "equation", "category": "移項", "difficulty": 1,
+      "question": "2x+3=9",
+      "answerLines": ["2x+3=9", "2x=9-3", "2x=6", "x=4"],
+      "errorLine": 1, "errorType": "誤り行の指定ミス（実際は index 3）",
+      "explanation": "テスト", "correctSolution": ["2x+3=9", "2x=9-3", "2x=6", "x=3"], "hint": "テスト"
+    },
+    {
+      "id": "J1-EQ-9002", "grade": 1, "unit": "equation", "category": "移項", "difficulty": 1,
+      "question": "2x+4=10",
+      "answerLines": ["2x+4=10", "2x=10-4", "2x=6"],
+      "errorLine": null, "errorType": null,
+      "explanation": "テスト", "correctSolution": ["2x+4=10", "2x=10-4", "2x=6", "x=3"], "hint": "テスト"
+    },
+    {
+      "id": "J1-EQ-9003", "grade": 1, "unit": "equation", "category": "移項", "difficulty": 1,
+      "question": "x^2=4",
+      "answerLines": ["x^2=4", "x=2"],
+      "errorLine": null, "errorType": null,
+      "explanation": "テスト（2次方程式は自動判定できない）", "correctSolution": ["x^2=4", "x=2"], "hint": "テスト"
+    }
+  ]
+}

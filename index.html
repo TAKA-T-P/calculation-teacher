@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>計算ティーチャー！ 問題プレビュー</title>
+  <meta name="description" content="計算ティーチャー！ 問題データ確認用プレビュー（第1段階・開発者向け）">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header__inner">
+      <h1 class="app-title">計算ティーチャー！<span class="app-title__sub">問題プレビュー（開発者用）</span></h1>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="controls" aria-label="表示する問題の絞り込み">
+      <label class="control">
+        <span class="control__label">単元</span>
+        <select id="unit-select"></select>
+      </label>
+      <label class="control">
+        <span class="control__label">答案</span>
+        <select id="kind-select">
+          <option value="all">すべて</option>
+          <option value="error">誤りあり</option>
+          <option value="correct">全部正しい</option>
+        </select>
+      </label>
+      <label class="control">
+        <span class="control__label">難易度</span>
+        <select id="difficulty-select">
+          <option value="all">すべて</option>
+          <option value="1">★</option>
+          <option value="2">★★</option>
+          <option value="3">★★★</option>
+          <option value="4">★★★★</option>
+        </select>
+      </label>
+      <label class="control control--toggle">
+        <input type="checkbox" id="reveal-toggle">
+        <span>正解・解説を表示</span>
+      </label>
+    </section>
+
+    <nav class="question-index" id="question-index" aria-label="問題一覧"></nav>
+
+    <article class="card" id="question-card" aria-live="polite">
+      <p class="status-message" id="status-message">読み込み中…</p>
+    </article>
+
+    <div class="pager">
+      <button type="button" class="btn" id="prev-btn" aria-label="前の問題">← 前へ</button>
+      <span class="pager__pos" id="pager-pos"></span>
+      <button type="button" class="btn" id="next-btn" aria-label="次の問題">次へ →</button>
+    </div>
+
+    <p class="footnote">
+      キーボード：← / → で問題の切り替え、<kbd>A</kbd> で正解・解説の表示切り替え、<kbd>H</kbd> でヒント。
+      データは <code>data/*.json</code> を毎回読み込むため、ファイルを編集して再読み込みすると反映されます。
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="js/lib/question-schema.js"></script>
+  <script src="js/lib/math-verify.js"></script>
+  <script src="js/data-loader.js"></script>
+  <script src="js/math-render.js"></script>
+  <script src="js/preview.js"></script>
+</body>
+</html>

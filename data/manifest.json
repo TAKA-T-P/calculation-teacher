@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    { "grade": 1, "unit": "positive-negative", "label": "正負の数", "file": "j1-positive-negative.json" },
+    { "grade": 1, "unit": "expressions", "label": "文字式", "file": "j1-expressions.json" },
+    { "grade": 1, "unit": "equation", "label": "方程式", "file": "j1-equations.json" }
+  ]
+}

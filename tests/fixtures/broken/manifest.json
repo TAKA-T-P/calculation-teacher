@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    { "grade": 1, "unit": "positive-negative", "label": "正負の数（異常系）", "file": "broken-positive-negative.json" },
+    { "grade": 1, "unit": "equation", "label": "方程式（異常系）", "file": "broken-equations.json" }
+  ]
+}

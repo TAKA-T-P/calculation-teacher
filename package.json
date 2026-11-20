@@ -1,0 +1,18 @@
+{
+  "name": "calculation-teacher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "計算ティーチャー！ 中学生向け計算添削学習アプリ（第1段階：問題データと検証環境）",
+  "scripts": {
+    "validate": "node tools/validate-questions.js",
+    "validate:verbose": "node tools/validate-questions.js --verbose",
+    "validate:strict": "node tools/validate-questions.js --require-review",
+    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/validate-questions.js --require-review",
+    "review:stamp": "node tools/review-stamp.js",
+    "review:list": "node tools/review-stamp.js --list",
+    "serve": "node tools/serve.js"
+  },
+  "devDependencies": {
+    "katex": "0.16.47"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "grade": 1,
+  "unit": "positive-negative",
+  "questions": [
+    {
+      "id": "J1-PN-0001",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(-7)+(+3)",
+      "answerLines": [
+        "(-7)+(+3)",
+        "=+(7-3)",
+        "=+4"
+      ],
+      "errorLine": 1,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "符号が異なる2数の和は、絶対値の大きいほうの符号をつけ、絶対値の差を計算します。$-7$ と $+3$ では $-7$ のほうが絶対値が大きいので、符号は「$-$」になり、$-(7-3)$ とするのが正しい計算です。",
+      "correctSolution": [
+        "(-7)+(+3)",
+        "=-(7-3)",
+        "=-4"
+      ],
+      "hint": "$-7$ と $+3$ では、どちらの絶対値が大きいですか？ 答えの符号は、その数の符号になります。"
+    },
+    {
+      "id": "J1-PN-0002",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "(-5)-(-8)-(+6)",
+      "answerLines": [
+        "(-5)-(-8)-(+6)",
+        "=-5-8-6",
+        "=-19"
+      ],
+      "errorLine": 1,
+      "errorType": "減法を加法に直すときの符号ミス",
+      "explanation": "負の数をひくことは、その数の符号を変えた数をたすことと同じです。$-(-8)$ は $+8$ になります。正しくは $-5+8-6$ です。$-(+6)$ を $-6$ にしたところは正しくできています。",
+      "correctSolution": [
+        "(-5)-(-8)-(+6)",
+        "=-5+8-6",
+        "=-3"
+      ],
+      "hint": "$-(-8)$ のように、負の数をひく計算をたし算に直すと、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0003",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "\\frac{2}{3}-\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)",
+      "answerLines": [
+        "\\frac{2}{3}-\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)",
+        "=\\frac{2}{3}-\\frac{5}{6}+\\frac{1}{4}",
+        "=\\frac{8}{12}-\\frac{10}{12}+\\frac{3}{12}",
+        "=\\frac{1}{12}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-\\left(-\\frac{1}{4}\\right)$ は $+\\frac{1}{4}$ に直せます。分母を $12$ にそろえると $\\frac{8}{12}-\\frac{10}{12}+\\frac{3}{12}=\\frac{1}{12}$ になります。",
+      "correctSolution": [
+        "\\frac{2}{3}-\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)",
+        "=\\frac{2}{3}-\\frac{5}{6}+\\frac{1}{4}",
+        "=\\frac{8}{12}-\\frac{10}{12}+\\frac{3}{12}",
+        "=\\frac{1}{12}"
+      ],
+      "hint": "負の数をひく計算を、たし算に直すとどうなるか確かめましょう。通分した分子も1つずつ確認しましょう。"
+    },
+    {
+      "id": "J1-PN-0004",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "(-12)\\div(-3)\\times(-2)",
+      "answerLines": [
+        "(-12)\\div(-3)\\times(-2)",
+        "=-(12\\div3\\times2)",
+        "=-8"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数が $3$ 個（$-12$, $-3$, $-2$）あるので、答えの符号は「$-$」です。絶対値は左から順に $12\\div3\\times2=4\\times2=8$ なので、答えは $-8$ です。",
+      "correctSolution": [
+        "(-12)\\div(-3)\\times(-2)",
+        "=-(12\\div3\\times2)",
+        "=-8"
+      ],
+      "hint": "負の数はいくつありますか？ また、$12\\div3\\times2$ は左から順に計算されているか確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0005",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "\\left(-\\frac{3}{4}\\right)\\div\\frac{9}{8}\\times(-6)",
+      "answerLines": [
+        "\\left(-\\frac{3}{4}\\right)\\div\\frac{9}{8}\\times(-6)",
+        "=\\left(-\\frac{3}{4}\\right)\\times\\frac{9}{8}\\times(-6)",
+        "=+\\left(\\frac{3}{4}\\times\\frac{9}{8}\\times6\\right)",
+        "=\\frac{81}{16}"
+      ],
+      "errorLine": 1,
+      "errorType": "わる数を逆数にしていない",
+      "explanation": "除法を乗法に直すときは、わる数を逆数にしてかけます。$\\div\\frac{9}{8}$ は $\\times\\frac{8}{9}$ です。$\\frac{9}{8}$ のままかけてしまっています。負の数が $2$ 個なので符号が「$+$」になる、という判断は正しくできています。",
+      "correctSolution": [
+        "\\left(-\\frac{3}{4}\\right)\\div\\frac{9}{8}\\times(-6)",
+        "=\\left(-\\frac{3}{4}\\right)\\times\\frac{8}{9}\\times(-6)",
+        "=+\\left(\\frac{3}{4}\\times\\frac{8}{9}\\times6\\right)",
+        "=4"
+      ],
+      "hint": "$\\div\\frac{9}{8}$ をかけ算に直すと、何をかけることになりますか？"
+    },
+    {
+      "id": "J1-PN-0006",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "-3^2+(-2)^3",
+      "answerLines": [
+        "-3^2+(-2)^3",
+        "=9+(-8)",
+        "=1"
+      ],
+      "errorLine": 1,
+      "errorType": "指数がかかる範囲の読み違い",
+      "explanation": "$-3^2$ の指数 $2$ は $3$ だけにかかります。$-3^2=-(3\\times3)=-9$ です。$(-3)^2=9$ と混同しないようにしましょう。$(-2)^3=-8$ は正しく計算できています。",
+      "correctSolution": [
+        "-3^2+(-2)^3",
+        "=-9+(-8)",
+        "=-17"
+      ],
+      "hint": "$-3^2$ と $(-3)^2$ のちがいは何でしょう？ 指数はどこにかかっていますか？"
+    },
+    {
+      "id": "J1-PN-0007",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "(-2)^3\\div\\left(-\\frac{2}{3}\\right)^2",
+      "answerLines": [
+        "(-2)^3\\div\\left(-\\frac{2}{3}\\right)^2",
+        "=-8\\div\\left(-\\frac{4}{9}\\right)",
+        "=-8\\times\\left(-\\frac{9}{4}\\right)",
+        "=18"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数の偶数乗の符号ミス",
+      "explanation": "負の数を $2$ 回（偶数回）かけると、符号は「$+$」になります。$\\left(-\\frac{2}{3}\\right)^2=\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{2}{3}\\right)=\\frac{4}{9}$ です。$(-2)^3=-8$ は正しく計算できています。",
+      "correctSolution": [
+        "(-2)^3\\div\\left(-\\frac{2}{3}\\right)^2",
+        "=-8\\div\\frac{4}{9}",
+        "=-8\\times\\frac{9}{4}",
+        "=-18"
+      ],
+      "hint": "$\\left(-\\frac{2}{3}\\right)^2$ は、負の数を何回かけていますか？"
+    },
+    {
+      "id": "J1-PN-0008",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "8-6\\div(-2)",
+      "answerLines": [
+        "8-6\\div(-2)",
+        "=2\\div(-2)",
+        "=-1"
+      ],
+      "errorLine": 1,
+      "errorType": "四則計算の順序の誤り",
+      "explanation": "加法・減法と乗法・除法が混じった式では、乗法・除法を先に計算します。先に $6\\div(-2)=-3$ を計算して、$8-(-3)=11$ となります。$8-6$ を先に計算してはいけません。",
+      "correctSolution": [
+        "8-6\\div(-2)",
+        "=8-(-3)",
+        "=8+3",
+        "=11"
+      ],
+      "hint": "ひき算とわり算では、どちらを先に計算しますか？"
+    },
+    {
+      "id": "J1-PN-0009",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "5-(-3)^2\\times2+12\\div(-4)",
+      "answerLines": [
+        "5-(-3)^2\\times2+12\\div(-4)",
+        "=5-9\\times2+12\\div(-4)",
+        "=5-18+3",
+        "=-10"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数でわるときの符号ミス",
+      "explanation": "$12\\div(-4)$ は符号が異なる2数の商なので $-3$ です。$+12\\div(-4)$ は $+(-3)$、つまり $-3$ になります。累乗 $(-3)^2=9$ と、乗法 $9\\times2=18$ は正しく計算できています。",
+      "correctSolution": [
+        "5-(-3)^2\\times2+12\\div(-4)",
+        "=5-9\\times2+12\\div(-4)",
+        "=5-18-3",
+        "=-16"
+      ],
+      "hint": "$12\\div(-4)$ の答えの符号は、$+$ と $-$ のどちらですか？"
+    },
+    {
+      "id": "J1-PN-0010",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "(-12)\\times\\left(\\frac{3}{4}-\\frac{5}{6}\\right)-(-2)^3",
+      "answerLines": [
+        "(-12)\\times\\left(\\frac{3}{4}-\\frac{5}{6}\\right)-(-2)^3",
+        "=(-12)\\times\\frac{3}{4}-(-12)\\times\\frac{5}{6}+8",
+        "=-9+10+8",
+        "=9"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの中を先に計算せずに、分配法則 $a\\times(b-c)=a\\times b-a\\times c$ を使っています。$(-12)\\times\\frac{3}{4}=-9$、$-(-12)\\times\\frac{5}{6}=+10$、$-(-2)^3=-(-8)=+8$ なので、$-9+10+8=9$ です。かっこの中を通分して先に計算しても、同じ答え $9$ になります。",
+      "correctSolution": [
+        "(-12)\\times\\left(\\frac{3}{4}-\\frac{5}{6}\\right)-(-2)^3",
+        "=(-12)\\times\\left(\\frac{9}{12}-\\frac{10}{12}\\right)-(-8)",
+        "=(-12)\\times\\left(-\\frac{1}{12}\\right)+8",
+        "=1+8",
+        "=9"
+      ],
+      "hint": "分配法則を使う計算も正しい方法です。$-(-12)\\times\\frac{5}{6}$ と $-(-2)^3$ の符号に注意して確かめましょう。"
+    }
+  ]
+}
