@@ -2,72 +2,169 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>計算ティーチャー！ 問題プレビュー</title>
-  <meta name="description" content="計算ティーチャー！ 問題データ確認用プレビュー（第1段階・開発者向け）">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>計算ティーチャー！</title>
+  <meta name="description" content="キミは計算ミスを見抜けるか！？ 先生になって答案を添削する、中学生向けの計算学習ゲーム。">
+  <meta name="theme-color" content="#2f6fdf">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='6' width='40' height='52' rx='5' fill='%23fffdf6' stroke='%232b3a55' stroke-width='3'/%3E%3Cpath d='M20 32l8 8 16-18' fill='none' stroke='%23e5484d' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
-  <header class="app-header">
-    <div class="app-header__inner">
-      <h1 class="app-title">計算ティーチャー！<span class="app-title__sub">問題プレビュー（開発者用）</span></h1>
-    </div>
-  </header>
+  <div id="app" class="app">
 
-  <main class="layout">
-    <section class="controls" aria-label="表示する問題の絞り込み">
-      <label class="control">
-        <span class="control__label">単元</span>
-        <select id="unit-select"></select>
-      </label>
-      <label class="control">
-        <span class="control__label">答案</span>
-        <select id="kind-select">
-          <option value="all">すべて</option>
-          <option value="error">誤りあり</option>
-          <option value="correct">全部正しい</option>
-        </select>
-      </label>
-      <label class="control">
-        <span class="control__label">難易度</span>
-        <select id="difficulty-select">
-          <option value="all">すべて</option>
-          <option value="1">★</option>
-          <option value="2">★★</option>
-          <option value="3">★★★</option>
-          <option value="4">★★★★</option>
-        </select>
-      </label>
-      <label class="control control--toggle">
-        <input type="checkbox" id="reveal-toggle">
-        <span>正解・解説を表示</span>
-      </label>
+    <!-- ① タイトル画面 -->
+    <section class="screen screen--title" data-screen="title" aria-labelledby="title-heading">
+      <div class="title-hero">
+        <svg class="title-logo" viewBox="0 0 160 140" role="img" aria-label="答案用紙に赤ペンで丸をつける先生のイラスト">
+          <rect x="22" y="14" width="96" height="116" rx="10" class="logo-paper"/>
+          <line x1="38" y1="44" x2="102" y2="44" class="logo-rule"/>
+          <line x1="38" y1="66" x2="102" y2="66" class="logo-rule"/>
+          <line x1="38" y1="88" x2="102" y2="88" class="logo-rule"/>
+          <line x1="38" y1="110" x2="80" y2="110" class="logo-rule"/>
+          <text x="40" y="40" class="logo-math">3x+5=11</text>
+          <text x="40" y="62" class="logo-math">3x=11−5</text>
+          <text x="40" y="84" class="logo-math">3x=6</text>
+          <text x="40" y="106" class="logo-math">x=2</text>
+          <path d="M92 70 l12 14 l28 -34" class="logo-check"/>
+          <g transform="translate(118 92) rotate(40)">
+            <rect x="-6" y="-34" width="12" height="44" rx="3" class="logo-pen"/>
+            <path d="M-6 10 L0 22 L6 10 Z" class="logo-pen-tip"/>
+            <rect x="-6" y="-34" width="12" height="8" rx="2" class="logo-pen-cap"/>
+          </g>
+        </svg>
+        <h1 id="title-heading" class="title-name">計算ティーチャー！</h1>
+        <p class="title-sub">キミは計算ミスを見抜けるか！？</p>
+      </div>
+
+      <div class="title-menu">
+        <button type="button" class="btn btn--primary btn--xl" data-action="go-settings">
+          <span class="btn__icon" aria-hidden="true">✏️</span>トレーニング
+        </button>
+        <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
+          <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
+        </button>
+        <ul class="coming-soon" aria-label="準備中のモード">
+          <li><span class="coming-soon__name">⏱ タイムアタック</span><span class="coming-soon__badge">準備中</span></li>
+          <li><span class="coming-soon__name">🎓 ティーチャー認定試験</span><span class="coming-soon__badge">準備中</span></li>
+        </ul>
+      </div>
+      <p class="load-status" id="load-status" role="status"></p>
     </section>
 
-    <nav class="question-index" id="question-index" aria-label="問題一覧"></nav>
+    <!-- あそびかた -->
+    <section class="screen screen--howto" data-screen="howto" aria-labelledby="howto-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← もどる</button>
+        <h2 id="howto-heading" class="screen-title" tabindex="-1">あそびかた</h2>
+      </header>
+      <ol class="howto">
+        <li class="howto__step">
+          <span class="howto__num" aria-hidden="true">1</span>
+          <div><strong>キミは数学の先生！</strong><p>ある生徒が計算問題を解いた答案がとどきます。</p></div>
+        </li>
+        <li class="howto__step">
+          <span class="howto__num" aria-hidden="true">2</span>
+          <div><strong>答案を上から順に読もう</strong><p><b>最初に</b>計算を間違えた行をタップして選びます。最後の答えがちがう行ではなく、最初にミスした行をさがそう。</p></div>
+        </li>
+        <li class="howto__step">
+          <span class="howto__num" aria-hidden="true">3</span>
+          <div><strong>ミスがなければ「全部正しい！」</strong><p>すべての行が正しいときは「○ 全部正しい！」を選びます。</p></div>
+        </li>
+        <li class="howto__step">
+          <span class="howto__num" aria-hidden="true">4</span>
+          <div><strong>「添削する！」で答え合わせ</strong><p>選んでから「添削する！」を押すと、正解かどうかと解説が出ます。こまったら「ヒント」を見てもOK（減点なし）。</p></div>
+        </li>
+      </ol>
+      <div class="screen-footer">
+        <button type="button" class="btn btn--primary btn--lg" data-action="go-settings">トレーニングをはじめる</button>
+      </div>
+    </section>
 
-    <article class="card" id="question-card" aria-live="polite">
-      <p class="status-message" id="status-message">読み込み中…</p>
-    </article>
+    <!-- ② トレーニング設定 -->
+    <section class="screen screen--settings" data-screen="settings" aria-labelledby="settings-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="settings-heading" class="screen-title" tabindex="-1">トレーニング</h2>
+      </header>
 
-    <div class="pager">
-      <button type="button" class="btn" id="prev-btn" aria-label="前の問題">← 前へ</button>
-      <span class="pager__pos" id="pager-pos"></span>
-      <button type="button" class="btn" id="next-btn" aria-label="次の問題">次へ →</button>
+      <fieldset class="setting">
+        <legend class="setting__label">単元をえらぶ</legend>
+        <div class="unit-list" id="unit-list" role="radiogroup" aria-label="単元"></div>
+      </fieldset>
+
+      <fieldset class="setting">
+        <legend class="setting__label">難易度をえらぶ <small>（いくつでも）</small></legend>
+        <div class="chip-list" id="difficulty-list"></div>
+      </fieldset>
+
+      <fieldset class="setting">
+        <legend class="setting__label">問題数</legend>
+        <div class="chip-list" id="count-list" role="radiogroup" aria-label="問題数"></div>
+      </fieldset>
+
+      <p class="setting-summary" id="setting-summary" role="status" aria-live="polite"></p>
+
+      <div class="screen-footer">
+        <button type="button" class="btn btn--primary btn--xl" id="start-btn" data-action="start">添削スタート！</button>
+      </div>
+    </section>
+
+    <!-- ③④ 添削問題・添削結果 -->
+    <section class="screen screen--play" data-screen="play" aria-labelledby="play-heading" hidden>
+      <header class="hud">
+        <button type="button" class="btn btn--ghost btn--quit" data-action="quit">やめる</button>
+        <div class="hud__info">
+          <span class="hud__unit" id="hud-unit"></span>
+          <span class="hud__stars" id="hud-stars"></span>
+        </div>
+        <div class="hud__progress">
+          <span class="hud__count" id="hud-count"></span>
+          <span class="hud__score" id="hud-score"></span>
+        </div>
+      </header>
+      <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+      <h2 id="play-heading" class="visually-hidden" tabindex="-1">添削問題</h2>
+      <div id="play-body"></div>
+    </section>
+
+    <!-- ⑤ トレーニング結果 -->
+    <section class="screen screen--summary" data-screen="summary" aria-labelledby="summary-heading" hidden>
+      <div id="summary-body"></div>
+      <div class="summary-actions">
+        <button type="button" class="btn btn--primary btn--lg" data-action="retry">もう一度チャレンジ</button>
+        <button type="button" class="btn btn--secondary btn--lg" data-action="go-settings">単元選択に戻る</button>
+        <button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>
+      </div>
+    </section>
+
+    <!-- エラー -->
+    <section class="screen screen--error" data-screen="error" aria-labelledby="error-heading" hidden>
+      <h2 id="error-heading" class="screen-title" tabindex="-1">問題を表示できませんでした</h2>
+      <p class="error-message" id="error-message"></p>
+      <div class="screen-footer">
+        <button type="button" class="btn btn--primary btn--lg" data-action="go-title">タイトルへ</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- やめる確認 -->
+  <dialog class="dialog" id="quit-dialog" aria-labelledby="quit-title">
+    <h2 id="quit-title" class="dialog__title">トレーニングをやめますか？</h2>
+    <p>ここまでの結果は保存されません。</p>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--secondary" data-action="quit-cancel" autofocus>つづける</button>
+      <button type="button" class="btn btn--danger" data-action="quit-confirm">やめる</button>
     </div>
+  </dialog>
 
-    <p class="footnote">
-      キーボード：← / → で問題の切り替え、<kbd>A</kbd> で正解・解説の表示切り替え、<kbd>H</kbd> でヒント。
-      データは <code>data/*.json</code> を毎回読み込むため、ファイルを編集して再読み込みすると反映されます。
-    </p>
-  </main>
+  <noscript><p class="noscript">このアプリを使うには JavaScript を有効にしてください。</p></noscript>
 
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js" crossorigin="anonymous"></script>
   <script src="js/lib/question-schema.js"></script>
-  <script src="js/lib/math-verify.js"></script>
   <script src="js/data-loader.js"></script>
   <script src="js/math-render.js"></script>
-  <script src="js/preview.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

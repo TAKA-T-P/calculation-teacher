@@ -70,7 +70,7 @@
   }
 
   function onKey(e) {
-    if (e.target.closest('select, input, textarea')) return;
+    if (e.target.closest && e.target.closest('select, input, textarea')) return;
     if (e.key === 'ArrowLeft') move(-1);
     else if (e.key === 'ArrowRight') move(1);
     else if (e.key === 'a' || e.key === 'A') { state.reveal = !state.reveal; els.reveal.checked = state.reveal; render(); }

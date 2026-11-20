@@ -11,7 +11,8 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const PORT = Number(process.argv[2] || process.env.PORT || 8080);
+// 0 を指定すると空いているポートを自動で使う（自動テスト用）
+const PORT = Number(process.argv[2] ?? process.env.PORT ?? 8080);
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -55,6 +56,8 @@ server.on('error', (e) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`プレビュー: http://localhost:${PORT}/`);
+  const port = server.address().port;
+  console.log(`ゲーム画面:   http://localhost:${port}/`);
+  console.log(`プレビュー:   http://localhost:${port}/preview.html`);
   console.log('終了するには Ctrl+C を押してください。');
 });
