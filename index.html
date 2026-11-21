@@ -15,6 +15,9 @@
 
     <!-- ① タイトル画面 -->
     <section class="screen screen--title" data-screen="title" aria-labelledby="title-heading">
+      <button type="button" class="btn-icon title-options" data-action="go-options" aria-label="設定（効果音）">
+        <span aria-hidden="true">⚙</span><span class="btn-icon__label">設定</span>
+      </button>
       <div class="title-hero">
         <svg class="title-logo" viewBox="0 0 160 140" role="img" aria-label="答案用紙に赤ペンで丸をつける先生のイラスト">
           <rect x="22" y="14" width="96" height="116" rx="10" class="logo-paper"/>
@@ -84,6 +87,38 @@
       </div>
     </section>
 
+    <!-- 設定（効果音） -->
+    <section class="screen screen--options" data-screen="options" aria-labelledby="options-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="options-heading" class="screen-title" tabindex="-1">設定</h2>
+      </header>
+      <div class="options-card">
+        <div class="option-row">
+          <div>
+            <p class="option-row__label">効果音</p>
+            <p class="option-row__help">ボタンを押したときや、正解・不正解のときに音が鳴ります。</p>
+          </div>
+          <button type="button" class="switch" id="sound-switch" role="switch" aria-checked="true" data-action="toggle-sound" aria-label="効果音">
+            <span class="switch__knob" aria-hidden="true"></span><span class="switch__text" id="sound-switch-text">ON</span>
+          </button>
+        </div>
+        <div class="option-row option-row--volume">
+          <label class="option-row__label" for="volume-range">音量</label>
+          <div class="volume">
+            <span class="volume__icon" aria-hidden="true">🔈</span>
+            <input type="range" id="volume-range" class="count-range" min="0" max="100" step="1" value="50">
+            <span class="volume__icon" aria-hidden="true">🔊</span>
+            <output class="volume__value" id="volume-value" for="volume-range">50%</output>
+          </div>
+        </div>
+        <div class="option-row option-row--test">
+          <button type="button" class="btn btn--secondary" data-action="sound-test"><span aria-hidden="true">♪</span> 音をためす</button>
+        </div>
+        <p class="options-note">設定はこの端末のブラウザに保存され、次に開いたときも使われます。プレイ中は画面上の 🔊 ボタンで音を消せます。</p>
+      </div>
+    </section>
+
     <!-- ② トレーニング設定 -->
     <section class="screen screen--settings" data-screen="settings" aria-labelledby="settings-heading" hidden>
       <header class="screen-header">
@@ -103,7 +138,15 @@
 
       <fieldset class="setting">
         <legend class="setting__label">問題数</legend>
-        <div class="chip-list" id="count-list" role="radiogroup" aria-label="問題数"></div>
+        <div class="count-picker">
+          <output class="count-picker__value" id="count-value" for="count-range" aria-live="polite">5問</output>
+          <div class="count-picker__slider">
+            <button type="button" class="count-step" data-action="count-minus" aria-label="1問へらす">−</button>
+            <input type="range" id="count-range" class="count-range" min="1" max="10" step="1" value="5" aria-label="問題数">
+            <button type="button" class="count-step" data-action="count-plus" aria-label="1問ふやす">＋</button>
+          </div>
+          <div class="count-picker__scale" aria-hidden="true"><span id="count-min">1問</span><span id="count-max">10問</span></div>
+        </div>
       </fieldset>
 
       <p class="setting-summary" id="setting-summary" role="status" aria-live="polite"></p>
@@ -124,6 +167,7 @@
         <div class="hud__progress">
           <span class="hud__count" id="hud-count"></span>
           <span class="hud__score" id="hud-score"></span>
+          <button type="button" class="btn-icon hud__sound" id="hud-sound" data-action="toggle-sound" aria-pressed="true" aria-label="効果音：ON（押すとOFF）">🔊</button>
         </div>
       </header>
       <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
@@ -179,6 +223,7 @@
   <script src="js/data-loader.js"></script>
   <script src="js/math-render.js"></script>
   <script src="js/game.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -40,6 +40,9 @@
   // ============================================================ 初期化
   async function init() {
     document.addEventListener('click', onClick);
+    initSound();
+    // 問題数のスライダー（ドラッグ中も数がすぐ変わる）
+    $('#count-range').addEventListener('input', (e) => setCount(Number(e.target.value)));
     window.addEventListener('popstate', onPopState);
     window.addEventListener('resize', debounce(fitAllMath, 150));
     // KaTeX のフォントが後から読み込まれると式の幅が変わるので、読み込み後にも調整し直す
@@ -83,6 +86,7 @@
    * @param {'push'|'replace'|'none'} historyMode
    */
   function show(name, historyMode = 'push') {
+    stopSfx('long'); // 前の画面の長い効果音（正解音・結果発表など）を次の画面に残さない
     Object.entries(screens).forEach(([key, el]) => { el.hidden = key !== name; });
     app.screen = name;
     document.body.dataset.screen = name;
@@ -128,32 +132,47 @@
     if (!el || el.disabled || el.getAttribute('aria-disabled') === 'true') return;
     const action = el.dataset.action;
     switch (action) {
-      case 'go-title': app.session = null; clearRetry(); show('title'); break;
-      case 'go-howto': show('howto'); break;
+      case 'go-title': sfx('tap'); app.session = null; clearRetry(); show('title'); break;
+      case 'go-howto': sfx('tap'); show('howto'); break;
+      case 'go-options': sfx('tap'); renderSoundUi(); show('options'); break;
       case 'go-settings':
         if (!app.ready) return;
+        sfx('tap');
         app.session = null;
         clearRetry();
         renderSettings();
         show('settings');
         break;
-      case 'select-unit': selectUnit(el.dataset.unit); break;
-      case 'toggle-difficulty': toggleDifficulty(el.dataset.difficulty); break;
-      case 'select-count': app.config.count = el.dataset.count === 'all' ? 'all' : Number(el.dataset.count); renderSettings(); break;
+      case 'select-unit': sfx('tap'); selectUnit(el.dataset.unit); break;
+      case 'toggle-difficulty': sfx('tap'); toggleDifficulty(el.dataset.difficulty); break;
+      case 'count-minus': sfx('tap'); setCount(effectiveCount(selectedPool().length) - 1); break;
+      case 'count-plus': sfx('tap'); setCount(effectiveCount(selectedPool().length) + 1); break;
       case 'start': startTraining(); break;
       case 'retry': clearRetry(); startTraining(); break;
       case 'review-question': startRetryQuestion(Number(el.dataset.index)); break;
       case 'secret-tap': onSecretTap(); break;
-      case 'compare-open': openCompare(); break;
-      case 'compare-close': $('#compare-dialog').close(); break;
-      case 'select-line': app.session.selectLine(Number(el.dataset.index)); updateSelection(); break;
-      case 'select-all-correct': app.session.selectAllCorrect(); updateSelection(); break;
-      case 'toggle-hint': app.session.toggleHint(); renderHint(); break;
+      case 'compare-open': sfx('tap'); openCompare(); break;
+      case 'compare-close': sfx('tap'); $('#compare-dialog').close(); break;
+      case 'select-line':
+        if (app.session.selectLine(Number(el.dataset.index))) sfx('select');
+        updateSelection();
+        break;
+      case 'select-all-correct':
+        if (app.session.selectAllCorrect()) sfx('select');
+        updateSelection();
+        break;
+      case 'toggle-hint':
+        if (app.session.toggleHint()) sfx('hint'); // 開いたときだけ鳴らす
+        renderHint();
+        break;
       case 'submit': submitAnswer(); break;
       case 'next': nextQuestion(); break;
-      case 'quit': openQuitDialog(); break;
-      case 'quit-cancel': $('#quit-dialog').close(); break;
+      case 'toggle-sound': toggleSound(); break;
+      case 'sound-test': sfx('correct'); break;
+      case 'quit': sfx('tap'); openQuitDialog(); break;
+      case 'quit-cancel': sfx('tap'); $('#quit-dialog').close(); break;
       case 'quit-confirm':
+        sfx('tap');
         $('#quit-dialog').close();
         if (app.retryBase) { backToSummary(); break; } // 解き直しをやめたときは結果画面へ戻る
         app.session = null;
@@ -161,6 +180,61 @@
         break;
       default: break;
     }
+  }
+
+  // ============================================================ 効果音
+  // 実際の再生は js/sound.js が担当する。ここでは「どの場面でどの音を鳴らすか」だけを決める。
+  // 効果音が使えない・失敗した場合でも、ゲームの進行や採点には一切影響させない。
+  function sfx(name, opts) {
+    try { if (window.Sound) window.Sound.play(name, opts); } catch (e) { /* 鳴らなくても続ける */ }
+  }
+
+  function stopSfx(group) {
+    try { if (window.Sound) window.Sound.stop(group); } catch (e) { /* 無視 */ }
+  }
+
+  function initSound() {
+    const S2 = window.Sound;
+    if (!S2) return;
+    // iOS Safari などは、ユーザー操作の中でしか音声を開始できない。最初の操作で AudioContext を作成・再開する。
+    // 起動時に自動で音を鳴らすことはしない。
+    const unlock = () => { try { S2.unlock(); } catch (e) { /* 無視 */ } };
+    ['pointerdown', 'touchend', 'keydown', 'click'].forEach((type) => {
+      document.addEventListener(type, unlock, { capture: true, passive: true });
+    });
+    // 画面が隠れたら（タブの切り替えなど）鳴っている音を止める
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stopSfx(); });
+    // 設定画面の音量スライダー：動かしている間は音量だけ変え、指を離したら確認の音を鳴らす
+    const range = $('#volume-range');
+    range.addEventListener('input', () => { S2.setVolume(Number(range.value)); });
+    range.addEventListener('change', () => { sfx('select'); });
+    S2.onChange(renderSoundUi);
+    renderSoundUi();
+  }
+
+  function toggleSound() {
+    if (!window.Sound) return;
+    const on = !window.Sound.getSettings().enabled;
+    window.Sound.setEnabled(on);
+    if (on) sfx('select'); // ON にしたことが音でわかるように
+  }
+
+  /** 設定画面のスイッチ・音量と、プレイ中のスピーカーボタンを、現在の設定に合わせる */
+  function renderSoundUi() {
+    const s = window.Sound ? window.Sound.getSettings() : { enabled: false, volume: 0 };
+    const sw = $('#sound-switch');
+    sw.setAttribute('aria-checked', String(s.enabled));
+    $('#sound-switch-text').textContent = s.enabled ? 'ON' : 'OFF';
+    const range = $('#volume-range');
+    range.value = String(s.volume);
+    range.style.setProperty('--fill', `${s.volume}%`);
+    range.disabled = !s.enabled;
+    $('#volume-value').textContent = `${s.volume}%`;
+    const hud = $('#hud-sound');
+    hud.textContent = s.enabled ? '🔊' : '🔇';
+    hud.setAttribute('aria-pressed', String(s.enabled));
+    hud.setAttribute('aria-label', s.enabled ? '効果音：ON（押すとOFF）' : '効果音：OFF（押すとON）');
+    if (!window.Sound) { sw.disabled = true; hud.disabled = true; }
   }
 
   // ============================================================ 生徒の答案と正しい計算過程を並べて表示
@@ -180,7 +254,6 @@
       if (isError) cls.push('cmp-cell--error');
       return `<div class="${cls.join(' ')}" data-col="${col}">
           <span class="row__math fit-math">${lineMathHtml(lines[i], isEq)}</span>
-          ${isError ? '<span class="tag tag--answer"><span aria-hidden="true">✖</span> 最初のミス</span>' : ''}
         </div>`;
     };
     let rows = '';
@@ -259,6 +332,7 @@
     app.retryIndex = index;
     renderQuestion();
     show('play', 'push');
+    sfx('start');
     fitAllMath();
     $('#play-heading').focus({ preventScroll: true });
   }
@@ -299,26 +373,57 @@
     renderSettings();
   }
 
+  // 難易度は1つずつ自由に選択・解除できる。「すべて選択」「すべて解除」でまとめて切り替える
   function toggleDifficulty(value) {
     const { list } = availableDifficulties();
     const set = app.config.difficulties;
-    if (value === 'auto') {
-      app.config.difficulties = new Set(list);
+    if (value === 'all') {
+      app.config.difficulties = allDifficultiesSelected() ? new Set() : new Set(list);
     } else {
       const d = Number(value);
       if (!list.includes(d)) return;
-      // 「おまかせ」（全部選択）の状態から1つを押したら、その難易度だけにする
-      if (isAuto()) app.config.difficulties = new Set([d]);
-      else if (set.has(d)) set.delete(d);
+      if (set.has(d)) set.delete(d);
       else set.add(d);
     }
     renderSettings();
   }
 
-  function isAuto() {
+  /** この単元で選べる難易度が、すべて選ばれているか */
+  function allDifficultiesSelected() {
     const { list } = availableDifficulties();
-    return list.length > 0 && list.every((d) => app.config.difficulties.has(d)) &&
-      [...app.config.difficulties].every((d) => list.includes(d));
+    return list.length > 0 && list.every((d) => app.config.difficulties.has(d));
+  }
+
+  // ---------- 問題数（スライダー）
+  // app.config.count は「生徒が選んだ数」。出題できる問題数（最大）より多いときは、最大数を出題する。
+  // 難易度を変えて最大数が増減しても、選んだ数は覚えておく。
+  function effectiveCount(poolSize) {
+    return Math.max(1, Math.min(app.config.count, poolSize));
+  }
+
+  function setCount(n) {
+    const max = selectedPool().length;
+    if (!max) return;
+    app.config.count = Math.max(1, Math.min(Math.round(n), max));
+    updateCountPicker();
+    updateSettingSummary();
+  }
+
+  function updateCountPicker() {
+    const max = selectedPool().length;
+    const range = $('#count-range');
+    const n = max ? effectiveCount(max) : 0;
+    range.max = String(Math.max(max, 1));
+    range.value = String(Math.max(n, 1));
+    range.disabled = max === 0;
+    range.setAttribute('aria-valuetext', max ? `${n}問` : '出題できる問題がありません');
+    // つまみより左側を色で示す（スライダーの進み具合）
+    const pct = max > 1 ? ((n - 1) / (max - 1)) * 100 : 100;
+    range.style.setProperty('--fill', `${max ? pct : 0}%`);
+    $('#count-value').textContent = max ? `${n}問` : '0問';
+    $('#count-max').textContent = `${Math.max(max, 1)}問`;
+    document.querySelector('[data-action="count-minus"]').disabled = !max || n <= 1;
+    document.querySelector('[data-action="count-plus"]').disabled = !max || n >= max;
   }
 
   function selectedPool() {
@@ -344,10 +449,8 @@
         </button>`;
     }).join('');
 
-    const auto = isAuto();
-    const chips = [`<button type="button" class="chip${auto ? ' is-selected' : ''}" aria-pressed="${auto}"
-        data-action="toggle-difficulty" data-difficulty="auto" ${list.length ? '' : 'disabled'}>
-        <span class="chip__check" aria-hidden="true">${auto ? '✔' : ''}</span>おまかせ</button>`];
+    const allOn = allDifficultiesSelected();
+    const chips = [];
     G.DIFFICULTIES.forEach((d) => {
       const on = app.config.difficulties.has(d);
       const disabled = counts[d] === 0;
@@ -357,27 +460,22 @@
           <span class="chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
           <span class="stars" aria-hidden="true">${'★'.repeat(d)}</span><small>${counts[d]}問</small></button>`);
     });
+    // すべて選ばれているときだけ「すべて解除」、それ以外は「すべて選択」
+    chips.push(`<button type="button" class="chip chip--bulk" data-action="toggle-difficulty" data-difficulty="all"
+        ${list.length ? '' : 'disabled'}>${allOn ? 'すべて解除' : 'すべて選択'}</button>`);
     $('#difficulty-list').innerHTML = chips.join('');
 
-    $('#count-list').innerHTML = G.COUNT_OPTIONS.map((c) => {
-      const on = app.config.count === c;
-      return `<button type="button" class="chip${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}"
-          data-action="select-count" data-count="${c}">
-          <span class="chip__check" aria-hidden="true">${on ? '✔' : ''}</span>${c === 'all' ? 'すべて' : `${c}問`}</button>`;
-    }).join('');
+    updateCountPicker();
+    updateSettingSummary();
+  }
 
+  function updateSettingSummary() {
     const pool = selectedPool();
     const summaryEl = $('#setting-summary');
     let text;
     if (app.config.difficulties.size === 0) text = '難易度を1つ以上えらんでね。';
     else if (pool.length === 0) text = 'この条件で出題できる問題がありません。';
-    else {
-      const n = G.resolveCount(app.config.count, pool.length);
-      text = `出題できる問題：<strong>${pool.length}問</strong> → 今回は <strong>${n}問</strong> 出題します。`;
-      if (app.config.count !== 'all' && pool.length < app.config.count) {
-        text += `<br><small>条件に合う問題が${pool.length}問なので、${pool.length}問すべてを出題します。</small>`;
-      }
-    }
+    else text = `出題できる問題：<strong>${pool.length}問</strong> → 今回は <strong>${effectiveCount(pool.length)}問</strong> 出題します。`;
     const unit = currentUnit();
     const invalidHere = app.questions.filter((q) => q && unit && q.unit === unit.unit && G.validateForPlay(q).length).length;
     if (invalidHere) text += `<br><small class="warn">データに不整合がある${invalidHere}問は出題から除いています。</small>`;
@@ -394,7 +492,7 @@
       app.session = new G.TrainingSession(app.questions, {
         unit: app.config.unit,
         difficulties: [...app.config.difficulties],
-        count: app.config.count,
+        count: effectiveCount(pool.length),
       }, rng);
     } catch (e) {
       showError(e.message);
@@ -403,6 +501,7 @@
     renderQuestion();
     // 再挑戦（結果画面から）のときは履歴を置きかえる
     show('play', app.screen === 'summary' ? 'replace' : 'push');
+    sfx('start'); // トレーニング開始のチャイム（show の後に鳴らす。show は前の長い音を止めるため）
     fitAllMath(); // 画面が表示されてから式の幅を調整する（非表示のままでは幅を測れない）
     $('#play-heading').focus({ preventScroll: true });
   }
@@ -503,9 +602,7 @@
     document.querySelectorAll('.row--selectable').forEach((btn) => {
       const on = !!sel && sel.type === 'line' && sel.index === Number(btn.dataset.index);
       btn.classList.toggle('is-selected', on);
-      btn.setAttribute('aria-pressed', String(on));
-      // 採点前だけ呼ばれる。選んだ行に「ここ！」のしるし
-      btn.querySelector('.row__mark').textContent = on ? '✏️ ここ！' : '';
+      btn.setAttribute('aria-pressed', String(on)); // 選んだ行は枠と背景色で示す
     });
     const all = $('#all-correct-btn');
     const allOn = !!sel && sel.type === 'allCorrect';
@@ -544,6 +641,9 @@
       if (e instanceof G.GameDataError) { showError(e.message); return; }
       throw e;
     }
+    // 添削の「スタンプ」の音のあと、少し遅らせて正解・不正解の音につなげる（重なって騒がしくならないように）
+    sfx('submit');
+    sfx(result.correct ? 'correct' : 'incorrect', { delay: 0.12 });
     renderHud();
     renderFeedback(result);
   }
@@ -593,9 +693,6 @@
     } else {
       $('#all-correct-btn .btn-all-correct__mark').textContent = '◎';
     }
-    document.querySelectorAll('.row--selectable .row__mark').forEach((m) => {
-      if (m.textContent === '✏️ ここ！') m.textContent = '';
-    });
 
     const answerText = isCorrectAnswer ? 'この答案は全部正しい！' : `${lineLabel(q.errorLine)}が最初のまちがい`;
     const solutionTitle = isCorrectAnswer && S.canonicalJson(q.correctSolution) !== S.canonicalJson(q.answerLines)
@@ -658,14 +755,19 @@
   function nextQuestion() {
     const s = app.session;
     if (!s || !s.isGraded) return;
-    if (app.retryBase) { backToSummary(); return; }
+    if (app.retryBase) { sfx('next'); backToSummary(); return; }
     const more = s.next();
     if (more) {
+      stopSfx('long'); // 正解音などの余韻を次の問題に残さない
+      sfx('next');
       renderQuestion();
       window.scrollTo(0, 0);
     } else {
       renderSummary();
       show('summary', 'replace');
+      // 結果発表：全問正解なら専用のファンファーレだけを鳴らす（通常の終了音は重ねない）
+      const sum = s.summary();
+      sfx(sum.total > 0 && sum.correct === sum.total ? 'perfect' : 'result');
     }
   }
 

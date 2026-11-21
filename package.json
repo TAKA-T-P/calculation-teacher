@@ -7,7 +7,7 @@
     "validate": "node tools/validate-questions.js",
     "validate:verbose": "node tools/validate-questions.js --verbose",
     "validate:strict": "node tools/validate-questions.js --require-review",
-    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/validate-questions.js --require-review",
+    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/test-sound.js && node tools/validate-questions.js --require-review",
     "test:ui": "node tools/test-ui.js",
     "review:stamp": "node tools/review-stamp.js",
     "review:list": "node tools/review-stamp.js --list",

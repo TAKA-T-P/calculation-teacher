@@ -57,12 +57,20 @@
   async function configure({ unit, difficulties, count }) {
     if (!visible('settings')) await click('[data-action="go-settings"]');
     await click(`[data-action="select-unit"][data-unit="${unit}"]`);
-    await click('[data-action="toggle-difficulty"][data-difficulty="auto"]');
+    const bulk = () => $('[data-action="toggle-difficulty"][data-difficulty="all"]');
+    if (bulk().textContent.includes('すべて選択')) await click(bulk()); // まず全部選ぶ
     if (difficulties) {
-      // おまかせ → 1つ目を押すとその難易度だけになり、2つ目以降は追加
+      await click(bulk()); // すべて解除してから、指定の難易度だけ選ぶ
       for (const dd of difficulties) await click(`[data-action="toggle-difficulty"][data-difficulty="${dd}"]`);
     }
-    await click(`[data-action="select-count"][data-count="${count}"]`);
+    await setCountTo(count);
+  }
+  // 問題数のスライダーを動かす（'all' は最大）
+  async function setCountTo(count) {
+    const range = $('#count-range');
+    range.value = String(count === 'all' ? range.max : count);
+    range.dispatchEvent(new w.Event('input', { bubbles: true }));
+    await sleep(30);
   }
   const rowBtn = (i) => $(`.row--selectable[data-index="${i}"]`);
   async function answer(correct) {
@@ -98,7 +106,7 @@
     const goto = {
       title: async () => {},
       howto: async () => click('[data-action="go-howto"]'),
-      settings: async () => { await click('[data-action="go-settings"]'); await click('[data-action="toggle-difficulty"][data-difficulty="2"]'); await click('[data-action="toggle-difficulty"][data-difficulty="3"]'); },
+      settings: async () => { await click('[data-action="go-settings"]'); await click('[data-action="toggle-difficulty"][data-difficulty="1"]'); await click('[data-action="toggle-difficulty"][data-difficulty="4"]'); },
       'settings-few': async () => configure({ unit: 'equation', difficulties: [4], count: 10 }),
       play: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); },
       'play-selected': async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click(rowBtn(2)); await click('#hint-btn'); },
@@ -115,6 +123,7 @@
         await click('[data-action="review-question"][data-index="1"]'); await answer(true); await click('[data-action="next"]'); },
       compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
+      options: async () => click('[data-action="go-options"]'),
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
     }[SHOT];
     await goto();
@@ -126,6 +135,7 @@
   }
 
   // ================================================================== テスト本体
+  try { localStorage.removeItem('calcTeacher.sound'); } catch (e) { /* 音声設定を初期状態に */ }
   await openGame(1);
 
   await test('[1] タイトル画面が表示され、トレーニングから設定画面へ進める', async () => {
@@ -149,19 +159,34 @@
     check($('#setting-summary').textContent.includes('10問'), '出題できる問題数の表示');
   });
 
-  await test('[3] 難易度を複数選択でき、「おまかせ」で全難易度になる', async () => {
-    await click('[data-difficulty="2"]'); // おまかせ → ★★だけ
+  await test('[3] 難易度を複数選択でき、「すべて選択」⇔「すべて解除」が切り替わる（おまかせはない）', async () => {
     const pressed = () => $$('[data-action="toggle-difficulty"]').filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.difficulty);
-    check(pressed().join() === '2', `★★だけ: ${pressed()}`);
+    const bulk = () => $('[data-difficulty="all"]');
+    check(!$('#difficulty-list').textContent.includes('おまかせ'), '「おまかせ」が残っている');
+    // 初期状態はすべて選択 → ボタンは「すべて解除」
+    check(pressed().join() === '1,2,3,4', `初期状態: ${pressed()}`);
+    check(bulk().textContent.trim() === 'すべて解除', `全部選ばれているときの表示: ${bulk().textContent.trim()}`);
+    // 1つ外すと「すべて選択」に変わる
+    await click('[data-difficulty="1"]');
+    check(pressed().join() === '2,3,4', `★を外した: ${pressed()}`);
+    check(bulk().textContent.trim() === 'すべて選択', `1つ外したときの表示: ${bulk().textContent.trim()}`);
+    // すべて選択 → 全部オン、すべて解除 → 全部オフ
+    await click(bulk());
+    check(pressed().join() === '1,2,3,4' && bulk().textContent.trim() === 'すべて解除', `すべて選択: ${pressed()}`);
+    await click(bulk());
+    check(pressed().length === 0 && bulk().textContent.trim() === 'すべて選択', `すべて解除: ${pressed()}`);
+    check($('#start-btn').disabled, '難易度0個で開始できてしまう');
+    check($('#setting-summary').textContent.includes('1つ以上'), '難易度未選択のメッセージ');
+    check($('#count-range').disabled, '難易度0個で問題数のスライダーが動かせる');
+    // 個別に複数選べる
+    await click('[data-difficulty="2"]');
     await click('[data-difficulty="3"]');
     check(pressed().join() === '2,3', `★★と★★★: ${pressed()}`);
     check($('#setting-summary').textContent.includes('7問'), `★★+★★★ の問題数: ${$('#setting-summary').textContent}`);
-    await click('[data-difficulty="2"]');
-    await click('[data-difficulty="3"]');
-    check(pressed().length === 0 && $('#start-btn').disabled, '難易度0個で開始できてしまう');
-    check($('#setting-summary').textContent.includes('1つ以上'), '難易度未選択のメッセージ');
-    await click('[data-difficulty="auto"]');
-    check(pressed().join() === 'auto,1,2,3,4', `おまかせ: ${pressed()}`);
+    // 最後の1つを選ぶと全部そろい、「すべて解除」に変わる
+    await click('[data-difficulty="1"]');
+    await click('[data-difficulty="4"]');
+    check(pressed().join() === '1,2,3,4' && bulk().textContent.trim() === 'すべて解除', `全部そろったときの表示: ${bulk().textContent.trim()}`);
   });
 
   await test('[3] 単元にない難易度は選択できない（無効表示）', async () => {
@@ -170,21 +195,36 @@
     [1, 2, 3, 4].forEach((n) => check($(`[data-difficulty="${n}"]`).disabled === (counts[n] === 0), `★${n}`));
   });
 
-  await test('[4] 問題数は5問・10問・すべてから選べ、初期値は5問', async () => {
-    const checked = () => $$('[data-action="select-count"]').find((b) => b.getAttribute('aria-checked') === 'true').dataset.count;
-    check($$('[data-action="select-count"]').map((b) => b.dataset.count).join() === '5,10,all', '選択肢');
-    check(checked() === '5', `初期値 ${checked()}`);
-    await click('[data-count="10"]');
-    check(checked() === '10', '10問');
-    check($('#setting-summary').textContent.includes('今回は 10問'), $('#setting-summary').textContent);
-    await click('[data-count="all"]');
-    check(checked() === 'all', 'すべて');
-    await click('[data-count="5"]');
+  await test('[4] 問題数はスライダーで1問〜最大数まで選べ、初期値は5問。−／＋でも1問ずつ変えられる', async () => {
+    const range = $('#count-range');
+    check(range && range.type === 'range', 'スライダーがない');
+    check(!$('[data-action="select-count"]'), '5問・10問・すべてのボタンが残っている');
+    check(range.min === '1' && range.max === '10', `範囲 ${range.min}〜${range.max}`);
+    check(range.value === '5' && $('#count-value').textContent === '5問', `初期値 ${range.value} / ${$('#count-value').textContent}`);
+    await setCountTo(1);
+    check($('#count-value').textContent === '1問' && $('#setting-summary').textContent.includes('今回は 1問'), '1問');
+    check($('[data-action="count-minus"]').disabled, '1問のとき − が押せる');
+    await setCountTo(7);
+    check($('#count-value').textContent === '7問' && $('#setting-summary').textContent.includes('今回は 7問'), $('#setting-summary').textContent);
+    await click('[data-action="count-plus"]');
+    check(range.value === '8' && $('#count-value').textContent === '8問', `＋ ${range.value}`);
+    await click('[data-action="count-minus"]');
+    await click('[data-action="count-minus"]');
+    check(range.value === '6', `− ${range.value}`);
+    await setCountTo(10);
+    check($('[data-action="count-plus"]').disabled, '最大のとき ＋ が押せる');
+    // 最大数は選んだ難易度で変わる（★★★ だけ → 4問）
+    await click('[data-difficulty="all"]');
+    await click('[data-difficulty="3"]');
+    check(range.max === '4' && range.value === '4' && $('#count-value').textContent === '4問', `★★★だけの最大 ${range.max} / ${range.value}`);
+    await click('[data-difficulty="all"]'); // すべて選択に戻す
+    await setCountTo(5);
   });
 
-  await test('[5] 条件に合う問題が少ないときは利用可能数を表示し、その数だけ出題する', async () => {
+  await test('[5] 条件に合う問題が少ないときは、スライダーの最大がその数になり、その数だけ出題する', async () => {
     await configure({ unit: 'equation', difficulties: [4], count: 10 });
-    check($('#setting-summary').textContent.includes('1問すべて'), $('#setting-summary').textContent);
+    check($('#count-range').max === '1' && $('#count-value').textContent === '1問', `最大 ${$('#count-range').max}`);
+    check($('#setting-summary').textContent.includes('出題できる問題：1問'), $('#setting-summary').textContent);
     await click('#start-btn');
     check(visible('play'), '問題画面へ進まない');
     check(app().session.total === 1, `出題数 ${app().session.total}`);
@@ -225,6 +265,7 @@
     const sel = $$('.row--selectable.is-selected');
     check(sel.length === 1 && sel[0].dataset.index === '2', `選択中の行: ${sel.map((s) => s.dataset.index)}`);
     check(rowBtn(2).getAttribute('aria-pressed') === 'true', 'aria-pressed');
+    check(!$$('.row--selectable').some((b) => b.textContent.includes('ここ！')), '選んだ行に「ここ！」が表示されている');
     check(!$('#submit-btn').disabled, '選択後に添削ボタンが押せない');
   });
 
@@ -445,7 +486,8 @@
         check(stu.filter((c) => !c.classList.contains('cmp-cell--empty')).length === q.answerLines.length, `${q.id}: 生徒の答案の行数`);
         check(sol.filter((c) => !c.classList.contains('cmp-cell--empty')).length === q.correctSolution.length, `${q.id}: 正しい計算過程の行数`);
         if (q.errorLine !== null) {
-          check(stu[q.errorLine].classList.contains('cmp-cell--error') && stu[q.errorLine].textContent.includes('最初のミス'), `${q.id}: 誤り行の印`);
+          check(stu[q.errorLine].classList.contains('cmp-cell--error'), `${q.id}: 誤り行の強調`);
+          check(!$('#compare-body .tag') && !$('#compare-body .cmp-grid').textContent.includes('最初のミス'), `${q.id}: 「最初のミス」バッジが残っている`);
           check($$('.cmp-cell--error').length === 1, `${q.id}: 誤り行の印が複数`);
           checkedError = true;
         }
@@ -573,8 +615,151 @@
     check(frame.contentWindow.location.pathname.endsWith('/preview.html'), `開いた画面: ${frame.contentWindow.location.pathname}`);
   });
 
+  // ================================================================ 効果音
+  // 実際に聞こえるかはヘッドレスでは確かめられないため、js/sound.js の再生記録で「どの操作で、どの音を鳴らしたか」を確かめる
+  const snd = () => w.Sound;
+  const played = () => snd().debug.log.filter((e) => e.played).map((e) => e.name);
+  const resetSnd = () => { snd().debug.clearLog(); snd().debug.resetThrottle(); };
+
+  await test('[効果音 1〜9] 行選択・全部正しい・ヒント・添削・正解・不正解・次の問題・開始・結果の各場面で音が鳴る', async () => {
+    await openGame(3);
+    check(snd() && snd().getSettings().enabled === true && snd().getSettings().volume === 50, `初期設定 ${JSON.stringify(snd() && snd().getSettings())}`);
+    check(snd().debug.log.length === 0, '起動しただけで音を鳴らそうとした');
+    await configure({ unit: 'expressions', count: 4 });
+    resetSnd();
+    await click('#start-btn');
+    check(played().join() === 'start', `開始: ${played()}`);
+    resetSnd();
+    await click(rowBtn(1));
+    check(played().join() === 'select', `行選択: ${played()}`);
+    resetSnd();
+    await click('#all-correct-btn');
+    check(played().join() === 'select', `全部正しい: ${played()}`);
+    resetSnd();
+    await click('#hint-btn');
+    check(played().join() === 'hint', `ヒントを開く: ${played()}`);
+    resetSnd();
+    await click('#hint-btn');
+    check(snd().debug.log.length === 0, `ヒントを閉じたときに鳴った: ${snd().debug.log.map((e) => e.name)}`);
+    await click('#all-correct-btn'); // 「全部正しい！」の選択を外しておく
+    const s = app().session;
+    let sawCorrect = false, sawWrong = false;
+    while (!s.finished) {
+      const ok = !sawCorrect || sawWrong; // 正解 → 不正解 → 正解… の順
+      resetSnd();
+      await answer(ok);
+      check(played().join() === `select,submit,${ok ? 'correct' : 'incorrect'}`, `添削（${ok ? '正解' : '不正解'}）: ${played()}`);
+      if (ok) sawCorrect = true; else sawWrong = true;
+      resetSnd();
+      const last = s.isLast;
+      await click('[data-action="next"]');
+      if (!last) check(played().join() === 'next', `次の問題へ: ${played()}`);
+      else check(played().join() === 'result', `通常の結果発表: ${played()}`);
+    }
+    check(sawCorrect && sawWrong, '正解と不正解の両方を確かめられなかった');
+  });
+
+  await test('[効果音 10] 全問正解のときは専用のファンファーレだけが鳴る（通常の終了音は重ねない）', async () => {
+    await configure({ unit: 'equation', difficulties: [4], count: 1 });
+    await click('#start-btn');
+    await answer(true);
+    resetSnd();
+    await click('[data-action="next"]');
+    check(played().join() === 'perfect', `全問正解の結果発表: ${played()}`);
+  });
+
+  await test('[効果音 11] プレイ中のスピーカーボタンで OFF にすると、どの音も鳴らない。ON に戻すと鳴る', async () => {
+    await configure({ unit: 'positive-negative', count: 3 });
+    await click('#start-btn');
+    const hud = $('#hud-sound');
+    check(hud.textContent === '🔊' && hud.getAttribute('aria-pressed') === 'true', 'スピーカーボタンの初期表示');
+    await click(hud);
+    check(hud.textContent === '🔇' && hud.getAttribute('aria-pressed') === 'false', 'OFF の表示');
+    check(snd().getSettings().enabled === false, 'OFF になっていない');
+    resetSnd();
+    await click(rowBtn(1));
+    await click('#hint-btn');
+    await answer(true);
+    await click('[data-action="next"]');
+    check(snd().debug.log.length > 0 && played().length === 0, `OFF なのに鳴った: ${played()}`);
+    check(snd().debug.log.every((e) => e.reason === 'off'), 'OFF 以外の理由で鳴らなかった');
+    resetSnd();
+    await click(hud);
+    check(snd().getSettings().enabled === true && played().join() === 'select', `ON に戻したとき: ${played()}`);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+  });
+
+  await test('[効果音 12〜14] 設定画面で ON/OFF・音量を変えると反映され、ブラウザに保存され、再読み込み後も維持される', async () => {
+    await click('[data-action="go-options"]');
+    check(visible('options'), '設定画面が開かない');
+    const range = $('#volume-range');
+    check(range.value === '50' && $('#volume-value').textContent === '50%', '音量の初期表示');
+    range.value = '20';
+    range.dispatchEvent(new w.Event('input', { bubbles: true }));
+    await sleep(30);
+    check(snd().getSettings().volume === 20 && $('#volume-value').textContent === '20%', '音量が変わらない');
+    check(snd().debug.masterGain === w.SoundLib.volumeToGain(20), `全体の音量 ${snd().debug.masterGain}`);
+    await click('#sound-switch');
+    check($('#sound-switch').getAttribute('aria-checked') === 'false' && $('#sound-switch-text').textContent === 'OFF', 'スイッチが OFF にならない');
+    const saved = JSON.parse(w.localStorage.getItem('calcTeacher.sound'));
+    check(saved.enabled === false && saved.volume === 20, `保存内容 ${JSON.stringify(saved)}`);
+    // 再読み込み
+    await openGame(1);
+    check(snd().getSettings().enabled === false && snd().getSettings().volume === 20, `再読み込み後の設定 ${JSON.stringify(snd().getSettings())}`);
+    check($('#volume-range').value === '20' && $('#sound-switch').getAttribute('aria-checked') === 'false' && $('#hud-sound').textContent === '🔇', '再読み込み後の表示');
+    // 音量0%は無音
+    await click('[data-action="go-options"]');
+    await click('#sound-switch');
+    $('#volume-range').value = '0';
+    $('#volume-range').dispatchEvent(new w.Event('input', { bubbles: true }));
+    resetSnd();
+    await click('[data-action="sound-test"]');
+    check(played().length === 0 && snd().debug.log[0].reason === 'mute', '音量0%で鳴った');
+    // 初期設定に戻す
+    $('#volume-range').value = '50';
+    $('#volume-range').dispatchEvent(new w.Event('input', { bubbles: true }));
+    resetSnd();
+    await click('[data-action="sound-test"]');
+    check(played().join() === 'correct', '音をためすボタン');
+    await click('.screen--options [data-action="go-title"]');
+  });
+
+  await test('[効果音 15] 連打しても音が重なりすぎない（間引き・同時発音数の上限）', async () => {
+    await configure({ unit: 'equation', count: 3 });
+    await click('#start-btn');
+    resetSnd();
+    for (let i = 0; i < 12; i++) rowBtn(1).click(); // 待たずに連打
+    check(played().length <= 1, `連打で ${played().length} 回鳴った`);
+    check(snd().debug.activeVoices <= w.SoundLib.MAX_VOICES, `同時に ${snd().debug.activeVoices} 個鳴っている`);
+    check(app().session.selection === null || app().session.selection.index === 1, '選択状態がおかしい');
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+  });
+
+  await test('[効果音 16・17] 音の再生に失敗しても、出題・採点・結果表示はふつうに進む', async () => {
+    resetSnd();
+    snd().debug.simulateFailure(true);
+    try {
+      await configure({ unit: 'positive-negative', count: 2 });
+      await click('#start-btn');
+      const s = app().session;
+      await answer(true);
+      check($('.verdict--ok') && s.correctCount === 1, '採点されない');
+      await click('[data-action="next"]');
+      await answer(false);
+      check($('.verdict--ng'), '不正解の採点');
+      await click('[data-action="next"]');
+      check(visible('summary') && s.summary().rate === 50, '結果画面へ進まない');
+      check(snd().debug.log.some((e) => e.reason === 'error') && played().length === 0, '失敗の記録');
+    } finally {
+      snd().debug.simulateFailure(false);
+    }
+  });
+
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {
     await load('../../preview.html?reveal=1#J1-EQ-0010');
+    check(!w.Sound, 'プレビューに効果音が読み込まれている');
     await waitFor(() => d.querySelectorAll('#question-index .chip').length === 30, 'プレビューの読み込み');
     check(d.querySelector('.meta-id').textContent === 'J1-EQ-0010', 'URL ハッシュでの問題指定');
     check(d.querySelector('.answer-line--error'), '誤り行のハイライト');

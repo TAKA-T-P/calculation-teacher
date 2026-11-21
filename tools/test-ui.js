@@ -53,6 +53,7 @@ function runBrowser(browser, url, w, h) {
   const args = [
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
     `--user-data-dir=${profile}`, `--window-size=${Math.max(w + 40, 600)},${h + 400}`,
+    '--autoplay-policy=no-user-gesture-required', // 効果音の AudioContext を自動テストでも動かす
     '--virtual-time-budget=120000', '--dump-dom', url,
   ];
   return new Promise((resolve) => {
