@@ -785,6 +785,26 @@
   // ================================================================ 第3段階：タイムアタック
   const recs = () => w.__calcTeacher.records;
   const sndNow = () => w.Sound;
+  // ================================================================ 生徒キャラクター（共通の確認）
+  /** scope の中の生徒とセリフを確かめる（キャラクター・場面に合うセリフ・吹き出しが見切れない） */
+  function checkTalk(scope, group, label) {
+    const el = $(`${scope} .student-talk`);
+    check(el, `${label}: 生徒が表示されない`);
+    const t = { el, id: el.dataset.character, group: el.dataset.group, text: el.querySelector('.student-talk__bubble').textContent, face: el.querySelector('.student-talk__face').textContent };
+    const DD = w.CharacterDialogue;
+    const ch = DD.CHARACTERS.find((c) => c.id === t.id);
+    check(ch && ch.emoji === t.face, `${label}: キャラクター ${t.id} ${t.face}`);
+    check(!group || t.group === group, `${label}: セリフの種類 ${t.group}（期待 ${group}）`);
+    check(DD.linesFor(t.group, t.id).includes(t.text), `${label}: 場面に合わないセリフ「${t.text}」`);
+    const b = el.querySelector('.student-talk__bubble');
+    const r = b.getBoundingClientRect();
+    const fr = el.querySelector('.student-talk__face').getBoundingClientRect();
+    check(r.left >= 0 && r.right <= w.innerWidth + 0.5 && b.scrollWidth <= b.clientWidth + 1 && fr.width > 0 && fr.right <= r.left + 1,
+      `${label}: 吹き出しが見切れる・顔と重なる（${Math.round(fr.left)}〜${Math.round(fr.right)} / ${Math.round(r.left)}〜${Math.round(r.right)}・幅 ${w.innerWidth}）`);
+    return { id: t.id, text: t.text, group: t.group };
+  }
+  const sameTalk = (a, b) => a.id === b.id && a.text === b.text;
+
   const ta = () => app().ta;
   const taRow = (i) => inScreen('ta-play', `[data-action="ta-answer"][data-index="${i}"]`);
   const taCorrectEl = () => { const q = ta().session.current; return q.errorLine === null ? taRow('all') : taRow(q.errorLine); };
@@ -846,6 +866,7 @@
     check(sum.score === s.results.reduce((a, r) => a + r.points, 0) && sum.wrong === 0 && sum.maxStreak === sum.correct, '得点の集計');
     check($('#ta-result-body').textContent.includes(`${sum.score}`) && $('#ta-result-body').textContent.includes('初めての公式記録'), '結果画面のスコア');
     check($('#ta-result-body').textContent.includes(`称号：${w.TimeAttack.titleForScore(sum.score)}`), '称号の表示');
+    const taTalk = checkTalk('#ta-result-body', 'ta-best', 'タイムアタック（初記録）');
     const rec = recs().officialFor('equation');
     check(rec.bestScore === sum.score && rec.plays === 1 && rec.maxStreak === sum.maxStreak, `公式記録 ${JSON.stringify(rec)}`);
     const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
@@ -858,6 +879,7 @@
     check(w.getComputedStyle($('#explain-dialog .compare')).transform === 'none', '解説のポップアップが回転している');
     await click('[data-action="explain-close"]');
     check(!$('#explain-dialog').open && recs().officialFor('equation').bestScore === sum.score, '解説を見たら記録が変わった');
+    check(sameTalk(checkTalk('#ta-result-body', 'ta-best', '解説を閉じたあと'), taTalk), '解説を開閉したらセリフが変わった');
   });
 
   await test('[TA] 不正解で連続が切れ、得点は連続数で変わる。自己ベストを下回った回は更新しない（プレイ回数は増える）', async () => {
@@ -867,6 +889,7 @@
     await playTA((i) => (i < 4 ? [true, true, false, true][i] : null)); // 4問だけ回答して、あとは時間切れ
     check(s.results.map((r) => r.points).join() === '200,210,0,200', `得点 ${s.results.map((r) => r.points)}`);
     check(s.summary().maxStreak === 2, '最大連続');
+    checkTalk('#ta-result-body', 'ta-low', 'タイムアタック（1000点未満）');
     const rec = recs().officialFor('equation');
     check(rec.bestScore === best && rec.plays === 2, `自己ベストが変わった／回数 ${JSON.stringify(rec)}`);
     check($('#ta-result-body').textContent.includes(`自己ベスト：${best}点`) && !$('#ta-result-body').textContent.includes('自己ベスト更新'), '自己ベストの表示');
@@ -886,6 +909,7 @@
     check(s.answer({ type: 'allCorrect' }) === null, 'ゲームオーバー後に回答できた');
     const body = $('#ta-result-body').textContent;
     check(body.includes('3回ミスでゲームオーバー'), '結果画面にゲームオーバーの表示がない');
+    checkTalk('#ta-result-body', 'ta-gameover', 'タイムアタック（ゲームオーバー）');
     check(recs().officialFor('equation').plays === 3, 'ゲームオーバーの回が記録されない');
     const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
     check(names.includes('fail') && !names.includes('timeup'), `ゲームオーバーの効果音 ${names}`);
@@ -992,6 +1016,7 @@
     const body = $('#cert-result-body').textContent;
     check(body.includes('第1試験 合格！') && body.includes('新人ティーチャーに昇格') && body.includes('第2試験が解放されました'), `合格・昇格の表示: ${body.slice(0, 120)}`);
     check(sndNow().debug.log.some((e) => e.played && e.name === 'rankup'), 'ランクアップの効果音');
+    const certTalk = checkTalk('#cert-result-body', 'cert-rankup', '認定試験（初合格）');
     check(!$('#cert-result-body .promotion .rank-badge'), '昇格の下にランクのバッジが出ている');
     check(!body.includes('まちがえると不合格'), '結果画面に不合格の条件が出ている');
     // 「○○に昇格！」が1行に収まる（いちばん長いランク名でも）
@@ -1030,6 +1055,7 @@
     check(visible('cert-result') && s.results.length === 3 && $('#cert-result-body').textContent.includes('第2試験 不合格'), '不合格の表示');
     check($('#cert-result-body').textContent.includes('ランクは下がりません') && $('#cert-result-body').textContent.includes('新人ティーチャー'), 'ランクの表示');
     check(sndNow().debug.log.some((e) => e.played && e.name === 'fail'), '不合格の効果音');
+    checkTalk('#cert-result-body', 'cert-fail', '認定試験（不合格）');
     const c = recs().certFor('equation');
     check(c.highestCleared === 1 && c.exams['2'].attempts === 1 && !c.exams['2'].cleared, `記録 ${JSON.stringify(c)}`);
     check(recs().certFor('expressions').highestCleared === 0, '別の単元に影響した');
@@ -1106,6 +1132,119 @@
     check(otherKeys() === othersBefore, '記録以外の保存データが変わった');
     await openGame(2);
     check(recs().officialFor('equation').bestScore === null && recs().customHistory().length === 0 && recs().certFor('equation').highestCleared === 0, '再読み込みで記録が戻った');
+  });
+
+  // ================================================================ 生徒キャラクター
+  await test('[生徒] タイトル：男の子か女の子がセリフを話す。抽選は固定でき、どちらでもレイアウトが崩れない', async () => {
+    await openGame(3);
+    check(visible('title'), 'タイトル');
+    checkTalk('#title-talk', 'title', 'タイトル');
+    const seen = new Set();
+    for (const [v, id] of [[0, 'boy'], [0.99, 'girl']]) {
+      w.__calcTeacher.setDialogueRng(() => v);
+      w.__calcTeacher.rerenderTitleTalk();
+      const t = checkTalk('#title-talk', 'title', `タイトル（${id}）`);
+      check(t.id === id, `抽選を固定できない: ${t.id}`);
+      seen.add(t.id);
+      // ほかの表示と重ならない
+      const talkR = $('#title-talk .student-talk').getBoundingClientRect();
+      const logoR = $('.title-logo').getBoundingClientRect();
+      const nameR = $('#title-heading').getBoundingClientRect();
+      const optR = $('.title-options').getBoundingClientRect();
+      const ov = (a, b) => a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+      check(!ov(talkR, logoR) && !ov(talkR, nameR) && !ov(talkR, optR), `${id}: タイトルの表示と重なる`);
+      check(pageOverflow() <= 0, `${id}: 横スクロールが出る`);
+    }
+    // 1つずつ順に返す乱数で、男の子・女の子・一人称のセリフがそれぞれ出る
+    const DD = w.CharacterDialogue;
+    for (const line of DD.LINES.title) {
+      const text = typeof line === 'string' ? line : line.text;
+      const who = typeof line === 'string' ? ['boy', 'girl'] : [line.only];
+      for (const id of who) {
+        const ci = DD.CHARACTERS.findIndex((c) => c.id === id);
+        const li = DD.linesFor('title', id).indexOf(text);
+        const vals = [(ci + 0.5) / DD.CHARACTERS.length, (li + 0.5) / DD.linesFor('title', id).length];
+        let k = 0;
+        w.__calcTeacher.setDialogueRng(() => vals[k++ % 2]);
+        w.__calcTeacher.rerenderTitleTalk();
+        const t = checkTalk('#title-talk', 'title', `タイトル「${text}」`);
+        check(t.id === id && t.text === text, `${id}「${text}」にならない`);
+      }
+    }
+    w.__calcTeacher.setDialogueRng(null);
+    // 設定を開いて戻ると選び直す（同じ結果になってもよいので、表示されていることだけ確かめる）
+    await click('[data-action="go-options"]');
+    await click('[data-screen="options"] [data-action="go-title"]');
+    checkTalk('#title-talk', 'title', 'タイトルに戻ったとき');
+    check(seen.size === 2, '男の子と女の子の両方を確かめていない');
+  });
+
+  await test('[生徒] トレーニング結果：正解率でセリフが変わり、評価コメントも残る。解き直しから戻ってもセリフは変わらない', async () => {
+    const cases = [
+      [[true, true, true, true, true], 'training-perfect'],
+      [[true, true, true, true, false], 'training-high'],
+      [[true, true, true, false, false], 'training-mid'],
+      [[true, false, false, false, false], 'training-low'],
+    ];
+    let last = null;
+    for (const [pattern, group] of cases) {
+      await click('[data-action="go-title"]').catch(() => {});
+      if (!visible('title')) await openGame(4);
+      await configure({ unit: 'expressions', count: 5 });
+      await click('#start-btn');
+      for (const ok of pattern) { await answer(ok); await click('[data-action="next"]'); }
+      check(visible('summary'), '結果画面');
+      check($('.score-card__comment').textContent.length > 5, '評価コメントが消えた');
+      last = checkTalk('#summary-body', group, `トレーニング ${group}`);
+    }
+    // 1問だけ解き直して戻る → 同じキャラクター・セリフ
+    await click('[data-action="review-question"][data-index="1"]');
+    check(visible('play'), '解き直しが始まらない');
+    await answer(true);
+    await click('[data-action="next"]');
+    check(visible('summary'), '結果画面に戻らない');
+    check(sameTalk(checkTalk('#summary-body', 'training-low', '解き直しのあと'), last), '解き直しのあとでセリフが変わった');
+  });
+
+  await test('[生徒] 認定試験：最終試験に初合格すると専用のセリフ。もう一度合格すると通常の合格のセリフ', async () => {
+    // 第1〜第4試験は合格済みにしておく（記録の仕組みはそのまま使う）
+    for (let id = 1; id <= 4; id++) recs().recordExam('expressions', id, true);
+    await click('[data-action="go-title"]').catch(() => {});
+    await click('[data-action="go-cert-units"]');
+    await click('[data-action="cert-unit"][data-unit="expressions"]');
+    const plays = async () => {
+      await click('[data-action="cert-start"][data-exam="5"]');
+      const s = app().session;
+      for (let i = 0; i < s.exam.maxQuestions; i++) {
+        await answerExam(true);
+        await click('[data-action="next"]');
+        if (visible('cert-result')) break;
+      }
+      check(visible('cert-result') && $('#cert-result-body').textContent.includes('最終試験 合格'), '最終試験に合格しない');
+    };
+    await plays();
+    checkTalk('#cert-result-body', 'cert-master', '最終試験の初合格');
+    check(recs().certFor('expressions').highestCleared === 5, 'ランクが記録されない');
+    await click('#cert-result-actions [data-action="cert-start"][data-exam="5"]');
+    const s = app().session;
+    for (let i = 0; i < s.exam.maxQuestions && !visible('cert-result'); i++) { await answerExam(true); await click('[data-action="next"]'); }
+    checkTalk('#cert-result-body', 'cert-pass', '最終試験の再合格');
+  });
+
+  await test('[生徒] キャラクターの抽選は出題順（?seed=）に影響しない', async () => {
+    const order = async (v) => {
+      await openGame(5);
+      w.__calcTeacher.setDialogueRng(() => v);
+      w.__calcTeacher.rerenderTitleTalk();
+      await click('[data-action="go-options"]');
+      await click('[data-screen="options"] [data-action="go-title"]');
+      await configure({ unit: 'positive-negative', count: 'all' });
+      await click('#start-btn');
+      return app().session.questions.map((q) => q.id).join();
+    };
+    const a = await order(0);
+    const b = await order(0.99);
+    check(a === b && a.length > 0, `出題順が変わった\n${a}\n${b}`);
   });
 
   // ================================================================ 効果音

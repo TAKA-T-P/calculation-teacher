@@ -21,6 +21,11 @@
   const rng = G.createRng(params.get('seed'));
   const TA = window.TimeAttack;
   const C = window.Certification;
+  const D = window.CharacterDialogue;
+  // 生徒キャラクターの抽選に使う乱数。出題順の乱数（rng・?seed=）とは別にして、出題順に影響させない
+  let dialogueRng = Math.random;
+  // 結果ごとに選んだキャラクターとセリフ（同じ結果を再描画しても変えない）
+  const dialogues = new WeakMap();
   // 記録（公式・カスタム・認定）。localStorage が使えない環境でも、メモリ上で動く
   const records = window.Records.createRecordStore({
     storage: (() => { try { return window.localStorage; } catch (e) { return null; } })(),
@@ -52,6 +57,7 @@
   async function init() {
     document.addEventListener('click', onClick);
     initSound();
+    renderTitleTalk();
     // タイムアタック中に画面が表に戻ったら、すぐに残り時間を更新する（裏にいた間も時間は減っている）
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tickTA(); });
     // 問題数のスライダー（ドラッグ中も数がすぐ変わる）
@@ -100,6 +106,7 @@
    * @param {'push'|'replace'|'none'} historyMode
    */
   function show(name, historyMode = 'push') {
+    if (name === 'title' && app.screen !== 'title') renderTitleTalk(); // タイトルに入り直すたびに生徒を選び直す
     stopSfx('long'); // 前の画面の長い効果音（正解音・結果発表など）を次の画面に残さない
     Object.entries(screens).forEach(([key, el]) => { el.hidden = key !== name; });
     app.screen = name;
@@ -109,6 +116,24 @@
     window.scrollTo(0, 0);
     const heading = screens[name].querySelector('h1, h2');
     if (heading && name !== 'title') heading.focus({ preventScroll: true });
+  }
+
+  // ============================================================ 生徒キャラクターのセリフ
+  function talkHtml(d) {
+    return `<div class="student-talk" data-character="${d.character.id}" data-group="${esc(d.group)}">
+        <span class="student-talk__face" role="img" aria-label="生徒（${esc(d.character.name)}）">${d.character.emoji}</span>
+        <p class="student-talk__bubble">${esc(d.text)}</p>
+      </div>`;
+  }
+
+  /** その結果（key）で初めて表示するときだけ抽選し、あとは同じものを返す */
+  function dialogueFor(key, group) {
+    if (!dialogues.has(key)) dialogues.set(key, D.pick(group, dialogueRng));
+    return dialogues.get(key);
+  }
+
+  function renderTitleTalk() {
+    $('#title-talk').innerHTML = talkHtml(D.pick('title', dialogueRng));
   }
 
   function inProgress() {
@@ -928,6 +953,7 @@
         </dl>
         <p class="score-card__comment">${esc(G.evaluationComment(sum.rate))}</p>
       </div>
+      ${talkHtml(dialogueFor(s, D.trainingGroup(sum.rate)))}
       <p class="review-guide">問題をタップすると、もう一度解けます</p>
       <ol class="review-list" aria-label="問題ごとの結果（タップでもう一度解く）">${list}</ol>`;
   }
@@ -1391,6 +1417,7 @@
         </dl>
         ${titleHtml}
       </div>
+      ${talkHtml(dialogueFor(app.ta.result, D.timeAttackGroup({ official: s.isOfficial, isBest: !!(rec && rec.isBest), gameOver: sum.gameOver, score: sum.score })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(items, 'ta-explain')}`;
   }
@@ -1555,6 +1582,7 @@
         <p class="rank-card__label">現在のランク</p>
         ${rankBadgeHtml(rank, 'rank-badge--lg')}
       </div>
+      ${talkHtml(dialogueFor(app.cert.last, D.certGroup({ passed, firstClear: rec.firstClear, rankUp: rec.rankUp, isFinal })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(s.results.map((r, i) => ({ ...r, question: s.questions[i] })), 'cert-explain')}`;
     // 合格して次の試験があるときは「次の試験へ」を主なボタンにし、「もう一度挑戦」は控えめにする
@@ -1762,7 +1790,13 @@
   }
 
   // テスト用に状態を参照できるようにする（読み取り専用の用途）
-  window.__calcTeacher = { get app() { return app; }, get records() { return records; } };
+  window.__calcTeacher = {
+    get app() { return app; },
+    get records() { return records; },
+    /** 自動テスト用：生徒キャラクターの抽選を固定する（出題順の乱数には影響しない） */
+    setDialogueRng(fn) { dialogueRng = fn || Math.random; },
+    rerenderTitleTalk: () => renderTitleTalk(),
+  };
 
   init();
 })();
