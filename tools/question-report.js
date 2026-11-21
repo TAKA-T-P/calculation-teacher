@@ -1,0 +1,238 @@
+#!/usr/bin/env node
+/*
+ * question-report.js
+ * 問題データの集計レポート（制作の進捗・出題バランス・レビュー状況）。
+ *
+ *   node tools/question-report.js                 コンソールに表示
+ *   node tools/question-report.js --json out.json JSON にも書き出す
+ *   node tools/question-report.js --csv out.csv   問題ごとの一覧を CSV に書き出す
+ *   node tools/question-report.js --strict        バランスの WARN があれば終了コード 1（完成判定用）
+ *
+ * - 数学的な不整合（ERROR）は validate-questions.js の判定をそのまま使う。
+ * - このスクリプトが出す WARN は「出題バランス・制作目標」に関するもので、数学的な誤りではない。
+ *   WARN が出ても、数学的に正しい問題を自動で書き換えたり除外したりはしない。
+ * - 類題候補は「式の形・誤り行・errorType が同じ」ものを機械的に挙げるだけ。類題かどうかは人が判断する。
+ */
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const V = require('./validate-questions.js');
+const S = require('../js/lib/question-schema.js');
+
+// ------------------------------------------------------------------ 第4段階の目標
+const TARGETS = {
+  perUnit: 100,
+  perCategory: 25,
+  perDifficulty: 25,
+  // カテゴリ×難易度：25問を4難易度へ 6〜7問ずつ。この範囲を外れたら WARN
+  perCell: { min: 5, max: 8 },
+  // 「全部正しい！」の割合（単元ごと・全体）
+  correctRatio: { min: 0.25, max: 0.30 },
+  // 1つのカテゴリの「全部正しい！」の割合がこれを超えたら偏りとして WARN
+  correctRatioPerCategoryMax: 0.45,
+  // 誤答の最初の誤り行（画面の「○行目」。index+1）の目安。tolerance 以上ずれたら WARN
+  errorLineShare: { 2: 0.25, 3: 0.35, 4: 0.25, '5+': 0.15 },
+  errorLineTolerance: 0.10,
+  // 1つの errorType が単元の誤答に占める割合の上限
+  errorTypeShareMax: 0.10,
+};
+
+const ROOT = path.join(__dirname, '..');
+const args = process.argv.slice(2);
+const argValue = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : null);
+
+/** レビュー記録の確認者が AI か数学講師か。reviewerRole があればそれを使い、なければ名前から判断する */
+function reviewerRole(rv) {
+  if (!rv) return null;
+  if (rv.reviewerRole === 'ai' || rv.reviewerRole === 'teacher') return rv.reviewerRole;
+  return /claude|ai|ＡＩ/i.test(rv.reviewer || '') ? 'ai' : 'teacher';
+}
+
+const lineKey = (errorLine) => (errorLine === null ? null : errorLine + 1 >= 5 ? '5+' : String(errorLine + 1));
+
+/** 類題候補を見つけるための「式の形」：数字を # に置きかえ、空白を除く */
+function shapeOf(latex) {
+  return latex.replace(/\s+/g, '').replace(/\d+(\.\d+)?/g, '#');
+}
+
+function load() {
+  const manifest = JSON.parse(fs.readFileSync(path.join(V.DATA_DIR, 'manifest.json'), 'utf8'));
+  const reviews = fs.existsSync(V.REVIEW_FILE) ? JSON.parse(fs.readFileSync(V.REVIEW_FILE, 'utf8')).reviews || {} : {};
+  const items = [];
+  for (const f of manifest.files) {
+    const data = JSON.parse(fs.readFileSync(path.join(V.DATA_DIR, f.file), 'utf8'));
+    for (const q of data.questions) {
+      const res = V.validateQuestion(q, { file: data });
+      const rv = reviews[q.id];
+      const review = !rv ? 'missing' : rv.hash === V.questionHash(q) ? 'ok' : 'stale';
+      items.push({
+        q,
+        unit: f.unit,
+        status: res.errors.length ? 'ERROR' : res.manual.length ? 'MANUAL' : 'AUTO',
+        errors: res.errors,
+        review,
+        role: review === 'ok' ? reviewerRole(rv) : null,
+      });
+    }
+  }
+  return { manifest, items };
+}
+
+/** レポートの中身を作る（テストからも使う） */
+function buildReport({ manifest, items }) {
+  const warnings = [];
+  const warn = (scope, msg) => warnings.push({ scope, msg });
+  const units = manifest.files.map((f) => f.unit);
+  const pct = (n, d) => (d ? Math.round((n / d) * 1000) / 10 : 0);
+
+  const unitReports = units.map((unit) => {
+    const def = S.UNITS[unit];
+    const qs = items.filter((it) => it.unit === unit);
+    const cats = def.categories;
+    const matrix = Object.fromEntries(cats.map((c) => [c, [1, 2, 3, 4].map((d) => qs.filter((it) => it.q.category === c && it.q.difficulty === d).length)]));
+    const byCategory = Object.fromEntries(cats.map((c) => [c, qs.filter((it) => it.q.category === c).length]));
+    const byDifficulty = Object.fromEntries([1, 2, 3, 4].map((d) => [d, qs.filter((it) => it.q.difficulty === d).length]));
+    const correct = qs.filter((it) => it.q.errorLine === null);
+    const correctByCategory = Object.fromEntries(cats.map((c) => [c, correct.filter((it) => it.q.category === c).length]));
+    const wrong = qs.filter((it) => it.q.errorLine !== null);
+    const errorLines = { 2: 0, 3: 0, 4: 0, '5+': 0 };
+    wrong.forEach((it) => { errorLines[lineKey(it.q.errorLine)]++; });
+    const errorTypes = {};
+    wrong.forEach((it) => { errorTypes[it.q.errorType] = (errorTypes[it.q.errorType] || 0) + 1; });
+    const status = { AUTO: 0, MANUAL: 0, ERROR: 0 };
+    qs.forEach((it) => { status[it.status]++; });
+    const review = {
+      ai: qs.filter((it) => it.role === 'ai').length,
+      teacher: qs.filter((it) => it.role === 'teacher').length,
+      stale: qs.filter((it) => it.review === 'stale').length,
+      missing: qs.filter((it) => it.review === 'missing').length,
+    };
+    // 完成数：自動検証で ERROR がなく、最新の内容でレビュー記録がある問題だけ
+    const done = qs.filter((it) => it.status !== 'ERROR' && it.review === 'ok').length;
+
+    // ---- 目標との比較（バランスの WARN）
+    const label = def.label;
+    if (qs.length !== TARGETS.perUnit) warn(label, `問題数 ${qs.length}（目標 ${TARGETS.perUnit}）`);
+    cats.forEach((c) => { if (byCategory[c] !== TARGETS.perCategory) warn(label, `カテゴリ「${c}」 ${byCategory[c]}問（目標 ${TARGETS.perCategory}）`); });
+    [1, 2, 3, 4].forEach((d) => { if (byDifficulty[d] !== TARGETS.perDifficulty) warn(label, `難易度 ★${d} ${byDifficulty[d]}問（目標 ${TARGETS.perDifficulty}）`); });
+    cats.forEach((c) => matrix[c].forEach((n, i) => {
+      if (n < TARGETS.perCell.min || n > TARGETS.perCell.max) warn(label, `「${c}」×★${i + 1} が ${n}問（目安 ${TARGETS.perCell.min}〜${TARGETS.perCell.max}）`);
+    }));
+    const ratio = qs.length ? correct.length / qs.length : 0;
+    if (ratio < TARGETS.correctRatio.min || ratio > TARGETS.correctRatio.max) {
+      warn(label, `「全部正しい！」が ${pct(correct.length, qs.length)}%（目安 ${TARGETS.correctRatio.min * 100}〜${TARGETS.correctRatio.max * 100}%）`);
+    }
+    cats.forEach((c) => {
+      if (byCategory[c] >= 8 && correctByCategory[c] / byCategory[c] > TARGETS.correctRatioPerCategoryMax) {
+        warn(label, `カテゴリ「${c}」の「全部正しい！」が ${correctByCategory[c]}/${byCategory[c]}問で多い`);
+      }
+    });
+    if (wrong.length >= 20) {
+      Object.entries(TARGETS.errorLineShare).forEach(([k, share]) => {
+        const actual = errorLines[k] / wrong.length;
+        if (Math.abs(actual - share) > TARGETS.errorLineTolerance) warn(label, `最初の誤りが${k}行目の答案が ${pct(errorLines[k], wrong.length)}%（目安 ${share * 100}%）`);
+      });
+      Object.entries(errorTypes).forEach(([t, n]) => {
+        if (n >= 3 && n / wrong.length > TARGETS.errorTypeShareMax) warn(label, `errorType「${t}」が ${n}問（誤答の ${pct(n, wrong.length)}%）`);
+      });
+    }
+    return {
+      unit, label, total: qs.length, done, target: TARGETS.perUnit,
+      byCategory, byDifficulty, matrix, correct: correct.length, correctRatio: pct(correct.length, qs.length), correctByCategory,
+      wrong: wrong.length, errorLines, errorTypes, status, review,
+    };
+  });
+
+  // ---- 類題候補（同じ単元・カテゴリで、問題式の形・誤り行・errorType が同じもの）
+  const groups = new Map();
+  items.forEach((it) => {
+    const key = [it.unit, it.q.category, shapeOf(it.q.question), it.q.errorLine, it.q.errorType].join('|');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(it.q.id);
+  });
+  const similar = [...groups.values()].filter((ids) => ids.length > 1);
+
+  const total = items.length;
+  const totalCorrect = items.filter((it) => it.q.errorLine === null).length;
+  return {
+    generatedAt: new Date().toISOString(),
+    targets: TARGETS,
+    total,
+    done: unitReports.reduce((a, u) => a + u.done, 0),
+    correctRatio: pct(totalCorrect, total),
+    errors: items.filter((it) => it.status === 'ERROR').map((it) => ({ id: it.q.id, errors: it.errors })),
+    units: unitReports,
+    similar,
+    warnings,
+  };
+}
+
+function printReport(rep) {
+  const line = (s = '') => console.log(s);
+  line('計算ティーチャー！ 問題データ集計レポート');
+  line('（WARN は出題バランス・制作目標に関するもの。数学的な誤りは「数学的な検証」の ERROR を見てください）\n');
+
+  line('=== 制作の進捗（完成＝自動検証で ERROR なし、かつ最新の内容でレビュー記録あり）');
+  line('| 単元 | 完成数 | 問題数 | 目標 | 未作成 |');
+  line('|---|---:|---:|---:|---:|');
+  rep.units.forEach((u) => line(`| ${u.label} | ${u.done} | ${u.total} | ${u.target} | ${Math.max(0, u.target - u.total)} |`));
+  line(`| 合計 | ${rep.done} | ${rep.total} | ${rep.units.length * TARGETS.perUnit} | ${rep.units.reduce((a, u) => a + Math.max(0, u.target - u.total), 0)} |`);
+
+  for (const u of rep.units) {
+    line(`\n=== ${u.label}（${u.total}問）`);
+    line('カテゴリ×難易度（括弧内は「全部正しい！」の数）');
+    line(`  ${'カテゴリ'.padEnd(10, '　')}  ★   ★★  ★★★ ★★★★  計`);
+    Object.entries(u.matrix).forEach(([c, row]) => {
+      line(`  ${c.padEnd(10, '　')} ${row.map((n) => String(n).padStart(3)).join('  ')}  ${String(u.byCategory[c]).padStart(3)}（${u.correctByCategory[c]}）`);
+    });
+    line(`  ${'計'.padEnd(10, '　')} ${[1, 2, 3, 4].map((d) => String(u.byDifficulty[d]).padStart(3)).join('  ')}  ${String(u.total).padStart(3)}（${u.correct}）`);
+    line(`「全部正しい！」: ${u.correct}問（${u.correctRatio}%）`);
+    const el = u.errorLines;
+    const share = (n) => (u.wrong ? `${Math.round((n / u.wrong) * 100)}%` : '-');
+    line(`最初の誤り行（誤答 ${u.wrong}問）: 2行目 ${el[2]}（${share(el[2])}） / 3行目 ${el[3]}（${share(el[3])}） / 4行目 ${el[4]}（${share(el[4])}） / 5行目以降 ${el['5+']}（${share(el['5+'])}）`);
+    const types = Object.entries(u.errorTypes).sort((a, b) => b[1] - a[1]);
+    line(`errorType: ${types.length}種類（多い順）`);
+    types.slice(0, 8).forEach(([t, n]) => line(`    ${String(n).padStart(2)}  ${t}`));
+    if (types.length > 8) line(`    …ほか ${types.length - 8} 種類（すべて ${types.slice(8).every(([, n]) => n === 1) ? '1問ずつ' : '2問以下'}）`);
+    line(`自動検証: AUTO ${u.status.AUTO} / MANUAL ${u.status.MANUAL} / ERROR ${u.status.ERROR}`);
+    line(`レビュー: AI（Claude Code）${u.review.ai} / 数学講師 ${u.review.teacher} / レビュー後に変更 ${u.review.stale} / 未レビュー ${u.review.missing}`);
+  }
+
+  line('\n=== 数学的な検証');
+  if (rep.errors.length) rep.errors.forEach((e) => line(`ERROR ${e.id}: ${e.errors[0]}`));
+  else line('ERROR 0 件（詳細は npm run validate）');
+
+  line('\n=== 類題候補（カテゴリ・式の形・誤り行・errorType が同じ。類題かどうかは人が確認してください）');
+  if (rep.similar.length) rep.similar.forEach((ids) => line(`  ${ids.join(' / ')}`));
+  else line('  なし');
+
+  line('\n=== 出題バランス・制作目標の WARN');
+  if (rep.warnings.length) rep.warnings.forEach((w) => line(`WARN  [${w.scope}] ${w.msg}`));
+  else line('なし');
+  line(`\n全体: ${rep.total}問（完成 ${rep.done}問）・「全部正しい！」${rep.correctRatio}%・バランスの WARN ${rep.warnings.length} 件`);
+}
+
+function toCsv(items) {
+  const esc = (v) => `"${String(v === null || v === undefined ? '' : v).replace(/"/g, '""')}"`;
+  const head = ['id', 'unit', 'category', 'difficulty', 'correctAnswer', 'firstErrorLine', 'errorType', 'lines', 'verification', 'review', 'reviewer'];
+  const rows = items.map((it) => [
+    it.q.id, it.unit, it.q.category, it.q.difficulty, it.q.errorLine === null ? '全部正しい' : '誤りあり',
+    it.q.errorLine === null ? '' : it.q.errorLine + 1, it.q.errorType || '', it.q.answerLines.length, it.status,
+    it.review, it.role === 'ai' ? 'AI' : it.role === 'teacher' ? '数学講師' : '',
+  ]);
+  return '﻿' + [head, ...rows].map((r) => r.map(esc).join(',')).join('\r\n') + '\r\n';
+}
+
+if (require.main === module) {
+  const data = load();
+  const rep = buildReport(data);
+  printReport(rep);
+  const jsonOut = argValue('--json');
+  const csvOut = argValue('--csv');
+  if (jsonOut) { fs.writeFileSync(path.resolve(jsonOut), JSON.stringify(rep, null, 2)); console.log(`JSON を書き出しました: ${jsonOut}`); }
+  if (csvOut) { fs.writeFileSync(path.resolve(csvOut), toCsv(data.items)); console.log(`CSV を書き出しました: ${csvOut}`); }
+  if (rep.errors.length) process.exit(1);
+  if (args.includes('--strict') && rep.warnings.length) process.exit(1);
+} else {
+  module.exports = { TARGETS, buildReport, load, reviewerRole, shapeOf, ROOT };
+}

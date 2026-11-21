@@ -98,14 +98,17 @@ test('[4] 問題数 5問・10問・すべて が選べ、既定は5問', () => {
 
 // ---------------------------------------------------------------- 5. 問題数不足
 test('[5] 条件に合う問題が指定数より少ないときは、ある分だけ出題する（重複で埋めない）', () => {
-  const few = { unit: 'equation', difficulties: [4] };
-  const n = countOf(few);
+  // 問題データから「1問以上10問未満」の条件（カテゴリ×難易度）を探す（問題を追加してもテストが壊れないように）
+  const cells = manifest.files.flatMap((f) => [...new Set(questions.filter((q) => q.unit === f.unit).map((q) => q.category))]
+    .flatMap((c) => [1, 2, 3, 4].map((d) => ({ unit: f.unit, categories: [c], difficulties: [d] }))));
+  const few = cells.find((c) => countOf(c) > 0 && countOf(c) < 10);
+  const n = few ? countOf(few) : 0;
   assert(n > 0 && n < 10, `このテストには10問未満の条件が必要（${n}問）`);
   const s = session({ ...few, count: 10 });
-  eq(s.total, n, '★★★★の方程式の問題数');
+  eq(s.total, n, `${JSON.stringify(few)} の問題数`);
   eq(s.available, n);
-  const tiny = { unit: 'positive-negative', categories: ['累乗'], difficulties: [1] };
-  const s2 = session({ ...tiny, count: 5 });
+  const tiny = cells.filter((c) => countOf(c) > 0).sort((a, b) => countOf(a) - countOf(b))[0];
+  const s2 = session({ ...tiny, count: 10 });
   eq(s2.total, countOf(tiny));
   eq(new Set(ids(s2)).size, s2.total, '重複');
 });
@@ -320,9 +323,10 @@ test('[カテゴリ 9] カテゴリでしぼると出題できる最大数が変
   eq(session({ unit: 'positive-negative', categories: ['累乗'], count: 10 }).total, Math.min(10, n), '10問を指定したとき');
 });
 test('[カテゴリ 10] 条件に合う問題が0問なら開始できない', () => {
-  // 文字式の「文字式の表し方」には★★の問題がない
-  eq(countOf({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] }), 0, 'テストの前提');
-  throws(() => session({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2], count: 5 }), RangeError);
+  // 問題データにはすべてのカテゴリ×難易度の問題があるので、「文字式の表し方」の★★を取り除いたデータで確かめる
+  const cond = { unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] };
+  const without = questions.filter((q) => !(q.unit === 'expressions' && q.category === '文字式の表し方' && q.difficulty === 2));
+  throws(() => new G.TrainingSession(without, { ...cond, count: 5 }, G.createRng(1)), RangeError);
   throws(() => session({ unit: 'positive-negative', categories: ['ないカテゴリ'], count: 5 }), RangeError);
 });
 test('[カテゴリ 12・14] カテゴリでしぼっても重複しない。同じ seed なら同じ順番', () => {

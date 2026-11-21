@@ -334,23 +334,30 @@
   });
 
   await test('[カテゴリ 9・10・11] スライダーの最大がカテゴリで変わり、希望問題数は保持される。0問なら開始できない', async () => {
-    await configure({ unit: 'positive-negative', count: 5 });
+    // 難易度を★だけにしぼって、カテゴリ1つの問題数が希望の10問より少ない条件にする（問題データが増えても成り立つように）
+    await configure({ unit: 'positive-negative', difficulties: [1], count: 10 });
     await click('[data-action="toggle-category-all"]'); // すべて解除
     await click(catChip('累乗'));
-    const nPow = cnt({ unit: 'positive-negative', categories: ['累乗'] });
-    check(nPow < 5, 'このテストには累乗が5問未満である必要がある');
+    const nPow = cnt({ unit: 'positive-negative', categories: ['累乗'], difficulties: [1] });
+    check(nPow > 0 && nPow < 10, `このテストには累乗×★が10問未満である必要がある（${nPow}問）`);
     check($('#count-range').max === String(nPow) && $('#count-value').textContent === `${nPow}問`, `累乗だけの最大 ${$('#count-range').max} / ${$('#count-value').textContent}`);
     check($('#setting-summary').textContent.includes(`出題できる問題：${nPow}問`), $('#setting-summary').textContent);
     await click(catChip('加法・減法'));
-    const nPA = cnt({ unit: 'positive-negative', categories: ['累乗', '加法・減法'] });
-    check($('#count-range').max === String(nPA) && $('#count-value').textContent === `${Math.min(5, nPA)}問`, `加法・減法を足したあと ${$('#count-range').max} / ${$('#count-value').textContent}`);
+    const nPA = cnt({ unit: 'positive-negative', categories: ['累乗', '加法・減法'], difficulties: [1] });
+    check($('#count-range').max === String(nPA) && $('#count-value').textContent === `${Math.min(10, nPA)}問`, `加法・減法を足したあと ${$('#count-range').max} / ${$('#count-value').textContent}`);
     await click('[data-action="toggle-category-all"]');
-    check($('#count-range').max === String(cnt({ unit: 'positive-negative' })) && $('#count-value').textContent === '5問', '希望の5問に戻らない');
-    // 文字式の「文字式の表し方」× ★★ は0問
-    check(cnt({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] }) === 0, 'テストの前提（0問の条件）が崩れている');
+    check($('#count-range').max === String(cnt({ unit: 'positive-negative', difficulties: [1] })) && $('#count-value').textContent === '10問', '希望の10問に戻らない');
+    // 0問の条件：問題データにはすべてのカテゴリ×難易度の問題があるので、「文字式の表し方」×★★ を一時的に取り除いて確かめる
+    const all = app().questions;
+    const saved = all.slice();
+    for (let i = all.length - 1; i >= 0; i--) if (all[i].unit === 'expressions' && all[i].category === '文字式の表し方' && all[i].difficulty === 2) all.splice(i, 1);
+    check(cnt({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] }) === 0, 'テストの前提（0問の条件）をつくれない');
     await configure({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2], count: 5 });
     check($('#start-btn').disabled && $('#count-range').disabled && $('#count-value').textContent === '0問', '0問なのに開始できる');
     check($('#setting-summary').textContent.includes('出題できる問題がありません'), `メッセージ: ${$('#setting-summary').textContent}`);
+    all.length = 0; saved.forEach((q) => all.push(q)); // 元に戻す
+    await configure({ unit: 'expressions', count: 5 });
+    check(!$('#start-btn').disabled, '問題データを元に戻したのに開始できない');
   });
 
   await test('[カテゴリ 8・12・13] 出題はカテゴリと難易度の両方に一致し、重複しない。再挑戦・単元選択に戻るで設定が引き継がれる', async () => {
@@ -387,9 +394,10 @@
   });
 
   await test('[5] 条件に合う問題が少ないときは、スライダーの最大がその数になり、その数だけ出題する', async () => {
-    await configure({ unit: 'equation', difficulties: [4], count: 10 });
-    const n4 = cnt({ unit: 'equation', difficulties: [4] });
-    check(n4 < 10, 'このテストには10問未満の条件が必要');
+    // カテゴリ×難易度を1つにしぼると、希望の10問より少なくなる（問題データが増えても成り立つように）
+    await configure({ unit: 'equation', categories: ['移項'], difficulties: [4], count: 10 });
+    const n4 = cnt({ unit: 'equation', categories: ['移項'], difficulties: [4] });
+    check(n4 > 0 && n4 < 10, `このテストには10問未満の条件が必要（${n4}問）`);
     check($('#count-range').max === String(n4) && $('#count-value').textContent === `${n4}問`, `最大 ${$('#count-range').max}`);
     check($('#setting-summary').textContent.includes(`出題できる問題：${n4}問`), $('#setting-summary').textContent);
     await click('#start-btn');
@@ -866,6 +874,11 @@
     check(sum.score === s.results.reduce((a, r) => a + r.points, 0) && sum.wrong === 0 && sum.maxStreak === sum.correct, '得点の集計');
     check($('#ta-result-body').textContent.includes(`${sum.score}`) && $('#ta-result-body').textContent.includes('初めての公式記録'), '結果画面のスコア');
     check($('#ta-result-body').textContent.includes(`称号：${w.TimeAttack.titleForScore(sum.score)}`), '称号の表示');
+    check(/称号：(🔰|✏️|🔍|📘|⚡|🏅|💥|🎯|🌟|👑)/u.test($('#ta-result-body').textContent), '称号にアイコンがない');
+    // 公式は決められた難易度の順に出題する（1→2→1→2→3→1→2→3→4→2→3→4、以降3→4）
+    const diffs = s.results.map((r) => r.question.difficulty);
+    check(diffs.length >= 5 && diffs.every((d, i) => d === w.TimeAttack.officialDifficultyAt(i)), `公式の難易度の順: ${diffs.join(',')}`);
+    check(diffs[4] === 3, '5問目が★★★ではない');
     const taTalk = checkTalk('#ta-result-body', 'ta-best', 'タイムアタック（初記録）');
     const rec = recs().officialFor('equation');
     check(rec.bestScore === sum.score && rec.plays === 1 && rec.maxStreak === sum.maxStreak, `公式記録 ${JSON.stringify(rec)}`);
@@ -1068,10 +1081,10 @@
     await click('[data-action="quit"]');
     await click('[data-action="quit-confirm"]');
     check(visible('cert-list') && recs().certFor('equation').exams['2'].attempts === 1, '途中でやめた試験が記録された');
-    // 問題が足りない状態をつくる（★の方程式を一時的に減らす）
+    // 問題が足りない状態をつくる（★の方程式を一時的に2問だけにする。第1試験は★が5問必要なので3問不足）
     const all = app().questions;
     const saved = all.slice();
-    const removeIdx = all.map((q, i) => (q.unit === 'equation' && q.difficulty === 1 ? i : -1)).filter((i) => i >= 0).slice(0, 3);
+    const removeIdx = all.map((q, i) => (q.unit === 'equation' && q.difficulty === 1 ? i : -1)).filter((i) => i >= 0).slice(2);
     removeIdx.reverse().forEach((i) => all.splice(i, 1));
     await click('[data-action="go-cert-list"]');
     check(examCard(1).textContent.includes('★の問題が3問不足しているため、現在この試験には挑戦できません。'), `不足の表示: ${examCard(1).textContent.replace(/\s+/g, ' ')}`);
@@ -1168,6 +1181,10 @@
         w.__calcTeacher.setDialogueRng(() => vals[k++ % 2]);
         w.__calcTeacher.rerenderTitleTalk();
         const t = checkTalk('#title-talk', 'title', `タイトル「${text}」`);
+        // どのセリフでも（2行になっても）右上の「設定」ボタンと重ならない
+        const tr = $('#title-talk .student-talk').getBoundingClientRect();
+        const or = $('.title-options').getBoundingClientRect();
+        check(tr.top >= or.bottom + 2 || tr.right <= or.left - 2, `「${text}」が設定ボタンと重なる（吹き出しの上 ${Math.round(tr.top)}・ボタンの下 ${Math.round(or.bottom)}）`);
         check(t.id === id && t.text === text, `${id}「${text}」にならない`);
       }
     }

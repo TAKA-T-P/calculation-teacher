@@ -136,8 +136,11 @@ test('全問題を出し終えたら並べ直して続ける。1巡の中では�
   }
 });
 test('対象が1問だけのカスタムでは、同じ問題を続けて出してよい', () => {
+  // 問題データには1問だけの条件がないので、条件に合う問題を1問だけにしたデータで確かめる
   const crit = { mode: 'custom', unit: 'expressions', categories: ['文字式の表し方'], difficulties: [1] };
-  const { s, clock } = taSession(crit);
+  const one = questions.find((q) => q.unit === 'expressions' && q.category === '文字式の表し方' && q.difficulty === 1);
+  const clock = makeClock();
+  const s = new TA.TimeAttackSession([one], crit, { rng: G.createRng(1), now: clock.now });
   eq(s.pool.length, 1);
   s.start();
   const id = s.current.id;
@@ -192,9 +195,24 @@ test('問題データ（errorLine など）を書き換えない', () => {
   for (let i = 0; i < 20; i++) { s.answer(i % 2 ? wrongChoice(s.current) : correctChoice(s.current)); clock.advance(100); s.advance(); }
   eq(JSON.stringify(questions), before);
 });
-test('称号：最高スコアに応じて決まる（暫定の基準）', () => {
-  eq([0, 499, 500, 999, 1000, 1499, 1500, 1999, 2000, 9999].map(TA.titleForScore).join(),
-    '見習い添削係,見習い添削係,ミス発見名人,ミス発見名人,スピードティーチャー,スピードティーチャー,スーパー添削先生,スーパー添削先生,神の赤ペン,神の赤ペン');
+test('称号：最高スコアに応じて10段階で決まる（境目の点数ちょうどで上がる）', () => {
+  const expected = [
+    [0, 1, '🔰見習い添削係'], [299, 1, '🔰見習い添削係'],
+    [300, 2, '✏️かけだしティーチャー'], [599, 2, '✏️かけだしティーチャー'],
+    [600, 3, '🔍ミス発見上手'], [899, 3, '🔍ミス発見上手'],
+    [900, 4, '📘一人前ティーチャー'], [1199, 4, '📘一人前ティーチャー'],
+    [1200, 5, '⚡スピードティーチャー'], [1499, 5, '⚡スピードティーチャー'],
+    [1500, 6, '🏅ベテラン添削先生'], [1799, 6, '🏅ベテラン添削先生'],
+    [1800, 7, '💥スーパー添削先生'], [2199, 7, '💥スーパー添削先生'],
+    [2200, 8, '🎯赤ペンマスター'], [2599, 8, '🎯赤ペンマスター'],
+    [2600, 9, '🌟伝説のティーチャー'], [2999, 9, '🌟伝説のティーチャー'],
+    [3000, 10, '👑神の赤ペン'], [9999, 10, '👑神の赤ペン'],
+  ];
+  expected.forEach(([score, rank, label]) => {
+    eq(TA.titleForScore(score), label, `${score}点`);
+    eq(TA.titleInfoForScore(score).rank, rank, `${score}点のランク`);
+  });
+  eq(TA.TITLES.length, 10);
 });
 
 // ================================================================ 認定試験
@@ -310,9 +328,9 @@ test('公式：最高スコアは上回ったときだけ更新。プレイ回�
   const b = r.recordOfficial('equation', { score: 600, maxStreak: 7 }, TA.titleForScore);
   eq(b.isBest, false);
   const o = r.officialFor('equation');
-  eq(o.bestScore, 800); eq(o.plays, 2); eq(o.maxStreak, 7); eq(o.title, 'ミス発見名人'); eq(o.bestDate, '2026-11-21T10:00:00.000Z');
+  eq(o.bestScore, 800); eq(o.plays, 2); eq(o.maxStreak, 7); eq(o.title, '🔍ミス発見上手'); eq(o.bestDate, '2026-11-21T10:00:00.000Z');
   const c = r.recordOfficial('equation', { score: 1200, maxStreak: 2 }, TA.titleForScore);
-  eq(c.isBest, true); eq(r.officialFor('equation').title, 'スピードティーチャー');
+  eq(c.isBest, true); eq(r.officialFor('equation').title, '⚡スピードティーチャー');
   eq(r.officialFor('expressions').bestScore, null, '単元ごとに独立');
 });
 test('カスタム：履歴は新しい順で20件まで（21件目以降は古いものから消える）。公式の記録は変わらない', () => {

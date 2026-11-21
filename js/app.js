@@ -1177,7 +1177,7 @@
         <p class="official-info__rule">ルール：<strong>全カテゴリ・全難易度（★〜★★★★）・60秒</strong>（変更できません）</p>
         <p class="official-info__best">${rec.bestScore === null
           ? 'この単元の記録はまだありません。最初の記録をつくろう！'
-          : `自己ベスト <strong>${rec.bestScore}点</strong>　称号「${esc(rec.title || TA.titleForScore(rec.bestScore))}」`}</p>`;
+          : `自己ベスト <strong>${rec.bestScore}点</strong>　称号「${esc(TA.titleForScore(rec.bestScore))}」`}</p>`;
     } else {
       const cats = categoriesOf(app.ta.unit);
       app.ta.categories = new Set([...app.ta.categories].filter((n) => cats.some((c) => c.name === n)));
@@ -1394,8 +1394,9 @@
       if (rec.firstPlay) bestHtml = '<p class="best-badge">🎉 初めての公式記録！</p>';
       else if (rec.isBest) bestHtml = `<p class="best-badge best-badge--new">🎉 自己ベスト更新！<small>（これまで ${rec.prevBest}点）</small></p>`;
       else bestHtml = `<p class="best-line">自己ベスト：${best}点</p>`;
-      const changed = rec.prevTitle && rec.prevTitle !== rec.record.title;
-      titleHtml = `<p class="ta-title">称号：<strong>${esc(rec.record.title)}</strong>${changed ? '<span class="ta-title__up">称号アップ！</span>' : ''}</p>`;
+      // 称号アップ：前回までの最高スコアの称号より、ランクが上がったとき（以前の版で保存した称号名には依存しない）
+      const changed = rec.prevBest !== null && TA.titleInfoForScore(best).rank > TA.titleInfoForScore(rec.prevBest).rank;
+      titleHtml = `<p class="ta-title">称号：<strong>${esc(TA.titleForScore(best))}</strong>${changed ? '<span class="ta-title__up">称号アップ！</span>' : ''}</p>`;
     } else {
       const cats = s.criteria.categories ? s.criteria.categories.join('・') : 'すべてのカテゴリ';
       bestHtml = `<p class="best-line">カスタム：${esc(cats)}／${difficultyText(s.criteria.difficulties)}</p>
@@ -1618,7 +1619,7 @@
             <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
             ${r.bestScore === null ? '<p class="record-card__empty">まだ記録がありません</p>' : `
             <p class="record-card__score"><span>${r.bestScore}</span>点</p>
-            <p class="record-card__title">称号「${esc(r.title || TA.titleForScore(r.bestScore))}」</p>
+            <p class="record-card__title">称号「${esc(TA.titleForScore(r.bestScore))}」</p>
             <dl class="record-card__stats">
               <div><dt>最大連続</dt><dd>${r.maxStreak}問</dd></div>
               <div><dt>プレイ回数</dt><dd>${r.plays}回</dd></div>

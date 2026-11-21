@@ -1,13 +1,15 @@
 {
   "name": "calculation-teacher",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
-  "description": "計算ティーチャー！ 中学生向け計算添削学習アプリ（第3段階：タイムアタック・認定試験・記録）",
+  "description": "計算ティーチャー！ 中学生向け計算添削学習アプリ（第4段階：中1の問題300問・品質検証の強化）",
   "scripts": {
     "validate": "node tools/validate-questions.js",
     "validate:verbose": "node tools/validate-questions.js --verbose",
     "validate:strict": "node tools/validate-questions.js --require-review",
-    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/test-modes.js && node tools/test-dialogue.js && node tools/test-sound.js && node tools/validate-questions.js --require-review",
+    "report:questions": "node tools/question-report.js",
+    "report:questions:strict": "node tools/question-report.js --strict",
+    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/test-modes.js && node tools/test-dialogue.js && node tools/test-stage4.js && node tools/test-sound.js && node tools/validate-questions.js --require-review",
     "test:ui": "node tools/test-ui.js",
     "review:stamp": "node tools/review-stamp.js",
     "review:list": "node tools/review-stamp.js --list",

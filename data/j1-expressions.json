@@ -361,6 +361,2073 @@
         "=\\frac{5}{2}"
       ],
       "hint": "$\\left(-\\frac{1}{2}\\right)^2$ の符号は、$+$ と $-$ のどちらですか？"
+    },
+    {
+      "id": "J1-EX-0016",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times a\\times a\\times b",
+      "answerLines": [
+        "a\\times a\\times a\\times b",
+        "=3ab"
+      ],
+      "errorLine": 1,
+      "errorType": "同じ文字の積を、文字の個数を係数にして表した誤り",
+      "explanation": "同じ文字の積は指数を使って表します。$a$ を $3$ 回かけているので $a^3$ で、答えは $a^3b$ です。$3a$ は $a+a+a$ のことなので、$a\\times a\\times a$ を $3a$ と書くのは誤りです。",
+      "correctSolution": [
+        "a\\times a\\times a\\times b",
+        "=a^3b"
+      ],
+      "hint": "$a\\times a\\times a$ は $a$ を何回かけていますか？ それは $3a$ と同じですか？"
+    },
+    {
+      "id": "J1-EX-0017",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\div3",
+      "answerLines": [
+        "x\\div3",
+        "=\\frac{3}{x}"
+      ],
+      "errorLine": 1,
+      "errorType": "わる数を分子にした誤り",
+      "explanation": "わり算は、わられる数を分子、わる数を分母にした分数の形で表します。$x\\div3=\\frac{x}{3}$ です。$\\frac{3}{x}$ は $3\\div x$ のことなので誤りです。",
+      "correctSolution": [
+        "x\\div3",
+        "=\\frac{x}{3}"
+      ],
+      "hint": "$6\\div3$ を分数で表すと $\\frac{6}{3}$ です。では $x\\div3$ はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0018",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "y\\times(-4)+x\\div2",
+      "answerLines": [
+        "y\\times(-4)+x\\div2",
+        "=-4y+x\\times\\frac{1}{2}",
+        "=-4y+2x"
+      ],
+      "errorLine": 2,
+      "errorType": "÷2 を ×2 と取り違えた誤り",
+      "explanation": "$x\\times\\frac{1}{2}$ は $x$ を $2$ でわることなので、$\\frac{x}{2}$ です。$2x$ は $x\\times2$ のことなので誤りです。$y\\times(-4)=-4y$ と、$\\div2$ を $\\times\\frac{1}{2}$ に直したところは正しくできています。",
+      "correctSolution": [
+        "y\\times(-4)+x\\div2",
+        "=-4y+\\frac{x}{2}"
+      ],
+      "hint": "$x\\times\\frac{1}{2}$ は、$x$ を2倍することですか、半分にすることですか？"
+    },
+    {
+      "id": "J1-EX-0019",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "(x+y)\\div4",
+      "answerLines": [
+        "(x+y)\\div4",
+        "=(x+y)\\times\\frac{1}{4}",
+        "=x+\\frac{y}{4}"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの式をわるとき、一部の項だけをわった誤り",
+      "explanation": "$(x+y)\\div4$ は、$x+y$ 全体を $4$ でわるので $\\frac{x+y}{4}$ です。$x+\\frac{y}{4}$ では $y$ だけを $4$ でわったことになり、誤りです。分子の $x+y$ にはかっこをつけなくてもかまいません。",
+      "correctSolution": [
+        "(x+y)\\div4",
+        "=\\frac{x+y}{4}"
+      ],
+      "hint": "$4$ でわるのは、$y$ だけですか、$x+y$ 全体ですか？"
+    },
+    {
+      "id": "J1-EX-0020",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\times x\\times(-1)\\times y",
+      "answerLines": [
+        "x\\times x\\times(-1)\\times y",
+        "=-x^2y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x\\times x=x^2$ と指数で表し、$-1$ をかけることは「$-$」をつけて表します（$-1x^2y$ とは書きません）。文字は数のあとに、アルファベット順に並べています。",
+      "correctSolution": [
+        "x\\times x\\times(-1)\\times y",
+        "=-x^2y"
+      ],
+      "hint": "$\\times(-1)$ はどのように表しますか？ 同じ文字の積の表し方も確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0021",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 1,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times5-b\\div3",
+      "answerLines": [
+        "a\\times5-b\\div3",
+        "=5a-\\frac{b}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。数と文字の積は数を前に書いて $5a$、わり算は分数で表して $\\frac{b}{3}$ です。ひき算の記号「$-$」は省略しません。",
+      "correctSolution": [
+        "a\\times5-b\\div3",
+        "=5a-\\frac{b}{3}"
+      ],
+      "hint": "かけ算の記号は省略できますが、ひき算の記号はどうでしょうか？"
+    },
+    {
+      "id": "J1-EX-0022",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\div b\\times c",
+      "answerLines": [
+        "a\\div b\\times c",
+        "=\\frac{a}{bc}"
+      ],
+      "errorLine": 1,
+      "errorType": "÷ のあとの × の文字まで分母に入れた誤り",
+      "explanation": "$a\\div b\\times c$ は、左から順に $a\\div b=\\frac{a}{b}$、それに $c$ をかけるので $\\frac{a}{b}\\times c=\\frac{ac}{b}$ です。$c$ を分母に入れた $\\frac{a}{bc}$ は $a\\div b\\div c$ のことなので誤りです。",
+      "correctSolution": [
+        "a\\div b\\times c",
+        "=a\\times\\frac{1}{b}\\times c",
+        "=\\frac{ac}{b}"
+      ],
+      "hint": "$\\div b$ を $\\times\\frac{1}{b}$ に直してみましょう。$c$ は分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J1-EX-0023",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "5\\div(x+y)",
+      "answerLines": [
+        "5\\div(x+y)",
+        "=\\frac{5}{x}+y"
+      ],
+      "errorLine": 1,
+      "errorType": "かっこの式でわるとき、分母にかっこの一部しか入れなかった誤り",
+      "explanation": "$5\\div(x+y)$ は、$5$ を $x+y$ 全体でわるので $\\frac{5}{x+y}$ です。$\\frac{5}{x}+y$ では $x$ だけでわって、あとで $y$ をたしたことになり、誤りです。",
+      "correctSolution": [
+        "5\\div(x+y)",
+        "=\\frac{5}{x+y}"
+      ],
+      "hint": "わる数は $x$ だけですか、$x+y$ 全体ですか？"
+    },
+    {
+      "id": "J1-EX-0024",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "m\\times m\\times(-3)\\div n",
+      "answerLines": [
+        "m\\times m\\times(-3)\\div n",
+        "=-3m^2\\div n",
+        "=-3m^2n"
+      ],
+      "errorLine": 2,
+      "errorType": "÷ を × と取り違えた誤り",
+      "explanation": "$\\div n$ は分母に $n$ を書いて表すので、$-3m^2\\div n=-\\frac{3m^2}{n}$ です。$-3m^2n$ は $\\times n$ のことなので誤りです。$m\\times m\\times(-3)=-3m^2$ は正しくできています。",
+      "correctSolution": [
+        "m\\times m\\times(-3)\\div n",
+        "=-\\frac{3m^2}{n}"
+      ],
+      "hint": "$\\div n$ を省略して書くと、$n$ は分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J1-EX-0025",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "(a-b)\\times(-2)",
+      "answerLines": [
+        "(a-b)\\times(-2)",
+        "=-2\\times(a-b)",
+        "=-2a-b"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこをつけ忘れた誤り",
+      "explanation": "$-2\\times(a-b)$ は、かっこをつけたまま $-2(a-b)$ と表します。$-2a-b$ では、$-2$ を $a$ にしかかけていないことになり、誤りです。数をかっこの前に出したところは正しくできています。",
+      "correctSolution": [
+        "(a-b)\\times(-2)",
+        "=-2(a-b)"
+      ],
+      "hint": "$-2$ をかけているのは、$a$ だけですか、$a-b$ 全体ですか？"
+    },
+    {
+      "id": "J1-EX-0026",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\div2\\times y\\div3",
+      "answerLines": [
+        "x\\div2\\times y\\div3",
+        "=x\\times\\frac{1}{2}\\times y\\times\\frac{1}{3}",
+        "=\\frac{xy}{2\\times3}",
+        "=\\frac{xy}{5}"
+      ],
+      "errorLine": 3,
+      "errorType": "分母の数どうしをたしてしまった誤り",
+      "explanation": "分母の $2\\times3$ はかけ算なので $6$ です。$\\frac{xy}{5}$ としたところが誤りで、正しくは $\\frac{xy}{6}$ です。わり算を逆数のかけ算に直したところと、$x$ と $y$ を分子に、$2$ と $3$ を分母にまとめたところは正しくできています。",
+      "correctSolution": [
+        "x\\div2\\times y\\div3",
+        "=x\\times\\frac{1}{2}\\times y\\times\\frac{1}{3}",
+        "=\\frac{xy}{2\\times3}",
+        "=\\frac{xy}{6}"
+      ],
+      "hint": "分母の $2\\times3$ を計算するといくつですか？"
+    },
+    {
+      "id": "J1-EX-0027",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 2,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times b\\div(-3)",
+      "answerLines": [
+        "a\\times b\\div(-3)",
+        "=ab\\times\\left(-\\frac{1}{3}\\right)",
+        "=-\\frac{ab}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\div(-3)$ を $\\times\\left(-\\frac{1}{3}\\right)$ に直し、符号の「$-$」を分数の前に出して $-\\frac{ab}{3}$ と表しています。",
+      "correctSolution": [
+        "a\\times b\\div(-3)",
+        "=ab\\times\\left(-\\frac{1}{3}\\right)",
+        "=-\\frac{ab}{3}"
+      ],
+      "hint": "負の数でわるときの符号を、分数のどこに書くか確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0028",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\div y\\div z\\times2",
+      "answerLines": [
+        "x\\div y\\div z\\times2",
+        "=\\frac{2xz}{y}"
+      ],
+      "errorLine": 1,
+      "errorType": "わり算が続くとき、2つ目のわる数を分子にした誤り",
+      "explanation": "わり算が続くときは、どちらのわる数も分母に入ります。$x\\div y\\div z\\times2=x\\times\\frac{1}{y}\\times\\frac{1}{z}\\times2=\\frac{2x}{yz}$ です。$z$ を分子に入れたところが誤りです。",
+      "correctSolution": [
+        "x\\div y\\div z\\times2",
+        "=x\\times\\frac{1}{y}\\times\\frac{1}{z}\\times2",
+        "=\\frac{2x}{yz}"
+      ],
+      "hint": "$\\div z$ を逆数のかけ算に直すと、$z$ は分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J1-EX-0029",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a-b\\div2\\times c",
+      "answerLines": [
+        "a-b\\div2\\times c",
+        "=\\frac{(a-b)c}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "ひき算の項まで分子に入れた誤り（計算の順序）",
+      "explanation": "わり算とかけ算は、ひき算より先に計算します。$b\\div2\\times c=\\frac{bc}{2}$ なので、答えは $a-\\frac{bc}{2}$ です。$a-b$ を先にひとまとまりにして $\\frac{(a-b)c}{2}$ としたところが誤りです。",
+      "correctSolution": [
+        "a-b\\div2\\times c",
+        "=a-\\frac{bc}{2}"
+      ],
+      "hint": "$a-b\\div2\\times c$ では、ひき算とわり算・かけ算のどちらを先に計算しますか？"
+    },
+    {
+      "id": "J1-EX-0030",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "0.1\\times x\\times y\\div(-1)",
+      "answerLines": [
+        "0.1\\times x\\times y\\div(-1)",
+        "=0.1xy\\div(-1)",
+        "=0.1xy"
+      ],
+      "errorLine": 2,
+      "errorType": "-1 でわるときの符号ミス",
+      "explanation": "$-1$ でわると符号が変わるので、$0.1xy\\div(-1)=-0.1xy$ です。符号を変えずに $0.1xy$ としたところが誤りです。$0.1$ は省略せずに $0.1xy$ と書くので、$0.1\\times x\\times y=0.1xy$ は正しくできています（$0.1$ の $1$ を省略して $0.xy$ とは書きません）。",
+      "correctSolution": [
+        "0.1\\times x\\times y\\div(-1)",
+        "=-0.1xy"
+      ],
+      "hint": "$\\div(-1)$ をすると、式の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0031",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "(x+1)\\div3-y\\times y\\times4",
+      "answerLines": [
+        "(x+1)\\div3-y\\times y\\times4",
+        "=(x+1)\\times\\frac{1}{3}-4\\times y\\times y",
+        "=\\frac{x+1}{3}-4y\\times y",
+        "=\\frac{x+1}{3}-(4y)^2"
+      ],
+      "errorLine": 3,
+      "errorType": "係数まで2乗した表し方の誤り",
+      "explanation": "$4y\\times y$ で2乗になるのは $y$ だけなので、$4y^2$ と表します。$(4y)^2$ は $4y\\times4y=16y^2$ のことなので誤りです。$(x+1)\\div3=\\frac{x+1}{3}$ は正しくできています。",
+      "correctSolution": [
+        "(x+1)\\div3-y\\times y\\times4",
+        "=(x+1)\\times\\frac{1}{3}-4\\times y\\times y",
+        "=\\frac{x+1}{3}-4y\\times y",
+        "=\\frac{x+1}{3}-4y^2"
+      ],
+      "hint": "$(4y)^2$ と $4y^2$ は同じですか？ 2乗しているのはどの部分でしょうか。"
+    },
+    {
+      "id": "J1-EX-0032",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "(a+b)\\times(a+b)\\div2",
+      "answerLines": [
+        "(a+b)\\times(a+b)\\div2",
+        "=\\frac{(a+b)^2}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。同じ式 $(a+b)$ を $2$ 回かけているので、かっこのまま指数を使って $(a+b)^2$ と表します。$\\div2$ は分母に $2$ を書いて表しています。",
+      "correctSolution": [
+        "(a+b)\\times(a+b)\\div2",
+        "=\\frac{(a+b)^2}{2}"
+      ],
+      "hint": "かっこの式どうしの積も、同じ文字の積と同じように指数で表せます。"
+    },
+    {
+      "id": "J1-EX-0033",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 3,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\times(-0.3)-y\\div\\frac{1}{2}",
+      "answerLines": [
+        "x\\times(-0.3)-y\\div\\frac{1}{2}",
+        "=-0.3x-y\\times2",
+        "=-0.3x-2y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x\\times(-0.3)=-0.3x$ です。$\\div\\frac{1}{2}$ は逆数の $2$ をかけることなので、$y\\div\\frac{1}{2}=2y$ になります。",
+      "correctSolution": [
+        "x\\times(-0.3)-y\\div\\frac{1}{2}",
+        "=-0.3x-y\\times2",
+        "=-0.3x-2y"
+      ],
+      "hint": "$\\frac{1}{2}$ でわることは、どんな数をかけることと同じですか？"
+    },
+    {
+      "id": "J1-EX-0034",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\div\\frac{2}{3}\\times b",
+      "answerLines": [
+        "a\\div\\frac{2}{3}\\times b",
+        "=\\frac{2ab}{3}"
+      ],
+      "errorLine": 1,
+      "errorType": "分数でわるとき逆数にしていない",
+      "explanation": "分数でわるときは、逆数をかけます。$\\div\\frac{2}{3}$ は $\\times\\frac{3}{2}$ なので、$a\\times\\frac{3}{2}\\times b=\\frac{3ab}{2}$ です。$\\frac{2}{3}$ をそのままかけて $\\frac{2ab}{3}$ としたところが誤りです。",
+      "correctSolution": [
+        "a\\div\\frac{2}{3}\\times b",
+        "=a\\times\\frac{3}{2}\\times b",
+        "=\\frac{3ab}{2}"
+      ],
+      "hint": "$\\frac{2}{3}$ でわることは、どんな数をかけることと同じですか？"
+    },
+    {
+      "id": "J1-EX-0035",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "(x-y)\\div(-2)\\times z",
+      "answerLines": [
+        "(x-y)\\div(-2)\\times z",
+        "=(x-y)\\times\\left(-\\frac{1}{2}\\right)\\times z",
+        "=-\\frac{x-y}{2z}"
+      ],
+      "errorLine": 2,
+      "errorType": "わり算を逆数のかけ算に直したあと、かける文字を分母に入れた誤り",
+      "explanation": "$\\times z$ の $z$ は分子に入るので、$-\\frac{(x-y)z}{2}$ です。$z$ を分母に入れた $-\\frac{x-y}{2z}$ は $(x-y)\\div(-2)\\div z$ のことなので誤りです。$\\div(-2)$ を $\\times\\left(-\\frac{1}{2}\\right)$ に直したところは正しくできています。",
+      "correctSolution": [
+        "(x-y)\\div(-2)\\times z",
+        "=-\\frac{(x-y)z}{2}"
+      ],
+      "hint": "$\\times z$ の $z$ は、分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J1-EX-0036",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times(-1)\\div b\\div b+c\\times0.5",
+      "answerLines": [
+        "a\\times(-1)\\div b\\div b+c\\times0.5",
+        "=-a\\div b\\div b+0.5c",
+        "=-\\frac{a}{2b}+0.5c"
+      ],
+      "errorLine": 2,
+      "errorType": "同じ文字の積を係数で表した誤り",
+      "explanation": "$\\div b\\div b$ は $b$ で $2$ 回わるので、分母は $b\\times b=b^2$ になり、$-\\frac{a}{b^2}$ です。$2b$ は $b+b$ のことなので、分母を $2b$ としたところが誤りです。$a\\times(-1)=-a$、$c\\times0.5=0.5c$ は正しくできています。",
+      "correctSolution": [
+        "a\\times(-1)\\div b\\div b+c\\times0.5",
+        "=-\\frac{a}{b^2}+0.5c"
+      ],
+      "hint": "$b$ で $2$ 回わると、分母は $b$ を何回かけたものになりますか？"
+    },
+    {
+      "id": "J1-EX-0037",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\div\\left(-\\frac{1}{4}\\right)-3\\div y\\times x",
+      "answerLines": [
+        "x\\div\\left(-\\frac{1}{4}\\right)-3\\div y\\times x",
+        "=x\\times(-4)-3\\times\\frac{1}{y}\\times x",
+        "=-4x-\\frac{3}{y}\\times x",
+        "=-4x-\\frac{3}{xy}"
+      ],
+      "errorLine": 3,
+      "errorType": "分数にかける文字を分母に入れた誤り",
+      "explanation": "$\\frac{3}{y}\\times x$ は、$x$ を分子にかけるので $\\frac{3x}{y}$ です。$x$ を分母に入れた $\\frac{3}{xy}$ は誤りです。$\\div\\left(-\\frac{1}{4}\\right)$ を $\\times(-4)$ に直して $-4x$ としたところは正しくできています。",
+      "correctSolution": [
+        "x\\div\\left(-\\frac{1}{4}\\right)-3\\div y\\times x",
+        "=x\\times(-4)-3\\times\\frac{1}{y}\\times x",
+        "=-4x-\\frac{3}{y}\\times x",
+        "=-4x-\\frac{3x}{y}"
+      ],
+      "hint": "$\\frac{3}{y}\\times x$ で、$x$ は分子と分母のどちらにかかりますか？"
+    },
+    {
+      "id": "J1-EX-0038",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "a\\times b\\div c\\times(-2)\\div d",
+      "answerLines": [
+        "a\\times b\\div c\\times(-2)\\div d",
+        "=ab\\times\\frac{1}{c}\\times(-2)\\times\\frac{1}{d}",
+        "=-\\frac{2ab}{cd}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わり算を逆数のかけ算に直すと、$c$ と $d$ は分母、$a$、$b$、$2$ は分子に入ります。負の数は $-2$ だけなので、符号は「$-$」です。",
+      "correctSolution": [
+        "a\\times b\\div c\\times(-2)\\div d",
+        "=ab\\times\\frac{1}{c}\\times(-2)\\times\\frac{1}{d}",
+        "=-\\frac{2ab}{cd}"
+      ],
+      "hint": "わる文字はすべて分母に入ります。かける数・文字は分子です。"
+    },
+    {
+      "id": "J1-EX-0039",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$x=-2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-2"
+      },
+      "question": "5x+3",
+      "answerLines": [
+        "5x+3",
+        "=5-2+3",
+        "=6"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数を代入するとき、かっこと × を補わなかった誤り",
+      "explanation": "$5x$ は $5\\times x$ のことなので、$x=-2$ を代入すると $5\\times(-2)$ です。$\\times$ とかっこを補わずに $5-2$ と書くと、ひき算になってしまい誤りです。正しくは $5\\times(-2)+3=-10+3=-7$ です。",
+      "correctSolution": [
+        "5x+3",
+        "=5\\times(-2)+3",
+        "=-10+3",
+        "=-7"
+      ],
+      "hint": "$5x$ の $x$ に $-2$ を代入するとき、省略されている記号は何ですか？"
+    },
+    {
+      "id": "J1-EX-0040",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$a=4$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "4"
+      },
+      "question": "-3a+10",
+      "answerLines": [
+        "-3a+10",
+        "=-3\\times4+10",
+        "=12+10",
+        "=22"
+      ],
+      "errorLine": 2,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$-3\\times4$ は、正の数と負の数の積なので符号は「$-$」で $-12$ です。$12$ としたところが誤りです。代入した式 $-3\\times4+10$ は正しくできています。正しくは $-12+10=-2$ です。",
+      "correctSolution": [
+        "-3a+10",
+        "=-3\\times4+10",
+        "=-12+10",
+        "=-2"
+      ],
+      "hint": "$-3\\times4$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0041",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$y=-5$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "y": "-5"
+      },
+      "question": "2y+15",
+      "answerLines": [
+        "2y+15",
+        "=2\\times(-5)+15",
+        "=-10+15",
+        "=-5"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-10+15$ は、絶対値の大きい $+15$ の符号になるので $5$ です。$-5$ としたところが誤りです。かっこをつけて代入し、$2\\times(-5)=-10$ としたところは正しくできています。",
+      "correctSolution": [
+        "2y+15",
+        "=2\\times(-5)+15",
+        "=-10+15",
+        "=5"
+      ],
+      "hint": "$-10+15$ は、正の数と負の数のどちらになりますか？"
+    },
+    {
+      "id": "J1-EX-0042",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$x=-1$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-1"
+      },
+      "question": "4-x",
+      "answerLines": [
+        "4-x",
+        "=4-(-1)",
+        "=4+1",
+        "=5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数を代入するときは、かっこをつけて $4-(-1)$ とします。負の数をひくので $4+1=5$ です。",
+      "correctSolution": [
+        "4-x",
+        "=4-(-1)",
+        "=4+1",
+        "=5"
+      ],
+      "hint": "かっこをつけて代入できているか、$-(-1)$ のはずし方を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0043",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$a=-6$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-6"
+      },
+      "question": "\\frac{a}{3}+1",
+      "answerLines": [
+        "\\frac{a}{3}+1",
+        "=\\frac{-6}{3}+1",
+        "=-2+1",
+        "=-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{a}{3}$ は $a\\div3$ のことなので、$\\frac{-6}{3}=-6\\div3=-2$ です。$-2+1=-1$ です。",
+      "correctSolution": [
+        "\\frac{a}{3}+1",
+        "=\\frac{-6}{3}+1",
+        "=-2+1",
+        "=-1"
+      ],
+      "hint": "$\\frac{a}{3}$ は、$a$ をどうする計算ですか？"
+    },
+    {
+      "id": "J1-EX-0044",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$x=-3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-3"
+      },
+      "question": "x^2+4",
+      "answerLines": [
+        "x^2+4",
+        "=-3^2+4",
+        "=-9+4",
+        "=-5"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数を代入するときにかっこをつけなかった誤り",
+      "explanation": "負の数を代入するときは、かっこをつけて $(-3)^2$ とします。$-3^2$ と書くと $3^2$ に「$-$」をつけた $-9$ になってしまい、誤りです。正しくは $(-3)^2+4=9+4=13$ です。",
+      "correctSolution": [
+        "x^2+4",
+        "=(-3)^2+4",
+        "=9+4",
+        "=13"
+      ],
+      "hint": "$x^2$ の $x$ に $-3$ を代入するとき、かっこは必要ですか？"
+    },
+    {
+      "id": "J1-EX-0045",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$a=-2$、$b=3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-2",
+        "b": "3"
+      },
+      "question": "3a-2b",
+      "answerLines": [
+        "3a-2b",
+        "=3\\times(-2)-2\\times3",
+        "=-6+6",
+        "=0"
+      ],
+      "errorLine": 2,
+      "errorType": "ひく項の符号の処理ミス",
+      "explanation": "$-2\\times3$ は $-6$ なので、$3\\times(-2)-2\\times3=-6-6$ です。うしろの項を $+6$ としたところが誤りです。代入した式と $3\\times(-2)=-6$ は正しくできています。正しくは $-6-6=-12$ です。",
+      "correctSolution": [
+        "3a-2b",
+        "=3\\times(-2)-2\\times3",
+        "=-6-6",
+        "=-12"
+      ],
+      "hint": "$-2\\times3$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0046",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$x=-4$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-4"
+      },
+      "question": "\\frac{12}{x}-x",
+      "answerLines": [
+        "\\frac{12}{x}-x",
+        "=\\frac{12}{-4}-(-4)",
+        "=-3-(-4)",
+        "=-3-4",
+        "=-7"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をひくときの符号ミス",
+      "explanation": "$-3-(-4)$ は、負の数をひくので $-3+4=1$ です。$-3-4$ としたところが誤りです。かっこをつけて代入したところと、$\\frac{12}{-4}=-3$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{12}{x}-x",
+        "=\\frac{12}{-4}-(-4)",
+        "=-3-(-4)",
+        "=-3+4",
+        "=1"
+      ],
+      "hint": "$-(-4)$ のかっこをはずすと、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0047",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$x=\\frac{1}{2}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "\\frac{1}{2}"
+      },
+      "question": "4x^2-6x",
+      "answerLines": [
+        "4x^2-6x",
+        "=4\\times\\left(\\frac{1}{2}\\right)^2-6\\times\\frac{1}{2}",
+        "=4\\times\\frac{1}{4}-3",
+        "=1-3",
+        "=2"
+      ],
+      "errorLine": 4,
+      "errorType": "最後のひき算で答えの符号を誤った",
+      "explanation": "$1-3$ は、ひく数のほうが大きいので答えは負の数になり、$-2$ です。$2$ としたところが誤りです。分数を代入した式、$\\left(\\frac{1}{2}\\right)^2=\\frac{1}{4}$、$4\\times\\frac{1}{4}=1$、$6\\times\\frac{1}{2}=3$ はどれも正しくできています。",
+      "correctSolution": [
+        "4x^2-6x",
+        "=4\\times\\left(\\frac{1}{2}\\right)^2-6\\times\\frac{1}{2}",
+        "=4\\times\\frac{1}{4}-3",
+        "=1-3",
+        "=-2"
+      ],
+      "hint": "最後の $1-3$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0048",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$x=-2$、$y=5$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-2",
+        "y": "5"
+      },
+      "question": "xy-y",
+      "answerLines": [
+        "xy-y",
+        "=(-2)\\times5-5",
+        "=-10-5",
+        "=-5"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数どうしの和を差で計算した誤り",
+      "explanation": "$-10-5$ は、絶対値をたして $-15$ です。$10-5$ のように差を求めて $-5$ としたところが誤りです。$xy=(-2)\\times5=-10$ は正しくできています。",
+      "correctSolution": [
+        "xy-y",
+        "=(-2)\\times5-5",
+        "=-10-5",
+        "=-15"
+      ],
+      "hint": "$-10-5$ の答えは、$-10$ より大きくなりますか、小さくなりますか？"
+    },
+    {
+      "id": "J1-EX-0049",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 2,
+      "instruction": "$a=-3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-3"
+      },
+      "question": "a^3+10",
+      "answerLines": [
+        "a^3+10",
+        "=(-3)^3+10",
+        "=-27+10",
+        "=-17"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこをつけて代入し、$(-3)^3=(-3)\\times(-3)\\times(-3)=-27$（負の数を奇数個かけるので「$-$」）です。$-27+10=-17$ です。",
+      "correctSolution": [
+        "a^3+10",
+        "=(-3)^3+10",
+        "=-27+10",
+        "=-17"
+      ],
+      "hint": "$(-3)^3$ の符号は、$-3$ を何回かけるかで決まります。"
+    },
+    {
+      "id": "J1-EX-0050",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$x=-\\frac{1}{3}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-\\frac{1}{3}"
+      },
+      "question": "6x-9x^2",
+      "answerLines": [
+        "6x-9x^2",
+        "=6\\times\\left(-\\frac{1}{3}\\right)-9\\times\\left(-\\frac{1}{3}\\right)^2",
+        "=-2+1",
+        "=-1"
+      ],
+      "errorLine": 2,
+      "errorType": "2乗した値を代入したあとの符号ミス",
+      "explanation": "$\\left(-\\frac{1}{3}\\right)^2=\\frac{1}{9}$ なので、$-9\\times\\frac{1}{9}=-1$ です。$+1$ としたところが誤りです。2乗した値は正の数ですが、前の「$-9$」の符号はそのまま残ります。$6\\times\\left(-\\frac{1}{3}\\right)=-2$ は正しくできています。正しくは $-2-1=-3$ です。",
+      "correctSolution": [
+        "6x-9x^2",
+        "=6\\times\\left(-\\frac{1}{3}\\right)-9\\times\\left(-\\frac{1}{3}\\right)^2",
+        "=-2-1",
+        "=-3"
+      ],
+      "hint": "$-9\\times\\left(-\\frac{1}{3}\\right)^2$ は、2乗を先に計算します。答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0051",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$a=-2$、$b=-3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-2",
+        "b": "-3"
+      },
+      "question": "a^2-ab+b",
+      "answerLines": [
+        "a^2-ab+b",
+        "=(-2)^2-(-2)\\times(-3)+(-3)",
+        "=4-6-3",
+        "=4-9",
+        "=-13"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和で絶対値をたした誤り",
+      "explanation": "$4-9$ は、絶対値の差 $9-4=5$ に、絶対値の大きい $-9$ の符号をつけて $-5$ です。絶対値をたして $-13$ としたところが誤りです。代入した式、$(-2)^2=4$、$-(-2)\\times(-3)=-6$、$-6-3=-9$ はどれも正しくできています。",
+      "correctSolution": [
+        "a^2-ab+b",
+        "=(-2)^2-(-2)\\times(-3)+(-3)",
+        "=4-6-3",
+        "=4-9",
+        "=-5"
+      ],
+      "hint": "$4-9$ は、$4$ と $9$ の和と差のどちらを使って計算しますか？"
+    },
+    {
+      "id": "J1-EX-0052",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$x=-0.2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-0.2"
+      },
+      "question": "5x^2-x",
+      "answerLines": [
+        "5x^2-x",
+        "=5\\times(-0.2)^2-(-0.2)",
+        "=5\\times0.04+0.2",
+        "=2+0.2",
+        "=2.2"
+      ],
+      "errorLine": 3,
+      "errorType": "小数のかけ算で小数点の位置を誤った",
+      "explanation": "$5\\times0.04$ は $5\\times4=20$ を $100$ でわった数なので、$0.2$ です。$2$ としたところが誤りです。$(-0.2)^2=0.04$、$-(-0.2)=+0.2$ は正しくできています。正しくは $0.2+0.2=0.4$ です。",
+      "correctSolution": [
+        "5x^2-x",
+        "=5\\times(-0.2)^2-(-0.2)",
+        "=5\\times0.04+0.2",
+        "=0.2+0.2",
+        "=0.4"
+      ],
+      "hint": "$5\\times0.04$ の答えは、小数点以下何けたになりますか？"
+    },
+    {
+      "id": "J1-EX-0053",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$x=-\\frac{2}{3}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-\\frac{2}{3}"
+      },
+      "question": "\\frac{3}{2}x+x^2",
+      "answerLines": [
+        "\\frac{3}{2}x+x^2",
+        "=\\frac{3}{2}\\times\\left(-\\frac{2}{3}\\right)+\\left(-\\frac{2}{3}\\right)^2",
+        "=-1+\\frac{4}{9}",
+        "=-\\frac{5}{9}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{3}{2}\\times\\left(-\\frac{2}{3}\\right)=-1$、$\\left(-\\frac{2}{3}\\right)^2=\\frac{4}{9}$ です。$-1=-\\frac{9}{9}$ なので、$-\\frac{9}{9}+\\frac{4}{9}=-\\frac{5}{9}$ になります。",
+      "correctSolution": [
+        "\\frac{3}{2}x+x^2",
+        "=\\frac{3}{2}\\times\\left(-\\frac{2}{3}\\right)+\\left(-\\frac{2}{3}\\right)^2",
+        "=-1+\\frac{4}{9}",
+        "=-\\frac{5}{9}"
+      ],
+      "hint": "分数を代入するときも、かっこをつけます。$\\left(-\\frac{2}{3}\\right)^2$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0054",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 3,
+      "instruction": "$a=3$、$b=-2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "3",
+        "b": "-2"
+      },
+      "question": "-a^2b^3",
+      "answerLines": [
+        "-a^2b^3",
+        "=-3^2\\times(-2)^3",
+        "=-9\\times(-8)",
+        "=72"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-a^2b^3$ は $a^2b^3$ に「$-$」をつけたものです。$a=3$ は正の数なので $-3^2=-9$ と書いてよく、$b=-2$ は負の数なのでかっこをつけて $(-2)^3=-8$ です。$-9\\times(-8)=72$ です。",
+      "correctSolution": [
+        "-a^2b^3",
+        "=-3^2\\times(-2)^3",
+        "=-9\\times(-8)",
+        "=72"
+      ],
+      "hint": "$a=3$ と $b=-2$ のどちらにかっこが必要ですか？ 先頭の「$-$」はどこにかかりますか？"
+    },
+    {
+      "id": "J1-EX-0055",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$x=-\\frac{1}{2}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-\\frac{1}{2}"
+      },
+      "question": "\\frac{1}{x}-4x^2",
+      "answerLines": [
+        "\\frac{1}{x}-4x^2",
+        "=1\\div\\left(-\\frac{1}{2}\\right)-4\\times\\left(-\\frac{1}{2}\\right)^2",
+        "=-\\frac{1}{2}-1",
+        "=-\\frac{3}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "分数でわるとき逆数にしていない",
+      "explanation": "$1\\div\\left(-\\frac{1}{2}\\right)$ は、逆数をかけて $1\\times(-2)=-2$ です。$-\\frac{1}{2}$ としたところが誤りです。$\\frac{1}{x}$ を $1\\div x$ と考えて代入したところと、$4\\times\\left(-\\frac{1}{2}\\right)^2=1$ は正しくできています。正しくは $-2-1=-3$ です。",
+      "correctSolution": [
+        "\\frac{1}{x}-4x^2",
+        "=1\\div\\left(-\\frac{1}{2}\\right)-4\\times\\left(-\\frac{1}{2}\\right)^2",
+        "=-2-1",
+        "=-3"
+      ],
+      "hint": "$\\frac{1}{2}$ でわることは、どんな数をかけることと同じですか？"
+    },
+    {
+      "id": "J1-EX-0056",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$a=-3$、$b=\\frac{1}{3}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-3",
+        "b": "\\frac{1}{3}"
+      },
+      "question": "ab^2-\\frac{a}{b}",
+      "answerLines": [
+        "ab^2-\\frac{a}{b}",
+        "=(-3)\\times\\left(\\frac{1}{3}\\right)^2-(-3)\\div\\frac{1}{3}",
+        "=-\\frac{1}{3}-(-9)",
+        "=-\\frac{1}{3}-9",
+        "=-\\frac{28}{3}"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をひくときの符号ミス",
+      "explanation": "$-\\frac{1}{3}-(-9)$ は、負の数をひくので $-\\frac{1}{3}+9=\\frac{26}{3}$ です。$-9$ としたところが誤りです。代入した式、$(-3)\\times\\frac{1}{9}=-\\frac{1}{3}$、$(-3)\\div\\frac{1}{3}=-9$ は正しくできています。",
+      "correctSolution": [
+        "ab^2-\\frac{a}{b}",
+        "=(-3)\\times\\left(\\frac{1}{3}\\right)^2-(-3)\\div\\frac{1}{3}",
+        "=-\\frac{1}{3}-(-9)",
+        "=-\\frac{1}{3}+9",
+        "=\\frac{26}{3}"
+      ],
+      "hint": "$-(-9)$ のかっこをはずすと、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0057",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$x=-2$、$y=3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-2",
+        "y": "3"
+      },
+      "question": "\\frac{x^2y}{6}-\\frac{y^2}{x}",
+      "answerLines": [
+        "\\frac{x^2y}{6}-\\frac{y^2}{x}",
+        "=\\frac{(-2)^2\\times3}{6}-\\frac{3^2}{-2}",
+        "=\\frac{12}{6}-\\left(-\\frac{9}{2}\\right)",
+        "=2+\\frac{9}{2}",
+        "=\\frac{11}{2}"
+      ],
+      "errorLine": 4,
+      "errorType": "整数と分数のたし算で、整数を分子にたした誤り",
+      "explanation": "$2+\\frac{9}{2}$ は、$2$ を $\\frac{4}{2}$ に直して $\\frac{4}{2}+\\frac{9}{2}=\\frac{13}{2}$ です。$2$ をそのまま分子にたして $\\frac{11}{2}$ としたところが誤りです。代入した式、$\\frac{12}{6}=2$、$\\frac{9}{-2}=-\\frac{9}{2}$、$-\\left(-\\frac{9}{2}\\right)=+\\frac{9}{2}$ はどれも正しくできています。",
+      "correctSolution": [
+        "\\frac{x^2y}{6}-\\frac{y^2}{x}",
+        "=\\frac{(-2)^2\\times3}{6}-\\frac{3^2}{-2}",
+        "=\\frac{12}{6}-\\left(-\\frac{9}{2}\\right)",
+        "=2+\\frac{9}{2}",
+        "=\\frac{13}{2}"
+      ],
+      "hint": "$2+\\frac{9}{2}$ を計算するとき、$2$ はどんな分数に直せばよいですか？"
+    },
+    {
+      "id": "J1-EX-0058",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$a=0.5$、$b=-4$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "0.5",
+        "b": "-4"
+      },
+      "question": "a^2b-\\frac{b}{a}",
+      "answerLines": [
+        "a^2b-\\frac{b}{a}",
+        "=0.5^2\\times(-4)-\\frac{-4}{0.5}",
+        "=0.25\\times(-4)-(-8)",
+        "=-1+8",
+        "=-9"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和で絶対値をたした誤り",
+      "explanation": "$-1+8$ は、絶対値の大きい $+8$ の符号になり、絶対値の差 $8-1=7$ なので $7$ です。絶対値をたして $-9$ としたところが誤りです。代入した式、$0.5^2=0.25$、$0.25\\times(-4)=-1$、$\\frac{-4}{0.5}=-8$ はどれも正しくできています。",
+      "correctSolution": [
+        "a^2b-\\frac{b}{a}",
+        "=0.5^2\\times(-4)-\\frac{-4}{0.5}",
+        "=0.25\\times(-4)-(-8)",
+        "=-1+8",
+        "=7"
+      ],
+      "hint": "$-1+8$ の答えの符号と大きさを確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0059",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$x=-\\frac{3}{2}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-\\frac{3}{2}"
+      },
+      "question": "(2x+1)^2-2x",
+      "answerLines": [
+        "(2x+1)^2-2x",
+        "=\\left\\{2\\times\\left(-\\frac{3}{2}\\right)+1\\right\\}^2-2\\times\\left(-\\frac{3}{2}\\right)",
+        "=(-3+1)^2+3",
+        "=(-2)^2+3",
+        "=7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの中を先に計算して $2\\times\\left(-\\frac{3}{2}\\right)+1=-3+1=-2$、それを2乗して $(-2)^2=4$ です。$-2\\times\\left(-\\frac{3}{2}\\right)=+3$ なので、$4+3=7$ になります。",
+      "correctSolution": [
+        "(2x+1)^2-2x",
+        "=\\left\\{2\\times\\left(-\\frac{3}{2}\\right)+1\\right\\}^2-2\\times\\left(-\\frac{3}{2}\\right)",
+        "=(-3+1)^2+3",
+        "=(-2)^2+3",
+        "=7"
+      ],
+      "hint": "かっこの中を先に計算してから2乗しましょう。$-2x$ の符号にも注意しましょう。"
+    },
+    {
+      "id": "J1-EX-0060",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "5x-8+2x",
+      "answerLines": [
+        "5x-8+2x",
+        "=5x-2x-8",
+        "=3x-8"
+      ],
+      "errorLine": 1,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "項を並べかえるときは、符号もいっしょに移します。$+2x$ を前に移しても $+2x$ のままなので、正しくは $5x+2x-8$ です。$-2x$ としたところが誤りです。正しく計算すると $7x-8$ になります。",
+      "correctSolution": [
+        "5x-8+2x",
+        "=5x+2x-8",
+        "=7x-8"
+      ],
+      "hint": "並べかえる前と後で、$2x$ の項の符号は同じですか？"
+    },
+    {
+      "id": "J1-EX-0061",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "3a+4-a+2",
+      "answerLines": [
+        "3a+4-a+2",
+        "=3a-a+4+2",
+        "=3a+6"
+      ],
+      "errorLine": 2,
+      "errorType": "係数の1を見落とした誤り",
+      "explanation": "$-a$ は $-1a$ のことなので、$3a-a=(3-1)a=2a$ です。$a$ の項をひかずに $3a$ のままにしたところが誤りです。同類項を集めたところと、$4+2=6$ は正しくできています。",
+      "correctSolution": [
+        "3a+4-a+2",
+        "=3a-a+4+2",
+        "=2a+6"
+      ],
+      "hint": "$-a$ の係数はいくつですか？"
+    },
+    {
+      "id": "J1-EX-0062",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "7y-3-2y+8",
+      "answerLines": [
+        "7y-3-2y+8",
+        "=7y-2y-3+8",
+        "=5y+5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。文字の項どうし（$7y-2y=5y$）、数の項どうし（$-3+8=5$）を集めて計算しています。$5y$ と $5$ は同類項ではないので、これ以上まとめられません。",
+      "correctSolution": [
+        "7y-3-2y+8",
+        "=7y-2y-3+8",
+        "=5y+5"
+      ],
+      "hint": "文字の項と数の項を、それぞれまとめられているか確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0063",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "2x+5+3x",
+      "answerLines": [
+        "2x+5+3x",
+        "=10x"
+      ],
+      "errorLine": 1,
+      "errorType": "文字の項と数の項をまとめてしまった誤り",
+      "explanation": "$5$ は文字をふくまない数の項なので、$x$ の項とはまとめられません。$2x+3x=5x$ なので、答えは $5x+5$ です。$2+5+3=10$ として $10x$ としたところが誤りです。",
+      "correctSolution": [
+        "2x+5+3x",
+        "=2x+3x+5",
+        "=5x+5"
+      ],
+      "hint": "$5$ と $2x$ は同類項ですか？"
+    },
+    {
+      "id": "J1-EX-0064",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "-4a+9+a-12",
+      "answerLines": [
+        "-4a+9+a-12",
+        "=-4a+a+9-12",
+        "=-5a-3"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$-4a+a$ は、係数を計算して $(-4+1)a=-3a$ です。$-5a$ としたところが誤りです。同類項を集めたところと、$9-12=-3$ は正しくできています。",
+      "correctSolution": [
+        "-4a+9+a-12",
+        "=-4a+a+9-12",
+        "=-3a-3"
+      ],
+      "hint": "$-4a+a$ の係数は、$-4+1$ と $-4-1$ のどちらですか？"
+    },
+    {
+      "id": "J1-EX-0065",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "x-6-3x+2",
+      "answerLines": [
+        "x-6-3x+2",
+        "=x-3x-6+2",
+        "=-2x-6+2",
+        "=-2x-8"
+      ],
+      "errorLine": 3,
+      "errorType": "数の項をまとめるときの符号ミス",
+      "explanation": "$-6+2$ は、絶対値の差 $6-2=4$ に、絶対値の大きい $-6$ の符号をつけて $-4$ です。$-8$ としたところが誤りです。$x-3x=-2x$ は正しくできています。正しい答えは $-2x-4$ です。",
+      "correctSolution": [
+        "x-6-3x+2",
+        "=x-3x-6+2",
+        "=-2x-6+2",
+        "=-2x-4"
+      ],
+      "hint": "$-6+2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J1-EX-0066",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "5m-2-7m+6-m",
+      "answerLines": [
+        "5m-2-7m+6-m",
+        "=5m-7m-m-2+6",
+        "=5m-8m-2+6",
+        "=-3m-2+6",
+        "=3m+4"
+      ],
+      "errorLine": 4,
+      "errorType": "まとめた文字の項の符号を書き落とした誤り",
+      "explanation": "ひとつ前の行で $-3m$ とまとめているのに、最後に $3m$ と書いて「$-$」を落としたところが誤りです。正しい答えは $-3m+4$ です。同類項を集めたところ、$-7m-m=-8m$、$5m-8m=-3m$、$-2+6=4$ はどれも正しくできています。",
+      "correctSolution": [
+        "5m-2-7m+6-m",
+        "=5m-7m-m-2+6",
+        "=5m-8m-2+6",
+        "=-3m-2+6",
+        "=-3m+4"
+      ],
+      "hint": "最後の行で、$m$ の項の符号はひとつ前の行と同じですか？"
+    },
+    {
+      "id": "J1-EX-0067",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "-x+4+5x-9",
+      "answerLines": [
+        "-x+4+5x-9",
+        "=-x+5x+4-9",
+        "=4x-5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-x$ は $-1x$ のことなので、$-x+5x=(-1+5)x=4x$ です。数の項は $4-9=-5$ です。",
+      "correctSolution": [
+        "-x+4+5x-9",
+        "=-x+5x+4-9",
+        "=4x-5"
+      ],
+      "hint": "$-x$ の係数に注意して、文字の項をまとめましょう。"
+    },
+    {
+      "id": "J1-EX-0068",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 2,
+      "question": "3b-7-3b+2",
+      "answerLines": [
+        "3b-7-3b+2",
+        "=3b-3b-7+2",
+        "=-5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$3b-3b=0b=0$ なので、文字の項はなくなります。数の項は $-7+2=-5$ なので、答えは $-5$ です。文字が残らない答えになることもあります。",
+      "correctSolution": [
+        "3b-7-3b+2",
+        "=3b-3b-7+2",
+        "=-5"
+      ],
+      "hint": "$3b-3b$ はいくつになりますか？ 答えに文字が残らなくてもよいでしょうか？"
+    },
+    {
+      "id": "J1-EX-0069",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "\\frac{1}{2}x-\\frac{2}{3}x",
+      "answerLines": [
+        "\\frac{1}{2}x-\\frac{2}{3}x",
+        "=\\frac{3}{6}x-\\frac{2}{6}x",
+        "=\\frac{1}{6}x"
+      ],
+      "errorLine": 1,
+      "errorType": "通分するときに分子にかけ忘れた誤り",
+      "explanation": "$\\frac{2}{3}$ を分母が $6$ の分数に直すときは、分母と分子の両方に $2$ をかけて $\\frac{4}{6}$ にします。分子にかけ忘れて $\\frac{2}{6}$ としたところが誤りです。正しくは $\\frac{3}{6}x-\\frac{4}{6}x=-\\frac{1}{6}x$ です。",
+      "correctSolution": [
+        "\\frac{1}{2}x-\\frac{2}{3}x",
+        "=\\frac{3}{6}x-\\frac{4}{6}x",
+        "=-\\frac{1}{6}x"
+      ],
+      "hint": "$\\frac{2}{3}$ を分母が $6$ の分数に直すと、分子はいくつになりますか？"
+    },
+    {
+      "id": "J1-EX-0070",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "0.4x-1.2-1.4x+0.5",
+      "answerLines": [
+        "0.4x-1.2-1.4x+0.5",
+        "=0.4x-1.4x-1.2+0.5",
+        "=-1.8x-0.7"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$0.4x-1.4x$ は、係数を計算して $(0.4-1.4)x=-1x=-x$ です。$-1.8x$ としたところが誤りです。数の項 $-1.2+0.5=-0.7$ は正しくできています。正しい答えは $-x-0.7$ です。",
+      "correctSolution": [
+        "0.4x-1.2-1.4x+0.5",
+        "=0.4x-1.4x-1.2+0.5",
+        "=-x-0.7"
+      ],
+      "hint": "$0.4-1.4$ を計算するといくつですか？"
+    },
+    {
+      "id": "J1-EX-0071",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "\\frac{3}{4}a-2+\\frac{1}{2}a+\\frac{1}{3}",
+      "answerLines": [
+        "\\frac{3}{4}a-2+\\frac{1}{2}a+\\frac{1}{3}",
+        "=\\frac{3}{4}a+\\frac{1}{2}a-2+\\frac{1}{3}",
+        "=\\frac{3}{4}a+\\frac{2}{4}a-\\frac{6}{3}+\\frac{1}{3}",
+        "=\\frac{5}{8}a-\\frac{5}{3}"
+      ],
+      "errorLine": 3,
+      "errorType": "分数のたし算で分母どうしもたした誤り",
+      "explanation": "分母が同じ分数のたし算は、分子だけをたします。$\\frac{3}{4}a+\\frac{2}{4}a=\\frac{5}{4}a$ です。分母もたして $\\frac{5}{8}a$ としたところが誤りです。数の項 $-\\frac{6}{3}+\\frac{1}{3}=-\\frac{5}{3}$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{3}{4}a-2+\\frac{1}{2}a+\\frac{1}{3}",
+        "=\\frac{3}{4}a+\\frac{1}{2}a-2+\\frac{1}{3}",
+        "=\\frac{3}{4}a+\\frac{2}{4}a-\\frac{6}{3}+\\frac{1}{3}",
+        "=\\frac{5}{4}a-\\frac{5}{3}"
+      ],
+      "hint": "$\\frac{3}{4}a+\\frac{2}{4}a$ を計算するとき、分母はどうしますか？"
+    },
+    {
+      "id": "J1-EX-0072",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "-2y+0.3-0.5y-1",
+      "answerLines": [
+        "-2y+0.3-0.5y-1",
+        "=-2y-0.5y+0.3-1",
+        "=-2.5y+0.3-1",
+        "=-2.5y-1.3"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和で絶対値をたした誤り",
+      "explanation": "$0.3-1$ は、絶対値の差 $1-0.3=0.7$ に、絶対値の大きい $-1$ の符号をつけて $-0.7$ です。絶対値をたして $-1.3$ としたところが誤りです。文字の項 $-2y-0.5y=-2.5y$ は正しくできています。",
+      "correctSolution": [
+        "-2y+0.3-0.5y-1",
+        "=-2y-0.5y+0.3-1",
+        "=-2.5y+0.3-1",
+        "=-2.5y-0.7"
+      ],
+      "hint": "$0.3-1$ の答えの大きさを確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0073",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "\\frac{x}{3}-\\frac{5}{6}+\\frac{x}{2}+\\frac{1}{3}",
+      "answerLines": [
+        "\\frac{x}{3}-\\frac{5}{6}+\\frac{x}{2}+\\frac{1}{3}",
+        "=\\frac{x}{3}+\\frac{x}{2}-\\frac{5}{6}+\\frac{1}{3}",
+        "=\\frac{2x}{6}+\\frac{3x}{6}-\\frac{5}{6}+\\frac{2}{6}",
+        "=\\frac{5x}{6}-\\frac{3}{6}",
+        "=\\frac{5x}{6}-\\frac{1}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "約分の誤り",
+      "explanation": "$\\frac{3}{6}$ を約分すると、分子と分母を $3$ でわって $\\frac{1}{2}$ です。$\\frac{1}{3}$ としたところが誤りです。並べかえ、通分、$\\frac{2x}{6}+\\frac{3x}{6}=\\frac{5x}{6}$、$-\\frac{5}{6}+\\frac{2}{6}=-\\frac{3}{6}$ はどれも正しくできています。",
+      "correctSolution": [
+        "\\frac{x}{3}-\\frac{5}{6}+\\frac{x}{2}+\\frac{1}{3}",
+        "=\\frac{x}{3}+\\frac{x}{2}-\\frac{5}{6}+\\frac{1}{3}",
+        "=\\frac{2x}{6}+\\frac{3x}{6}-\\frac{5}{6}+\\frac{2}{6}",
+        "=\\frac{5x}{6}-\\frac{3}{6}",
+        "=\\frac{5x}{6}-\\frac{1}{2}"
+      ],
+      "hint": "$\\frac{3}{6}$ の分子と分母を、同じ数でわってみましょう。"
+    },
+    {
+      "id": "J1-EX-0074",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 3,
+      "question": "1.5a-\\frac{1}{2}-2a+\\frac{3}{2}",
+      "answerLines": [
+        "1.5a-\\frac{1}{2}-2a+\\frac{3}{2}",
+        "=1.5a-2a-\\frac{1}{2}+\\frac{3}{2}",
+        "=-0.5a+1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。文字の項は $1.5a-2a=-0.5a$、数の項は $-\\frac{1}{2}+\\frac{3}{2}=\\frac{2}{2}=1$ です。$-0.5a$ は $-\\frac{1}{2}a$ と書いても同じです。",
+      "correctSolution": [
+        "1.5a-\\frac{1}{2}-2a+\\frac{3}{2}",
+        "=1.5a-2a-\\frac{1}{2}+\\frac{3}{2}",
+        "=-0.5a+1"
+      ],
+      "hint": "文字の項と数の項に分けて計算しましょう。小数と分数が混じっていても、同類項ならまとめられます。"
+    },
+    {
+      "id": "J1-EX-0075",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "-\\frac{5}{6}x+\\frac{1}{4}+\\frac{1}{3}x-\\frac{3}{4}",
+      "answerLines": [
+        "-\\frac{5}{6}x+\\frac{1}{4}+\\frac{1}{3}x-\\frac{3}{4}",
+        "=-\\frac{5}{6}x+\\frac{1}{3}x+\\frac{1}{4}-\\frac{3}{4}",
+        "=-\\frac{5}{6}x+\\frac{2}{6}x+\\frac{1}{2}",
+        "=-\\frac{3}{6}x+\\frac{1}{2}",
+        "=-\\frac{1}{2}x+\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "分数のひき算で答えの符号を誤った",
+      "explanation": "$\\frac{1}{4}-\\frac{3}{4}$ は、ひく数のほうが大きいので答えは負の数になり、$-\\frac{2}{4}=-\\frac{1}{2}$ です。$+\\frac{1}{2}$ としたところが誤りです。$\\frac{1}{3}x=\\frac{2}{6}x$ と通分したところは正しくできています。正しい答えは $-\\frac{1}{2}x-\\frac{1}{2}$ です。",
+      "correctSolution": [
+        "-\\frac{5}{6}x+\\frac{1}{4}+\\frac{1}{3}x-\\frac{3}{4}",
+        "=-\\frac{5}{6}x+\\frac{1}{3}x+\\frac{1}{4}-\\frac{3}{4}",
+        "=-\\frac{5}{6}x+\\frac{2}{6}x-\\frac{1}{2}",
+        "=-\\frac{3}{6}x-\\frac{1}{2}",
+        "=-\\frac{1}{2}x-\\frac{1}{2}"
+      ],
+      "hint": "数の項 $\\frac{1}{4}-\\frac{3}{4}$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0076",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "0.25y-\\frac{3}{2}-\\frac{3}{4}y+2.5",
+      "answerLines": [
+        "0.25y-\\frac{3}{2}-\\frac{3}{4}y+2.5",
+        "=\\frac{1}{4}y-\\frac{3}{4}y-\\frac{3}{2}+\\frac{5}{2}",
+        "=-\\frac{2}{4}y+\\frac{2}{2}",
+        "=-\\frac{1}{2}y+2"
+      ],
+      "errorLine": 3,
+      "errorType": "分母と分子が同じ分数を1にしなかった誤り",
+      "explanation": "$\\frac{2}{2}$ は分子と分母が同じなので $1$ です。$2$ としたところが誤りです。小数を分数に直したところ（$0.25=\\frac{1}{4}$、$2.5=\\frac{5}{2}$）と、$-\\frac{2}{4}y=-\\frac{1}{2}y$ は正しくできています。正しい答えは $-\\frac{1}{2}y+1$ です。",
+      "correctSolution": [
+        "0.25y-\\frac{3}{2}-\\frac{3}{4}y+2.5",
+        "=\\frac{1}{4}y-\\frac{3}{4}y-\\frac{3}{2}+\\frac{5}{2}",
+        "=-\\frac{2}{4}y+\\frac{2}{2}",
+        "=-\\frac{1}{2}y+1"
+      ],
+      "hint": "$\\frac{2}{2}$ はいくつですか？"
+    },
+    {
+      "id": "J1-EX-0077",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "-x+\\frac{2}{3}-\\frac{x}{4}+\\frac{1}{6}+2x",
+      "answerLines": [
+        "-x+\\frac{2}{3}-\\frac{x}{4}+\\frac{1}{6}+2x",
+        "=-x-\\frac{x}{4}+2x+\\frac{2}{3}+\\frac{1}{6}",
+        "=-\\frac{4x}{4}-\\frac{x}{4}+\\frac{8x}{4}+\\frac{4}{6}+\\frac{1}{6}",
+        "=\\frac{3x}{4}+\\frac{5}{6}",
+        "=\\frac{3x+5}{10}"
+      ],
+      "errorLine": 4,
+      "errorType": "文字の項と数の項を1つの分数にまとめてしまった誤り",
+      "explanation": "$\\frac{3x}{4}+\\frac{5}{6}$ は、文字の項と数の項なので、これ以上まとめられません。これが答えです。分子どうし・分母どうしをたして $\\frac{3x+5}{10}$ とした最後の行が誤りです。そこまでの計算（$-\\frac{4x}{4}-\\frac{x}{4}+\\frac{8x}{4}=\\frac{3x}{4}$、$\\frac{4}{6}+\\frac{1}{6}=\\frac{5}{6}$）は正しくできています。",
+      "correctSolution": [
+        "-x+\\frac{2}{3}-\\frac{x}{4}+\\frac{1}{6}+2x",
+        "=-x-\\frac{x}{4}+2x+\\frac{2}{3}+\\frac{1}{6}",
+        "=-\\frac{4x}{4}-\\frac{x}{4}+\\frac{8x}{4}+\\frac{4}{6}+\\frac{1}{6}",
+        "=\\frac{3x}{4}+\\frac{5}{6}"
+      ],
+      "hint": "$\\frac{3x}{4}$ と $\\frac{5}{6}$ は同類項ですか？ それ以上まとめられますか？"
+    },
+    {
+      "id": "J1-EX-0078",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "2.4a-1.8-3a+0.8+0.6a",
+      "answerLines": [
+        "2.4a-1.8-3a+0.8+0.6a",
+        "=2.4a-3a+0.6a-1.8+0.8",
+        "=-0.6a+0.6a-1.8+0.8",
+        "=-1.8+0.8",
+        "=1"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-1.8+0.8$ は、絶対値の大きい $-1.8$ の符号になるので $-1$ です。$1$ としたところが誤りです。文字の項が $-0.6a+0.6a=0$ で消えるところまでは正しくできています。",
+      "correctSolution": [
+        "2.4a-1.8-3a+0.8+0.6a",
+        "=2.4a-3a+0.6a-1.8+0.8",
+        "=-0.6a+0.6a-1.8+0.8",
+        "=-1.8+0.8",
+        "=-1"
+      ],
+      "hint": "$-1.8+0.8$ は、正の数と負の数のどちらになりますか？"
+    },
+    {
+      "id": "J1-EX-0079",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "\\frac{3}{5}x-0.2+\\frac{2}{5}-x",
+      "answerLines": [
+        "\\frac{3}{5}x-0.2+\\frac{2}{5}-x",
+        "=\\frac{3}{5}x-x-\\frac{1}{5}+\\frac{2}{5}",
+        "=-\\frac{2}{5}x+\\frac{1}{5}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$0.2=\\frac{1}{5}$ と分数に直しています。文字の項は $\\frac{3}{5}x-x=\\frac{3}{5}x-\\frac{5}{5}x=-\\frac{2}{5}x$、数の項は $-\\frac{1}{5}+\\frac{2}{5}=\\frac{1}{5}$ です。",
+      "correctSolution": [
+        "\\frac{3}{5}x-0.2+\\frac{2}{5}-x",
+        "=\\frac{3}{5}x-x-\\frac{1}{5}+\\frac{2}{5}",
+        "=-\\frac{2}{5}x+\\frac{1}{5}"
+      ],
+      "hint": "$-x$ を分母が $5$ の分数で表すと、どうなりますか？"
+    },
+    {
+      "id": "J1-EX-0080",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 4,
+      "question": "-\\frac{a}{6}+\\frac{3}{4}-\\frac{a}{3}-\\frac{5}{12}+a",
+      "answerLines": [
+        "-\\frac{a}{6}+\\frac{3}{4}-\\frac{a}{3}-\\frac{5}{12}+a",
+        "=-\\frac{a}{6}-\\frac{2a}{6}+\\frac{6a}{6}+\\frac{9}{12}-\\frac{5}{12}",
+        "=\\frac{3a}{6}+\\frac{4}{12}",
+        "=\\frac{a}{2}+\\frac{1}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。文字の項は分母を $6$ にそろえて $\\frac{-1-2+6}{6}a=\\frac{3a}{6}=\\frac{a}{2}$、数の項は分母を $12$ にそろえて $\\frac{9-5}{12}=\\frac{4}{12}=\\frac{1}{3}$ です。文字の項と数の項は、それぞれ別に通分しています。",
+      "correctSolution": [
+        "-\\frac{a}{6}+\\frac{3}{4}-\\frac{a}{3}-\\frac{5}{12}+a",
+        "=-\\frac{a}{6}-\\frac{2a}{6}+\\frac{6a}{6}+\\frac{9}{12}-\\frac{5}{12}",
+        "=\\frac{3a}{6}+\\frac{4}{12}",
+        "=\\frac{a}{2}+\\frac{1}{3}"
+      ],
+      "hint": "$a$ を分母が $6$ の分数で表すとどうなりますか？ 文字の項と数の項は別々にまとめましょう。"
+    },
+    {
+      "id": "J1-EX-0081",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "4(x+3)",
+      "answerLines": [
+        "4(x+3)",
+        "=4x+3"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "分配法則では、かっこの中のすべての項に $4$ をかけます。$4\\times x=4x$、$4\\times3=12$ なので、答えは $4x+12$ です。$3$ に $4$ をかけ忘れたところが誤りです。",
+      "correctSolution": [
+        "4(x+3)",
+        "=4x+12"
+      ],
+      "hint": "$4$ は、かっこの中のどの項にかけますか？"
+    },
+    {
+      "id": "J1-EX-0082",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "-3(2a-5)",
+      "answerLines": [
+        "-3(2a-5)",
+        "=-3\\times2a-3\\times(-5)",
+        "=-6a-15"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$-3\\times(-5)$ は負の数どうしの積なので $+15$ です。$-15$ としたところが誤りです。分配法則で $-3$ を両方の項にかけた式は正しくできています。正しい答えは $-6a+15$ です。",
+      "correctSolution": [
+        "-3(2a-5)",
+        "=-6a+15"
+      ],
+      "hint": "$-3\\times(-5)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0083",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "(12x-8)\\div4",
+      "answerLines": [
+        "(12x-8)\\div4",
+        "=\\frac{12x}{4}-\\frac{8}{4}",
+        "=3x-8"
+      ],
+      "errorLine": 2,
+      "errorType": "わり算で、数の項をわり忘れた誤り",
+      "explanation": "$\\frac{8}{4}=2$ なので、答えは $3x-2$ です。$8$ を $4$ でわり忘れたところが誤りです。かっこの中のそれぞれの項を $4$ でわる式と、$\\frac{12x}{4}=3x$ は正しくできています。",
+      "correctSolution": [
+        "(12x-8)\\div4",
+        "=3x-2"
+      ],
+      "hint": "$\\frac{8}{4}$ を計算しましたか？"
+    },
+    {
+      "id": "J1-EX-0084",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "(5x+2)+(3x-7)",
+      "answerLines": [
+        "(5x+2)+(3x-7)",
+        "=5x+2+3x-7",
+        "=5x+3x+2-7",
+        "=8x+5"
+      ],
+      "errorLine": 3,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$2-7$ は、ひく数のほうが大きいので答えは負の数になり、$-5$ です。$+5$ としたところが誤りです。かっこのはずし方、並べかえ、$5x+3x=8x$ は正しくできています。正しい答えは $8x-5$ です。",
+      "correctSolution": [
+        "(5x+2)+(3x-7)",
+        "=5x+2+3x-7",
+        "=5x+3x+2-7",
+        "=8x-5"
+      ],
+      "hint": "数の項 $2-7$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0085",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "2(3x-4)",
+      "answerLines": [
+        "2(3x-4)",
+        "=6x-8"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分配法則で、$2\\times3x=6x$、$2\\times(-4)=-8$ です。",
+      "correctSolution": [
+        "2(3x-4)",
+        "=6x-8"
+      ],
+      "hint": "かっこの中の両方の項に $2$ をかけていますか？"
+    },
+    {
+      "id": "J1-EX-0086",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 1,
+      "question": "(4a-1)-(a+6)",
+      "answerLines": [
+        "(4a-1)-(a+6)",
+        "=4a-1-a-6",
+        "=3a-7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの前が「$-$」なので、$(a+6)$ のかっこをはずすと、中の各項の符号が変わって $-a-6$ になります。$4a-a=3a$、$-1-6=-7$ です。",
+      "correctSolution": [
+        "(4a-1)-(a+6)",
+        "=4a-1-a-6",
+        "=3a-7"
+      ],
+      "hint": "「$-$」のあとのかっこをはずすと、中の項の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0087",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "(2x-5)-(4x-3)",
+      "answerLines": [
+        "(2x-5)-(4x-3)",
+        "=2x-5-4x-3",
+        "=-2x-8"
+      ],
+      "errorLine": 1,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "かっこの前が「$-$」のときは、かっこの中のすべての項の符号を変えます。$-(4x-3)=-4x+3$ です。$-3$ の符号を変えずに残したところが誤りです。正しくは $2x-5-4x+3=-2x-2$ です。",
+      "correctSolution": [
+        "(2x-5)-(4x-3)",
+        "=2x-5-4x+3",
+        "=-2x-2"
+      ],
+      "hint": "$-(4x-3)$ のかっこをはずすとき、$-3$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0088",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "-2(x-3)+5(x-1)",
+      "answerLines": [
+        "-2(x-3)+5(x-1)",
+        "=-2x+6+5x-5",
+        "=-2x+5x+6-5",
+        "=-7x+1"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$-2x+5x$ は、係数を計算して $(-2+5)x=3x$ です。$-7x$ としたところが誤りです。分配法則（$-2\\times(-3)=+6$、$5\\times(-1)=-5$）と、$6-5=1$ は正しくできています。正しい答えは $3x+1$ です。",
+      "correctSolution": [
+        "-2(x-3)+5(x-1)",
+        "=-2x+6+5x-5",
+        "=-2x+5x+6-5",
+        "=3x+1"
+      ],
+      "hint": "$-2x+5x$ の係数は、$-2+5$ を計算するといくつですか？"
+    },
+    {
+      "id": "J1-EX-0089",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "\\frac{1}{3}(9x-6)-(x+1)",
+      "answerLines": [
+        "\\frac{1}{3}(9x-6)-(x+1)",
+        "=3x-2-(x+1)",
+        "=3x-2-x-1",
+        "=3x-x-2-1",
+        "=2x-1"
+      ],
+      "errorLine": 4,
+      "errorType": "数の項をまとめるときの符号ミス",
+      "explanation": "$-2-1$ は、負の数どうしの和と同じなので $-3$ です。$-1$ としたところが誤りです。$\\frac{1}{3}(9x-6)=3x-2$、かっこのはずし方、$3x-x=2x$ は正しくできています。正しい答えは $2x-3$ です。",
+      "correctSolution": [
+        "\\frac{1}{3}(9x-6)-(x+1)",
+        "=3x-2-(x+1)",
+        "=3x-2-x-1",
+        "=3x-x-2-1",
+        "=2x-3"
+      ],
+      "hint": "数の項 $-2-1$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J1-EX-0090",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 2,
+      "question": "-(3a-2)+2(a+1)",
+      "answerLines": [
+        "-(3a-2)+2(a+1)",
+        "=-3a+2+2a+2",
+        "=-a+4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-(3a-2)=-3a+2$、$2(a+1)=2a+2$ です。$-3a+2a=-a$、$2+2=4$ なので、答えは $-a+4$ です。$-1a$ とは書かずに $-a$ と書きます。",
+      "correctSolution": [
+        "-(3a-2)+2(a+1)",
+        "=-3a+2+2a+2",
+        "=-a+4"
+      ],
+      "hint": "2つのかっこを、それぞれ正しくはずせているか確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0091",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "(15x-10)\\div(-5)",
+      "answerLines": [
+        "(15x-10)\\div(-5)",
+        "=-3x-2"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数でわるとき、数の項の符号を変え忘れた",
+      "explanation": "かっこの中のそれぞれの項を $-5$ でわります。$15x\\div(-5)=-3x$、$-10\\div(-5)=+2$ なので、答えは $-3x+2$ です。数の項の符号を変えずに $-2$ としたところが誤りです。",
+      "correctSolution": [
+        "(15x-10)\\div(-5)",
+        "=\\frac{15x}{-5}-\\frac{10}{-5}",
+        "=-3x+2"
+      ],
+      "hint": "$-10\\div(-5)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0092",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "\\frac{2}{3}(6a-9)-\\frac{1}{2}(4a+2)",
+      "answerLines": [
+        "\\frac{2}{3}(6a-9)-\\frac{1}{2}(4a+2)",
+        "=\\frac{2}{3}\\times6a-\\frac{2}{3}\\times9-\\frac{1}{2}\\times4a-\\frac{1}{2}\\times2",
+        "=4a-6-2a-1",
+        "=6a-7"
+      ],
+      "errorLine": 3,
+      "errorType": "文字の項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$4a-2a$ は $2a$ です。$-2a$ をたしてしまい $6a$ としたところが誤りです。分配法則の計算（$\\frac{2}{3}\\times6a=4a$、$\\frac{2}{3}\\times9=6$、$\\frac{1}{2}\\times4a=2a$、$\\frac{1}{2}\\times2=1$）と、$-6-1=-7$ は正しくできています。正しい答えは $2a-7$ です。",
+      "correctSolution": [
+        "\\frac{2}{3}(6a-9)-\\frac{1}{2}(4a+2)",
+        "=\\frac{2}{3}\\times6a-\\frac{2}{3}\\times9-\\frac{1}{2}\\times4a-\\frac{1}{2}\\times2",
+        "=4a-6-2a-1",
+        "=2a-7"
+      ],
+      "hint": "$4a-2a$ を計算し直してみましょう。$2a$ の前の符号は何ですか？"
+    },
+    {
+      "id": "J1-EX-0093",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "-4(0.5x-1.5)+(3x-2)",
+      "answerLines": [
+        "-4(0.5x-1.5)+(3x-2)",
+        "=-2x+6+(3x-2)",
+        "=-2x+6+3x-2",
+        "=-2x+3x+6-2",
+        "=-x+4"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の係数をまとめるときの符号ミス",
+      "explanation": "$-2x+3x$ は、係数を計算して $(-2+3)x=x$ です。$-x$ としたところが誤りです。$-4\\times0.5x=-2x$、$-4\\times(-1.5)=+6$、かっこのはずし方、$6-2=4$ はどれも正しくできています。正しい答えは $x+4$ です。",
+      "correctSolution": [
+        "-4(0.5x-1.5)+(3x-2)",
+        "=-2x+6+(3x-2)",
+        "=-2x+6+3x-2",
+        "=-2x+3x+6-2",
+        "=x+4"
+      ],
+      "hint": "$-2x+3x$ は、正の数と負の数のどちらの係数になりますか？"
+    },
+    {
+      "id": "J1-EX-0094",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "\\frac{3x-1}{2}\\times8",
+      "answerLines": [
+        "\\frac{3x-1}{2}\\times8",
+        "=(3x-1)\\times4",
+        "=12x-4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分母の $2$ と $8$ を先に約分して $4$ にし、$(3x-1)\\times4$ としています。分子にはかっこをつけたまま考えることが大切で、$3x$ と $-1$ の両方に $4$ をかけて $12x-4$ になります。",
+      "correctSolution": [
+        "\\frac{3x-1}{2}\\times8",
+        "=(3x-1)\\times4",
+        "=12x-4"
+      ],
+      "hint": "分子 $3x-1$ のどちらの項にも $4$ をかけていますか？"
+    },
+    {
+      "id": "J1-EX-0095",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 3,
+      "question": "0.3(2x-10)-0.4(x-5)",
+      "answerLines": [
+        "0.3(2x-10)-0.4(x-5)",
+        "=0.6x-3-0.4x+2",
+        "=0.2x-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$0.3\\times2x=0.6x$、$0.3\\times(-10)=-3$、$-0.4\\times x=-0.4x$、$-0.4\\times(-5)=+2$ です。$0.6x-0.4x=0.2x$、$-3+2=-1$ です。",
+      "correctSolution": [
+        "0.3(2x-10)-0.4(x-5)",
+        "=0.6x-3-0.4x+2",
+        "=0.2x-1"
+      ],
+      "hint": "小数をかけるときの位取りと、$-0.4\\times(-5)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0096",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "\\frac{x-3}{4}-\\frac{2x+1}{6}",
+      "answerLines": [
+        "\\frac{x-3}{4}-\\frac{2x+1}{6}",
+        "=\\frac{3(x-3)-2(2x+1)}{12}",
+        "=\\frac{3x-9-4x+2}{12}",
+        "=\\frac{-x-7}{12}"
+      ],
+      "errorLine": 2,
+      "errorType": "分子の式をひくとき、うしろの項の符号を変え忘れた",
+      "explanation": "$-2(2x+1)$ のかっこをはずすと、$-2\\times2x=-4x$、$-2\\times1=-2$ なので $-4x-2$ です。$+2$ としたところが誤りです。通分して1つの分数にした式は正しくできています。正しくは $\\frac{3x-9-4x-2}{12}=\\frac{-x-11}{12}$ です。",
+      "correctSolution": [
+        "\\frac{x-3}{4}-\\frac{2x+1}{6}",
+        "=\\frac{3(x-3)-2(2x+1)}{12}",
+        "=\\frac{3x-9-4x-2}{12}",
+        "=\\frac{-x-11}{12}"
+      ],
+      "hint": "$-2(2x+1)$ のかっこをはずすと、$1$ の項はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0097",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "-\\frac{3}{4}(8x-12)+6\\left(\\frac{x}{2}-\\frac{1}{3}\\right)",
+      "answerLines": [
+        "-\\frac{3}{4}(8x-12)+6\\left(\\frac{x}{2}-\\frac{1}{3}\\right)",
+        "=-\\frac{3}{4}\\times8x-\\frac{3}{4}\\times(-12)+6\\times\\frac{x}{2}-6\\times\\frac{1}{3}",
+        "=-6x+9+3x-2",
+        "=3x+7"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の係数をまとめるときの符号ミス",
+      "explanation": "$-6x+3x$ は、係数を計算して $(-6+3)x=-3x$ です。$3x$ としたところが誤りです。分配法則の計算（$-6x$、$+9$、$3x$、$-2$）と、$9-2=7$ は正しくできています。正しい答えは $-3x+7$ です。",
+      "correctSolution": [
+        "-\\frac{3}{4}(8x-12)+6\\left(\\frac{x}{2}-\\frac{1}{3}\\right)",
+        "=-\\frac{3}{4}\\times8x-\\frac{3}{4}\\times(-12)+6\\times\\frac{x}{2}-6\\times\\frac{1}{3}",
+        "=-6x+9+3x-2",
+        "=-3x+7"
+      ],
+      "hint": "$-6x+3x$ の係数の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0098",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "(6a-4)\\div\\left(-\\frac{2}{3}\\right)",
+      "answerLines": [
+        "(6a-4)\\div\\left(-\\frac{2}{3}\\right)",
+        "=(6a-4)\\times\\left(-\\frac{3}{2}\\right)",
+        "=6a\\times\\left(-\\frac{3}{2}\\right)-4\\times\\left(-\\frac{3}{2}\\right)",
+        "=-9a-6"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$-4\\times\\left(-\\frac{3}{2}\\right)$ は負の数どうしの積なので $+6$ です。$-6$ としたところが誤りです。わる数の逆数 $-\\frac{3}{2}$ をかけたところと、$6a\\times\\left(-\\frac{3}{2}\\right)=-9a$ は正しくできています。正しい答えは $-9a+6$ です。",
+      "correctSolution": [
+        "(6a-4)\\div\\left(-\\frac{2}{3}\\right)",
+        "=(6a-4)\\times\\left(-\\frac{3}{2}\\right)",
+        "=6a\\times\\left(-\\frac{3}{2}\\right)-4\\times\\left(-\\frac{3}{2}\\right)",
+        "=-9a+6"
+      ],
+      "hint": "$-4\\times\\left(-\\frac{3}{2}\\right)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0099",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "\\frac{5a-2}{3}-\\frac{a-4}{2}",
+      "answerLines": [
+        "\\frac{5a-2}{3}-\\frac{a-4}{2}",
+        "=\\frac{2(5a-2)-3(a-4)}{6}",
+        "=\\frac{10a-4-3a+12}{6}",
+        "=\\frac{7a+8}{6}",
+        "=\\frac{7a+4}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で分子の一部の項だけをわった誤り",
+      "explanation": "$\\frac{7a+8}{6}$ は、分子の $7a$ が $2$ でわりきれないので、これ以上約分できません。これが答えです。$8$ と $6$ だけを $2$ でわって $\\frac{7a+4}{3}$ とした最後の行が誤りです。通分とかっこのはずし方（$-3\\times(-4)=+12$）は正しくできています。",
+      "correctSolution": [
+        "\\frac{5a-2}{3}-\\frac{a-4}{2}",
+        "=\\frac{2(5a-2)-3(a-4)}{6}",
+        "=\\frac{10a-4-3a+12}{6}",
+        "=\\frac{7a+8}{6}"
+      ],
+      "hint": "約分するときは、分子のすべての項と分母を同じ数でわります。$7a$ も $2$ でわれますか？"
+    },
+    {
+      "id": "J1-EX-0100",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "2(3x-1)-\\frac{1}{2}(8x-6)",
+      "answerLines": [
+        "2(3x-1)-\\frac{1}{2}(8x-6)",
+        "=6x-2-4x+3",
+        "=2x+1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$2(3x-1)=6x-2$、$-\\frac{1}{2}(8x-6)=-4x+3$ です。うしろのかっこには $-\\frac{1}{2}$ をかけるので、$-6$ の項は $-\\frac{1}{2}\\times(-6)=+3$ になります。$6x-4x=2x$、$-2+3=1$ です。",
+      "correctSolution": [
+        "2(3x-1)-\\frac{1}{2}(8x-6)",
+        "=6x-2-4x+3",
+        "=2x+1"
+      ],
+      "hint": "$-\\frac{1}{2}\\times(-6)$ の符号に注意して、かっこのはずし方を確かめましょう。"
     }
   ]
 }

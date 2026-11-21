@@ -380,6 +380,2054 @@
         "=-1"
       ],
       "hint": "$\\left(-\\frac{1}{2}\\right)^3$ は、$-\\frac{1}{2}$ を何回かけた数ですか？"
+    },
+    {
+      "id": "J1-PN-0017",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(+7)-(-5)",
+      "answerLines": [
+        "(+7)-(-5)",
+        "=7-5",
+        "=2"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数をひくときの符号ミス",
+      "explanation": "負の数をひくことは、その数の符号を変えてたすことと同じです。$-(-5)=+5$ なので、正しくは $7+5$ です。$-5$ のままにしてしまったところが誤りです。",
+      "correctSolution": [
+        "(+7)-(-5)",
+        "=7+5",
+        "=12"
+      ],
+      "hint": "$-(-5)$ は、$+5$ と $-5$ のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0018",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(-9)+(+4)-(+2)",
+      "answerLines": [
+        "(-9)+(+4)-(+2)",
+        "=-9+4-2",
+        "=5-2",
+        "=3"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-9+4$ は、絶対値の大きい $-9$ の符号になるので $-5$ です。$5$ としたところが誤りです。かっこをはずして $-9+4-2$ としたところは正しくできています。正しくは $-5-2=-7$ です。",
+      "correctSolution": [
+        "(-9)+(+4)-(+2)",
+        "=-9+4-2",
+        "=-5-2",
+        "=-7"
+      ],
+      "hint": "$-9+4$ の答えは、正の数と負の数のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0019",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(-3)-(+6)+(+5)",
+      "answerLines": [
+        "(-3)-(+6)+(+5)",
+        "=-3-6+5",
+        "=-9+5",
+        "=-14"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和で絶対値をたした誤り",
+      "explanation": "$-9+5$ は符号が異なる2数の和なので、絶対値の差 $9-5=4$ に、絶対値の大きい $-9$ の符号をつけて $-4$ です。絶対値をたして $-14$ としたところが誤りです。$-3-6=-9$ までは正しくできています。",
+      "correctSolution": [
+        "(-3)-(+6)+(+5)",
+        "=-3-6+5",
+        "=-9+5",
+        "=-4"
+      ],
+      "hint": "$-9+5$ は、$9$ と $5$ の和と差のどちらを使って計算しますか？"
+    },
+    {
+      "id": "J1-PN-0020",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(+4)+(-11)-(-3)",
+      "answerLines": [
+        "(+4)+(-11)-(-3)",
+        "=4-11+3",
+        "=7+3",
+        "=10"
+      ],
+      "errorLine": 2,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$4-11$ は、ひく数のほうが大きいので答えは負の数になり、$-(11-4)=-7$ です。$7$ としたところが誤りです。かっこをはずす計算は正しくできています。正しくは $-7+3=-4$ です。",
+      "correctSolution": [
+        "(+4)+(-11)-(-3)",
+        "=4-11+3",
+        "=-7+3",
+        "=-4"
+      ],
+      "hint": "$4-11$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0021",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 1,
+      "question": "(-6)-(-10)+(-2)",
+      "answerLines": [
+        "(-6)-(-10)+(-2)",
+        "=-6+10-2",
+        "=4-2",
+        "=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-(-10)=+10$、$+(-2)=-2$ とかっこをはずしています。$-6+10$ は絶対値の大きい $+10$ の符号になるので $4$、$4-2=2$ です。",
+      "correctSolution": [
+        "(-6)-(-10)+(-2)",
+        "=-6+10-2",
+        "=4-2",
+        "=2"
+      ],
+      "hint": "$-(-10)$ と $+(-2)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0022",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "(-12)+(+5)-(-7)+(-3)",
+      "answerLines": [
+        "(-12)+(+5)-(-7)+(-3)",
+        "=-12+5+7+3",
+        "=-12+15",
+        "=3"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数をたすときの符号ミス",
+      "explanation": "負の数をたすことは、その数の絶対値をひくことと同じです。$+(-3)=-3$ なので、正しくは $-12+5+7-3$ です。$+3$ としたところが誤りです。$-(-7)=+7$ は正しくできています。正しい答えは $-15+12=-3$ です。",
+      "correctSolution": [
+        "(-12)+(+5)-(-7)+(-3)",
+        "=-12+5+7-3",
+        "=-15+12",
+        "=-3"
+      ],
+      "hint": "$+(-3)$ のかっこをはずすと、$+3$ と $-3$ のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0023",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "-8+3-(-6)-4",
+      "answerLines": [
+        "-8+3-(-6)-4",
+        "=-8+3+6-4",
+        "=-8-4+3-6",
+        "=-12-3",
+        "=-15"
+      ],
+      "errorLine": 2,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "項を並べかえるときは、それぞれの項の符号もいっしょに移します。$+6$ を移すと $+6$ のままなので、正しくは $-8-4+3+6$ です。$-6$ としたところが誤りです。正しく計算すると $-12+9=-3$ になります。",
+      "correctSolution": [
+        "-8+3-(-6)-4",
+        "=-8+3+6-4",
+        "=-8-4+3+6",
+        "=-12+9",
+        "=-3"
+      ],
+      "hint": "並べかえる前と後で、$6$ の項の符号は同じですか？"
+    },
+    {
+      "id": "J1-PN-0024",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "(+2.5)-(+4)+(-1.5)",
+      "answerLines": [
+        "(+2.5)-(+4)+(-1.5)",
+        "=2.5-4-1.5",
+        "=2.5-5.5",
+        "=3"
+      ],
+      "errorLine": 3,
+      "errorType": "小数の計算で、小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$2.5-5.5$ は、ひく数のほうが大きいので答えは負の数になり、$-(5.5-2.5)=-3$ です。$3$ としたところが誤りです。負の項をまとめて $-4-1.5=-5.5$ としたところまでは正しくできています。",
+      "correctSolution": [
+        "(+2.5)-(+4)+(-1.5)",
+        "=2.5-4-1.5",
+        "=2.5-5.5",
+        "=-3"
+      ],
+      "hint": "$2.5-5.5$ の答えは、正の数と負の数のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0025",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "-14-(-9)+(+6)-(+3)",
+      "answerLines": [
+        "-14-(-9)+(+6)-(+3)",
+        "=-14+9+6-3",
+        "=-14-3+9+6",
+        "=-17+15",
+        "=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこをはずしたあと、負の項（$-14$、$-3$）と正の項（$+9$、$+6$）に分けて並べかえています。$-17+15$ は絶対値の大きい $-17$ の符号になるので $-2$ です。",
+      "correctSolution": [
+        "-14-(-9)+(+6)-(+3)",
+        "=-14+9+6-3",
+        "=-14-3+9+6",
+        "=-17+15",
+        "=-2"
+      ],
+      "hint": "並べかえたときに、それぞれの項の符号がそのまま移っているか確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0026",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 2,
+      "question": "(+8)+(-13)-(-5)",
+      "answerLines": [
+        "(+8)+(-13)-(-5)",
+        "=8-13+5",
+        "=8+5-13",
+        "=13-13",
+        "=0"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$8-13+5$ の項を並べかえて、正の項 $8+5=13$ を先にまとめています。$13-13=0$ なので、答えは $0$ です。$0$ には符号をつけません。",
+      "correctSolution": [
+        "(+8)+(-13)-(-5)",
+        "=8-13+5",
+        "=8+5-13",
+        "=13-13",
+        "=0"
+      ],
+      "hint": "正の項どうし、負の項どうしをまとめる計算を確かめましょう。答えが $0$ になってもよいでしょうか？"
+    },
+    {
+      "id": "J1-PN-0027",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "-\\frac{2}{3}+\\frac{1}{4}-\\left(-\\frac{1}{6}\\right)",
+      "answerLines": [
+        "-\\frac{2}{3}+\\frac{1}{4}-\\left(-\\frac{1}{6}\\right)",
+        "=-\\frac{2}{3}+\\frac{1}{4}+\\frac{1}{6}",
+        "=-\\frac{8}{12}+\\frac{3}{12}+\\frac{1}{12}",
+        "=-\\frac{4}{12}",
+        "=-\\frac{1}{3}"
+      ],
+      "errorLine": 2,
+      "errorType": "通分するときに分子にかけ忘れた誤り",
+      "explanation": "通分するときは、分母と分子に同じ数をかけます。$\\frac{1}{6}$ の分母と分子に $2$ をかけると $\\frac{2}{12}$ です。分母だけを $12$ にして $\\frac{1}{12}$ としたところが誤りです。かっこのはずし方と、$-\\frac{8}{12}$、$\\frac{3}{12}$ は正しくできています。正しくは $\\frac{-8+3+2}{12}=-\\frac{3}{12}=-\\frac{1}{4}$ です。",
+      "correctSolution": [
+        "-\\frac{2}{3}+\\frac{1}{4}-\\left(-\\frac{1}{6}\\right)",
+        "=-\\frac{2}{3}+\\frac{1}{4}+\\frac{1}{6}",
+        "=-\\frac{8}{12}+\\frac{3}{12}+\\frac{2}{12}",
+        "=-\\frac{3}{12}",
+        "=-\\frac{1}{4}"
+      ],
+      "hint": "$\\frac{1}{6}$ を分母が $12$ の分数に直すと、分子はいくつになりますか？"
+    },
+    {
+      "id": "J1-PN-0028",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "-0.6-(-1.4)+(-2.3)",
+      "answerLines": [
+        "-0.6-(-1.4)+(-2.3)",
+        "=-0.6+1.4-2.3",
+        "=-0.8-2.3",
+        "=-3.1"
+      ],
+      "errorLine": 2,
+      "errorType": "小数の異符号の2数の和の符号ミス",
+      "explanation": "$-0.6+1.4$ は、絶対値の大きい $+1.4$ の符号になるので $+0.8$ です。$-0.8$ としたところが誤りです。かっこのはずし方は正しくできています。正しくは $0.8-2.3=-1.5$ です。",
+      "correctSolution": [
+        "-0.6-(-1.4)+(-2.3)",
+        "=-0.6+1.4-2.3",
+        "=0.8-2.3",
+        "=-1.5"
+      ],
+      "hint": "$-0.6+1.4$ は、$-0.6$ と $+1.4$ のどちらの符号になりますか？"
+    },
+    {
+      "id": "J1-PN-0029",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "\\frac{3}{4}-\\left(+\\frac{5}{6}\\right)-\\left(-\\frac{1}{3}\\right)",
+      "answerLines": [
+        "\\frac{3}{4}-\\left(+\\frac{5}{6}\\right)-\\left(-\\frac{1}{3}\\right)",
+        "=\\frac{3}{4}-\\frac{5}{6}+\\frac{1}{3}",
+        "=\\frac{9}{12}-\\frac{10}{12}+\\frac{4}{12}",
+        "=\\frac{9}{12}-\\frac{14}{12}",
+        "=-\\frac{5}{12}"
+      ],
+      "errorLine": 3,
+      "errorType": "後ろのたし算の項までひいてしまった誤り",
+      "explanation": "$\\frac{9}{12}-\\frac{10}{12}+\\frac{4}{12}$ で、$+\\frac{4}{12}$ はたす項です。$\\frac{10}{12}$ と $\\frac{4}{12}$ を合わせて $\\frac{14}{12}$ をひくと、$\\frac{4}{12}$ までひいたことになってしまいます。正しくは $\\frac{9-10+4}{12}=\\frac{3}{12}=\\frac{1}{4}$ です。かっこのはずし方と通分は正しくできています。",
+      "correctSolution": [
+        "\\frac{3}{4}-\\left(+\\frac{5}{6}\\right)-\\left(-\\frac{1}{3}\\right)",
+        "=\\frac{3}{4}-\\frac{5}{6}+\\frac{1}{3}",
+        "=\\frac{9}{12}-\\frac{10}{12}+\\frac{4}{12}",
+        "=\\frac{3}{12}",
+        "=\\frac{1}{4}"
+      ],
+      "hint": "$+\\frac{4}{12}$ は、たす項とひく項のどちらですか？"
+    },
+    {
+      "id": "J1-PN-0030",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "-2.4-(-5)+(-3.6)-(+1)",
+      "answerLines": [
+        "-2.4-(-5)+(-3.6)-(+1)",
+        "=-2.4+5-3.6-1",
+        "=5-2.4-3.6-1",
+        "=5-7",
+        "=2"
+      ],
+      "errorLine": 4,
+      "errorType": "最後のひき算で答えの符号を誤った",
+      "explanation": "$5-7$ は、ひく数のほうが大きいので答えは負の数になり、$-2$ です。$2$ としたところが誤りです。かっこのはずし方、並べかえ、負の項をまとめた $-2.4-3.6-1=-7$ はすべて正しくできています。",
+      "correctSolution": [
+        "-2.4-(-5)+(-3.6)-(+1)",
+        "=-2.4+5-3.6-1",
+        "=5-2.4-3.6-1",
+        "=5-7",
+        "=-2"
+      ],
+      "hint": "最後の $5-7$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0031",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 3,
+      "question": "\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)+\\left(-\\frac{3}{2}\\right)",
+      "answerLines": [
+        "\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)+\\left(-\\frac{3}{2}\\right)",
+        "=\\frac{5}{6}+\\frac{1}{4}-\\frac{3}{2}",
+        "=\\frac{10}{12}+\\frac{3}{12}-\\frac{18}{12}",
+        "=-\\frac{5}{12}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-\\left(-\\frac{1}{4}\\right)=+\\frac{1}{4}$、$+\\left(-\\frac{3}{2}\\right)=-\\frac{3}{2}$ とかっこをはずし、分母を $12$ にそろえています。$\\frac{10+3-18}{12}=-\\frac{5}{12}$ です。",
+      "correctSolution": [
+        "\\frac{5}{6}-\\left(-\\frac{1}{4}\\right)+\\left(-\\frac{3}{2}\\right)",
+        "=\\frac{5}{6}+\\frac{1}{4}-\\frac{3}{2}",
+        "=\\frac{10}{12}+\\frac{3}{12}-\\frac{18}{12}",
+        "=-\\frac{5}{12}"
+      ],
+      "hint": "かっこのはずし方と、通分したときの分子（$\\frac{3}{2}$ は $\\frac{?}{12}$）を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0032",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "-\\frac{1}{2}-\\left\\{\\frac{2}{3}-\\left(-\\frac{5}{6}\\right)\\right\\}",
+      "answerLines": [
+        "-\\frac{1}{2}-\\left\\{\\frac{2}{3}-\\left(-\\frac{5}{6}\\right)\\right\\}",
+        "=-\\frac{1}{2}-\\left(\\frac{2}{3}-\\frac{5}{6}\\right)",
+        "=-\\frac{1}{2}-\\left(\\frac{4}{6}-\\frac{5}{6}\\right)",
+        "=-\\frac{1}{2}+\\frac{1}{6}",
+        "=-\\frac{1}{3}"
+      ],
+      "errorLine": 1,
+      "errorType": "中かっこの中のかっこをはずすときの符号ミス",
+      "explanation": "中かっこの中の $-\\left(-\\frac{5}{6}\\right)$ は $+\\frac{5}{6}$ です。$-\\frac{5}{6}$ としたところが誤りです。正しくは $\\frac{2}{3}+\\frac{5}{6}=\\frac{4}{6}+\\frac{5}{6}=\\frac{3}{2}$ なので、$-\\frac{1}{2}-\\frac{3}{2}=-2$ になります。",
+      "correctSolution": [
+        "-\\frac{1}{2}-\\left\\{\\frac{2}{3}-\\left(-\\frac{5}{6}\\right)\\right\\}",
+        "=-\\frac{1}{2}-\\left(\\frac{2}{3}+\\frac{5}{6}\\right)",
+        "=-\\frac{1}{2}-\\left(\\frac{4}{6}+\\frac{5}{6}\\right)",
+        "=-\\frac{1}{2}-\\frac{3}{2}",
+        "=-2"
+      ],
+      "hint": "内側のかっこ $-\\left(-\\frac{5}{6}\\right)$ から先にはずしましょう。符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0033",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "-1.25+\\frac{3}{4}-\\left(-\\frac{1}{2}\\right)-0.5",
+      "answerLines": [
+        "-1.25+\\frac{3}{4}-\\left(-\\frac{1}{2}\\right)-0.5",
+        "=-\\frac{5}{4}+\\frac{3}{4}+\\frac{1}{2}-\\frac{1}{2}",
+        "=-\\frac{8}{4}+\\frac{1}{2}-\\frac{1}{2}",
+        "=-2"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和で絶対値をたした誤り",
+      "explanation": "$-\\frac{5}{4}+\\frac{3}{4}$ は符号が異なる2数の和なので、絶対値の差を使って $-\\frac{2}{4}$ です。絶対値をたして $-\\frac{8}{4}$ としたところが誤りです。小数を分数に直した $-1.25=-\\frac{5}{4}$、$0.5=\\frac{1}{2}$ は正しくできています。正しくは $-\\frac{2}{4}=-\\frac{1}{2}$ で、$+\\frac{1}{2}-\\frac{1}{2}=0$ なので答えは $-\\frac{1}{2}$ です。",
+      "correctSolution": [
+        "-1.25+\\frac{3}{4}-\\left(-\\frac{1}{2}\\right)-0.5",
+        "=-\\frac{5}{4}+\\frac{3}{4}+\\frac{1}{2}-\\frac{1}{2}",
+        "=-\\frac{2}{4}+\\frac{1}{2}-\\frac{1}{2}",
+        "=-\\frac{1}{2}"
+      ],
+      "hint": "$-\\frac{5}{4}+\\frac{3}{4}$ は、絶対値の和と差のどちらを使いますか？"
+    },
+    {
+      "id": "J1-PN-0034",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "8-(-3.2)+(-11)-(+0.2)+6",
+      "answerLines": [
+        "8-(-3.2)+(-11)-(+0.2)+6",
+        "=8+3.2-11-0.2+6",
+        "=8+3.2+6-11-0.2",
+        "=17.2-10.8",
+        "=6.4"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数どうしの和を差で計算した誤り",
+      "explanation": "負の項 $-11-0.2$ をまとめると、絶対値の和を使って $-11.2$ です。$11-0.2=10.8$ として $-10.8$ としたところが誤りです。正の項 $8+3.2+6=17.2$ は正しくできています。正しくは $17.2-11.2=6$ です。",
+      "correctSolution": [
+        "8-(-3.2)+(-11)-(+0.2)+6",
+        "=8+3.2-11-0.2+6",
+        "=8+3.2+6-11-0.2",
+        "=17.2-11.2",
+        "=6"
+      ],
+      "hint": "$-11-0.2$ は、$11$ と $0.2$ の和と差のどちらを使って計算しますか？"
+    },
+    {
+      "id": "J1-PN-0035",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "\\frac{1}{3}-\\frac{3}{4}-\\left(-\\frac{5}{6}\\right)+\\left(-\\frac{1}{2}\\right)",
+      "answerLines": [
+        "\\frac{1}{3}-\\frac{3}{4}-\\left(-\\frac{5}{6}\\right)+\\left(-\\frac{1}{2}\\right)",
+        "=\\frac{1}{3}-\\frac{3}{4}+\\frac{5}{6}-\\frac{1}{2}",
+        "=\\frac{4}{12}-\\frac{9}{12}+\\frac{10}{12}-\\frac{6}{12}",
+        "=\\frac{14}{12}-\\frac{15}{12}",
+        "=\\frac{1}{12}"
+      ],
+      "errorLine": 4,
+      "errorType": "分数のひき算で答えの符号を誤った",
+      "explanation": "$\\frac{14}{12}-\\frac{15}{12}$ は、ひく数のほうが大きいので答えは負の数になり、$-\\frac{1}{12}$ です。$\\frac{1}{12}$ としたところが誤りです。かっこのはずし方、通分、正の項と負の項のまとめ方はすべて正しくできています。",
+      "correctSolution": [
+        "\\frac{1}{3}-\\frac{3}{4}-\\left(-\\frac{5}{6}\\right)+\\left(-\\frac{1}{2}\\right)",
+        "=\\frac{1}{3}-\\frac{3}{4}+\\frac{5}{6}-\\frac{1}{2}",
+        "=\\frac{4}{12}-\\frac{9}{12}+\\frac{10}{12}-\\frac{6}{12}",
+        "=\\frac{14}{12}-\\frac{15}{12}",
+        "=-\\frac{1}{12}"
+      ],
+      "hint": "最後の $\\frac{14}{12}-\\frac{15}{12}$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0036",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "-\\frac{7}{10}-(-0.2)+\\frac{3}{5}-1",
+      "answerLines": [
+        "-\\frac{7}{10}-(-0.2)+\\frac{3}{5}-1",
+        "=-0.7+0.2+0.6-1",
+        "=0.8-1.7",
+        "=-0.9"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分数を小数に直して計算しています（$\\frac{7}{10}=0.7$、$\\frac{3}{5}=0.6$）。正の項 $0.2+0.6=0.8$、負の項 $-0.7-1=-1.7$ をまとめて、$0.8-1.7=-0.9$ です。分母を $10$ にそろえて計算しても、同じ $-\\frac{9}{10}$ になります。",
+      "correctSolution": [
+        "-\\frac{7}{10}-(-0.2)+\\frac{3}{5}-1",
+        "=-0.7+0.2+0.6-1",
+        "=0.8-1.7",
+        "=-0.9"
+      ],
+      "hint": "$\\frac{3}{5}$ を小数に直すといくつですか？ 小数に直して計算してもよいでしょうか？"
+    },
+    {
+      "id": "J1-PN-0037",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "加法・減法",
+      "difficulty": 4,
+      "question": "-\\left\\{-3-\\left(-\\frac{1}{2}\\right)\\right\\}+\\left(-\\frac{5}{2}\\right)",
+      "answerLines": [
+        "-\\left\\{-3-\\left(-\\frac{1}{2}\\right)\\right\\}+\\left(-\\frac{5}{2}\\right)",
+        "=-\\left(-3+\\frac{1}{2}\\right)-\\frac{5}{2}",
+        "=3-\\frac{1}{2}-\\frac{5}{2}",
+        "=3-3",
+        "=0"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。内側のかっこをはずして $-3+\\frac{1}{2}$ とし、その前の「$-$」で中の各項の符号を変えて $3-\\frac{1}{2}$ としています。$\\frac{1}{2}+\\frac{5}{2}=3$ なので、$3-3=0$ です。",
+      "correctSolution": [
+        "-\\left\\{-3-\\left(-\\frac{1}{2}\\right)\\right\\}+\\left(-\\frac{5}{2}\\right)",
+        "=-\\left(-3+\\frac{1}{2}\\right)-\\frac{5}{2}",
+        "=3-\\frac{1}{2}-\\frac{5}{2}",
+        "=3-3",
+        "=0"
+      ],
+      "hint": "中かっこの前の「$-$」をはずすとき、中のすべての項の符号を変えているか確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0038",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 1,
+      "question": "(-4)\\times(+6)\\div(-3)",
+      "answerLines": [
+        "(-4)\\times(+6)\\div(-3)",
+        "=-(4\\times6\\div3)",
+        "=-8"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数の個数から決める符号のミス",
+      "explanation": "乗法と除法だけの式では、負の数の個数で答えの符号が決まります。負の数は $-4$ と $-3$ の $2$ 個（偶数個）なので、答えの符号は「$+$」です。「$-$」としたところが誤りです。正しくは $4\\times6\\div3=8$ です。",
+      "correctSolution": [
+        "(-4)\\times(+6)\\div(-3)",
+        "=4\\times6\\div3",
+        "=8"
+      ],
+      "hint": "式の中に負の数はいくつありますか？ 偶数個か奇数個かで符号が決まります。"
+    },
+    {
+      "id": "J1-PN-0039",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 1,
+      "question": "(-18)\\div(+3)\\times(-2)",
+      "answerLines": [
+        "(-18)\\div(+3)\\times(-2)",
+        "=(-6)\\times(-2)",
+        "=-12"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数どうしの積の符号ミス",
+      "explanation": "$(-6)\\times(-2)$ は負の数どうしの積なので、答えの符号は「$+$」で $12$ です。$-12$ としたところが誤りです。$(-18)\\div(+3)=-6$ は正しくできています。",
+      "correctSolution": [
+        "(-18)\\div(+3)\\times(-2)",
+        "=(-6)\\times(-2)",
+        "=12"
+      ],
+      "hint": "負の数と負の数をかけると、答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0040",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 1,
+      "question": "(-24)\\div(+6)\\times(-2)",
+      "answerLines": [
+        "(-24)\\div(+6)\\times(-2)",
+        "=24\\div6\\times2",
+        "=24\\div12",
+        "=2"
+      ],
+      "errorLine": 2,
+      "errorType": "乗除の計算で、うしろのかけ算を先に計算した誤り",
+      "explanation": "かけ算とわり算だけの式は、左から順に計算します。$24\\div6\\times2$ は、先に $24\\div6=4$ を計算して $4\\times2=8$ です。$6\\times2$ を先に計算して $24\\div12$ としたところが誤りです。負の数が $2$ 個なので符号を「$+$」にしたところは正しくできています。",
+      "correctSolution": [
+        "(-24)\\div(+6)\\times(-2)",
+        "=24\\div6\\times2",
+        "=4\\times2",
+        "=8"
+      ],
+      "hint": "かけ算とわり算が混じった式は、どの順番で計算しますか？"
+    },
+    {
+      "id": "J1-PN-0041",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 1,
+      "question": "(-2)\\times(+3)\\times(-5)\\times(-1)",
+      "answerLines": [
+        "(-2)\\times(+3)\\times(-5)\\times(-1)",
+        "=(-6)\\times(-5)\\times(-1)",
+        "=30\\times(-1)",
+        "=30"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をかけたときに符号を変え忘れた",
+      "explanation": "$30\\times(-1)$ は、正の数と負の数の積なので符号は「$-$」になり、$-30$ です。$30$ としたところが誤りです。$(-2)\\times(+3)=-6$、$(-6)\\times(-5)=30$ は正しくできています。",
+      "correctSolution": [
+        "(-2)\\times(+3)\\times(-5)\\times(-1)",
+        "=(-6)\\times(-5)\\times(-1)",
+        "=30\\times(-1)",
+        "=-30"
+      ],
+      "hint": "$30\\times(-1)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0042",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 1,
+      "question": "(-56)\\div(-7)\\div(+2)",
+      "answerLines": [
+        "(-56)\\div(-7)\\div(+2)",
+        "=8\\div2",
+        "=4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-56)\\div(-7)$ は負の数どうしの商なので符号は「$+$」になり $8$ です。$8\\div2=4$ です。",
+      "correctSolution": [
+        "(-56)\\div(-7)\\div(+2)",
+        "=8\\div2",
+        "=4"
+      ],
+      "hint": "$(-56)\\div(-7)$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0043",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "\\left(-\\frac{3}{4}\\right)\\div\\left(+\\frac{9}{8}\\right)",
+      "answerLines": [
+        "\\left(-\\frac{3}{4}\\right)\\div\\left(+\\frac{9}{8}\\right)",
+        "=-\\frac{3}{4}\\times\\frac{9}{8}",
+        "=-\\frac{27}{32}"
+      ],
+      "errorLine": 1,
+      "errorType": "わる数を逆数にしていない",
+      "explanation": "分数でわるときは、わる数の逆数をかけます。$\\frac{9}{8}$ の逆数は $\\frac{8}{9}$ なので、正しくは $-\\frac{3}{4}\\times\\frac{8}{9}=-\\frac{2}{3}$ です。$\\frac{9}{8}$ のままかけたところが誤りです。符号を「$-$」にしたところは正しくできています。",
+      "correctSolution": [
+        "\\left(-\\frac{3}{4}\\right)\\div\\left(+\\frac{9}{8}\\right)",
+        "=-\\frac{3}{4}\\times\\frac{8}{9}",
+        "=-\\frac{2}{3}"
+      ],
+      "hint": "分数でわる計算は、かけ算に直すときに何をしますか？"
+    },
+    {
+      "id": "J1-PN-0044",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "(-0.4)\\times(-15)",
+      "answerLines": [
+        "(-0.4)\\times(-15)",
+        "=0.4\\times15",
+        "=60"
+      ],
+      "errorLine": 2,
+      "errorType": "小数のかけ算で小数点の位置を誤った",
+      "explanation": "$0.4\\times15$ は $4\\times15=60$ を $10$ でわった数なので、$6$ です。小数点をつけ忘れて $60$ としたところが誤りです。負の数どうしの積なので符号を「$+$」にしたところは正しくできています。",
+      "correctSolution": [
+        "(-0.4)\\times(-15)",
+        "=0.4\\times15",
+        "=6"
+      ],
+      "hint": "$0.4\\times15$ の答えは、$15$ より大きくなりますか、小さくなりますか？"
+    },
+    {
+      "id": "J1-PN-0045",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "(+12)\\div\\left(-\\frac{4}{3}\\right)",
+      "answerLines": [
+        "(+12)\\div\\left(-\\frac{4}{3}\\right)",
+        "=12\\times\\left(-\\frac{3}{4}\\right)",
+        "=9"
+      ],
+      "errorLine": 2,
+      "errorType": "逆数のかけ算に直したあとの符号ミス",
+      "explanation": "$12\\times\\left(-\\frac{3}{4}\\right)$ は、正の数と負の数の積なので符号は「$-$」になり、$-9$ です。$9$ としたところが誤りです。わる数 $-\\frac{4}{3}$ の逆数を $-\\frac{3}{4}$ としたところは正しくできています。",
+      "correctSolution": [
+        "(+12)\\div\\left(-\\frac{4}{3}\\right)",
+        "=12\\times\\left(-\\frac{3}{4}\\right)",
+        "=-9"
+      ],
+      "hint": "$12\\times\\left(-\\frac{3}{4}\\right)$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0046",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "\\left(-\\frac{5}{6}\\right)\\times\\frac{9}{10}\\div\\left(-\\frac{3}{4}\\right)",
+      "answerLines": [
+        "\\left(-\\frac{5}{6}\\right)\\times\\frac{9}{10}\\div\\left(-\\frac{3}{4}\\right)",
+        "=\\frac{5}{6}\\times\\frac{9}{10}\\times\\frac{4}{3}",
+        "=\\frac{5\\times9\\times4}{6\\times10\\times3}",
+        "=\\frac{1}{2}"
+      ],
+      "errorLine": 3,
+      "errorType": "約分の誤り",
+      "explanation": "$\\frac{5\\times9\\times4}{6\\times10\\times3}$ は、分子が $180$、分母も $180$ なので $1$ です。約分のときにどこかで数を消しすぎて $\\frac{1}{2}$ としたところが誤りです。たとえば $5$ と $10$、$9$ と $3$、$4$ と $6$ を順に約分すると、$\\frac{1\\times3\\times2}{3\\times2\\times1}=1$ になります。符号と逆数の直し方は正しくできています。",
+      "correctSolution": [
+        "\\left(-\\frac{5}{6}\\right)\\times\\frac{9}{10}\\div\\left(-\\frac{3}{4}\\right)",
+        "=\\frac{5}{6}\\times\\frac{9}{10}\\times\\frac{4}{3}",
+        "=\\frac{5\\times9\\times4}{6\\times10\\times3}",
+        "=1"
+      ],
+      "hint": "約分するときは、分子と分母の数を1組ずつ確かめながら消していきましょう。"
+    },
+    {
+      "id": "J1-PN-0047",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "(-3)\\times(+4)\\div(-6)\\times(-5)",
+      "answerLines": [
+        "(-3)\\times(+4)\\div(-6)\\times(-5)",
+        "=-(3\\times4\\div6\\times5)",
+        "=-(12\\div6\\times5)",
+        "=-(2\\times5)",
+        "=10"
+      ],
+      "errorLine": 4,
+      "errorType": "最後に符号をつけ忘れた",
+      "explanation": "負の数が $3$ 個（奇数個）なので答えの符号は「$-$」で、最初の行でかっこの前に「$-$」をつけたところまでは正しくできています。最後に $-(2\\times5)$ を計算するとき、「$-$」を落として $10$ としたところが誤りです。正しくは $-10$ です。",
+      "correctSolution": [
+        "(-3)\\times(+4)\\div(-6)\\times(-5)",
+        "=-(3\\times4\\div6\\times5)",
+        "=-(12\\div6\\times5)",
+        "=-(2\\times5)",
+        "=-10"
+      ],
+      "hint": "最初に決めた符号は、最後の答えまで残っていますか？"
+    },
+    {
+      "id": "J1-PN-0048",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 2,
+      "question": "\\left(-\\frac{2}{5}\\right)\\times(-10)\\div(-8)",
+      "answerLines": [
+        "\\left(-\\frac{2}{5}\\right)\\times(-10)\\div(-8)",
+        "=-\\frac{2}{5}\\times10\\times\\frac{1}{8}",
+        "=-\\frac{2\\times10}{5\\times8}",
+        "=-\\frac{1}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数が $3$ 個なので符号は「$-$」で、$\\div(-8)$ を $\\times\\frac{1}{8}$ に直しています。$\\frac{2\\times10}{5\\times8}=\\frac{20}{40}=\\frac{1}{2}$ です。",
+      "correctSolution": [
+        "\\left(-\\frac{2}{5}\\right)\\times(-10)\\div(-8)",
+        "=-\\frac{2}{5}\\times10\\times\\frac{1}{8}",
+        "=-\\frac{2\\times10}{5\\times8}",
+        "=-\\frac{1}{2}"
+      ],
+      "hint": "負の数の個数と、$\\div 8$ を逆数のかけ算に直したところを確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0049",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "\\frac{7}{12}\\div\\left(-\\frac{14}{9}\\right)\\times(-8)",
+      "answerLines": [
+        "\\frac{7}{12}\\div\\left(-\\frac{14}{9}\\right)\\times(-8)",
+        "=-\\frac{7}{12}\\times\\frac{9}{14}\\times8",
+        "=-\\frac{7\\times9\\times8}{12\\times14}",
+        "=-3"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数の個数を数えまちがえた符号のミス",
+      "explanation": "負の数は $-\\frac{14}{9}$ と $-8$ の $2$ 個（偶数個）なので、答えの符号は「$+$」です。「$-$」としたところが誤りです。わる数を逆数 $\\frac{9}{14}$ にしたところと、絶対値の計算 $\\frac{7\\times9\\times8}{12\\times14}=3$ は正しくできています。正しい答えは $3$ です。",
+      "correctSolution": [
+        "\\frac{7}{12}\\div\\left(-\\frac{14}{9}\\right)\\times(-8)",
+        "=\\frac{7}{12}\\times\\frac{9}{14}\\times8",
+        "=\\frac{7\\times9\\times8}{12\\times14}",
+        "=3"
+      ],
+      "hint": "式の中に負の数はいくつありますか？"
+    },
+    {
+      "id": "J1-PN-0050",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "(-0.6)\\div\\frac{3}{4}\\times(-5)",
+      "answerLines": [
+        "(-0.6)\\div\\frac{3}{4}\\times(-5)",
+        "=-\\frac{3}{5}\\times\\frac{4}{3}\\times(-5)",
+        "=\\frac{3\\times4}{5\\times3\\times5}",
+        "=\\frac{4}{25}"
+      ],
+      "errorLine": 2,
+      "errorType": "整数のかけ算を分母にかけてしまった誤り",
+      "explanation": "$\\times(-5)$ の $5$ は分子にかけます。$\\frac{3}{5}\\times\\frac{4}{3}\\times5=\\frac{3\\times4\\times5}{5\\times3}$ なので、答えは $4$ です。$5$ を分母に入れてしまったところが誤りです。$-0.6=-\\frac{3}{5}$ と直したところ、逆数 $\\frac{4}{3}$、負の数が $2$ 個なので符号を「$+$」にしたところは正しくできています。",
+      "correctSolution": [
+        "(-0.6)\\div\\frac{3}{4}\\times(-5)",
+        "=-\\frac{3}{5}\\times\\frac{4}{3}\\times(-5)",
+        "=\\frac{3\\times4\\times5}{5\\times3}",
+        "=4"
+      ],
+      "hint": "整数 $5$ を分数で表すと $\\frac{5}{1}$ です。$5$ は分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J1-PN-0051",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "(-2.5)\\times(-0.4)\\div(-0.05)",
+      "answerLines": [
+        "(-2.5)\\times(-0.4)\\div(-0.05)",
+        "=-(2.5\\times0.4\\div0.05)",
+        "=-(1\\div0.05)",
+        "=-2"
+      ],
+      "errorLine": 3,
+      "errorType": "小数のわり算で位取りを誤った",
+      "explanation": "$1\\div0.05$ は、わる数とわられる数を $100$ 倍して $100\\div5=20$ です。$-2$ としたところが誤りです。$0.05$ は $\\frac{1}{20}$ なので、$1\\div\\frac{1}{20}=20$ と考えることもできます。符号（負の数が $3$ 個なので「$-$」）と $2.5\\times0.4=1$ は正しくできています。正しい答えは $-20$ です。",
+      "correctSolution": [
+        "(-2.5)\\times(-0.4)\\div(-0.05)",
+        "=-(2.5\\times0.4\\div0.05)",
+        "=-(1\\div0.05)",
+        "=-20"
+      ],
+      "hint": "$1\\div0.05$ の答えは、$1$ より大きくなりますか、小さくなりますか？"
+    },
+    {
+      "id": "J1-PN-0052",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "(-6)\\times\\left(-\\frac{2}{3}\\right)\\div(-8)\\times(-12)",
+      "answerLines": [
+        "(-6)\\times\\left(-\\frac{2}{3}\\right)\\div(-8)\\times(-12)",
+        "=4\\div(-8)\\times(-12)",
+        "=4\\times\\left(-\\frac{1}{8}\\right)\\times(-12)",
+        "=-\\frac{1}{2}\\times(-12)",
+        "=-6"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数どうしの積の符号ミス",
+      "explanation": "$-\\frac{1}{2}\\times(-12)$ は負の数どうしの積なので、答えの符号は「$+$」で $6$ です。$-6$ としたところが誤りです。左から順に計算した $(-6)\\times\\left(-\\frac{2}{3}\\right)=4$、$4\\times\\left(-\\frac{1}{8}\\right)=-\\frac{1}{2}$ はどれも正しくできています。",
+      "correctSolution": [
+        "(-6)\\times\\left(-\\frac{2}{3}\\right)\\div(-8)\\times(-12)",
+        "=4\\div(-8)\\times(-12)",
+        "=4\\times\\left(-\\frac{1}{8}\\right)\\times(-12)",
+        "=-\\frac{1}{2}\\times(-12)",
+        "=6"
+      ],
+      "hint": "最後のかけ算 $-\\frac{1}{2}\\times(-12)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0053",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 3,
+      "question": "\\left(-\\frac{3}{8}\\right)\\div(-0.75)\\times(-4)",
+      "answerLines": [
+        "\\left(-\\frac{3}{8}\\right)\\div(-0.75)\\times(-4)",
+        "=-\\frac{3}{8}\\times\\left(-\\frac{4}{3}\\right)\\times(-4)",
+        "=-\\frac{3\\times4\\times4}{8\\times3}",
+        "=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-0.75=-\\frac{3}{4}$ なので、その逆数 $-\\frac{4}{3}$ をかけています。負の数が $3$ 個なので符号は「$-$」で、$\\frac{3\\times4\\times4}{8\\times3}=\\frac{48}{24}=2$ です。",
+      "correctSolution": [
+        "\\left(-\\frac{3}{8}\\right)\\div(-0.75)\\times(-4)",
+        "=-\\frac{3}{8}\\times\\left(-\\frac{4}{3}\\right)\\times(-4)",
+        "=-\\frac{3\\times4\\times4}{8\\times3}",
+        "=-2"
+      ],
+      "hint": "$0.75$ を分数に直すといくつですか？ その逆数も確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0054",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 4,
+      "question": "\\frac{5}{6}\\div\\left(-\\frac{10}{3}\\right)\\div(-0.25)",
+      "answerLines": [
+        "\\frac{5}{6}\\div\\left(-\\frac{10}{3}\\right)\\div(-0.25)",
+        "=\\frac{5}{6}\\times\\left(-\\frac{3}{10}\\right)\\times(-0.25)",
+        "=\\frac{5}{6}\\times\\frac{3}{10}\\times\\frac{1}{4}",
+        "=\\frac{1}{16}"
+      ],
+      "errorLine": 1,
+      "errorType": "小数でわるときに逆数にしていない",
+      "explanation": "$\\div(-0.25)$ も逆数のかけ算に直します。$-0.25=-\\frac{1}{4}$ なので、逆数は $-4$ です。$\\times(-0.25)$ としたところが誤りです。$\\div\\left(-\\frac{10}{3}\\right)$ を $\\times\\left(-\\frac{3}{10}\\right)$ としたところは正しくできています。正しくは $\\frac{5}{6}\\times\\frac{3}{10}\\times4=1$ です。",
+      "correctSolution": [
+        "\\frac{5}{6}\\div\\left(-\\frac{10}{3}\\right)\\div(-0.25)",
+        "=\\frac{5}{6}\\times\\left(-\\frac{3}{10}\\right)\\times(-4)",
+        "=\\frac{5\\times3\\times4}{6\\times10}",
+        "=1"
+      ],
+      "hint": "2つ目のわり算 $\\div(-0.25)$ も、かけ算に直せていますか？ $0.25$ を分数で表してみましょう。"
+    },
+    {
+      "id": "J1-PN-0055",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 4,
+      "question": "-0.75\\times\\left(-\\frac{2}{3}\\right)\\div\\left(-\\frac{5}{4}\\right)",
+      "answerLines": [
+        "-0.75\\times\\left(-\\frac{2}{3}\\right)\\div\\left(-\\frac{5}{4}\\right)",
+        "=-\\frac{3}{4}\\times\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{4}{5}\\right)",
+        "=\\frac{3\\times2\\times4}{4\\times3\\times5}",
+        "=\\frac{2}{5}"
+      ],
+      "errorLine": 2,
+      "errorType": "先頭の負の数を数え忘れた符号のミス",
+      "explanation": "負の数は $-\\frac{3}{4}$、$-\\frac{2}{3}$、$-\\frac{4}{5}$ の $3$ 個（奇数個）なので、答えの符号は「$-$」です。先頭の $-\\frac{3}{4}$ を数えずに「$+$」としたところが誤りです。小数を分数に直したところと逆数は正しくできています。正しい答えは $-\\frac{2}{5}$ です。",
+      "correctSolution": [
+        "-0.75\\times\\left(-\\frac{2}{3}\\right)\\div\\left(-\\frac{5}{4}\\right)",
+        "=-\\frac{3}{4}\\times\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{4}{5}\\right)",
+        "=-\\frac{3\\times2\\times4}{4\\times3\\times5}",
+        "=-\\frac{2}{5}"
+      ],
+      "hint": "先頭の $-\\frac{3}{4}$ も負の数です。負の数は全部でいくつありますか？"
+    },
+    {
+      "id": "J1-PN-0056",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 4,
+      "question": "(-48)\\div(-6)\\div(-2)\\div\\left(-\\frac{1}{3}\\right)",
+      "answerLines": [
+        "(-48)\\div(-6)\\div(-2)\\div\\left(-\\frac{1}{3}\\right)",
+        "=48\\div6\\div2\\div\\frac{1}{3}",
+        "=8\\div2\\div\\frac{1}{3}",
+        "=8\\div6",
+        "=\\frac{4}{3}"
+      ],
+      "errorLine": 3,
+      "errorType": "わり算が続く計算を右から計算した誤り",
+      "explanation": "わり算が続く式は、左から順に計算します。$8\\div2\\div\\frac{1}{3}$ は、先に $8\\div2=4$、次に $4\\div\\frac{1}{3}=4\\times3=12$ です。右側の $2\\div\\frac{1}{3}=6$ を先に計算して $8\\div6$ としたところが誤りです。負の数が $4$ 個なので符号を「$+$」にしたところと、$48\\div6=8$ は正しくできています。",
+      "correctSolution": [
+        "(-48)\\div(-6)\\div(-2)\\div\\left(-\\frac{1}{3}\\right)",
+        "=48\\div6\\div2\\div\\frac{1}{3}",
+        "=8\\div2\\div\\frac{1}{3}",
+        "=4\\div\\frac{1}{3}",
+        "=12"
+      ],
+      "hint": "$8\\div2\\div\\frac{1}{3}$ は、どちらのわり算から計算しますか？"
+    },
+    {
+      "id": "J1-PN-0057",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 4,
+      "question": "0.2\\times(-15)\\div\\left(-\\frac{3}{5}\\right)\\times(-0.1)",
+      "answerLines": [
+        "0.2\\times(-15)\\div\\left(-\\frac{3}{5}\\right)\\times(-0.1)",
+        "=-3\\div\\left(-\\frac{3}{5}\\right)\\times(-0.1)",
+        "=-3\\times\\left(-\\frac{5}{3}\\right)\\times(-0.1)",
+        "=5\\times(-0.1)",
+        "=-5"
+      ],
+      "errorLine": 4,
+      "errorType": "0.1 をかける計算で小数点の位置を誤った",
+      "explanation": "$5\\times(-0.1)$ は $5$ の $\\frac{1}{10}$ なので $-0.5$ です。$-5$ としたところが誤りです。$0.2\\times(-15)=-3$、逆数 $-\\frac{5}{3}$、$-3\\times\\left(-\\frac{5}{3}\\right)=5$ はどれも正しくできています。",
+      "correctSolution": [
+        "0.2\\times(-15)\\div\\left(-\\frac{3}{5}\\right)\\times(-0.1)",
+        "=-3\\div\\left(-\\frac{3}{5}\\right)\\times(-0.1)",
+        "=-3\\times\\left(-\\frac{5}{3}\\right)\\times(-0.1)",
+        "=5\\times(-0.1)",
+        "=-0.5"
+      ],
+      "hint": "$0.1$ をかけると、数の大きさはどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0058",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "乗法・除法",
+      "difficulty": 4,
+      "question": "\\left(-\\frac{2}{3}\\right)\\div0.4\\times\\left(-\\frac{3}{10}\\right)\\div(-5)",
+      "answerLines": [
+        "\\left(-\\frac{2}{3}\\right)\\div0.4\\times\\left(-\\frac{3}{10}\\right)\\div(-5)",
+        "=-\\frac{2}{3}\\times\\frac{5}{2}\\times\\frac{3}{10}\\times\\frac{1}{5}",
+        "=-\\frac{2\\times5\\times3}{3\\times2\\times10\\times5}",
+        "=-\\frac{1}{10}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$0.4=\\frac{2}{5}$ なので、$\\div0.4$ は $\\times\\frac{5}{2}$、$\\div(-5)$ は $\\times\\left(-\\frac{1}{5}\\right)$ です。負の数が $3$ 個なので符号は「$-$」で、$\\frac{2\\times5\\times3}{3\\times2\\times10\\times5}=\\frac{30}{300}=\\frac{1}{10}$ です。",
+      "correctSolution": [
+        "\\left(-\\frac{2}{3}\\right)\\div0.4\\times\\left(-\\frac{3}{10}\\right)\\div(-5)",
+        "=-\\frac{2}{3}\\times\\frac{5}{2}\\times\\frac{3}{10}\\times\\frac{1}{5}",
+        "=-\\frac{2\\times5\\times3}{3\\times2\\times10\\times5}",
+        "=-\\frac{1}{10}"
+      ],
+      "hint": "$0.4$ の逆数はいくつですか？ 負の数の個数も数えましょう。"
+    },
+    {
+      "id": "J1-PN-0059",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 1,
+      "question": "-3^2+5",
+      "answerLines": [
+        "-3^2+5",
+        "=9+5",
+        "=14"
+      ],
+      "errorLine": 1,
+      "errorType": "-3² を (-3)² と同じに考えた誤り",
+      "explanation": "$-3^2$ は「$3^2$ に $-$ をつけたもの」なので、$-(3\\times3)=-9$ です。$(-3)^2=9$ とは違います。$9$ としたところが誤りです。正しくは $-9+5=-4$ です。",
+      "correctSolution": [
+        "-3^2+5",
+        "=-9+5",
+        "=-4"
+      ],
+      "hint": "$-3^2$ と $(-3)^2$ は同じですか？ 2乗するのはどの数でしょうか。"
+    },
+    {
+      "id": "J1-PN-0060",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 1,
+      "question": "(-2)^3\\times2",
+      "answerLines": [
+        "(-2)^3\\times2",
+        "=(-2)\\times(-2)\\times(-2)\\times2",
+        "=8\\times2",
+        "=16"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の奇数乗の符号ミス",
+      "explanation": "$(-2)\\times(-2)\\times(-2)$ は負の数を $3$ 個（奇数個）かけるので、符号は「$-$」で $-8$ です。$8$ としたところが誤りです。$(-2)^3$ を $(-2)$ を $3$ 回かける式に直したところは正しくできています。正しくは $-8\\times2=-16$ です。",
+      "correctSolution": [
+        "(-2)^3\\times2",
+        "=(-2)\\times(-2)\\times(-2)\\times2",
+        "=-8\\times2",
+        "=-16"
+      ],
+      "hint": "負の数を $3$ 回かけると、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0061",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 1,
+      "question": "4^2-(-1)^3",
+      "answerLines": [
+        "4^2-(-1)^3",
+        "=4\\times4-(-1)^3",
+        "=16-(-1)",
+        "=16-1",
+        "=15"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をひくときの符号ミス",
+      "explanation": "$16-(-1)$ は、負の数をひくので $16+1=17$ です。$16-1$ としたところが誤りです。$4^2=16$、$(-1)^3=-1$ の計算は正しくできています。",
+      "correctSolution": [
+        "4^2-(-1)^3",
+        "=4\\times4-(-1)^3",
+        "=16-(-1)",
+        "=16+1",
+        "=17"
+      ],
+      "hint": "$-(-1)$ のかっこをはずすと、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0062",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 1,
+      "question": "(-5)^2-2^3",
+      "answerLines": [
+        "(-5)^2-2^3",
+        "=25-8",
+        "=17"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-5)^2=(-5)\\times(-5)=25$、$2^3=2\\times2\\times2=8$ なので、$25-8=17$ です。",
+      "correctSolution": [
+        "(-5)^2-2^3",
+        "=25-8",
+        "=17"
+      ],
+      "hint": "$(-5)^2$ の符号と、$2^3$ が $2\\times3$ ではないことを確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0063",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 1,
+      "question": "-(-3)^2\\times2",
+      "answerLines": [
+        "-(-3)^2\\times2",
+        "=-9\\times2",
+        "=-18"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-3)^2=9$ に、前の「$-$」をつけて $-9$ です。$-9\\times2=-18$ です。",
+      "correctSolution": [
+        "-(-3)^2\\times2",
+        "=-9\\times2",
+        "=-18"
+      ],
+      "hint": "$-(-3)^2$ は、$(-3)^2$ を計算してから「$-$」をつけます。"
+    },
+    {
+      "id": "J1-PN-0064",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "2\\times(-3)^2",
+      "answerLines": [
+        "2\\times(-3)^2",
+        "=(-6)^2",
+        "=36"
+      ],
+      "errorLine": 1,
+      "errorType": "累乗より先にかけ算をした誤り",
+      "explanation": "累乗はかけ算より先に計算します。$(-3)^2=9$ を先に求めて、$2\\times9=18$ です。$2\\times(-3)$ を先に計算して $(-6)^2$ としたところが誤りです。指数の $2$ は $(-3)$ だけにかかっていて、$2\\times(-3)$ にはかかっていません。",
+      "correctSolution": [
+        "2\\times(-3)^2",
+        "=2\\times9",
+        "=18"
+      ],
+      "hint": "累乗とかけ算では、どちらを先に計算しますか？ 指数の $2$ はどの数にかかっていますか？"
+    },
+    {
+      "id": "J1-PN-0065",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "\\left(-\\frac{2}{3}\\right)^2\\times\\frac{9}{8}",
+      "answerLines": [
+        "\\left(-\\frac{2}{3}\\right)^2\\times\\frac{9}{8}",
+        "=\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{2}{3}\\right)\\times\\frac{9}{8}",
+        "=-\\frac{4}{9}\\times\\frac{9}{8}",
+        "=-\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の2乗の符号ミス",
+      "explanation": "$\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{2}{3}\\right)$ は負の数どうしの積なので、符号は「$+$」で $\\frac{4}{9}$ です。$-\\frac{4}{9}$ としたところが誤りです。正しくは $\\frac{4}{9}\\times\\frac{9}{8}=\\frac{1}{2}$ です。",
+      "correctSolution": [
+        "\\left(-\\frac{2}{3}\\right)^2\\times\\frac{9}{8}",
+        "=\\left(-\\frac{2}{3}\\right)\\times\\left(-\\frac{2}{3}\\right)\\times\\frac{9}{8}",
+        "=\\frac{4}{9}\\times\\frac{9}{8}",
+        "=\\frac{1}{2}"
+      ],
+      "hint": "負の数を $2$ 回かけると、符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0066",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "(-1)^5-2^4\\div(-4)",
+      "answerLines": [
+        "(-1)^5-2^4\\div(-4)",
+        "=(-1)^5-16\\div(-4)",
+        "=(-1)^5+4",
+        "=1+4",
+        "=5"
+      ],
+      "errorLine": 3,
+      "errorType": "-1 の奇数乗の符号ミス",
+      "explanation": "$(-1)^5$ は $-1$ を $5$ 回（奇数回）かけるので $-1$ です。$1$ としたところが誤りです。$2^4=16$、$-16\\div(-4)=+4$ は正しくできています。正しくは $-1+4=3$ です。",
+      "correctSolution": [
+        "(-1)^5-2^4\\div(-4)",
+        "=(-1)^5-16\\div(-4)",
+        "=(-1)^5+4",
+        "=-1+4",
+        "=3"
+      ],
+      "hint": "$-1$ を奇数回かけると、答えは $1$ と $-1$ のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0067",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "(-2)^2\\times(-1)^3\\times5",
+      "answerLines": [
+        "(-2)^2\\times(-1)^3\\times5",
+        "=4\\times(-1)\\times5",
+        "=-20"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-2)^2=4$（偶数回かけるので「$+$」）、$(-1)^3=-1$（奇数回かけるので「$-$」）です。$4\\times(-1)\\times5=-20$ です。",
+      "correctSolution": [
+        "(-2)^2\\times(-1)^3\\times5",
+        "=4\\times(-1)\\times5",
+        "=-20"
+      ],
+      "hint": "それぞれの累乗の符号を、かける回数が偶数か奇数かで確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0068",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 2,
+      "question": "-4^2+(-4)^2",
+      "answerLines": [
+        "-4^2+(-4)^2",
+        "=-16+16",
+        "=0"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-4^2=-(4\\times4)=-16$、$(-4)^2=(-4)\\times(-4)=16$ です。見た目は似ていますが、値が違うことに注意しましょう。$-16+16=0$ です。",
+      "correctSolution": [
+        "-4^2+(-4)^2",
+        "=-16+16",
+        "=0"
+      ],
+      "hint": "$-4^2$ と $(-4)^2$ は、それぞれ何を2乗していますか？"
+    },
+    {
+      "id": "J1-PN-0069",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "\\frac{3^2}{4}-\\left(\\frac{3}{4}\\right)^2",
+      "answerLines": [
+        "\\frac{3^2}{4}-\\left(\\frac{3}{4}\\right)^2",
+        "=\\frac{9}{4}-\\frac{9}{4}",
+        "=0"
+      ],
+      "errorLine": 1,
+      "errorType": "分数の2乗で分母を2乗し忘れた",
+      "explanation": "$\\left(\\frac{3}{4}\\right)^2$ は分子も分母も2乗するので $\\frac{3\\times3}{4\\times4}=\\frac{9}{16}$ です。分子だけを2乗して $\\frac{9}{4}$ としたところが誤りです。$\\frac{3^2}{4}$ は分子の $3$ だけを2乗するので $\\frac{9}{4}$ で正しいです。正しくは $\\frac{36}{16}-\\frac{9}{16}=\\frac{27}{16}$ です。",
+      "correctSolution": [
+        "\\frac{3^2}{4}-\\left(\\frac{3}{4}\\right)^2",
+        "=\\frac{9}{4}-\\frac{9}{16}",
+        "=\\frac{36}{16}-\\frac{9}{16}",
+        "=\\frac{27}{16}"
+      ],
+      "hint": "$\\frac{3^2}{4}$ と $\\left(\\frac{3}{4}\\right)^2$ では、2乗している部分がどう違いますか？"
+    },
+    {
+      "id": "J1-PN-0070",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "(-0.3)^2\\times10-1",
+      "answerLines": [
+        "(-0.3)^2\\times10-1",
+        "=(-0.3)\\times(-0.3)\\times10-1",
+        "=0.9\\times10-1",
+        "=9-1",
+        "=8"
+      ],
+      "errorLine": 2,
+      "errorType": "小数の2乗で小数点の位置を誤った",
+      "explanation": "$0.3\\times0.3$ は、$3\\times3=9$ で、小数点以下のけた数が $1+1=2$ けたなので $0.09$ です。$0.9$ としたところが誤りです。符号を「$+$」にしたところは正しくできています。正しくは $0.09\\times10-1=0.9-1=-0.1$ です。",
+      "correctSolution": [
+        "(-0.3)^2\\times10-1",
+        "=(-0.3)\\times(-0.3)\\times10-1",
+        "=0.09\\times10-1",
+        "=0.9-1",
+        "=-0.1"
+      ],
+      "hint": "$0.3\\times0.3$ の答えは、小数点以下何けたになりますか？"
+    },
+    {
+      "id": "J1-PN-0071",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "-(-2)^3-3^2\\times\\frac{1}{3}",
+      "answerLines": [
+        "-(-2)^3-3^2\\times\\frac{1}{3}",
+        "=-(-8)-9\\times\\frac{1}{3}",
+        "=-8-3",
+        "=-11"
+      ],
+      "errorLine": 2,
+      "errorType": "累乗の前の負号の処理ミス",
+      "explanation": "$-(-8)$ は負の数をひくことになるので $+8$ です。$-8$ としたところが誤りです。$(-2)^3=-8$、$3^2\\times\\frac{1}{3}=3$ は正しくできています。正しくは $8-3=5$ です。",
+      "correctSolution": [
+        "-(-2)^3-3^2\\times\\frac{1}{3}",
+        "=-(-8)-9\\times\\frac{1}{3}",
+        "=8-3",
+        "=5"
+      ],
+      "hint": "$-(-8)$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0072",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "(-3)^3\\div\\left(-\\frac{3}{2}\\right)^2",
+      "answerLines": [
+        "(-3)^3\\div\\left(-\\frac{3}{2}\\right)^2",
+        "=-27\\div\\left(-\\frac{3}{2}\\right)^2",
+        "=-27\\div\\frac{9}{4}",
+        "=-27\\times\\frac{9}{4}",
+        "=-\\frac{243}{4}"
+      ],
+      "errorLine": 3,
+      "errorType": "累乗を計算したあと、わる数を逆数にし忘れた",
+      "explanation": "$\\div\\frac{9}{4}$ は、逆数をかけて $\\times\\frac{4}{9}$ にします。$\\times\\frac{9}{4}$ としたところが誤りです。$(-3)^3=-27$、$\\left(-\\frac{3}{2}\\right)^2=\\frac{9}{4}$ は正しくできています。正しくは $-27\\times\\frac{4}{9}=-12$ です。",
+      "correctSolution": [
+        "(-3)^3\\div\\left(-\\frac{3}{2}\\right)^2",
+        "=-27\\div\\left(-\\frac{3}{2}\\right)^2",
+        "=-27\\div\\frac{9}{4}",
+        "=-27\\times\\frac{4}{9}",
+        "=-12"
+      ],
+      "hint": "分数でわるときは、かけ算に直すときに何をしますか？"
+    },
+    {
+      "id": "J1-PN-0073",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "\\left(-\\frac{1}{2}\\right)^3\\times2^4-(-3)^2",
+      "answerLines": [
+        "\\left(-\\frac{1}{2}\\right)^3\\times2^4-(-3)^2",
+        "=\\left(-\\frac{1}{8}\\right)\\times16-(-3)^2",
+        "=-2-(-3)^2",
+        "=-2-9",
+        "=-7"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数どうしの和を差で計算した誤り",
+      "explanation": "$-2-9$ は、負の数と負の数の和と同じなので、絶対値をたして $-11$ です。$9-2$ のように差を求めて $-7$ としたところが誤りです。$\\left(-\\frac{1}{2}\\right)^3=-\\frac{1}{8}$、$2^4=16$、$(-3)^2=9$ はどれも正しくできています。",
+      "correctSolution": [
+        "\\left(-\\frac{1}{2}\\right)^3\\times2^4-(-3)^2",
+        "=\\left(-\\frac{1}{8}\\right)\\times16-(-3)^2",
+        "=-2-(-3)^2",
+        "=-2-9",
+        "=-11"
+      ],
+      "hint": "$-2-9$ は、$2$ と $9$ の和と差のどちらを使って計算しますか？"
+    },
+    {
+      "id": "J1-PN-0074",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 3,
+      "question": "(-1)^{4}\\times(-2)^3-(-2^2)",
+      "answerLines": [
+        "(-1)^{4}\\times(-2)^3-(-2^2)",
+        "=1\\times(-8)-(-4)",
+        "=-8+4",
+        "=-4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-1)^4=1$、$(-2)^3=-8$ です。かっこの中の $-2^2$ は $-(2\\times2)=-4$ なので、$-(-4)=+4$ になります。$-8+4=-4$ です。",
+      "correctSolution": [
+        "(-1)^{4}\\times(-2)^3-(-2^2)",
+        "=1\\times(-8)-(-4)",
+        "=-8+4",
+        "=-4"
+      ],
+      "hint": "かっこの中の $-2^2$ と、$(-2)^2$ の違いに注意しましょう。"
+    },
+    {
+      "id": "J1-PN-0075",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 4,
+      "question": "-\\left(-\\frac{2}{3}\\right)^3\\times\\frac{9}{4}+\\left(-\\frac{1}{2}\\right)^2",
+      "answerLines": [
+        "-\\left(-\\frac{2}{3}\\right)^3\\times\\frac{9}{4}+\\left(-\\frac{1}{2}\\right)^2",
+        "=-\\left(-\\frac{8}{27}\\right)\\times\\frac{9}{4}+\\frac{1}{4}",
+        "=-\\frac{8}{27}\\times\\frac{9}{4}+\\frac{1}{4}",
+        "=-\\frac{2}{3}+\\frac{1}{4}",
+        "=-\\frac{5}{12}"
+      ],
+      "errorLine": 2,
+      "errorType": "累乗の前の負号の処理ミス",
+      "explanation": "$-\\left(-\\frac{8}{27}\\right)$ は $+\\frac{8}{27}$ です。「$-$」が $2$ つ重なっているのに、$-\\frac{8}{27}$ としたところが誤りです。$\\left(-\\frac{2}{3}\\right)^3=-\\frac{8}{27}$、$\\left(-\\frac{1}{2}\\right)^2=\\frac{1}{4}$ は正しくできています。正しくは $\\frac{2}{3}+\\frac{1}{4}=\\frac{11}{12}$ です。",
+      "correctSolution": [
+        "-\\left(-\\frac{2}{3}\\right)^3\\times\\frac{9}{4}+\\left(-\\frac{1}{2}\\right)^2",
+        "=-\\left(-\\frac{8}{27}\\right)\\times\\frac{9}{4}+\\frac{1}{4}",
+        "=\\frac{8}{27}\\times\\frac{9}{4}+\\frac{1}{4}",
+        "=\\frac{2}{3}+\\frac{1}{4}",
+        "=\\frac{11}{12}"
+      ],
+      "hint": "$-\\left(-\\frac{8}{27}\\right)$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0076",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 4,
+      "question": "(-2)^3\\times\\left(-\\frac{3}{4}\\right)^2-(-1)^{10}",
+      "answerLines": [
+        "(-2)^3\\times\\left(-\\frac{3}{4}\\right)^2-(-1)^{10}",
+        "=-8\\times\\frac{9}{16}-1",
+        "=-\\frac{9}{2}-1",
+        "=-\\frac{9}{2}-\\frac{1}{2}",
+        "=-5"
+      ],
+      "errorLine": 3,
+      "errorType": "整数を分数に直すときの誤り",
+      "explanation": "$1$ を分母が $2$ の分数に直すと $\\frac{2}{2}$ です。$\\frac{1}{2}$ としたところが誤りです。正しくは $-\\frac{9}{2}-\\frac{2}{2}=-\\frac{11}{2}$ です。$(-2)^3=-8$、$\\left(-\\frac{3}{4}\\right)^2=\\frac{9}{16}$、$(-1)^{10}=1$ はどれも正しくできています。",
+      "correctSolution": [
+        "(-2)^3\\times\\left(-\\frac{3}{4}\\right)^2-(-1)^{10}",
+        "=-8\\times\\frac{9}{16}-1",
+        "=-\\frac{9}{2}-1",
+        "=-\\frac{9}{2}-\\frac{2}{2}",
+        "=-\\frac{11}{2}"
+      ],
+      "hint": "$1$ を分母が $2$ の分数で表すと、分子はいくつですか？"
+    },
+    {
+      "id": "J1-PN-0077",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 4,
+      "question": "-3^2\\times\\left(-\\frac{1}{3}\\right)^3\\div\\left(-\\frac{1}{6}\\right)",
+      "answerLines": [
+        "-3^2\\times\\left(-\\frac{1}{3}\\right)^3\\div\\left(-\\frac{1}{6}\\right)",
+        "=-9\\times\\left(-\\frac{1}{27}\\right)\\div\\left(-\\frac{1}{6}\\right)",
+        "=\\frac{1}{3}\\div\\left(-\\frac{1}{6}\\right)",
+        "=\\frac{1}{3}\\times(-6)",
+        "=-18"
+      ],
+      "errorLine": 4,
+      "errorType": "分数に整数をかけるとき、分母にかけた誤り",
+      "explanation": "$\\frac{1}{3}\\times(-6)$ は、$6$ を分子にかけて $-\\frac{6}{3}=-2$ です。分母の $3$ に $6$ をかけて $-18$ としたところが誤りです。$-3^2=-9$、$\\left(-\\frac{1}{3}\\right)^3=-\\frac{1}{27}$、逆数 $-6$ はどれも正しくできています。",
+      "correctSolution": [
+        "-3^2\\times\\left(-\\frac{1}{3}\\right)^3\\div\\left(-\\frac{1}{6}\\right)",
+        "=-9\\times\\left(-\\frac{1}{27}\\right)\\div\\left(-\\frac{1}{6}\\right)",
+        "=\\frac{1}{3}\\div\\left(-\\frac{1}{6}\\right)",
+        "=\\frac{1}{3}\\times(-6)",
+        "=-2"
+      ],
+      "hint": "$\\frac{1}{3}\\times6$ は、$6$ の $\\frac{1}{3}$ のことです。いくつになりますか？"
+    },
+    {
+      "id": "J1-PN-0078",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 4,
+      "question": "(-0.2)^2\\div\\left(-\\frac{1}{5}\\right)^3",
+      "answerLines": [
+        "(-0.2)^2\\div\\left(-\\frac{1}{5}\\right)^3",
+        "=0.04\\div\\left(-\\frac{1}{125}\\right)",
+        "=\\frac{1}{25}\\times(-125)",
+        "=-5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(-0.2)^2=0.04=\\frac{1}{25}$、$\\left(-\\frac{1}{5}\\right)^3=-\\frac{1}{125}$ です。$-\\frac{1}{125}$ でわることは $-125$ をかけることなので、$\\frac{1}{25}\\times(-125)=-5$ です。",
+      "correctSolution": [
+        "(-0.2)^2\\div\\left(-\\frac{1}{5}\\right)^3",
+        "=0.04\\div\\left(-\\frac{1}{125}\\right)",
+        "=\\frac{1}{25}\\times(-125)",
+        "=-5"
+      ],
+      "hint": "$0.04$ を分数で表すといくつですか？ $\\left(-\\frac{1}{5}\\right)^3$ の符号も確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0079",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "累乗",
+      "difficulty": 4,
+      "question": "-1^4-(-1)^4\\times(-2)^3+(-2^3)",
+      "answerLines": [
+        "-1^4-(-1)^4\\times(-2)^3+(-2^3)",
+        "=-1-1\\times(-8)+(-8)",
+        "=-1+8-8",
+        "=-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-1^4=-(1^4)=-1$、$(-1)^4=1$、$(-2)^3=-8$、$-2^3=-8$ です。$-1\\times(-8)=+8$ なので、$-1+8-8=-1$ になります。似た形の累乗が4つあるので、どこまでが2乗・3乗されるのかを1つずつ確かめることが大切です。",
+      "correctSolution": [
+        "-1^4-(-1)^4\\times(-2)^3+(-2^3)",
+        "=-1-1\\times(-8)+(-8)",
+        "=-1+8-8",
+        "=-1"
+      ],
+      "hint": "$-1^4$ と $(-1)^4$、$(-2)^3$ と $-2^3$ のちがいを確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0080",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "5-3\\times(-2)",
+      "answerLines": [
+        "5-3\\times(-2)",
+        "=2\\times(-2)",
+        "=-4"
+      ],
+      "errorLine": 1,
+      "errorType": "かけ算より先にひき算をした誤り",
+      "explanation": "かけ算はひき算より先に計算します。$3\\times(-2)=-6$ を先に求めて、$5-(-6)=5+6=11$ です。$5-3$ を先に計算して $2\\times(-2)$ としたところが誤りです。",
+      "correctSolution": [
+        "5-3\\times(-2)",
+        "=5+6",
+        "=11"
+      ],
+      "hint": "ひき算とかけ算では、どちらを先に計算しますか？"
+    },
+    {
+      "id": "J1-PN-0081",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "-8+12\\div(-4)",
+      "answerLines": [
+        "-8+12\\div(-4)",
+        "=-8+(-3)",
+        "=-5"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数をたす計算で絶対値の差をとった誤り",
+      "explanation": "$-8+(-3)$ は負の数どうしの和なので、絶対値をたして $-11$ です。絶対値の差をとって $-5$ としたところが誤りです。わり算を先に計算して $12\\div(-4)=-3$ としたところは正しくできています。",
+      "correctSolution": [
+        "-8+12\\div(-4)",
+        "=-8+(-3)",
+        "=-11"
+      ],
+      "hint": "$-8+(-3)$ は、同じ符号の2数の和ですか、異なる符号の2数の和ですか？"
+    },
+    {
+      "id": "J1-PN-0082",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "(-3)\\times4-(-10)\\div5",
+      "answerLines": [
+        "(-3)\\times4-(-10)\\div5",
+        "=-12-(-10)\\div5",
+        "=-12+10\\div5",
+        "=-2\\div5",
+        "=-\\frac{2}{5}"
+      ],
+      "errorLine": 3,
+      "errorType": "わり算より先にたし算をした誤り",
+      "explanation": "$-12+10\\div5$ では、わり算を先に計算します。$10\\div5=2$ なので $-12+2=-10$ です。$-12+10$ を先に計算して $-2\\div5$ としたところが誤りです。$(-3)\\times4=-12$ と、$-(-10)$ を $+10$ にしたところは正しくできています。",
+      "correctSolution": [
+        "(-3)\\times4-(-10)\\div5",
+        "=-12-(-10)\\div5",
+        "=-12+10\\div5",
+        "=-12+2",
+        "=-10"
+      ],
+      "hint": "$-12+10\\div5$ では、たし算とわり算のどちらを先に計算しますか？"
+    },
+    {
+      "id": "J1-PN-0083",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "7-(-2)\\times3+1",
+      "answerLines": [
+        "7-(-2)\\times3+1",
+        "=7+2\\times3+1",
+        "=9\\times3+1",
+        "=28"
+      ],
+      "errorLine": 2,
+      "errorType": "かけ算より先にたし算をした誤り",
+      "explanation": "$7+2\\times3+1$ では、かけ算 $2\\times3=6$ を先に計算して、$7+6+1=14$ です。$7+2$ を先に計算して $9\\times3$ としたところが誤りです。$-(-2)\\times3$ を $+2\\times3$ にしたところは正しくできています。",
+      "correctSolution": [
+        "7-(-2)\\times3+1",
+        "=7+2\\times3+1",
+        "=7+6+1",
+        "=14"
+      ],
+      "hint": "かけ算とたし算が混じった式は、どこから計算しますか？"
+    },
+    {
+      "id": "J1-PN-0084",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 1,
+      "question": "-6\\div2+4\\times(-1)",
+      "answerLines": [
+        "-6\\div2+4\\times(-1)",
+        "=-3+(-4)",
+        "=-7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わり算とかけ算を先に計算して $-6\\div2=-3$、$4\\times(-1)=-4$ です。$-3+(-4)=-7$ です。",
+      "correctSolution": [
+        "-6\\div2+4\\times(-1)",
+        "=-3+(-4)",
+        "=-7"
+      ],
+      "hint": "わり算・かけ算と、たし算の計算の順序を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0085",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "12\\div(-3)\\times2-(-5)",
+      "answerLines": [
+        "12\\div(-3)\\times2-(-5)",
+        "=12\\div(-6)-(-5)",
+        "=-2+5",
+        "=3"
+      ],
+      "errorLine": 1,
+      "errorType": "乗除の計算で、うしろのかけ算を先に計算した誤り",
+      "explanation": "かけ算とわり算だけの部分は、左から順に計算します。$12\\div(-3)=-4$、$-4\\times2=-8$ なので、$-8-(-5)=-8+5=-3$ です。$(-3)\\times2$ を先に計算して $12\\div(-6)$ としたところが誤りです。",
+      "correctSolution": [
+        "12\\div(-3)\\times2-(-5)",
+        "=-4\\times2+5",
+        "=-8+5",
+        "=-3"
+      ],
+      "hint": "$12\\div(-3)\\times2$ は、どのかけ算・わり算から計算しますか？"
+    },
+    {
+      "id": "J1-PN-0086",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "20-(6-9)^2\\div3",
+      "answerLines": [
+        "20-(6-9)^2\\div3",
+        "=20-(-3)^2\\div3",
+        "=20+9\\div3",
+        "=20+3",
+        "=23"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの累乗をひくときの符号ミス",
+      "explanation": "$(-3)^2=9$ なので、$20-(-3)^2\\div3=20-9\\div3$ です。$-(-3)^2$ を $+9$ としたところが誤りです。2乗した値 $9$ は正の数なので、前の「$-$」はそのまま残ります。正しくは $20-3=17$ です。かっこの中を先に計算した $6-9=-3$ は正しくできています。",
+      "correctSolution": [
+        "20-(6-9)^2\\div3",
+        "=20-(-3)^2\\div3",
+        "=20-9\\div3",
+        "=20-3",
+        "=17"
+      ],
+      "hint": "$(-3)^2$ はいくつですか？ その前の「$-$」はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0087",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "\\frac{1}{2}-\\frac{3}{4}\\times(-2)",
+      "answerLines": [
+        "\\frac{1}{2}-\\frac{3}{4}\\times(-2)",
+        "=\\frac{1}{2}-\\left(-\\frac{3}{2}\\right)",
+        "=\\frac{1}{2}+\\frac{3}{2}",
+        "=\\frac{4}{4}",
+        "=1"
+      ],
+      "errorLine": 3,
+      "errorType": "分数のたし算で分母どうしもたした誤り",
+      "explanation": "分母が同じ分数のたし算は、分子だけをたします。$\\frac{1}{2}+\\frac{3}{2}=\\frac{4}{2}=2$ です。分母どうしもたして $\\frac{4}{4}$ としたところが誤りです。かけ算を先に計算した $\\frac{3}{4}\\times(-2)=-\\frac{3}{2}$ と、かっこのはずし方は正しくできています。",
+      "correctSolution": [
+        "\\frac{1}{2}-\\frac{3}{4}\\times(-2)",
+        "=\\frac{1}{2}-\\left(-\\frac{3}{2}\\right)",
+        "=\\frac{1}{2}+\\frac{3}{2}",
+        "=\\frac{4}{2}",
+        "=2"
+      ],
+      "hint": "分母が同じ分数をたすとき、分母はどうしますか？"
+    },
+    {
+      "id": "J1-PN-0088",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "-18\\div3-2\\times(-4)-9",
+      "answerLines": [
+        "-18\\div3-2\\times(-4)-9",
+        "=-6-2\\times(-4)-9",
+        "=-6+8-9",
+        "=2-9",
+        "=7"
+      ],
+      "errorLine": 4,
+      "errorType": "最後のひき算で答えの符号を誤った",
+      "explanation": "$2-9$ は、ひく数のほうが大きいので答えは負の数になり、$-7$ です。$7$ としたところが誤りです。わり算・かけ算を先に計算したところ（$-18\\div3=-6$、$-2\\times(-4)=+8$）と $-6+8=2$ は正しくできています。",
+      "correctSolution": [
+        "-18\\div3-2\\times(-4)-9",
+        "=-6-2\\times(-4)-9",
+        "=-6+8-9",
+        "=2-9",
+        "=-7"
+      ],
+      "hint": "最後の $2-9$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0089",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "(-5)\\times(-2)-(-12)\\div4",
+      "answerLines": [
+        "(-5)\\times(-2)-(-12)\\div4",
+        "=10-(-3)",
+        "=10+3",
+        "=13"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かけ算とわり算を先に計算して、$(-5)\\times(-2)=10$、$(-12)\\div4=-3$ です。$10-(-3)=10+3=13$ です。",
+      "correctSolution": [
+        "(-5)\\times(-2)-(-12)\\div4",
+        "=10-(-3)",
+        "=10+3",
+        "=13"
+      ],
+      "hint": "かけ算・わり算の答えの符号と、$-(-3)$ のはずし方を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0090",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 2,
+      "question": "6-4\\times\\left(\\frac{1}{2}-1\\right)",
+      "answerLines": [
+        "6-4\\times\\left(\\frac{1}{2}-1\\right)",
+        "=6-4\\times\\left(-\\frac{1}{2}\\right)",
+        "=6+2",
+        "=8"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの中を先に計算して $\\frac{1}{2}-1=-\\frac{1}{2}$ です。$4\\times\\left(-\\frac{1}{2}\\right)=-2$ なので、$6-(-2)=6+2=8$ です。",
+      "correctSolution": [
+        "6-4\\times\\left(\\frac{1}{2}-1\\right)",
+        "=6-4\\times\\left(-\\frac{1}{2}\\right)",
+        "=6+2",
+        "=8"
+      ],
+      "hint": "かっこの中の計算と、$-4\\times\\left(-\\frac{1}{2}\\right)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0091",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "\\left(\\frac{2}{3}-\\frac{3}{4}\\right)\\times(-12)",
+      "answerLines": [
+        "\\left(\\frac{2}{3}-\\frac{3}{4}\\right)\\times(-12)",
+        "=\\frac{2}{3}\\times(-12)-\\frac{3}{4}\\times(-12)",
+        "=-8-9",
+        "=-17"
+      ],
+      "errorLine": 2,
+      "errorType": "分配法則を使うときの符号ミス",
+      "explanation": "$-\\frac{3}{4}\\times(-12)$ は負の数どうしの積なので $+9$ です。$-9$ としたところが誤りです。分配法則で $-12$ をかっこの中の両方の項にかけたところと、$\\frac{2}{3}\\times(-12)=-8$ は正しくできています。正しくは $-8+9=1$ です。",
+      "correctSolution": [
+        "\\left(\\frac{2}{3}-\\frac{3}{4}\\right)\\times(-12)",
+        "=\\frac{2}{3}\\times(-12)-\\frac{3}{4}\\times(-12)",
+        "=-8+9",
+        "=1"
+      ],
+      "hint": "$-\\frac{3}{4}\\times(-12)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-PN-0092",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "-1.5\\times4-3.6\\div(-1.2)+0.5",
+      "answerLines": [
+        "-1.5\\times4-3.6\\div(-1.2)+0.5",
+        "=-6-3.6\\div(-1.2)+0.5",
+        "=-6+3+0.5",
+        "=-6+3.5",
+        "=2.5"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-6+3.5$ は、絶対値の大きい $-6$ の符号になるので $-2.5$ です。$2.5$ としたところが誤りです。$-1.5\\times4=-6$、$-3.6\\div(-1.2)=+3$、$3+0.5=3.5$ はどれも正しくできています。",
+      "correctSolution": [
+        "-1.5\\times4-3.6\\div(-1.2)+0.5",
+        "=-6-3.6\\div(-1.2)+0.5",
+        "=-6+3+0.5",
+        "=-6+3.5",
+        "=-2.5"
+      ],
+      "hint": "$-6+3.5$ は、正の数と負の数のどちらになりますか？"
+    },
+    {
+      "id": "J1-PN-0093",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "\\frac{5}{6}\\div\\left(-\\frac{5}{3}\\right)-\\left(-\\frac{1}{2}\\right)^2",
+      "answerLines": [
+        "\\frac{5}{6}\\div\\left(-\\frac{5}{3}\\right)-\\left(-\\frac{1}{2}\\right)^2",
+        "=\\frac{5}{6}\\times\\left(-\\frac{3}{5}\\right)-\\frac{1}{4}",
+        "=-\\frac{1}{2}-\\frac{1}{4}",
+        "=-\\frac{1}{4}"
+      ],
+      "errorLine": 3,
+      "errorType": "分数で、負の数どうしの和を差で計算した誤り",
+      "explanation": "$-\\frac{1}{2}-\\frac{1}{4}$ は負の数どうしの和と同じなので、通分して $-\\frac{2}{4}-\\frac{1}{4}=-\\frac{3}{4}$ です。差を求めて $-\\frac{1}{4}$ としたところが誤りです。わる数の逆数 $-\\frac{3}{5}$、$\\left(-\\frac{1}{2}\\right)^2=\\frac{1}{4}$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{5}{6}\\div\\left(-\\frac{5}{3}\\right)-\\left(-\\frac{1}{2}\\right)^2",
+        "=\\frac{5}{6}\\times\\left(-\\frac{3}{5}\\right)-\\frac{1}{4}",
+        "=-\\frac{1}{2}-\\frac{1}{4}",
+        "=-\\frac{2}{4}-\\frac{1}{4}",
+        "=-\\frac{3}{4}"
+      ],
+      "hint": "$-\\frac{1}{2}-\\frac{1}{4}$ の答えは、$-\\frac{1}{2}$ より大きくなりますか、小さくなりますか？"
+    },
+    {
+      "id": "J1-PN-0094",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "(-2)^2\\times3-(8-14)\\div\\frac{3}{2}",
+      "answerLines": [
+        "(-2)^2\\times3-(8-14)\\div\\frac{3}{2}",
+        "=4\\times3-(-6)\\div\\frac{3}{2}",
+        "=12-(-6)\\times\\frac{2}{3}",
+        "=12-(-9)",
+        "=21"
+      ],
+      "errorLine": 3,
+      "errorType": "分数のかけ算で分母と分子を取り違えた",
+      "explanation": "$(-6)\\times\\frac{2}{3}$ は、$6$ に分子の $2$ をかけて分母の $3$ でわるので $-4$ です。$-9$ としたのは $\\frac{3}{2}$ をかけた計算になっていて、誤りです。逆数に直した $\\times\\frac{2}{3}$ までは正しくできています。正しくは $12-(-4)=16$ です。",
+      "correctSolution": [
+        "(-2)^2\\times3-(8-14)\\div\\frac{3}{2}",
+        "=4\\times3-(-6)\\div\\frac{3}{2}",
+        "=12-(-6)\\times\\frac{2}{3}",
+        "=12+4",
+        "=16"
+      ],
+      "hint": "$(-6)\\times\\frac{2}{3}$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J1-PN-0095",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 3,
+      "question": "-3\\times\\left(\\frac{1}{3}-\\frac{1}{2}\\right)\\div\\frac{1}{4}",
+      "answerLines": [
+        "-3\\times\\left(\\frac{1}{3}-\\frac{1}{2}\\right)\\div\\frac{1}{4}",
+        "=-3\\times\\left(-\\frac{1}{6}\\right)\\div\\frac{1}{4}",
+        "=\\frac{1}{2}\\times4",
+        "=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの中を通分して $\\frac{2}{6}-\\frac{3}{6}=-\\frac{1}{6}$ です。$-3\\times\\left(-\\frac{1}{6}\\right)=\\frac{1}{2}$、$\\div\\frac{1}{4}$ は $\\times4$ なので、答えは $2$ です。",
+      "correctSolution": [
+        "-3\\times\\left(\\frac{1}{3}-\\frac{1}{2}\\right)\\div\\frac{1}{4}",
+        "=-3\\times\\left(-\\frac{1}{6}\\right)\\div\\frac{1}{4}",
+        "=\\frac{1}{2}\\times4",
+        "=2"
+      ],
+      "hint": "かっこの中の計算、負の数どうしの積の符号、わる数の逆数を順に確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0096",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "\\left\\{(-3)^2-\\left(-\\frac{1}{2}\\right)\\right\\}\\div\\left(-\\frac{19}{4}\\right)",
+      "answerLines": [
+        "\\left\\{(-3)^2-\\left(-\\frac{1}{2}\\right)\\right\\}\\div\\left(-\\frac{19}{4}\\right)",
+        "=\\left(9+\\frac{1}{2}\\right)\\div\\left(-\\frac{19}{4}\\right)",
+        "=\\frac{10}{2}\\div\\left(-\\frac{19}{4}\\right)",
+        "=5\\times\\left(-\\frac{4}{19}\\right)",
+        "=-\\frac{20}{19}"
+      ],
+      "errorLine": 2,
+      "errorType": "整数と分数のたし算で、整数を分子にたした誤り",
+      "explanation": "$9+\\frac{1}{2}$ は、$9$ を $\\frac{18}{2}$ に直して $\\frac{18}{2}+\\frac{1}{2}=\\frac{19}{2}$ です。$9$ をそのまま分子にたして $\\frac{10}{2}$ としたところが誤りです。かっこの中の $(-3)^2=9$、$-\\left(-\\frac{1}{2}\\right)=+\\frac{1}{2}$ は正しくできています。正しくは $\\frac{19}{2}\\times\\left(-\\frac{4}{19}\\right)=-2$ です。",
+      "correctSolution": [
+        "\\left\\{(-3)^2-\\left(-\\frac{1}{2}\\right)\\right\\}\\div\\left(-\\frac{19}{4}\\right)",
+        "=\\left(9+\\frac{1}{2}\\right)\\div\\left(-\\frac{19}{4}\\right)",
+        "=\\frac{19}{2}\\div\\left(-\\frac{19}{4}\\right)",
+        "=\\frac{19}{2}\\times\\left(-\\frac{4}{19}\\right)",
+        "=-2"
+      ],
+      "hint": "$9+\\frac{1}{2}$ を計算するとき、$9$ はどんな分数に直せばよいですか？"
+    },
+    {
+      "id": "J1-PN-0097",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "2.5\\times\\left(-\\frac{4}{5}\\right)^2-\\frac{3}{2}\\div0.75",
+      "answerLines": [
+        "2.5\\times\\left(-\\frac{4}{5}\\right)^2-\\frac{3}{2}\\div0.75",
+        "=\\frac{5}{2}\\times\\frac{16}{25}-\\frac{3}{2}\\div\\frac{3}{4}",
+        "=\\frac{8}{5}-\\frac{3}{2}\\times\\frac{4}{3}",
+        "=\\frac{8}{5}-2",
+        "=\\frac{6}{5}"
+      ],
+      "errorLine": 4,
+      "errorType": "分数から整数をひくとき、分子だけからひいた誤り",
+      "explanation": "$\\frac{8}{5}-2$ は、$2$ を $\\frac{10}{5}$ に直して $\\frac{8}{5}-\\frac{10}{5}=-\\frac{2}{5}$ です。分子の $8$ から $2$ をひいて $\\frac{6}{5}$ としたところが誤りです。小数を分数に直したところ（$2.5=\\frac{5}{2}$、$0.75=\\frac{3}{4}$）、$\\left(-\\frac{4}{5}\\right)^2=\\frac{16}{25}$、$\\frac{3}{2}\\times\\frac{4}{3}=2$ はどれも正しくできています。",
+      "correctSolution": [
+        "2.5\\times\\left(-\\frac{4}{5}\\right)^2-\\frac{3}{2}\\div0.75",
+        "=\\frac{5}{2}\\times\\frac{16}{25}-\\frac{3}{2}\\div\\frac{3}{4}",
+        "=\\frac{8}{5}-\\frac{3}{2}\\times\\frac{4}{3}",
+        "=\\frac{8}{5}-2",
+        "=-\\frac{2}{5}"
+      ],
+      "hint": "$\\frac{8}{5}-2$ を計算するとき、$2$ はどんな分数に直せばよいですか？"
+    },
+    {
+      "id": "J1-PN-0098",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "-\\frac{3}{8}\\times\\left\\{\\frac{2}{3}-(-2)^2\\right\\}",
+      "answerLines": [
+        "-\\frac{3}{8}\\times\\left\\{\\frac{2}{3}-(-2)^2\\right\\}",
+        "=-\\frac{3}{8}\\times\\left(\\frac{2}{3}-4\\right)",
+        "=-\\frac{3}{8}\\times\\left(\\frac{2}{3}-\\frac{12}{3}\\right)",
+        "=-\\frac{3}{8}\\times\\frac{10}{3}",
+        "=-\\frac{5}{4}"
+      ],
+      "errorLine": 3,
+      "errorType": "分数のひき算で答えの符号を誤った",
+      "explanation": "$\\frac{2}{3}-\\frac{12}{3}$ は、ひく数のほうが大きいので答えは負の数になり、$-\\frac{10}{3}$ です。$\\frac{10}{3}$ としたところが誤りです。$(-2)^2=4$、$4=\\frac{12}{3}$ は正しくできています。正しくは $-\\frac{3}{8}\\times\\left(-\\frac{10}{3}\\right)=\\frac{5}{4}$ です。",
+      "correctSolution": [
+        "-\\frac{3}{8}\\times\\left\\{\\frac{2}{3}-(-2)^2\\right\\}",
+        "=-\\frac{3}{8}\\times\\left(\\frac{2}{3}-4\\right)",
+        "=-\\frac{3}{8}\\times\\left(\\frac{2}{3}-\\frac{12}{3}\\right)",
+        "=-\\frac{3}{8}\\times\\left(-\\frac{10}{3}\\right)",
+        "=\\frac{5}{4}"
+      ],
+      "hint": "$\\frac{2}{3}-\\frac{12}{3}$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0099",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "\\left(\\frac{1}{4}-\\frac{5}{6}\\right)\\times(-24)+(-2)^3",
+      "answerLines": [
+        "\\left(\\frac{1}{4}-\\frac{5}{6}\\right)\\times(-24)+(-2)^3",
+        "=\\frac{1}{4}\\times(-24)-\\frac{5}{6}\\times(-24)+(-8)",
+        "=-6+20-8",
+        "=6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこの中を通分せずに、分配法則で $-24$ を両方の項にかけています。$\\frac{1}{4}\\times(-24)=-6$、$-\\frac{5}{6}\\times(-24)=+20$、$(-2)^3=-8$ なので、$-6+20-8=6$ です。かっこの中を先に計算して $-\\frac{7}{12}\\times(-24)=14$ としても、同じ答えになります。",
+      "correctSolution": [
+        "\\left(\\frac{1}{4}-\\frac{5}{6}\\right)\\times(-24)+(-2)^3",
+        "=\\frac{1}{4}\\times(-24)-\\frac{5}{6}\\times(-24)+(-8)",
+        "=-6+20-8",
+        "=6"
+      ],
+      "hint": "分配法則を使った解き方も正しい方法です。それぞれの積の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-PN-0100",
+      "grade": 1,
+      "unit": "positive-negative",
+      "category": "四則混合",
+      "difficulty": 4,
+      "question": "-1.2\\div\\left(-\\frac{3}{5}\\right)^2\\times0.3",
+      "answerLines": [
+        "-1.2\\div\\left(-\\frac{3}{5}\\right)^2\\times0.3",
+        "=-\\frac{6}{5}\\div\\frac{9}{25}\\times\\frac{3}{10}",
+        "=-\\frac{6}{5}\\times\\frac{25}{9}\\times\\frac{3}{10}",
+        "=-\\frac{6\\times25\\times3}{5\\times9\\times10}",
+        "=-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。小数を分数に直し（$1.2=\\frac{6}{5}$、$0.3=\\frac{3}{10}$）、累乗を先に計算して $\\left(-\\frac{3}{5}\\right)^2=\\frac{9}{25}$ です。わり算を逆数のかけ算に直すと、負の数は $-\\frac{6}{5}$ の $1$ 個なので符号は「$-$」、$\\frac{450}{450}=1$ なので答えは $-1$ です。",
+      "correctSolution": [
+        "-1.2\\div\\left(-\\frac{3}{5}\\right)^2\\times0.3",
+        "=-\\frac{6}{5}\\div\\frac{9}{25}\\times\\frac{3}{10}",
+        "=-\\frac{6}{5}\\times\\frac{25}{9}\\times\\frac{3}{10}",
+        "=-\\frac{6\\times25\\times3}{5\\times9\\times10}",
+        "=-1"
+      ],
+      "hint": "累乗を先に計算しましょう。$\\left(-\\frac{3}{5}\\right)^2$ の符号はどうなりますか？"
     }
   ]
 }

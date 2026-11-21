@@ -31,14 +31,23 @@
   // 1問目 200点、2問目 210点 … 11問目以降は 300点で固定。不正解は0点で、連続正解数を0に戻す（次の正解は200点から）
   const SCORE_RULES = { base: 190, step: 10, max: 300 };
 
-  // 公式タイムアタックの称号（単元ごとの最高スコアで決まる）
+  // 公式タイムアタックの称号（単元ごとの最高スコアで決まる。10段階。高い順に並べる）
   const TITLES = [
-    { minScore: 2000, name: '神の赤ペン' },
-    { minScore: 1500, name: 'スーパー添削先生' },
-    { minScore: 1000, name: 'スピードティーチャー' },
-    { minScore: 500, name: 'ミス発見名人' },
-    { minScore: 0, name: '見習い添削係' },
+    { rank: 10, minScore: 3000, icon: '👑', name: '神の赤ペン' },
+    { rank: 9, minScore: 2600, icon: '🌟', name: '伝説のティーチャー' },
+    { rank: 8, minScore: 2200, icon: '🎯', name: '赤ペンマスター' },
+    { rank: 7, minScore: 1800, icon: '💥', name: 'スーパー添削先生' },
+    { rank: 6, minScore: 1500, icon: '🏅', name: 'ベテラン添削先生' },
+    { rank: 5, minScore: 1200, icon: '⚡', name: 'スピードティーチャー' },
+    { rank: 4, minScore: 900, icon: '📘', name: '一人前ティーチャー' },
+    { rank: 3, minScore: 600, icon: '🔍', name: 'ミス発見上手' },
+    { rank: 2, minScore: 300, icon: '✏️', name: 'かけだしティーチャー' },
+    { rank: 1, minScore: 0, icon: '🔰', name: '見習い添削係' },
   ];
+
+  // 公式タイムアタックの難易度の出題順（1問目から順に）。この並びのあとは「★★★ → ★★★★」をくり返す
+  const OFFICIAL_DIFFICULTY_ORDER = [1, 2, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4];
+  const OFFICIAL_DIFFICULTY_REPEAT = [3, 4];
 
   const MODES = { OFFICIAL: 'official', CUSTOM: 'custom' };
 
@@ -47,9 +56,21 @@
     return Math.min(SCORE_RULES.max, SCORE_RULES.base + SCORE_RULES.step * streak);
   }
 
+  /** 最高スコアに対応する称号の情報 { rank, minScore, icon, name } */
+  function titleInfoForScore(score) {
+    return TITLES.find((x) => score >= x.minScore) || TITLES[TITLES.length - 1];
+  }
+
+  /** 称号の表示名（アイコンつき。例「👑神の赤ペン」）。記録にもこの文字列を保存する */
   function titleForScore(score) {
-    const t = TITLES.find((x) => score >= x.minScore);
-    return t ? t.name : TITLES[TITLES.length - 1].name;
+    const t = titleInfoForScore(score);
+    return `${t.icon}${t.name}`;
+  }
+
+  /** 公式タイムアタックで n 問目（0始まり）に出す難易度 */
+  function officialDifficultyAt(n) {
+    if (n < OFFICIAL_DIFFICULTY_ORDER.length) return OFFICIAL_DIFFICULTY_ORDER[n];
+    return OFFICIAL_DIFFICULTY_REPEAT[(n - OFFICIAL_DIFFICULTY_ORDER.length) % OFFICIAL_DIFFICULTY_REPEAT.length];
   }
 
   /**
@@ -85,7 +106,9 @@
       this.endReason = null;        // 'timeup'（時間切れ）または 'gameover'（ミスの上限）
       this.deck = [];
       this.lastId = null;
-      this.round = 0;               // 何巡目か（全問題を出し終えたら次の巡へ）
+      this.round = 0;               // 何巡目か（全問題を出し終えたら次の巡へ。カスタム）
+      this.drawnCount = 0;          // これまでに出した問題の数（公式の難易度の出題順に使う）
+      this.decksByDifficulty = {};  // 公式：難易度ごとの山札（その難易度の問題を出し終えたら並べ直す）
       this.startedAt = null;        // START! の時刻（カウントダウン中は null＝時間は減らない）
       this.endedAt = null;
       this.ended = false;
@@ -123,8 +146,31 @@
       return this.started && at - this.startedAt >= this.durationMs;
     }
 
-    /** 全問題を出し終えたら並べ直して続ける。可能なら直前と同じ問題が続かないようにする */
+    /**
+     * 次の問題を選ぶ。
+     * - 公式：難易度を決められた順（officialDifficultyAt）で出す。難易度ごとに問題をシャッフルして順に出し、
+     *   その難易度を出し終えたら並べ直す（1巡の中では重複しない）。
+     * - カスタム：選んだ条件の全問題をシャッフルして順に出し、出し終えたら並べ直す。
+     * どちらも、可能なら直前と同じ問題が続かないようにする。
+     */
     drawNext() {
+      const n = this.drawnCount++;
+      if (this.isOfficial) {
+        const d = officialDifficultyAt(n);
+        const ofD = this.pool.filter((q) => q.difficulty === d);
+        if (ofD.length) {
+          let deck = this.decksByDifficulty[d];
+          if (!deck || deck.length === 0) {
+            deck = G.shuffle(ofD, this.rng);
+            if (deck.length > 1 && deck[0].id === this.lastId) [deck[0], deck[1]] = [deck[1], deck[0]];
+            this.decksByDifficulty[d] = deck;
+          }
+          const q = deck.shift();
+          this.lastId = q.id;
+          return q;
+        }
+        // その難易度の問題がないとき（問題データが足りないとき）は、全問題の山札から出す
+      }
       if (this.deck.length === 0) {
         this.deck = G.shuffle(this.pool, this.rng);
         this.round++;
@@ -202,5 +248,8 @@
     }
   }
 
-  return { CONFIG, SCORE_RULES, TITLES, MODES, pointsForStreak, titleForScore, criteriaFor, TimeAttackSession };
+  return {
+    CONFIG, SCORE_RULES, TITLES, MODES, OFFICIAL_DIFFICULTY_ORDER, OFFICIAL_DIFFICULTY_REPEAT,
+    pointsForStreak, titleForScore, titleInfoForScore, officialDifficultyAt, criteriaFor, TimeAttackSession,
+  };
 });

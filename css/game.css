@@ -1252,6 +1252,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 /* スマートフォン */
 @media (max-width: 480px) {
   body { font-size: 16px; }
+  /* 右上の「設定」ボタンと重ならないよう、生徒と吹き出しはイラストの下側にそろえ、上に余白をとる */
+  .title-hero__top { align-items: flex-end; }
+  .title-talk { margin-top: 52px; }
   .title-talk .student-talk__face { font-size: 1.9rem; }
   .title-talk .student-talk__bubble { font-size: .84rem; padding: 7px 10px; }
   .student-talk__face { font-size: 2.2rem; }

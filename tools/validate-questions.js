@@ -361,13 +361,6 @@ function main() {
     if (byQuestion.has(key)) results[i].warnings.push(`同じ問題式が ${byQuestion.get(key)} にもあります`);
     else byQuestion.set(key, q.id);
   });
-  const typeCount = new Map();
-  allQuestions.forEach((q) => {
-    if (!q || !q.errorType) return;
-    const key = `${q.unit}::${q.errorType}`;
-    typeCount.set(key, (typeCount.get(key) || 0) + 1);
-  });
-
   // ---- 出力
   const tag = (r) => (r.errors.length ? 'ERROR ' : r.manual.length ? 'MANUAL' : 'AUTO  ');
   console.log('計算ティーチャー！ 問題データ検証\n');
@@ -405,11 +398,12 @@ function main() {
   }
   const totalCorrect = allQuestions.filter((q) => q && q.errorLine === null).length;
   console.log(`全体: ${allQuestions.length}問（全部正しい ${totalCorrect}問 / ${allQuestions.length ? Math.round((totalCorrect / allQuestions.length) * 100) : 0}%）`);
-  const repeated = [...typeCount.entries()].filter(([, c]) => c >= 3);
-  repeated.forEach(([k, c]) => console.log(`WARN  同じ errorType が ${c} 回使われています: ${k.replace('::', ' / ')}`));
+  // errorType の偏り・カテゴリ×難易度・誤り行の分布など「出題バランス」は、数学的な検証とは分けて
+  // tools/question-report.js（npm run report:questions）で集計・警告する
+  console.log('出題バランス（カテゴリ×難易度・誤り行の分布・errorType の偏りなど）は npm run report:questions で確認できます。');
 
   const nErr = results.reduce((a, r) => a + r.errors.length, 0) + globalErrors.length;
-  const nWarn = results.reduce((a, r) => a + r.warnings.length, 0) + repeated.length;
+  const nWarn = results.reduce((a, r) => a + r.warnings.length, 0);
   const nAuto = results.filter((r) => !r.errors.length && !r.manual.length).length;
   const nManual = results.filter((r) => !r.errors.length && r.manual.length).length;
   const nReviewed = results.filter((r) => r.review === 'ok').length;

@@ -6,6 +6,10 @@
  *   node tools/review-stamp.js --reviewer "山田" --note "別解として妥当" J1-EQ-0003
  *   node tools/review-stamp.js --reviewer "山田" --all
  *   node tools/review-stamp.js --list            （レビュー状況の一覧）
+ *   node tools/review-stamp.js --reviewer "Claude Code（AIによる確認）" --role ai J1-PN-0017 ...
+ *
+ * --role は確認者の種類（ai：AI による確認 / teacher：数学講師による確認）。省略時は名前から判断する
+ * （「Claude」「AI」を含めば ai、それ以外は teacher）。AI の確認を数学講師の確認として記録しないこと。
  *
  * - 記録は review/manual-review.json に保存する。
  * - 問題データの内容のハッシュ（SHA-256）を一緒に保存するので、レビュー後に問題を
@@ -25,9 +29,11 @@ const args = process.argv.slice(2);
 const val = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : null);
 const reviewer = val('--reviewer');
 const note = val('--note');
+const roleArg = val('--role');
+if (roleArg && !['ai', 'teacher'].includes(roleArg)) { console.error('--role は ai か teacher です'); process.exit(1); }
 const all = args.includes('--all');
 const list = args.includes('--list');
-const flagValues = new Set([reviewer, note].filter(Boolean));
+const flagValues = new Set([reviewer, note, roleArg].filter(Boolean));
 const ids = args.filter((a) => !a.startsWith('--') && !flagValues.has(a));
 
 const CHECKS = [
@@ -65,7 +71,8 @@ const store = loadReviews();
 if (list) {
   for (const { q } of items) {
     const rv = store.reviews[q.id];
-    const st = !rv ? '未レビュー' : rv.hash === V.questionHash(q) ? `済 ${rv.reviewedAt} ${rv.reviewer}` : '要再レビュー（内容変更あり）';
+    const role = rv && (rv.reviewerRole || (/claude|ai|ＡＩ/i.test(rv.reviewer || '') ? 'ai' : 'teacher')) === 'ai' ? '［AI］' : '［数学講師］';
+    const st = !rv ? '未レビュー' : rv.hash === V.questionHash(q) ? `済 ${rv.reviewedAt} ${role}${rv.reviewer}` : '要再レビュー（内容変更あり）';
     console.log(`${q.id}  ${st}${rv && rv.note ? `  / ${rv.note}` : ''}`);
   }
   process.exit(0);
@@ -95,6 +102,7 @@ for (const { q, file } of targets) {
   store.reviews[q.id] = {
     hash: V.questionHash(q),
     reviewer,
+    reviewerRole: roleArg || (/claude|ai|ＡＩ/i.test(reviewer) ? 'ai' : 'teacher'),
     reviewedAt: today(),
     checks: CHECKS,
     manualItems: res.manual,
