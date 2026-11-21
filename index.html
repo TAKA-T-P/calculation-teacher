@@ -202,7 +202,7 @@
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
         <h2 id="ta-menu-heading" class="screen-title" tabindex="-1">⏱ タイムアタック</h2>
       </header>
-      <p class="screen-lead">60秒で、できるだけ多くの答案を添削しよう！ 行をタップした瞬間に判定されます。</p>
+      <p class="screen-lead">60秒で、できるだけ多くの答案を添削しよう！ 行をタップした瞬間に判定されます。3回ミスするとゲームオーバー！</p>
       <div class="mode-cards">
         <button type="button" class="mode-card mode-card--official" data-action="ta-mode" data-mode="official">
           <span class="mode-card__icon" aria-hidden="true">🏅</span>
@@ -259,9 +259,10 @@
         </div>
       </header>
       <div class="ta-gauge" aria-hidden="true"><span id="ta-gauge-fill"></span></div>
+      <p class="ta-lives" id="ta-lives" aria-label="のこりミス"></p>
       <h2 id="ta-play-heading" class="visually-hidden" tabindex="-1">タイムアタック</h2>
       <div id="ta-body"></div>
-      <div class="ta-overlay" id="ta-overlay" hidden><span id="ta-overlay-text"></span></div>
+      <div class="ta-overlay" id="ta-overlay" hidden><div class="ta-overlay__inner"><span class="ta-overlay__text" id="ta-overlay-text"></span><p class="ta-overlay__note" id="ta-overlay-note" hidden>タップした瞬間に判定！<br>3回ミスでゲームオーバー！</p></div></div>
     </section>
 
     <!-- タイムアタック：結果 -->

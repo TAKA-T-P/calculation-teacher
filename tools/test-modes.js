@@ -104,12 +104,12 @@ test('二重回答できない（演出中・次の問題を出すまでは受�
   eq(s.answer(correctChoice(q)), null, '同じ問題への2回目');
   eq(s.answer({ type: 'allCorrect' }), null, '演出中の別の回答');
   eq(s.results.length, 1);
-  eq(s.score, 100);
+  eq(s.score, 200);
   clock.advance(300); s.advance();
   assert(s.answer(correctChoice(s.current)), '次の問題に回答できない');
 });
-test('得点：連続1〜2問目100点、3〜4問目120点、5問目以降150点。不正解は0点で連続が切れる', () => {
-  eq([1, 2, 3, 4, 5, 6, 10].map(TA.pointsForStreak).join(), '100,100,120,120,150,150,150');
+test('得点：連続n問目の正解で 190+10n 点（上限300点＝11問目以降）。不正解は0点で連続が切れ、次は200点から', () => {
+  eq([0, 1, 2, 3, 9, 10, 11, 12, 50].map(TA.pointsForStreak).join(), '0,200,210,220,280,290,300,300,300');
   const { s, clock } = taSession({ mode: 'official', unit: 'expressions' }, 5);
   s.start();
   const pattern = [true, true, true, true, true, true, false, true, true, true];
@@ -119,8 +119,8 @@ test('得点：連続1〜2問目100点、3〜4問目120点、5問目以降150点
     pts.push(r.points);
     clock.advance(1000); s.advance();
   });
-  eq(pts.join(), '100,100,120,120,150,150,0,100,100,120');
-  eq(s.score, 1060);
+  eq(pts.join(), '200,210,220,230,240,250,0,200,210,220');
+  eq(s.score, 1980);
   const sum = s.summary();
   eq(sum.correct, 9); eq(sum.wrong, 1); eq(sum.maxStreak, 6); eq(sum.rate, 90); eq(sum.answered, 10);
 });
@@ -158,11 +158,38 @@ test('タイムアップ後は回答できない。タイムアップ直前（60
   eq(t.s.ended, true);
   eq(t.s.results.length, 0);
 });
+test('3回ミスした時点でゲームオーバー（時間が残っていても強制終了）。2回まではつづけられる', () => {
+  eq(TA.CONFIG.maxMisses, 3);
+  const { s, clock } = taSession({ mode: 'official', unit: 'expressions' }, 7);
+  s.start();
+  const plan = [false, true, true, false, true];
+  plan.forEach((ok) => { s.answer(ok ? correctChoice(s.current) : wrongChoice(s.current)); clock.advance(500); eq(s.advance(), true, '2回目までのミスで終わった'); });
+  eq(s.misses, 2); eq(s.livesLeft, 1); eq(s.ended, false);
+  const r = s.answer(wrongChoice(s.current));
+  eq(r.misses, 3);
+  clock.advance(300);
+  eq(s.advance(), false, '3回目のミスのあとに次の問題へ進んだ');
+  eq(s.ended, true); eq(s.endReason, 'gameover'); eq(s.isGameOver, true);
+  assert(s.remaining() > 0, '残り時間があるはず');
+  eq(s.answer(correctChoice(s.current)), null, 'ゲームオーバー後に回答できた');
+  const sum = s.summary();
+  eq(sum.gameOver, true); eq(sum.misses, 3); eq(sum.wrong, 3); eq(sum.correct, 3);
+  eq(s.score, 200 + 210 + 200, 'ゲームオーバーまでの得点はそのまま残る');
+});
+test('時間切れで終わったときは endReason が timeup（ゲームオーバーではない）', () => {
+  const { s, clock } = taSession({ mode: 'official', unit: 'equation' });
+  s.start();
+  s.answer(wrongChoice(s.current)); clock.advance(300); s.advance();
+  clock.advance(TA.CONFIG.durationMs);
+  s.answer(correctChoice(s.current));
+  eq(s.advance(), false);
+  eq(s.endReason, 'timeup'); eq(s.summary().gameOver, false);
+});
 test('問題データ（errorLine など）を書き換えない', () => {
   const { s, clock } = taSession({ mode: 'official', unit: 'positive-negative' });
   const before = JSON.stringify(questions);
   s.start();
-  for (let i = 0; i < 20; i++) { s.answer(wrongChoice(s.current)); clock.advance(100); s.advance(); }
+  for (let i = 0; i < 20; i++) { s.answer(i % 2 ? wrongChoice(s.current) : correctChoice(s.current)); clock.advance(100); s.advance(); }
   eq(JSON.stringify(questions), before);
 });
 test('称号：最高スコアに応じて決まる（暫定の基準）', () => {

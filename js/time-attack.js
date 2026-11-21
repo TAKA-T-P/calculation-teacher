@@ -24,14 +24,12 @@
     feedbackMs: 300,         // 正誤の演出を見せる時間（この間は入力を受け付けない）
     warningAtMs: 10 * 1000,  // 残り10秒で警告
     urgentAtMs: 5 * 1000,    // 残り5秒から強調表示
+    maxMisses: 3,            // この回数まちがえたらゲームオーバー（その時点で強制終了）
   };
 
-  // 得点：正解したときの連続正解数（その問題を含む）に応じて加算する。不正解は0点で、連続正解数を0に戻す
-  const SCORE_RULES = [
-    { minStreak: 5, points: 150 },
-    { minStreak: 3, points: 120 },
-    { minStreak: 1, points: 100 },
-  ];
+  // 得点：連続 n 問目の正解で base + step × n 点（上限 max 点）。
+  // 1問目 200点、2問目 210点 … 11問目以降は 300点で固定。不正解は0点で、連続正解数を0に戻す（次の正解は200点から）
+  const SCORE_RULES = { base: 190, step: 10, max: 300 };
 
   // 公式タイムアタックの称号（単元ごとの最高スコアで決まる）
   const TITLES = [
@@ -46,8 +44,7 @@
 
   function pointsForStreak(streak) {
     if (streak <= 0) return 0;
-    const rule = SCORE_RULES.find((r) => streak >= r.minStreak);
-    return rule ? rule.points : 0;
+    return Math.min(SCORE_RULES.max, SCORE_RULES.base + SCORE_RULES.step * streak);
   }
 
   function titleForScore(score) {
@@ -72,7 +69,7 @@
     /**
      * @param {object[]} questions 全問題
      * @param {{mode:'official'|'custom', unit:string, categories?:string[], difficulties?:number[]}} config
-     * @param {{rng?: () => number, now?: () => number, durationMs?: number}} opts
+     * @param {{rng?: () => number, now?: () => number, durationMs?: number, maxMisses?: number}} opts
      */
     constructor(questions, config, opts = {}) {
       if (config.mode !== MODES.OFFICIAL && config.mode !== MODES.CUSTOM) throw new TypeError(`モードの指定が不正です: ${config.mode}`);
@@ -83,6 +80,9 @@
       this.rng = opts.rng || Math.random;
       this.now = opts.now || (() => Date.now());
       this.durationMs = opts.durationMs || CONFIG.durationMs;
+      this.maxMisses = opts.maxMisses || CONFIG.maxMisses;
+      this.misses = 0;              // 不正解の数（maxMisses に達したらゲームオーバー）
+      this.endReason = null;        // 'timeup'（時間切れ）または 'gameover'（ミスの上限）
       this.deck = [];
       this.lastId = null;
       this.round = 0;               // 何巡目か（全問題を出し終えたら次の巡へ）
@@ -99,6 +99,8 @@
 
     get isOfficial() { return this.mode === MODES.OFFICIAL; }
     get started() { return this.startedAt !== null; }
+    get isGameOver() { return this.misses >= this.maxMisses; }
+    get livesLeft() { return Math.max(0, this.maxMisses - this.misses); }
 
     /** START! のときに呼ぶ。ここから制限時間を数える */
     start() {
@@ -155,28 +157,31 @@
         this.maxStreak = Math.max(this.maxStreak, this.streak);
       } else {
         this.streak = 0;
+        this.misses++;
       }
-      const result = { question: q, choice: r.choice, expected: r.expected, correct: r.correct, points, streak: this.streak, at: at - this.startedAt };
+      const result = { question: q, choice: r.choice, expected: r.expected, correct: r.correct, points, streak: this.streak, misses: this.misses, at: at - this.startedAt };
       this.results.push(result);
       this.locked = true;
       return result;
     }
 
-    /** 演出のあとに呼ぶ。次の問題へ進む（時間切れなら終了して false） */
+    /** 演出のあとに呼ぶ。次の問題へ進む（ゲームオーバー・時間切れなら終了して false） */
     advance(at = this.now()) {
       if (this.ended) return false;
       this.locked = false;
-      if (this.isTimeUp(at)) { this.finish(); return false; }
+      if (this.isGameOver) { this.finish(at); return false; }
+      if (this.isTimeUp(at)) { this.finish(at); return false; }
       this.current = this.drawNext();
       return true;
     }
 
-    /** 時間切れ・終了。以後の回答は受け付けない */
-    finish() {
+    /** 終了（ゲームオーバー・時間切れ・途中でやめた）。以後の回答は受け付けない */
+    finish(at = this.now()) {
       if (this.ended) return;
       this.ended = true;
       this.locked = true;
-      this.endedAt = this.started ? Math.min(this.now(), this.startedAt + this.durationMs) : this.now();
+      this.endReason = this.isGameOver ? 'gameover' : 'timeup';
+      this.endedAt = this.started ? Math.min(at, this.startedAt + this.durationMs) : at;
     }
 
     summary() {
@@ -191,6 +196,8 @@
         wrong: answered - correct,
         rate: answered ? Math.round((correct / answered) * 100) : 0,
         maxStreak: this.maxStreak,
+        misses: this.misses,
+        gameOver: this.endReason === 'gameover',
       };
     }
   }

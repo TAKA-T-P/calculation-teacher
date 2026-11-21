@@ -150,6 +150,10 @@
           await sleep(380);
         }
       },
+      'ta-countdown': async () => { // 「3」の表示で止める
+        await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); await click('#ta-start-btn');
+        await sleep(100); app().ta.timers.forEach((t) => w.clearTimeout(t));
+      },
       'ta-result': async () => {
         await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); await click('#ta-start-btn');
         await waitFor(() => app().ta.session.started, 'START', 6000);
@@ -806,15 +810,18 @@
     const s = ta().session;
     check(s.isOfficial && s.criteria.categories === null && s.criteria.difficulties.join() === '1,2,3,4', '公式の条件');
     check(!s.started && $('#ta-overlay-text').textContent === '3', 'カウントダウンが出ない');
+    check(!$('#ta-overlay-note').hidden && $('#ta-overlay-note').textContent === 'タップした瞬間に判定！3回ミスでゲームオーバー！', 'カウントダウン中に説明が出ない');
     await sleep(1500);
     check(!s.started && s.remaining() === 60000 && $('#ta-timer-num').textContent === '60', 'カウントダウン中に時間が減った');
     await waitFor(() => s.started, 'START!', 5000);
     // 即時判定（「添削する！」はない）
     check(!inScreen('ta-play', '#submit-btn') && !inScreen('ta-play', '#hint-btn'), '添削ボタンやヒントがある');
+    check(!inScreen('ta-play', '.paper__guide') && !$('#ta-body').textContent.includes('生徒の答案'), 'タイムアタックに「生徒の答案」の案内が出ている');
+    check($('#ta-overlay').hidden || $('#ta-overlay-note').hidden, 'START! のあとも説明が残っている');
     const q1 = s.current;
     const el = taCorrectEl();
     el.click();
-    check(s.results.length === 1 && s.results[0].correct && s.score === 100, '即時判定されない');
+    check(s.results.length === 1 && s.results[0].correct && s.score === 200, '即時判定されない');
     el.click(); taRow('all').click(); // 演出中の連打
     check(s.results.length === 1, '二重に回答された');
     await sleep(TA_FEEDBACK + 80);
@@ -846,11 +853,30 @@
     await click('[data-action="ta-retry"]');
     const s = ta().session;
     await playTA((i) => (i < 4 ? [true, true, false, true][i] : null)); // 4問だけ回答して、あとは時間切れ
-    check(s.results.map((r) => r.points).join() === '100,100,0,100', `得点 ${s.results.map((r) => r.points)}`);
+    check(s.results.map((r) => r.points).join() === '200,210,0,200', `得点 ${s.results.map((r) => r.points)}`);
     check(s.summary().maxStreak === 2, '最大連続');
     const rec = recs().officialFor('equation');
     check(rec.bestScore === best && rec.plays === 2, `自己ベストが変わった／回数 ${JSON.stringify(rec)}`);
     check($('#ta-result-body').textContent.includes(`自己ベスト：${best}点`) && !$('#ta-result-body').textContent.includes('自己ベスト更新'), '自己ベストの表示');
+  });
+
+  await test('[TA] 3回ミスでゲームオーバー：時間が残っていても強制終了し、ハートが減り、結果画面に表示・記録される', async () => {
+    await click('[data-action="ta-retry"]');
+    const s = ta().session;
+    await waitFor(() => s.started, 'START!', 8000);
+    check($$('#ta-lives span').length === 3 && $$('#ta-lives .is-lost').length === 0, 'ハートが3つ出ない');
+    sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
+    taWrongEl().click();
+    check($('#ta-popup').textContent.includes('ミス 1/3') && $$('#ta-lives .is-lost').length === 1, 'ミスの表示');
+    await sleep(TA_FEEDBACK + 80);
+    await playTA(() => false);
+    check(s.ended && s.endReason === 'gameover' && s.results.length === 3 && s.remaining() > 30000, `ゲームオーバーにならない（${s.results.length}問・残り${s.remaining()}）`);
+    check(s.answer({ type: 'allCorrect' }) === null, 'ゲームオーバー後に回答できた');
+    const body = $('#ta-result-body').textContent;
+    check(body.includes('3回ミスでゲームオーバー'), '結果画面にゲームオーバーの表示がない');
+    check(recs().officialFor('equation').plays === 3, 'ゲームオーバーの回が記録されない');
+    const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
+    check(names.includes('fail') && !names.includes('timeup'), `ゲームオーバーの効果音 ${names}`);
   });
 
   await test('[TA] カスタム：カテゴリ・難易度をしぼれる。公式記録は変わらず、履歴に残る。履歴から同じ条件で再挑戦できる', async () => {
@@ -991,7 +1017,7 @@
 
   await test('[記録] 3つのタブで公式記録・カスタム履歴・認定状況が見られ、再読み込みしても残っている', async () => {
     await openGame(2);
-    check(recs().officialFor('equation').plays === 2 && recs().customHistory().length === 1 && recs().certFor('equation').highestCleared === 1, '再読み込みで記録が消えた');
+    check(recs().officialFor('equation').plays === 3 && recs().customHistory().length === 1 && recs().certFor('equation').highestCleared === 1, '再読み込みで記録が消えた');
     await click('[data-action="go-records"]');
     check($('#tab-official').getAttribute('aria-selected') === 'true', '最初のタブ');
     const official = $('#records-panel').textContent;

@@ -1194,6 +1194,7 @@
     o.hidden = false;
     o.className = `ta-overlay ta-overlay--${kind}`;
     $('#ta-overlay-text').textContent = text;
+    $('#ta-overlay-note').hidden = kind !== 'count'; // 3・2・1 のあいだだけ説明を出す
   }
 
   function hideTAOverlay() {
@@ -1212,6 +1213,10 @@
     $('.screen--ta-play').classList.toggle('is-urgent', s.started && rem <= TA.CONFIG.urgentAtMs && rem > 0);
     $('#ta-score').innerHTML = `${s.score}<small>点</small>`;
     $('#ta-streak').textContent = s.streak >= 2 ? `🔥${s.streak}連続` : '';
+    // のこりミス（❤ が減っていく）
+    const lives = $('#ta-lives');
+    lives.innerHTML = Array.from({ length: s.maxMisses }, (_, i) => `<span class="${i < s.livesLeft ? '' : 'is-lost'}">❤️</span>`).join('');
+    lives.setAttribute('aria-label', `あと${s.livesLeft}回ミスでゲームオーバー`);
   }
 
   function tickTA() {
@@ -1253,8 +1258,6 @@
           <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
         </div>
         <div class="paper__answer">
-          <p class="paper__guide"><span class="label-badge label-badge--student">生徒の答案</span>
-            <span>最初に間違えた行をタップ！（タップした瞬間に判定）</span></p>
           <ol class="sheet${isEq ? ' eq-group' : ''}">${rows}</ol>
           <div class="all-correct-wrap">
             <button type="button" class="btn-all-correct btn-all-correct--wide" data-action="ta-answer" data-index="all">
@@ -1288,7 +1291,7 @@
       if (expectedEl) expectedEl.classList.add('ta-answer');
     }
     const popup = $('#ta-popup');
-    popup.textContent = r.correct ? `✔ +${r.points}${r.streak >= 3 ? `　🔥${r.streak}連続` : ''}` : '✖ ざんねん';
+    popup.textContent = r.correct ? `✔ +${r.points}${r.streak >= 3 ? `　🔥${r.streak}連続` : ''}` : `✖ ミス ${r.misses}/${s.maxMisses}`;
     popup.className = `ta-popup ${r.correct ? 'is-ok' : 'is-ng'}`;
     updateTAHud();
     later(() => {
@@ -1306,7 +1309,7 @@
     app.ta.session = null;
   }
 
-  /** タイムアップ：回答を受け付けず、記録して結果画面へ */
+  /** タイムアップ・ゲームオーバー：回答を受け付けず、記録して結果画面へ */
   function endTA() {
     const s = app.ta.session;
     if (!s || app.ta.result) return;
@@ -1320,8 +1323,8 @@
     if (s.isOfficial) rec = records.recordOfficial(s.criteria.unit, sum, TA.titleForScore);
     else rec = records.addCustom({ unit: s.criteria.unit, categories: s.criteria.categories, difficulties: s.criteria.difficulties, ...sum });
     app.ta.result = { session: s, summary: sum, record: rec };
-    showTAOverlay('タイムアップ！', 'timeup');
-    sfx('timeup');
+    if (sum.gameOver) { showTAOverlay('ゲームオーバー', 'gameover'); sfx('fail'); }
+    else { showTAOverlay('タイムアップ！', 'timeup'); sfx('timeup'); }
     later(() => {
       hideTAOverlay();
       renderTAResult();
@@ -1352,6 +1355,7 @@
       <h2 id="ta-result-heading" class="screen-title" tabindex="-1">${s.isOfficial ? '🏅 公式' : '🎯 カスタム'}タイムアタック結果</h2>
       <p class="summary-unit">${esc(unit)}</p>
       <div class="score-card">
+        ${sum.gameOver ? `<p class="gameover-badge">💥 ${s.maxMisses}回ミスでゲームオーバー</p>` : ''}
         <p class="score-card__rate">スコア <span>${sum.score}</span>点</p>
         ${bestHtml}
         <dl class="score-card__stats">
