@@ -137,6 +137,7 @@
       compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       options: async () => click('[data-action="go-options"]'),
+      'reset-dialog': async () => { await click('[data-action="go-options"]'); await click('[data-screen="options"] [data-action="reset-records"]'); },
       // ---- 第3段階（スクリーンショット用）
       'ta-menu': async () => click('[data-action="go-ta-menu"]'),
       'ta-official': async () => { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); },
@@ -171,6 +172,17 @@
         await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]');
         await click('[data-action="cert-start"][data-exam="1"]');
         for (let i = 0; i < 3; i++) { await answer(true); await click('[data-action="next"]'); }
+      },
+      'cert-play': async () => { // 試験中のヘッダー（1問正解して2問目）
+        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="positive-negative"]');
+        await click('[data-action="cert-start"][data-exam="1"]');
+        await answer(true); await click('[data-action="next"]');
+      },
+      'cert-list-cleared': async () => { // 第1試験に合格したあとの試験一覧
+        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]');
+        await click('[data-action="cert-start"][data-exam="1"]');
+        for (let i = 0; i < 3; i++) { await answer(true); await click('[data-action="next"]'); }
+        await click('[data-action="go-cert-list"]');
       },
       records: async () => click('[data-action="go-records"]'),
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
@@ -951,13 +963,28 @@
     check(sndNow().debug.log.some((e) => e.played && e.name === 'examStart'), '試験開始音');
     const s = app().session;
     check(s.questions.length === 5 && s.questions.every((q) => q.difficulty === 1 && q.unit === 'equation'), '第1試験の出題');
+    // ヘッダー：「1/5」は出さず、正解数は★の右。問題のバッジは「第○問」。どれも重ならない
+    const hudCheck = (n, correct) => {
+      const es = $('#hud-exam-score');
+      check($('#hud-count').hidden && $('#hud-score').hidden && !es.hidden, 'HUD：「1/5」や右側の正解数が出ている');
+      check(es.textContent.replace(/\s+/g, '').includes(`✔${correct}/3`), `HUD の正解数: ${es.textContent}`);
+      check($('#play-body .paper__instruction .label-badge').textContent === `第${n}問`, `問題のバッジ: ${$('#play-body .paper__instruction .label-badge').textContent}`);
+      const st = $('#hud-stars').getBoundingClientRect();
+      const er = es.getBoundingClientRect();
+      const unitR = $('#hud-unit').getBoundingClientRect();
+      const right = $('#hud-sound').getBoundingClientRect();
+      check(er.left >= st.right - 1 && Math.abs((er.top + er.bottom) / 2 - (st.top + st.bottom) / 2) < 12, `正解数が★の右にない（★ ${Math.round(st.right)}・正解数 ${Math.round(er.left)}）`);
+      check(unitR.right <= right.left + 1 && er.right <= right.left + 1, `HUD の表示が音ボタンと重なる（単元 ${Math.round(unitR.right)}・正解数 ${Math.round(er.right)}・ボタン ${Math.round(right.left)}）`);
+    };
+    hudCheck(1, 0);
     for (let i = 0; i < 3; i++) {
       await answerExam(true);
+      if (i === 0) { check($('#hud-exam-score').textContent.replace(/\s+/g, '').includes('✔1/3'), '正解後に正解数が増えない'); }
       const label = $('[data-action="next"]').textContent;
-      check(i < 2 ? label.includes('次の問題へ') : label.includes('試験結果を見る'), `${i + 1}問目のボタン: ${label}`);
+      check(i < 2 ? label.includes('次の問題へ') : label.includes('結果を見る'), `${i + 1}問目のボタン: ${label}`);
       check($('.feedback__text').textContent.length > 5, '解説が出ない');
       sndNow().debug.resetThrottle();
-      if (i < 2) await click('[data-action="next"]');
+      if (i < 2) { await click('[data-action="next"]'); hudCheck(i + 2, i + 1); }
     }
     sndNow().debug.clearLog();
     await click('[data-action="next"]');
@@ -965,6 +992,19 @@
     const body = $('#cert-result-body').textContent;
     check(body.includes('第1試験 合格！') && body.includes('新人ティーチャーに昇格') && body.includes('第2試験が解放されました'), `合格・昇格の表示: ${body.slice(0, 120)}`);
     check(sndNow().debug.log.some((e) => e.played && e.name === 'rankup'), 'ランクアップの効果音');
+    check(!$('#cert-result-body .promotion .rank-badge'), '昇格の下にランクのバッジが出ている');
+    check(!body.includes('まちがえると不合格'), '結果画面に不合格の条件が出ている');
+    // 「○○に昇格！」が1行に収まる（いちばん長いランク名でも）
+    const promo = $('#cert-result-body .promotion__title');
+    const promoText = promo.textContent;
+    const longest = w.Certification.RANKS.map((r) => r.name).sort((a, b) => b.length - a.length)[0];
+    promo.textContent = `🎉 ${longest}に昇格！`;
+    const lh = parseFloat(w.getComputedStyle(promo).fontSize) * 1.8;
+    const box = $('#cert-result-body .promotion').getBoundingClientRect();
+    const area = $('#cert-result-body').getBoundingClientRect();
+    check(promo.scrollWidth <= promo.clientWidth + 1 && promo.getBoundingClientRect().height < lh && box.left >= area.left - 1 && box.right <= area.right + 1,
+      `昇格の表示が1行に収まらない（文字 ${promo.scrollWidth}/${promo.clientWidth}・枠 ${Math.round(box.left)}〜${Math.round(box.right)}／画面 ${Math.round(area.left)}〜${Math.round(area.right)}）`);
+    promo.textContent = promoText;
     check(recs().certFor('equation').highestCleared === 1 && recs().certFor('equation').exams['1'].attempts === 1, '認定記録');
     check($$('#cert-result-body .review-item').length === 3, '問題ごとの結果');
     await click('#cert-result-body [data-action="cert-explain"][data-index="0"]');
@@ -984,7 +1024,7 @@
       await answerExam(false);
       if (i < 2) await click('[data-action="next"]');
     }
-    check($('[data-action="next"]').textContent.includes('試験結果を見る'), '不合格が決まったのに次の問題へ');
+    check($('[data-action="next"]').textContent.includes('結果を見る'), '不合格が決まったのに次の問題へ');
     sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
     await click('[data-action="next"]');
     check(visible('cert-result') && s.results.length === 3 && $('#cert-result-body').textContent.includes('第2試験 不合格'), '不合格の表示');
@@ -1015,6 +1055,15 @@
     check(examCard(1).querySelector('[data-action="cert-start"]'), '元に戻らない');
   });
 
+  await test('[認定] 試験のあとでトレーニングを始めると、ヘッダーと問題のバッジがトレーニングの表示に戻る', async () => {
+    await click('[data-action="go-title"]');
+    await configure({ unit: 'expressions', count: 5 });
+    await click('#start-btn');
+    check(app().mode === 'training' && !$('#hud-count').hidden && $('#hud-count').textContent.includes('1/5'), 'トレーニングで「1/5」が出ない');
+    check(!$('#hud-score').hidden && $('#hud-exam-score').hidden, 'トレーニングで試験用の正解数が出ている');
+    check($('#play-body .paper__instruction .label-badge').textContent === '問題', 'トレーニングのバッジが「問題」でない');
+  });
+
   await test('[記録] 3つのタブで公式記録・カスタム履歴・認定状況が見られ、再読み込みしても残っている', async () => {
     await openGame(2);
     check(recs().officialFor('equation').plays === 3 && recs().customHistory().length === 1 && recs().certFor('equation').highestCleared === 1, '再読み込みで記録が消えた');
@@ -1027,6 +1076,36 @@
     check(cert.includes('新人ティーチャー') && cert.includes('第1試験') && cert.includes('ティーチャー見習い'), '認定の表示');
     await click('[data-action="records-tab"][data-tab="custom"]');
     check($$('#records-panel .history-item').length === 1, 'カスタム履歴の表示');
+  });
+
+  await test('[設定] タイトルの「あそびかた」「記録を見る」は横並び。設定画面の下に「KEC数学科ラボへ」と「記録を消す」（確認してから消す）', async () => {
+    await click('[data-action="go-title"]');
+    const how = $('[data-screen="title"] [data-action="go-howto"]').getBoundingClientRect();
+    const rec = $('[data-screen="title"] [data-action="go-records"]').getBoundingClientRect();
+    const last = $$('[data-screen="title"] .title-menu > .btn').pop().getBoundingClientRect();
+    check(Math.abs(how.top - rec.top) < 2 && how.right <= rec.left && how.top > last.bottom, `横並び・一番下になっていない（あそびかた ${Math.round(how.left)},${Math.round(how.top)}／記録 ${Math.round(rec.left)},${Math.round(rec.top)}）`);
+    await click('[data-action="go-options"]');
+    const link = $('#lab-link');
+    check(visible('options') && link && link.getAttribute('href') === 'https://taka-t-p.github.io/math-app-portal/' && link.textContent.includes('KEC数学科ラボへ'), 'ラボへのリンク');
+    const resetBtn = inScreen('options', '[data-action="reset-records"]');
+    check(resetBtn && resetBtn.textContent.includes('記録を消す'), '記録を消すボタン');
+    check(link.getBoundingClientRect().top > $('#sound-switch').getBoundingClientRect().bottom, '設定の一番下にない');
+    const otherKeys = () => Object.keys(w.localStorage).filter((k) => k !== w.Records.STORAGE_KEY).sort().map((k) => `${k}=${w.localStorage.getItem(k)}`).join('|');
+    const othersBefore = otherKeys();
+    // 「いいえ」なら消えない
+    await click(resetBtn);
+    check($('#reset-dialog').open && $('#reset-title').textContent === '本当に消しますか？', '確認画面が出ない');
+    check(recs().officialFor('equation').plays === 3, '確認画面の前に消えた');
+    await click('[data-action="reset-cancel"]');
+    check(!$('#reset-dialog').open && recs().officialFor('equation').plays === 3 && recs().customHistory().length === 1, '「いいえ」で消えた');
+    // 「はい」で消える（再読み込みしても空のまま。効果音の設定などは残る）
+    await click(resetBtn);
+    await click('[data-action="reset-confirm"]');
+    check(!$('#reset-dialog').open && $('#reset-status').textContent.includes('記録を消しました'), '消したメッセージ');
+    check(recs().officialFor('equation').plays === 0 && recs().customHistory().length === 0 && recs().certFor('equation').highestCleared === 0, '記録が消えない');
+    check(otherKeys() === othersBefore, '記録以外の保存データが変わった');
+    await openGame(2);
+    check(recs().officialFor('equation').bestScore === null && recs().customHistory().length === 0 && recs().certFor('equation').highestCleared === 0, '再読み込みで記録が戻った');
   });
 
   // ================================================================ 効果音

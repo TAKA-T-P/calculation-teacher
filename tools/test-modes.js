@@ -371,6 +371,24 @@ test('古い版（version なし）は読み込める。新しい版のデータ
   eq(res.saved, false);
   eq(newer.data[Rec.STORAGE_KEY], raw, '新しい版のデータを上書きした');
 });
+test('記録を消す：公式・カスタム・認定がすべて空になり、保存される。新しい版のデータは消さない', () => {
+  const st = makeStorage();
+  const r = Rec.createRecordStore({ storage: st, now: fixedNow });
+  r.recordOfficial('equation', { score: 500, maxStreak: 2 }, TA.titleForScore);
+  r.addCustom({ unit: 'equation', score: 100, correct: 1, wrong: 0, maxStreak: 1 });
+  r.recordExam('equation', 1, true);
+  st.data.other = 'そのまま'; // 記録以外の保存データ（効果音の設定など）
+  eq(r.clearAll().ok, true);
+  eq(r.officialFor('equation').bestScore, null); eq(r.customHistory().length, 0); eq(r.certFor('equation').highestCleared, 0);
+  const again = Rec.createRecordStore({ storage: st });
+  eq(again.officialFor('equation').plays, 0, '保存されていない'); eq(again.customHistory().length, 0); eq(again.certFor('equation').highestCleared, 0);
+  eq(st.data.other, 'そのまま', '記録以外を消した');
+  const raw = JSON.stringify({ version: 99, somethingNew: true });
+  const newer = makeStorage({ [Rec.STORAGE_KEY]: raw });
+  const res = Rec.createRecordStore({ storage: newer }).clearAll();
+  eq(res.ok, false); eq(res.reason, 'newer-version'); eq(newer.data[Rec.STORAGE_KEY], raw);
+  eq(Rec.createRecordStore({ storage: makeStorage({}, { quota: true }) }).clearAll().reason, 'save-failed');
+});
 test('localStorage が使えない・容量がいっぱいでも、例外を出さずに続ける', () => {
   const none = Rec.createRecordStore({ storage: null });
   eq(none.recordOfficial('equation', { score: 100, maxStreak: 1 }, TA.titleForScore).saved, false);

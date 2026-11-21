@@ -157,7 +157,10 @@
     switch (action) {
       case 'go-title': sfx('tap'); app.session = null; clearRetry(); show('title'); break;
       case 'go-howto': sfx('tap'); show('howto'); break;
-      case 'go-options': sfx('tap'); renderSoundUi(); show('options'); break;
+      case 'go-options': sfx('tap'); renderSoundUi(); setResetStatus(''); show('options'); break;
+      case 'reset-records': sfx('tap'); setResetStatus(''); if (!$('#reset-dialog').open) $('#reset-dialog').showModal(); break;
+      case 'reset-cancel': sfx('tap'); $('#reset-dialog').close(); break;
+      case 'reset-confirm': sfx('tap'); $('#reset-dialog').close(); resetRecords(); break;
       case 'go-settings':
         if (!app.ready) return;
         sfx('tap');
@@ -351,6 +354,20 @@
       secretTaps = [];
       location.href = 'preview.html';
     }
+  }
+
+  // ============================================================ 記録を消す（設定画面）
+  function setResetStatus(text, isError = false) {
+    const el = $('#reset-status');
+    el.textContent = text;
+    el.classList.toggle('is-error', isError);
+  }
+
+  function resetRecords() {
+    const r = records.clearAll();
+    if (r.ok) setResetStatus('記録を消しました。');
+    else if (r.reason === 'newer-version') setResetStatus('新しい版のアプリで保存された記録のため、消せませんでした。', true);
+    else setResetStatus('記録を消せませんでした。ブラウザの設定を確認してください。', true);
   }
 
   function openQuitDialog() {
@@ -596,12 +613,20 @@
     if (app.mode === 'exam') {
       // 認定試験：単元と試験名、正解数と合格に必要な数
       $('#hud-unit').textContent = `${unitLabelById(s.unit)}・${s.exam.name}`;
-      $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> ${s.correctCount}<small>/${s.exam.requiredCorrect}</small>`;
-      $('#hud-score').setAttribute('aria-label', `正解 ${s.correctCount}問（合格に必要なのは${s.exam.requiredCorrect}問）`);
+      // 正解数は難易度の★の右に出す。何問目かは問題のバッジ（第○問）で示すので、右上の「1/7」は出さない
+      const es = $('#hud-exam-score');
+      es.innerHTML = `<span aria-hidden="true">✔</span> ${s.correctCount}<small>/${s.exam.requiredCorrect}</small>`;
+      es.setAttribute('aria-label', `正解 ${s.correctCount}問（合格に必要なのは${s.exam.requiredCorrect}問）`);
+      es.hidden = false;
+      $('#hud-score').hidden = true;
+      $('#hud-count').hidden = true;
     } else {
       $('#hud-unit').textContent = (unit ? unitLabel(unit) : '') + (app.retryBase ? `・${app.retryIndex + 1}問目をもう一度` : '');
       $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> 正解 ${s.correctCount}`;
       $('#hud-score').removeAttribute('aria-label');
+      $('#hud-score').hidden = false;
+      $('#hud-count').hidden = false;
+      $('#hud-exam-score').hidden = true;
     }
     $('#hud-stars').innerHTML = q ? stars(q.difficulty) : '';
     $('#hud-count').innerHTML = `<span class="visually-hidden">問題</span>${Math.min(s.number, s.total)}<small>/${s.total}</small>`;
@@ -644,7 +669,7 @@
     $('#play-body').innerHTML = `
       <article class="paper" aria-label="添削する答案">
         <div class="paper__problem">
-          <p class="paper__instruction"><span class="label-badge">問題</span>${R.richTextHtml(instruction)}</p>
+          <p class="paper__instruction"><span class="label-badge">${app.mode === 'exam' ? `第${s.number}問` : '問題'}</span>${R.richTextHtml(instruction)}</p>
           <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
         </div>
         <div class="paper__answer">
@@ -828,7 +853,7 @@
     nextBtn.classList.remove('btn--primary');
     nextBtn.classList.add('btn--go-next');
     const nextLabel = app.mode === 'exam'
-      ? (s.decided ? '試験結果を見る' : '次の問題へ') // 合否が決まったら残りは出題しない
+      ? (s.decided ? '結果を見る' : '次の問題へ') // 合否が決まったら残りは出題しない
       : app.retryBase ? '結果にもどる' : s.isLast ? '結果を見る' : '次の問題へ';
     nextBtn.innerHTML = `${nextLabel} <span aria-hidden="true">→</span>`;
     nextBtn.disabled = false;
@@ -1401,7 +1426,7 @@
   }
 
   function examRuleText(exam) {
-    return `${exam.maxQuestions}問中${exam.requiredCorrect}問正解で合格（${C.failAt(exam)}問まちがえると不合格）`;
+    return `${exam.maxQuestions}問中${exam.requiredCorrect}問正解で合格`;
   }
 
   function renderCertUnits() {
@@ -1443,7 +1468,7 @@
         button = '<button type="button" class="btn btn--secondary" disabled>挑戦できません</button>';
       } else {
         status = e.cleared
-          ? `<span class="exam__status exam__status--cleared">✔ 合格済み${e.firstClearedAt ? `（${formatDate(e.firstClearedAt)}）` : ''}</span>`
+          ? `<span class="exam__status exam__status--cleared">✔ 合格済み</span>`
           : '<span class="exam__status exam__status--open">挑戦できます</span>';
         button = `<button type="button" class="btn ${e.cleared ? 'btn--secondary' : 'btn--primary'}" data-action="cert-start" data-exam="${exam.id}">${e.cleared ? 'もう一度挑戦' : '挑戦する'}</button>`;
       }
@@ -1453,7 +1478,6 @@
             <span class="exam__range">${examRangeText(exam)}</span>
           </div>
           <p class="exam__rule">${examRuleText(exam)}</p>
-          <p class="exam__reward">合格すると ${rankBadgeHtml(C.rankFor(exam.id))}</p>
           <div class="exam__foot">${status}<span class="exam__attempts">挑戦 ${e.attempts}回</span>${button}</div>
         </li>`;
     }).join('');
@@ -1509,7 +1533,6 @@
     if (passed && rec.firstClear && rec.rankUp) {
       celebrate = `<div class="promotion">
           <p class="promotion__title">🎉 ${esc(rank.name)}に昇格！</p>
-          ${rankBadgeHtml(rank, 'rank-badge--lg rank-badge--pop')}
           ${isFinal ? '<p class="promotion__sub">すべての試験に合格しました。マスターティーチャー認定です！</p>' : `<p class="promotion__sub">${nextExam.name}が解放されました！</p>`}
         </div>`;
     }

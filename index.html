@@ -15,7 +15,7 @@
 
     <!-- ① タイトル画面 -->
     <section class="screen screen--title" data-screen="title" aria-labelledby="title-heading">
-      <button type="button" class="btn-icon title-options" data-action="go-options" aria-label="設定（効果音）">
+      <button type="button" class="btn-icon title-options" data-action="go-options" aria-label="設定">
         <span aria-hidden="true">⚙</span><span class="btn-icon__label">設定</span>
       </button>
       <div class="title-hero">
@@ -44,18 +44,20 @@
         <button type="button" class="btn btn--primary btn--xl" data-action="go-settings">
           <span class="btn__icon" aria-hidden="true">✏️</span>トレーニング
         </button>
-        <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
-          <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
-        </button>
         <button type="button" class="btn btn--mode btn--lg" data-action="go-ta-menu">
           <span class="btn__icon" aria-hidden="true">⏱</span>タイムアタック
         </button>
         <button type="button" class="btn btn--mode btn--lg" data-action="go-cert-units">
           <span class="btn__icon" aria-hidden="true">🎓</span>ティーチャー認定試験
         </button>
-        <button type="button" class="btn btn--ghost btn--lg" data-action="go-records">
-          <span class="btn__icon" aria-hidden="true">🏆</span>記録を見る
-        </button>
+        <div class="title-menu__pair">
+          <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
+            <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
+          </button>
+          <button type="button" class="btn btn--ghost btn--lg" data-action="go-records">
+            <span class="btn__icon" aria-hidden="true">🏆</span>記録を見る
+          </button>
+        </div>
       </div>
       <p class="load-status" id="load-status" role="status"></p>
       <footer class="title-footer">
@@ -122,6 +124,11 @@
         </div>
         <p class="options-note">設定はこの端末のブラウザに保存され、次に開いたときも使われます。プレイ中は画面上の 🔊 ボタンで音を消せます。</p>
       </div>
+      <div class="options-links">
+        <a class="btn btn--secondary" id="lab-link" href="https://taka-t-p.github.io/math-app-portal/">🧪 KEC数学科ラボへ</a>
+        <button type="button" class="btn btn--danger-outline" data-action="reset-records">🗑 記録を消す</button>
+      </div>
+      <p class="options-status" id="reset-status" role="status"></p>
     </section>
 
     <!-- ② トレーニング設定 -->
@@ -174,6 +181,7 @@
         <div class="hud__info">
           <span class="hud__unit" id="hud-unit"></span>
           <span class="hud__stars" id="hud-stars"></span>
+          <span class="hud__score hud__score--exam" id="hud-exam-score" hidden></span>
         </div>
         <div class="hud__progress">
           <span class="hud__count" id="hud-count"></span>
@@ -279,7 +287,7 @@
     <section class="screen screen--cert-units" data-screen="cert-units" aria-labelledby="cert-units-heading" hidden>
       <header class="screen-header">
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
-        <h2 id="cert-units-heading" class="screen-title" tabindex="-1">🎓 ティーチャー認定試験</h2>
+        <h2 id="cert-units-heading" class="screen-title" tabindex="-1">🎓 認定試験</h2>
       </header>
       <p class="screen-lead">単元ごとに5つの試験があります。順番に合格して、マスターティーチャーをめざそう！</p>
       <div class="cert-unit-list" id="cert-unit-list"></div>
@@ -334,6 +342,16 @@
     <div class="dialog__actions">
       <button type="button" class="btn btn--secondary" data-action="quit-cancel" autofocus>つづける</button>
       <button type="button" class="btn btn--danger" data-action="quit-confirm">やめる</button>
+    </div>
+  </dialog>
+
+  <!-- 記録を消す確認 -->
+  <dialog class="dialog" id="reset-dialog" aria-labelledby="reset-title">
+    <h2 id="reset-title" class="dialog__title">本当に消しますか？</h2>
+    <p>タイムアタックの記録・カスタムの履歴・認定試験の合格状況が、すべて消えます。消した記録は元に戻せません。（効果音の設定は消えません）</p>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--secondary" data-action="reset-cancel" autofocus>いいえ</button>
+      <button type="button" class="btn btn--danger" data-action="reset-confirm">はい</button>
     </div>
   </dialog>
 

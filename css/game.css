@@ -162,6 +162,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   padding: 0 6px;
 }
 .title-menu { display: grid; gap: 14px; width: min(360px, 100%); }
+/* 「あそびかた」「記録を見る」を横並びに */
+.title-menu__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.title-menu__pair .btn { padding-left: 8px; padding-right: 8px; white-space: nowrap; }
 .coming-soon {
   list-style: none;
   margin: 8px 0 0;
@@ -230,6 +233,12 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .option-row__label { margin: 0; font-weight: 800; font-size: 1.05rem; }
 .option-row__help { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
 .options-note { margin: 4px 0 0; color: var(--muted); font-size: .82rem; }
+/* 設定画面のいちばん下：ラボへのリンクと記録の消去 */
+.options-links { max-width: 560px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.options-links .btn { justify-content: center; text-align: center; text-decoration: none; padding: 8px 10px; white-space: nowrap; font-size: clamp(.85rem, 3.8vw, 1rem); }
+.btn--danger-outline { background: var(--surface); color: var(--red-pen); border: 2px solid var(--red-pen); }
+.options-status { max-width: 560px; min-height: 1.4em; margin: 8px 0 0; font-size: .85rem; font-weight: 700; color: var(--ok); }
+.options-status.is-error { color: var(--red-pen); }
 .volume { display: grid; grid-template-columns: auto minmax(0, 1fr) auto 4em; align-items: center; gap: 8px; }
 .volume__icon { font-size: 1.1rem; }
 .volume__value { font-weight: 800; color: var(--primary); text-align: right; font-variant-numeric: tabular-nums; }
@@ -501,6 +510,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .hud__info { display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; min-width: 0; }
 .hud__unit { font-weight: 700; font-size: .95rem; white-space: nowrap; }
 .hud__stars { color: var(--star); letter-spacing: 1px; }
+/* 認定試験：1行目に単元と試験名、2行目に★と正解数を並べる */
+.hud__info:has(#hud-exam-score:not([hidden])) { align-items: center; gap: 2px 10px; }
+.hud__info:has(#hud-exam-score:not([hidden])) .hud__unit { flex-basis: 100%; }
 .stars-off { color: var(--border); }
 .hud__progress { display: flex; gap: 8px; align-items: center; }
 .hud__count { font-weight: 800; font-size: 1.25rem; font-variant-numeric: tabular-nums; }
@@ -1127,7 +1139,6 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .exam__name { font-weight: 900; font-size: 1.15rem; }
 .exam__range { color: var(--star); font-weight: 800; }
 .exam__rule { margin: 4px 0; font-size: .92rem; }
-.exam__reward { margin: 0 0 6px; font-size: .85rem; color: var(--muted); }
 .exam__foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .exam__foot .btn { margin-left: auto; min-height: 44px; }
 .exam__status { font-size: .85rem; font-weight: 800; }
@@ -1144,7 +1155,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   border-radius: var(--radius);
   padding: 14px 16px;
 }
-.promotion__title { margin: 0 0 8px; font-size: 1.4rem; font-weight: 900; color: var(--red-pen); animation: pop .5s ease-out 2; }
+.promotion__title { margin: 0; font-size: clamp(.85rem, 4.4vw, 1.25rem); white-space: nowrap; font-weight: 900; color: var(--red-pen); animation: pop .5s ease-out 2; }
 .promotion__sub { margin: 8px 0 0; font-weight: 800; }
 .screen--cert-result .verdict { width: min(520px, 100%); }
 .screen--cert-result #cert-result-body { width: 100%; display: grid; justify-items: center; gap: 12px; }

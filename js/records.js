@@ -196,8 +196,21 @@
       return { firstClear, prevHighest: prev.highestCleared, highestCleared, rankUp: highestCleared > prev.highestCleared, saved };
     }
 
+    /**
+     * すべての記録（公式タイムアタック・カスタム履歴・認定試験）を消す。効果音などの設定は消さない。
+     * 新しい版のアプリが保存したデータ（読み取り専用）は上書きしない。
+     * @returns {{ok:boolean, reason?:'newer-version'|'save-failed'}}
+     */
+    function clearAll() {
+      if (status.readOnly) return { ok: false, reason: 'newer-version' };
+      data = emptyData();
+      if (!storage) return { ok: true }; // 保存できない環境：この画面を開いている間の記録だけ消える
+      return save() ? { ok: true } : { ok: false, reason: 'save-failed' };
+    }
+
     return {
       status,
+      clearAll,
       officialFor, recordOfficial,
       addCustom, customHistory,
       certFor, recordExam,
