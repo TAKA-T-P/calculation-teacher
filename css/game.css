@@ -186,6 +186,25 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   border-radius: 999px;
   padding: 0 10px;
 }
+/* 最下部のクレジット表記（控えめに） */
+.title-hero { margin-top: auto; }
+.title-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--muted);
+  opacity: .75;
+  font-size: .72rem;
+  letter-spacing: .02em;
+}
+.title-footer small { font-size: inherit; }
+/* 裏ワザ用：連打しても文字が選択されたり拡大されたりしないようにする */
+.secret-tap {
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
 .load-status { min-height: 1.5em; color: var(--muted); font-size: .9rem; margin: 0; }
 .load-status--error { color: var(--red-pen); font-weight: 700; }
 
@@ -355,6 +374,19 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .paper__question .katex-display > .katex { text-align: left; }
 .katex { font-size: 1.25em; }
 
+/* 方程式：「左辺｜＝｜右辺」の3列。左辺の列の幅はまとまり（答案・正しい計算過程）全体でそろえる（js の fitEqGroup） */
+.eq-line {
+  display: grid;
+  grid-template-columns: var(--eq-lhs-w, auto) auto auto;
+  justify-content: start;
+  align-items: baseline;
+  font-size: calc(var(--eq-scale, 1) * 100%);
+  white-space: nowrap;
+  padding: .45em 0;
+}
+.eq-lhs { justify-self: end; }
+.eq-op { padding: 0 .3em; }
+
 /* ---------- 答案の行 */
 .sheet { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .row-item { display: grid; gap: 2px; min-width: 0; }
@@ -372,9 +404,19 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   border: 2px solid transparent;
   border-bottom: 2px solid var(--paper-line);
 }
-.row--given { color: var(--muted); border: 0; border-bottom: 2px dashed var(--paper-line); border-radius: 0; }
+/* 1行目（問題の式の再掲）：選べない行。右端の印の列がないので、式の表示領域を右端まで広げる。
+   左右の枠は透明な2pxにして、2行目以降のボタンと式の開始位置をそろえる（「＝」の位置合わせのため） */
+.row--given {
+  grid-template-columns: 3.6em minmax(0, 1fr);
+  color: var(--muted);
+  border: 2px solid transparent;
+  border-top-width: 0;
+  border-bottom: 2px dashed var(--paper-line);
+  border-radius: 0;
+}
 .row--given .row__math { opacity: .85; }
-.row__note { font-size: .72rem; color: var(--muted); background: var(--bg-accent); border-radius: 6px; padding: 0 6px; white-space: nowrap; }
+/* 式の計算の1行目：全角スペース1文字分（数式の文字サイズの 1em）右にずらす */
+.row--indent .katex-display > .katex { padding-left: 1em; }
 .row__no { font-size: .82rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .row__mark { font-size: .82rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
@@ -387,10 +429,11 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 }
 .row--selectable:hover:not(:disabled) { border-color: var(--primary); }
 .row--selectable:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
+/* 選択中・正解・キミの答えの行は、枠の幅は2pxのまま内側の影で太く見せる（式の位置がずれないように） */
 .row--selectable.is-selected {
-  border: 3px solid var(--primary);
+  border-color: var(--primary);
   background: var(--primary-weak);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+  box-shadow: inset 0 0 0 1px var(--primary), 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 .row--selectable.is-selected .row__no { color: var(--primary); }
 .row--selectable:disabled { cursor: default; }
@@ -399,13 +442,15 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .row--selectable.is-locked { opacity: 1; box-shadow: none; }
 .paper.is-graded .row--selectable:not(.is-answer):not(.is-chosen-wrong) { background: transparent; border-color: var(--paper-line); }
 .row--selectable.is-answer {
-  border: 3px solid var(--red-pen);
+  border-color: var(--red-pen);
   background: var(--highlight);
+  box-shadow: inset 0 0 0 1px var(--red-pen);
 }
 .row--selectable.is-answer .row__mark { color: var(--red-pen); }
 .paper.is-correct .row--selectable.is-answer { animation: pop .35s ease-out; }
 .row--selectable.is-chosen-wrong {
-  border: 3px dashed var(--muted);
+  border-style: dashed;
+  border-color: var(--muted);
   background: repeating-linear-gradient(-45deg, transparent 0 8px, color-mix(in srgb, var(--muted) 12%, transparent) 8px 10px);
 }
 .row__tags { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 8px; }
@@ -426,9 +471,14 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 
 /* ---------- 全部正しい */
 .all-correct-wrap { margin-top: 14px; display: grid; gap: 4px; justify-items: start; }
+/* 「全部正しい！」と「添削する！」を横に並べる */
+.choice-bar { display: flex; gap: 10px; align-items: stretch; width: 100%; scroll-margin-top: 90px; }
+.choice-bar > button { flex: 1 1 0; min-width: 0; white-space: nowrap; }
+.choice-bar .btn--submit { min-height: var(--tap); font-size: 1.1rem; padding: 8px 16px; }
 .btn-all-correct {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   min-height: var(--tap);
   padding: 8px 24px;
@@ -451,8 +501,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 
 /* ---------- 操作エリア */
 .play-actions { display: grid; gap: 12px; margin-top: 16px; justify-items: center; }
-.btn--submit { width: min(420px, 100%); }
-.submit-help { margin: -4px 0 0; color: var(--muted); font-size: .85rem; }
+.submit-help { margin: 2px 0 0; color: var(--muted); font-size: .85rem; justify-self: end; }
 .hint { width: 100%; display: grid; justify-items: center; gap: 8px; }
 .btn--hint { background: var(--surface); color: var(--ng); border-color: var(--star); min-height: 44px; }
 .hint__panel {
@@ -530,7 +579,20 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   border-bottom: 1px dashed var(--paper-line);
 }
 .solution__line:last-child { border-bottom: 0; }
-.btn--next { justify-self: center; width: min(420px, 100%); }
+/* 採点後、「添削する！」と同じ位置に出る「次の問題へ」（赤） */
+.btn--go-next {
+  min-height: var(--tap);
+  background: var(--red-pen);
+  color: #fff;
+  box-shadow: 0 4px 0 #a8262b;
+  transition: none; /* 青→赤へ徐々に変わらず、すぐに赤になるようにする */
+  animation: fade-in .25s ease-out;
+}
+.btn--go-next:hover { background: #c22f34; }
+@media (prefers-color-scheme: dark) {
+  .btn--go-next { color: #2a0c0d; box-shadow: 0 4px 0 #c4545a; }
+  .btn--go-next:hover { background: #ff9599; }
+}
 
 @keyframes stamp { 0% { transform: rotate(-12deg) scale(2.2); opacity: 0; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
 @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.03); } 100% { transform: scale(1); } }
@@ -547,8 +609,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   box-shadow: var(--shadow);
   padding: 20px;
 }
-.score-card__main { margin: 0; font-size: 1.4rem; }
-.score-card__rate { margin: 4px 0; font-weight: 700; color: var(--muted); }
+.score-card__rate { margin: 0 0 4px; font-weight: 700; color: var(--muted); }
 .score-card__rate span { font-size: 3.2rem; color: var(--red-pen); font-weight: 900; font-variant-numeric: tabular-nums; }
 .score-card__stats { display: flex; justify-content: center; gap: 24px; margin: 8px 0; }
 .score-card__stats div { display: grid; }
@@ -561,16 +622,46 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   display: inline-block;
   padding: 0 4px;
 }
-.review-list { list-style: none; margin: 0; padding: 0; width: min(520px, 100%); display: grid; gap: 6px; text-align: left; }
+.review-guide { margin: 4px 0 -4px; color: var(--muted); font-size: .85rem; }
+.review-list { list-style: none; margin: 0; padding: 0; width: min(520px, 100%); display: grid; gap: 8px; text-align: left; }
+/* 問題の履歴カード：タップするとその問題をもう一度解ける */
 .review-item {
   display: grid;
-  grid-template-columns: 1.6em 3.6em minmax(0, 1fr) auto;
+  grid-template-columns: 1.6em 3.6em minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  min-height: 52px;
   background: var(--surface);
+  border: 2px solid var(--border);
   border-radius: 12px;
+  box-shadow: 0 2px 0 var(--border);
   padding: 6px 12px;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color .12s ease, transform .08s ease;
 }
+.review-item:hover { border-color: var(--primary); }
+.review-item:active { transform: translateY(1px); box-shadow: none; }
+.review-item__retry {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--primary-weak);
+  color: var(--primary);
+  font-weight: 900;
+}
+.review-item__again {
+  grid-column: 3 / -1;
+  justify-self: end;
+  font-size: .78rem;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 0 10px;
+}
+.review-item__again.is-ok { background: var(--ok-weak); color: var(--ok); }
+.review-item__again.is-ng { background: var(--ng-weak); color: var(--ng); }
 .review-item__mark { font-weight: 900; }
 .review-item.is-ok .review-item__mark, .review-item.is-ok .review-item__result { color: var(--ok); }
 .review-item.is-ng .review-item__mark, .review-item.is-ng .review-item__result { color: var(--ng); }
@@ -593,6 +684,91 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .dialog__title { margin: 0 0 4px; font-size: 1.15rem; }
 .dialog p { margin: 0 0 16px; color: var(--muted); }
 .dialog__actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+/* ============================================================ 生徒の答案と正しい計算過程を並べて表示 */
+.btn--compare { margin-top: 10px; min-height: 44px; width: 100%; }
+.label-badge--ok { background: var(--ok); }
+.compare-dialog {
+  border: 0;
+  padding: 0;
+  width: min(1100px, calc(100vw - 24px));
+  max-width: none;
+  max-height: calc(100dvh - 24px);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--text);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+  overflow: hidden;
+}
+.compare-dialog::backdrop { background: rgba(20, 30, 50, .55); }
+.compare {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 24px);
+}
+.compare__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 2px dashed var(--paper-line);
+}
+.compare__title { margin: 0; font-size: 1.05rem; }
+.compare__close { min-height: 44px; padding: 4px 22px; flex: none; }
+.compare__body { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 8px 16px 16px; }
+.compare__note { margin: 0 0 8px; font-weight: 700; color: var(--muted); font-size: .9rem; }
+.cmp-grid {
+  display: grid;
+  grid-template-columns: 3.4em minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: stretch;
+}
+.cmp-head { padding: 4px 0 6px; position: sticky; top: -8px; background: var(--paper); z-index: 1; }
+.cmp-no {
+  display: flex;
+  align-items: center;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 1px dashed var(--paper-line);
+}
+.cmp-cell {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  padding: 2px 8px;
+  border-bottom: 1px dashed var(--paper-line);
+  border-left: 2px solid var(--paper-line);
+}
+.cmp-cell--given .row__math { opacity: .8; }
+.cmp-cell--error { background: var(--highlight); box-shadow: inset 0 0 0 2px var(--red-pen); border-radius: 8px; }
+.cmp-cell .tag { justify-self: start; margin-bottom: 4px; }
+.cmp-cell .katex { font-size: 1.15em; }
+
+/* スマートフォン縦画面：中身を右に90°回転して、横長の画面として使う */
+@media (orientation: portrait) and (max-width: 600px) {
+  .compare-dialog {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+  .compare {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100vh;
+    width: 100dvh;
+    height: 100vw;
+    max-height: none;
+    transform-origin: top left;
+    transform: rotate(90deg);
+  }
+}
+
 .error-message { background: var(--red-weak); color: var(--red-pen); padding: 12px 16px; border-radius: 12px; font-weight: 700; }
 .noscript { text-align: center; padding: 24px; }
 
@@ -611,6 +787,8 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   .verdict__title { font-size: 1.35rem; }
   .stamp { width: 52px; height: 52px; font-size: 1.7rem; }
   .solution__line { grid-template-columns: 3.1em minmax(0, 1fr); }
+  .choice-bar { gap: 8px; }
+  .choice-bar > button { font-size: 1rem; padding: 8px 10px; gap: 4px; }
 }
 
 /* iPad 横・PC：答案と操作・解説を左右に並べる */

@@ -14,6 +14,9 @@
   const G = window.Game;
   const esc = R.escapeHtml;
 
+  // 答案の各行が等式（方程式）になる単元。それ以外は「式の計算」として表示を調整する
+  const EQUATION_UNITS = new Set(['equation', 'simultaneous-equations', 'quadratic-equations']);
+
   const params = new URLSearchParams(location.search);
   const rng = G.createRng(params.get('seed'));
 
@@ -24,6 +27,9 @@
     invalidIds: [],     // 出題できない（データ不整合の）問題
     config: { unit: null, difficulties: new Set(G.DIFFICULTIES), count: G.DEFAULT_COUNT },
     session: null,
+    retryBase: null,    // 結果画面から1問解き直しているときの、元のトレーニング
+    retryIndex: null,
+    retryResults: {},
     ready: false,
   };
 
@@ -94,6 +100,13 @@
   // ブラウザの「戻る」：プレイ中は確認してから終了する
   function onPopState(e) {
     const target = (e.state && e.state.screen) || 'title';
+    const compare = $('#compare-dialog');
+    if (compare.open && app.screen === 'play') {
+      // 並べて表示を開いているときの「戻る」は、それを閉じるだけにする
+      history.pushState({ screen: 'play' }, '');
+      compare.close();
+      return;
+    }
     if (inProgress()) {
       history.pushState({ screen: 'play' }, '');
       openQuitDialog();
@@ -115,11 +128,12 @@
     if (!el || el.disabled || el.getAttribute('aria-disabled') === 'true') return;
     const action = el.dataset.action;
     switch (action) {
-      case 'go-title': app.session = null; show('title'); break;
+      case 'go-title': app.session = null; clearRetry(); show('title'); break;
       case 'go-howto': show('howto'); break;
       case 'go-settings':
         if (!app.ready) return;
         app.session = null;
+        clearRetry();
         renderSettings();
         show('settings');
         break;
@@ -127,7 +141,11 @@
       case 'toggle-difficulty': toggleDifficulty(el.dataset.difficulty); break;
       case 'select-count': app.config.count = el.dataset.count === 'all' ? 'all' : Number(el.dataset.count); renderSettings(); break;
       case 'start': startTraining(); break;
-      case 'retry': startTraining(); break;
+      case 'retry': clearRetry(); startTraining(); break;
+      case 'review-question': startRetryQuestion(Number(el.dataset.index)); break;
+      case 'secret-tap': onSecretTap(); break;
+      case 'compare-open': openCompare(); break;
+      case 'compare-close': $('#compare-dialog').close(); break;
       case 'select-line': app.session.selectLine(Number(el.dataset.index)); updateSelection(); break;
       case 'select-all-correct': app.session.selectAllCorrect(); updateSelection(); break;
       case 'toggle-hint': app.session.toggleHint(); renderHint(); break;
@@ -137,6 +155,7 @@
       case 'quit-cancel': $('#quit-dialog').close(); break;
       case 'quit-confirm':
         $('#quit-dialog').close();
+        if (app.retryBase) { backToSummary(); break; } // 解き直しをやめたときは結果画面へ戻る
         app.session = null;
         show('title', 'replace');
         break;
@@ -144,9 +163,117 @@
     }
   }
 
+  // ============================================================ 生徒の答案と正しい計算過程を並べて表示
+  // 「行番号｜生徒の答案｜正しい計算過程」の3列。同じ行番号どうしを横に並べる。
+  function openCompare() {
+    const s = app.session;
+    const q = s && s.current;
+    if (!q || !s.isGraded) return;
+    const isEq = EQUATION_UNITS.has(q.unit);
+    const n = Math.max(q.answerLines.length, q.correctSolution.length);
+    const cell = (lines, i, col) => {
+      if (i >= lines.length) return `<div class="cmp-cell cmp-cell--empty" data-col="${col}"></div>`;
+      const cls = ['cmp-cell'];
+      if (i === 0) cls.push('cmp-cell--given');
+      if (i === 0 && !isEq) cls.push('row--indent');
+      const isError = col === 'student' && q.errorLine === i;
+      if (isError) cls.push('cmp-cell--error');
+      return `<div class="${cls.join(' ')}" data-col="${col}">
+          <span class="row__math fit-math">${lineMathHtml(lines[i], isEq)}</span>
+          ${isError ? '<span class="tag tag--answer"><span aria-hidden="true">✖</span> 最初のミス</span>' : ''}
+        </div>`;
+    };
+    let rows = '';
+    for (let i = 0; i < n; i++) {
+      rows += `<div class="cmp-no">${lineLabel(i)}</div>${cell(q.answerLines, i, 'student')}${cell(q.correctSolution, i, 'solution')}`;
+    }
+    const verdict = q.errorLine === null
+      ? '<p class="compare__note"><span aria-hidden="true">◎</span> この答案は全部正しい答案です（正しい計算過程は別の解き方の例です）</p>'
+      : `<p class="compare__note"><span aria-hidden="true">✖</span> 生徒の答案は ${lineLabel(q.errorLine)} で最初にまちがえています</p>`;
+    $('#compare-body').innerHTML = `
+      ${verdict}
+      <div class="cmp-grid" role="table" aria-label="生徒の答案と正しい計算過程">
+        <div class="cmp-head"></div>
+        <div class="cmp-head"><span class="label-badge label-badge--student">生徒の答案</span></div>
+        <div class="cmp-head"><span class="label-badge label-badge--ok">正しい計算過程</span></div>
+        ${rows}
+      </div>`;
+    const dialog = $('#compare-dialog');
+    if (!dialog.open) dialog.showModal();
+    $('#compare-body').scrollTop = 0;
+    fitAllMath();
+  }
+
+  // 並べて表示の中の方程式は、列ごとに「＝」をそろえる
+  function fitCompare() {
+    const dialog = $('#compare-dialog');
+    if (!dialog || !dialog.open) return;
+    ['student', 'solution'].forEach((col) => {
+      fitEqLines([...dialog.querySelectorAll(`.cmp-cell[data-col="${col}"] .eq-line`)]);
+    });
+  }
+
+  // 裏ワザ：タイトル画面の「T.TAKEMOTO」を 3 秒以内に 5 回タップすると、開発者用プレビューを開く
+  const SECRET_TAPS = 5;
+  const SECRET_WINDOW_MS = 3000;
+  let secretTaps = [];
+  function onSecretTap() {
+    const now = Date.now();
+    secretTaps = secretTaps.filter((t) => now - t < SECRET_WINDOW_MS);
+    secretTaps.push(now);
+    if (secretTaps.length >= SECRET_TAPS) {
+      secretTaps = [];
+      location.href = 'preview.html';
+    }
+  }
+
   function openQuitDialog() {
     const d = $('#quit-dialog');
+    $('#quit-title').textContent = app.retryBase ? 'この問題の解き直しをやめますか？' : 'トレーニングをやめますか？';
+    $('#quit-text').textContent = app.retryBase ? 'トレーニング結果の画面に戻ります。' : 'ここまでの結果は保存されません。';
     if (!d.open) d.showModal();
+  }
+
+  // ============================================================ 結果画面からの解き直し
+  // app.retryBase   : 解き直し中のとき、元のトレーニング（結果画面に表示しているもの）
+  // app.retryIndex  : 解き直している問題の番号（0始まり）
+  // app.retryResults: 解き直しの結果 { 問題番号: true/false }。元の正解数・正解率は変えない
+  function clearRetry() {
+    app.retryBase = null;
+    app.retryIndex = null;
+    app.retryResults = {};
+  }
+
+  function startRetryQuestion(index) {
+    const base = app.retryBase || app.session;
+    if (!base || !base.finished || !base.questions[index]) return;
+    const q = base.questions[index];
+    try {
+      // 選んだ1問だけのトレーニングを作る（採点・ヒント・解説はふだんと同じ）
+      app.session = new G.TrainingSession([q], { unit: q.unit, difficulties: [q.difficulty], count: 1 }, rng);
+    } catch (e) {
+      showError(e.message);
+      return;
+    }
+    app.retryBase = base;
+    app.retryIndex = index;
+    renderQuestion();
+    show('play', 'push');
+    fitAllMath();
+    $('#play-heading').focus({ preventScroll: true });
+  }
+
+  function backToSummary() {
+    const s = app.session;
+    if (app.retryBase && s && s.results.length) app.retryResults[app.retryIndex] = s.results[0].correct;
+    app.session = app.retryBase;
+    const index = app.retryIndex;
+    app.retryBase = null;
+    app.retryIndex = null;
+    renderSummary();
+    show('summary', 'replace');
+    const card = document.querySelector(`[data-action="review-question"][data-index="${index}"]`);
+    if (card) { card.scrollIntoView({ block: 'center' }); card.focus({ preventScroll: true }); }
   }
 
   // ============================================================ ② 設定画面
@@ -288,7 +415,7 @@
     const s = app.session;
     const q = s.current;
     const unit = currentUnit();
-    $('#hud-unit').textContent = unit ? unitLabel(unit) : '';
+    $('#hud-unit').textContent = (unit ? unitLabel(unit) : '') + (app.retryBase ? `・${app.retryIndex + 1}問目をもう一度` : '');
     $('#hud-stars').innerHTML = q ? stars(q.difficulty) : '';
     $('#hud-count').innerHTML = `<span class="visually-hidden">問題</span>${Math.min(s.number, s.total)}<small>/${s.total}</small>`;
     $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> 正解 ${s.correctCount}`;
@@ -304,20 +431,24 @@
     const s = app.session;
     const q = s.current;
     if (mathObserver) mathObserver.disconnect(); // 前の問題の式の監視をやめる
+    if ($('#compare-dialog').open) $('#compare-dialog').close();
     renderHud();
     const instruction = q.instruction || S.defaultInstruction(q.unit);
+    // 方程式以外（式の計算）では、2行目以降が「=」から始まるので、1行目の式を全角スペース1文字分右にずらす
+    const indentFirst = !EQUATION_UNITS.has(q.unit);
+    // 方程式では、各行の「＝」の縦の位置をそろえる
+    const alignEq = EQUATION_UNITS.has(q.unit);
     const rows = q.answerLines.map((latex, i) => {
       if (i === 0) {
-        return `<li class="row row--given">
+        return `<li class="row row--given${indentFirst ? ' row--indent' : ''}">
             <span class="row__no">${lineLabel(i)}</span>
-            <span class="row__math fit-math">${R.mathHtml(latex, true)}</span>
-            <span class="row__note">問題の式</span>
+            <span class="row__math fit-math">${lineMathHtml(latex, alignEq)}</span>
           </li>`;
       }
       return `<li class="row-item">
           <button type="button" class="row row--selectable" data-action="select-line" data-index="${i}" aria-pressed="false">
             <span class="row__no">${lineLabel(i)}</span>
-            <span class="row__math fit-math">${R.mathHtml(latex, true)}</span>
+            <span class="row__math fit-math">${lineMathHtml(latex, alignEq)}</span>
             <span class="row__mark" aria-hidden="true"></span>
           </button>
           <span class="row__tags" id="row-tags-${i}"></span>
@@ -333,12 +464,18 @@
         <div class="paper__answer">
           <p class="paper__guide"><span class="label-badge label-badge--student">生徒の答案</span>
             <span>最初に間違えた行をタップ！</span></p>
-          <ol class="sheet" id="sheet">${rows}</ol>
+          <ol class="sheet${alignEq ? ' eq-group' : ''}" id="sheet">${rows}</ol>
           <div class="all-correct-wrap">
-            <button type="button" class="btn-all-correct" id="all-correct-btn" data-action="select-all-correct" aria-pressed="false">
-              <span class="btn-all-correct__mark" aria-hidden="true">○</span> 全部正しい！
-            </button>
+            <div class="choice-bar">
+              <button type="button" class="btn-all-correct" id="all-correct-btn" data-action="select-all-correct" aria-pressed="false">
+                <span class="btn-all-correct__mark" aria-hidden="true">○</span> 全部正しい！
+              </button>
+              <button type="button" class="btn btn--primary btn--submit" id="submit-btn" data-action="submit" disabled>
+                <span aria-hidden="true">🖍</span> 添削する！
+              </button>
+            </div>
             <span class="row__tags" id="row-tags-all"></span>
+            <p class="submit-help" id="submit-help">行か「全部正しい！」をえらんでね</p>
           </div>
         </div>
       </article>
@@ -350,10 +487,6 @@
           </button>
           <div class="hint__panel" id="hint-panel" hidden></div>
         </div>
-        <button type="button" class="btn btn--primary btn--xl btn--submit" id="submit-btn" data-action="submit" disabled>
-          <span aria-hidden="true">🖍</span> 添削する！
-        </button>
-        <p class="submit-help" id="submit-help">行か「全部正しい！」をえらんでね</p>
       </div>
 
       <div class="feedback" id="feedback" hidden></div>
@@ -435,6 +568,7 @@
       b.classList.add('is-locked');
     });
     $('#play-actions').hidden = true;
+    $('#submit-help').hidden = true; // 「添削する！」は下で「次の問題へ」に変える
     $('.paper').classList.add('is-graded', result.correct ? 'is-correct' : 'is-wrong');
 
     // 行のしるし：正解の場所と、プレイヤーの選択
@@ -466,8 +600,10 @@
     const answerText = isCorrectAnswer ? 'この答案は全部正しい！' : `${lineLabel(q.errorLine)}が最初のまちがい`;
     const solutionTitle = isCorrectAnswer && S.canonicalJson(q.correctSolution) !== S.canonicalJson(q.answerLines)
       ? '正しい計算過程（別の解き方の例）' : '正しい計算過程';
+    // 答案と同じく、方程式以外では1行目の式を全角スペース1文字分右にずらす
+    const indentFirst = !EQUATION_UNITS.has(q.unit);
     const solution = q.correctSolution.map((latex, i) =>
-      `<li class="solution__line"><span class="row__no">${lineLabel(i)}</span><span class="row__math fit-math">${R.mathHtml(latex, true)}</span></li>`).join('');
+      `<li class="solution__line${i === 0 && indentFirst ? ' row--indent' : ''}"><span class="row__no">${lineLabel(i)}</span><span class="row__math fit-math">${lineMathHtml(latex, !indentFirst)}</span></li>`).join('');
 
     const head = result.correct
       ? `<div class="verdict verdict--ok">
@@ -475,8 +611,8 @@
           <div><p class="verdict__title">添削成功！</p><p class="verdict__sub">${esc(answerText)}</p></div>
         </div>`
       : `<div class="verdict verdict--ng">
-          <span class="stamp stamp--ng" aria-hidden="true">△</span>
-          <div><p class="verdict__title">おしい！</p>
+          <span class="stamp stamp--ng" aria-hidden="true">✖</span>
+          <div><p class="verdict__title">添削失敗…</p>
           <p class="verdict__sub">キミの答え：${esc(choiceText(result.choice))}<br>正解：${esc(answerText)}</p></div>
         </div>`;
 
@@ -493,16 +629,26 @@
       </section>
       <section class="feedback__section">
         <h3 class="feedback__title">${solutionTitle}</h3>
-        <ol class="solution">${solution}</ol>
-      </section>
-      <button type="button" class="btn btn--primary btn--xl btn--next" data-action="next">
-        ${s.isLast ? '結果を見る' : '次の問題へ'} <span aria-hidden="true">→</span>
-      </button>`;
+        <ol class="solution${indentFirst ? '' : ' eq-group'}">${solution}</ol>
+        <button type="button" class="btn btn--secondary btn--compare" data-action="compare-open">
+          <span aria-hidden="true">⇆</span> 生徒の答案と並べて表示
+        </button>
+      </section>`;
     fb.hidden = false;
+
+    // 「添削する！」ボタンを、同じ位置のまま赤い「次の問題へ」ボタンに変える
+    const nextBtn = $('#submit-btn');
+    nextBtn.dataset.action = 'next';
+    nextBtn.classList.remove('btn--primary');
+    nextBtn.classList.add('btn--go-next');
+    nextBtn.innerHTML = `${app.retryBase ? '結果にもどる' : s.isLast ? '結果を見る' : '次の問題へ'} <span aria-hidden="true">→</span>`;
+    nextBtn.disabled = false;
+
     fitAllMath();
     requestAnimationFrame(() => {
       fitAllMath();
-      const target = result.correct ? fb : $('.paper');
+      // 正解：ボタンのすぐ下に結果が見えるよう、ボタンの位置まで送る。不正解：印の付いた答案を上から見せる
+      const target = result.correct ? $('.choice-bar') : $('.paper');
       target.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
       const title = fb.querySelector('.verdict__title');
       if (title) { title.setAttribute('tabindex', '-1'); title.focus({ preventScroll: true }); }
@@ -512,6 +658,7 @@
   function nextQuestion() {
     const s = app.session;
     if (!s || !s.isGraded) return;
+    if (app.retryBase) { backToSummary(); return; }
     const more = s.next();
     if (more) {
       renderQuestion();
@@ -527,20 +674,28 @@
     const s = app.session;
     const sum = s.summary();
     const unit = currentUnit();
+    const retried = app.retryResults || {};
     const list = s.results.map((r, i) => {
       const q = s.questions[i];
-      return `<li class="review-item ${r.correct ? 'is-ok' : 'is-ng'}">
-          <span class="review-item__mark" aria-hidden="true">${r.correct ? '✔' : '✖'}</span>
-          <span class="review-item__no">${i + 1}問目</span>
-          <span class="review-item__math">${R.mathHtml(q.question, false)}</span>
-          <span class="review-item__result">${r.correct ? '正解' : 'まちがい'}</span>
+      const again = i in retried
+        ? `<span class="review-item__again ${retried[i] ? 'is-ok' : 'is-ng'}">もう一度：${retried[i] ? '✔ 正解' : '✖ まちがい'}</span>`
+        : '';
+      return `<li>
+          <button type="button" class="review-item ${r.correct ? 'is-ok' : 'is-ng'}" data-action="review-question" data-index="${i}"
+            aria-label="${i + 1}問目（${r.correct ? '正解' : 'まちがい'}）をもう一度解く">
+            <span class="review-item__mark" aria-hidden="true">${r.correct ? '✔' : '✖'}</span>
+            <span class="review-item__no">${i + 1}問目</span>
+            <span class="review-item__math">${R.mathHtml(q.question, false)}</span>
+            <span class="review-item__result">${r.correct ? '正解' : 'まちがい'}</span>
+            <span class="review-item__retry" aria-hidden="true">↻</span>
+            ${again}
+          </button>
         </li>`;
     }).join('');
     $('#summary-body').innerHTML = `
       <h2 id="summary-heading" class="screen-title" tabindex="-1">トレーニング結果</h2>
       <p class="summary-unit">${unit ? esc(unitLabel(unit)) : ''}</p>
       <div class="score-card">
-        <p class="score-card__main"><strong>${sum.total}問中${sum.correct}問正解！</strong></p>
         <p class="score-card__rate">正解率 <span>${sum.rate}</span>%</p>
         <dl class="score-card__stats">
           <div><dt>出題</dt><dd>${sum.total}問</dd></div>
@@ -549,7 +704,8 @@
         </dl>
         <p class="score-card__comment">${esc(G.evaluationComment(sum.rate))}</p>
       </div>
-      <ol class="review-list" aria-label="問題ごとの結果">${list}</ol>`;
+      <p class="review-guide">問題をタップすると、もう一度解けます</p>
+      <ol class="review-list" aria-label="問題ごとの結果（タップでもう一度解く）">${list}</ol>`;
   }
 
   // ============================================================ エラー
@@ -559,9 +715,73 @@
     show('error', 'replace');
   }
 
+  // ============================================================ 方程式の「＝」をそろえる表示
+  /**
+   * LaTeX の等式を、かっこ・中かっこの外にある「=」で左辺と右辺に分ける。
+   * 「=」がちょうど1つでなければ null（そろえずに通常の表示にする）。
+   */
+  function splitEquation(latex) {
+    let depth = 0;
+    const at = [];
+    for (let i = 0; i < latex.length; i++) {
+      const c = latex[i];
+      if (c === '\\') { i++; continue; } // \{ \} などのコマンドは読み飛ばす
+      if (c === '{' || c === '(' || c === '[') depth++;
+      else if (c === '}' || c === ')' || c === ']') depth--;
+      else if (c === '=' && depth === 0) at.push(i);
+    }
+    if (at.length !== 1) return null;
+    const lhs = latex.slice(0, at[0]).trim();
+    const rhs = latex.slice(at[0] + 1).trim();
+    return lhs && rhs ? { lhs, rhs } : null;
+  }
+
+  /** 答案・正しい計算過程の1行分の数式。alignEq のときは「左辺｜＝｜右辺」の3列に分ける */
+  function lineMathHtml(latex, alignEq) {
+    const parts = alignEq ? splitEquation(latex) : null;
+    if (!parts) return R.mathHtml(latex, true);
+    // 各部分は文中の数式として描画するが、分数の大きさは別行立ての式と同じにする（\displaystyle）
+    return `<span class="eq-line">
+        <span class="eq-lhs">${R.mathHtml(`\\displaystyle ${parts.lhs}`, false)}</span>
+        <span class="eq-op">${R.mathHtml('=', false)}</span>
+        <span class="eq-rhs">${R.mathHtml(`\\displaystyle ${parts.rhs}`, false)}</span>
+      </span>`;
+  }
+
+  /**
+   * 「＝」をそろえるまとまり（答案、または正しい計算過程）を調整する。
+   *  1. まとまり全体に同じ倍率をかけて、いちばん長い行が枠に収まるまで縮める（最小 70%）
+   *  2. 左辺の列の幅を、いちばん長い左辺に合わせる → 「＝」が縦一列にそろう
+   * それでも収まらない行は、これまでどおり横スクロールにする。
+   */
+  function fitEqGroup(group) {
+    fitEqLines([...group.querySelectorAll('.eq-line')]);
+  }
+
+  /** 「＝」をそろえたい行（.eq-line）の集まりを調整する。倍率と左辺の幅は各行に設定する */
+  function fitEqLines(allLines) {
+    const lines = allLines.filter((el) => el.offsetParent);
+    if (!lines.length) return;
+    const boxes = lines.map((el) => el.parentElement);
+    // offsetWidth は回転などの transform の影響を受けない（スマホ縦の「並べて表示」は90°回転しているため）
+    const width = (sel) => Math.max(...lines.map((el) => el.querySelector(sel).offsetWidth));
+    const setAll = (name, value) => lines.forEach((el) => el.style.setProperty(name, value));
+    setAll('--eq-scale', '1');
+    setAll('--eq-lhs-w', 'auto');
+    const need = width('.eq-lhs') + width('.eq-op') + width('.eq-rhs') + 2;
+    const avail = Math.min(...boxes.map((b) => b.clientWidth));
+    const scale = need > avail ? Math.max(0.7, Math.floor((avail / need) * 100) / 100) : 1;
+    setAll('--eq-scale', String(scale));
+    setAll('--eq-lhs-w', `${Math.ceil(width('.eq-lhs'))}px`);
+    boxes.forEach((b) => b.classList.toggle('is-scrollable', b.scrollWidth > b.clientWidth + 1));
+  }
+
   // ============================================================ 長い式の表示調整
   // 横幅に収まらない式は、文字を少しずつ小さくする（最小 70%）。それでも収まらなければ横スクロール。
+  // 方程式の「＝」をそろえる行は、行ごとではなく、まとまりごとに同じ倍率で縮める（fitEqGroup）。
   function fitAllMath() {
+    document.querySelectorAll('.eq-group').forEach(fitEqGroup);
+    fitCompare();
     document.querySelectorAll('.fit-math').forEach((el) => {
       fitMath(el);
       observeMath(el);
@@ -572,8 +792,18 @@
   // 調整後の大きさが前回と同じなら通知は来ないので、無限ループにはならない。
   const mathObserver = typeof ResizeObserver === 'function'
     ? new ResizeObserver((entries) => {
-      const targets = new Set(entries.map((e) => e.target.closest('.fit-math')).filter(Boolean));
-      targets.forEach(fitMath);
+      const groups = new Set();
+      const singles = new Set();
+      let compare = false;
+      entries.forEach((e) => {
+        const group = e.target.closest('.eq-group');
+        if (group && e.target.closest('.fit-math') && group.querySelector('.eq-line')) groups.add(group);
+        else if (e.target.closest('.compare') && e.target.closest('.fit-math') && e.target.closest('.fit-math').querySelector('.eq-line')) compare = true;
+        else if (e.target.closest('.fit-math')) singles.add(e.target.closest('.fit-math'));
+      });
+      groups.forEach(fitEqGroup);
+      if (compare) fitCompare();
+      singles.forEach(fitMath);
     })
     : null;
 
@@ -581,12 +811,14 @@
     if (!mathObserver || el.dataset.observed) return;
     el.dataset.observed = '1';
     mathObserver.observe(el);
+    el.querySelectorAll('.eq-lhs, .eq-rhs').forEach((part) => mathObserver.observe(part));
     const inner = el.querySelector('.katex');
     if (inner) mathObserver.observe(inner);
   }
 
   function fitMath(el) {
     if (!el.offsetParent) return;
+    if (el.querySelector('.eq-line')) return; // 「＝」をそろえる行は fitEqGroup で調整する
     el.style.fontSize = '';
     el.classList.remove('is-scrollable');
     let size = 100;

@@ -78,7 +78,12 @@
   }
   function mathOverflowReport() {
     const els = $$('.fit-math').filter((el) => el.offsetParent);
-    const cut = els.filter((el) => el.scrollWidth > el.clientWidth + 1 && !el.classList.contains('is-scrollable'));
+    // 右へのはみ出し（scrollWidth で分かる）に加え、「＝」をそろえた行で左辺が列の幅より広く、左へはみ出していないか
+    const lhsOverflow = (el) => [...el.querySelectorAll('.eq-line')].some((line) => {
+      const col = parseFloat(w.getComputedStyle(line).gridTemplateColumns.split(' ')[0]);
+      return line.querySelector('.eq-lhs').offsetWidth > col + 1;
+    });
+    const cut = els.filter((el) => (el.scrollWidth > el.clientWidth + 1 && !el.classList.contains('is-scrollable')) || lhsOverflow(el));
     const scrollable = els.filter((el) => el.classList.contains('is-scrollable'));
     const info = cut.map((el) => `${el.className}(${el.scrollWidth}>${el.clientWidth}, font ${el.style.fontSize || '100%'})`).join(' / ');
     return { total: els.length, cut: cut.length, scrollable: scrollable.length, info };
@@ -105,12 +110,18 @@
       'long-math': async () => { await configure({ unit: 'positive-negative', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(true); },
       summary: async () => { await configure({ unit: 'expressions', count: 5 }); await click('#start-btn');
         for (const ok of [true, false, true, true, true]) { await answer(ok); await click('[data-action="next"]'); } },
+      'summary-retried': async () => { await configure({ unit: 'expressions', count: 5 }); await click('#start-btn');
+        for (const ok of [true, false, true, true, true]) { await answer(ok); await click('[data-action="next"]'); }
+        await click('[data-action="review-question"][data-index="1"]'); await answer(true); await click('[data-action="next"]'); },
+      compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
+      'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
     }[SHOT];
     await goto();
     await sleep(600); // アニメーション終了待ち
     if (!SHOT.startsWith('play-correct') && !SHOT.startsWith('play-wrong') && !SHOT.startsWith('play-allcorrect') && !SHOT.startsWith('long-math')) w.scrollTo(0, 0);
-    out.textContent = 'shot ready';
+    const eqPos = $$('#sheet .eq-op').map((op) => Math.round(op.getBoundingClientRect().left));
+    out.textContent = 'shot ready' + (eqPos.length ? ` / 「＝」の位置 ${eqPos.join(',')}` : '');
     return;
   }
 
@@ -248,19 +259,29 @@
     // 再判定できない
     check($('#play-actions').hidden && $$('.row--selectable').every((b) => b.disabled), '確定後も操作できる');
     rowBtn(1).click();
-    $('#submit-btn').click();
     await sleep(50);
-    check(s.results.length === 1 && s.correctCount === 1, '二重に採点された');
+    check(s.results.length === 1 && s.correctCount === 1 && s.index === 0, '二重に採点された');
+    // 「添削する！」が同じ位置で赤い「次の問題へ」に変わる（解説の下には出ない）
+    const btn = $('#submit-btn');
+    check(btn.dataset.action === 'next' && btn.textContent.includes('次の問題へ'), `ボタンの役割・文言: ${btn.dataset.action} / ${btn.textContent.trim()}`);
+    check(btn.closest('.choice-bar') && $$('[data-action="next"]').length === 1 && !$('#feedback [data-action="next"]'), '次の問題へボタンの位置');
+    check(!btn.disabled && !btn.hidden, '次の問題へボタンが押せない');
+    const bg = w.getComputedStyle(btn).backgroundColor;
+    const red = w.getComputedStyle(d.documentElement).getPropertyValue('--red-pen').trim();
+    const probe = d.createElement('span'); probe.style.color = red; d.body.appendChild(probe);
+    const redRgb = w.getComputedStyle(probe).color; probe.remove();
+    check(bg === redRgb, `ボタンの色が赤ではない（${bg} / 期待 ${redRgb}）`);
   });
 
-  await test('[11] 間違った行を選ぶと「おしい！」。キミの答えと最初の誤り行が文字でも示される', async () => {
+  await test('[11] 間違った行を選ぶと「添削失敗…」。キミの答えと最初の誤り行が文字でも示される', async () => {
     await click('[data-action="next"]');
     const s = app().session;
     // 誤りのある問題が出るまで進める（正しい答案なら正解して次へ）
     while (s.current.errorLine === null) { await answer(true); await click('[data-action="next"]'); }
     const q = s.current;
     await answer(false);
-    check($('.verdict--ng') && $('.verdict__title').textContent === 'おしい！', 'おしいの表示');
+    check($('.verdict--ng') && $('.verdict__title').textContent === '添削失敗…', `不正解の表示: ${$('.verdict__title').textContent}`);
+    check($('.stamp--ng').textContent === '✖', '不正解のスタンプ');
     check($('.verdict__sub').textContent.includes(`${q.errorLine + 1}行目が最初のまちがい`), $('.verdict__sub').textContent);
     check($('.tag--chosen').textContent.includes('キミの答え'), 'キミの答えの印');
     check($('.tag--answer').textContent.includes('ここをもう一度確認しよう'), '確認をうながす表示');
@@ -281,11 +302,42 @@
     const sum = s.summary();
     const rate = Math.round((sum.correct / sum.total) * 100);
     check(sum.total === 5 && sum.answered === 5, `出題数 ${sum.total}`);
-    check($('.score-card__main').textContent.includes(`5問中${sum.correct}問正解！`), $('.score-card__main').textContent);
+    check(!$('#summary-body').textContent.includes('問中'), '「○問中○問正解！」の表示が残っている');
     check($('.score-card__rate').textContent.includes(`${rate}`), '正解率');
     check(sum.rate === rate, '正解率の計算');
+    const stats = $('.score-card__stats').textContent;
+    check(stats.includes(`${sum.total}問`) && stats.includes(`${sum.correct}問`) && stats.includes(`${sum.wrong}問`), `出題・正解・まちがいの数: ${stats}`);
     check($$('.review-item').length === 5, '問題ごとの結果');
     check($('.score-card__comment').textContent.length > 5, '評価コメント');
+  });
+
+  await test('結果画面の問題カードをタップすると、同じ問題をもう一度解ける（元の成績は変わらない）', async () => {
+    const base = app().session;
+    const before = { ...base.summary() };
+    const target = base.questions[1];
+    const card = $('[data-action="review-question"][data-index="1"]');
+    check(card && card.matches('button'), 'カードが押せる要素になっていない');
+    await click(card);
+    const s = app().session;
+    check(visible('play'), '問題画面に進まない');
+    check(s !== base && s.total === 1 && s.current.id === target.id, `タップした問題と違う（${s.current && s.current.id} / ${target.id}）`);
+    check($('#hud-unit').textContent.includes('2問目をもう一度'), `解き直し中の表示: ${$('#hud-unit').textContent}`);
+    await answer(true);
+    check($('.verdict--ok'), '解き直しで正解にならない');
+    check($('[data-action="next"]').textContent.includes('結果にもどる'), 'ボタンの文言');
+    await click('[data-action="next"]');
+    check(visible('summary') && app().session === base, '結果画面に戻らない');
+    check(JSON.stringify(base.summary()) === JSON.stringify(before), '元の成績が変わった');
+    check($('.score-card__rate').textContent.includes(`${before.rate}`), '正解率の表示が変わった');
+    const again = $('[data-action="review-question"][data-index="1"] .review-item__again');
+    check(again && again.textContent.includes('もう一度：✔ 正解'), `解き直しの結果の表示: ${again && again.textContent}`);
+    // 解き直しの途中で「やめる」→ 結果画面に戻る
+    await click('[data-action="review-question"][data-index="0"]');
+    await click('[data-action="quit"]');
+    check($('#quit-title').textContent.includes('解き直し'), 'ダイアログの文言');
+    await click('[data-action="quit-confirm"]');
+    check(visible('summary') && app().session === base, 'やめたあと結果画面に戻らない');
+    check(!$('[data-action="review-question"][data-index="0"] .review-item__again'), '途中でやめた問題に結果が付いた');
   });
 
   await test('[19] もう一度チャレンジ：同じ条件で新しい問題順になり、状態がリセットされる', async () => {
@@ -334,6 +386,146 @@
     check(visible('title'), 'タイトルに戻れない');
   });
 
+  await test('[表示] 方程式以外では答案の1行目だけ全角スペース1文字分右にずれ、方程式ではずれない', async () => {
+    const indentOf = (el) => parseFloat(w.getComputedStyle(el.querySelector('.katex-display > .katex')).paddingLeft);
+    for (const [unit, expectIndent] of [['positive-negative', true], ['expressions', true], ['equation', false]]) {
+      await configure({ unit, count: 5 });
+      await click('#start-btn');
+      const first = $('.row--given');
+      if (expectIndent) {
+        const fontSize = parseFloat(w.getComputedStyle(first.querySelector('.katex-display > .katex')).fontSize);
+        const pad = indentOf(first);
+        check(Math.abs(pad - fontSize) < 0.5, `${unit}: 1行目のずれ ${pad}px（数式の文字サイズ ${fontSize}px）`);
+        check($$('.row--selectable').every((b) => indentOf(b) === 0), `${unit}: 2行目以降がずれている`);
+      } else {
+        check(!$('.row--indent'), `${unit}: 方程式の1行目がずれている`);
+      }
+      // 添削後の「正しい計算過程」も同じ
+      await answer(true);
+      const sol = $$('.solution__line');
+      if (expectIndent) {
+        const fontSize = parseFloat(w.getComputedStyle(sol[0].querySelector('.katex-display > .katex')).fontSize);
+        check(Math.abs(indentOf(sol[0]) - fontSize) < 0.5, `${unit}: 正しい計算過程の1行目のずれ ${indentOf(sol[0])}px`);
+        check(sol.slice(1).every((li) => indentOf(li) === 0), `${unit}: 正しい計算過程の2行目以降がずれている`);
+      } else {
+        check(!$('.solution .row--indent'), `${unit}: 方程式の正しい計算過程の1行目がずれている`);
+      }
+      await click('[data-action="quit"]');
+      await click('[data-action="quit-confirm"]');
+    }
+  });
+
+  await test('並べて表示：生徒の答案と正しい計算過程が同じ行どうし横に並び、「閉じる」で閉じる（スマホ縦は90°回転）', async () => {
+    const phonePortrait = W <= 600 && H > W;
+    for (const unit of ['positive-negative', 'equation']) {
+      await configure({ unit, count: 'all' });
+      await click('#start-btn');
+      const s = app().session;
+      let checkedError = false, checkedEq = false;
+      for (let k = 0; k < 4 && !s.finished; k++) {
+        const q = s.current;
+        await answer(false);
+        const btn = $('[data-action="compare-open"]');
+        check(btn && btn.closest('.feedback__section') && btn.previousElementSibling.matches('.solution'), '「並べて表示」ボタンが正しい計算過程の下にない');
+        await click(btn);
+        const dlg = $('#compare-dialog');
+        check(dlg.open, 'ポップアップが開かない');
+        await d.fonts.ready; await sleep(100);
+        const n = Math.max(q.answerLines.length, q.correctSolution.length);
+        check($$('.cmp-no').length === n, `${q.id}: 行数 ${$$('.cmp-no').length} / ${n}`);
+        const stu = $$('.cmp-cell[data-col="student"]');
+        const sol = $$('.cmp-cell[data-col="solution"]');
+        check(stu.length === n && sol.length === n, `${q.id}: 列のセル数`);
+        // 同じ行どうしが横に並ぶ（回転していても、画面上で同じ高さ／同じ横位置にある）
+        for (let i = 0; i < n; i++) {
+          const a = stu[i].getBoundingClientRect(), b = sol[i].getBoundingClientRect();
+          const same = phonePortrait ? Math.abs(a.left - b.left) < 1 : Math.abs(a.top - b.top) < 1;
+          check(same, `${q.id}: ${i + 1}行目が横に並んでいない`);
+        }
+        check(stu.filter((c) => !c.classList.contains('cmp-cell--empty')).length === q.answerLines.length, `${q.id}: 生徒の答案の行数`);
+        check(sol.filter((c) => !c.classList.contains('cmp-cell--empty')).length === q.correctSolution.length, `${q.id}: 正しい計算過程の行数`);
+        if (q.errorLine !== null) {
+          check(stu[q.errorLine].classList.contains('cmp-cell--error') && stu[q.errorLine].textContent.includes('最初のミス'), `${q.id}: 誤り行の印`);
+          check($$('.cmp-cell--error').length === 1, `${q.id}: 誤り行の印が複数`);
+          checkedError = true;
+        }
+        if (unit === 'equation') {
+          for (const col of ['student', 'solution']) {
+            const ops = $$(`.cmp-cell[data-col="${col}"] .eq-op`).map((op) => (phonePortrait ? op.getBoundingClientRect().top : op.getBoundingClientRect().left));
+            check(ops.length >= 2 && Math.max(...ops) - Math.min(...ops) <= 1, `${q.id}: ${col} の「＝」がそろっていない ${ops.map(Math.round)}`);
+          }
+          checkedEq = true;
+        }
+        check(mathOverflowReport().cut === 0, `${q.id}: ポップアップの数式が見切れている`);
+        // スマホ縦だけ90°回転し、画面からはみ出さない
+        const tf = w.getComputedStyle($('#compare')).transform;
+        if (phonePortrait) {
+          check(/^matrix\(0, 1, -1, 0/.test(tf), `回転していない（${tf}）`);
+          const r = $('#compare').getBoundingClientRect();
+          check(Math.abs(r.left) < 1 && Math.abs(r.top) < 1 && Math.abs(r.width - w.innerWidth) < 1 && Math.abs(r.height - w.innerHeight) < 1, `回転後の位置・大きさ ${[r.left, r.top, r.width, r.height].map(Math.round)}`);
+        } else {
+          check(tf === 'none', `スマホ縦以外で回転している（${tf}）`);
+          const r = dlg.getBoundingClientRect();
+          check(r.right <= w.innerWidth && r.bottom <= w.innerHeight, 'ポップアップが画面からはみ出す');
+        }
+        await click('[data-action="compare-close"]');
+        check(!dlg.open, '「閉じる」で閉じない');
+        await click('[data-action="next"]');
+      }
+      check(checkedError, `${unit}: 誤りのある問題を確認できなかった`);
+      if (unit === 'equation') check(checkedEq, '方程式を確認できなかった');
+      await click('[data-action="quit"]');
+      await click('[data-action="quit-confirm"]');
+    }
+  });
+
+  await test('並べて表示：開いているときのブラウザの「戻る」はポップアップを閉じるだけ', async () => {
+    await configure({ unit: 'expressions', count: 5 });
+    await click('#start-btn');
+    await answer(true);
+    await click('[data-action="compare-open"]');
+    w.history.back();
+    await waitFor(() => !$('#compare-dialog').open, '戻る操作で閉じる');
+    check(visible('play') && !$('#quit-dialog').open && app().session && app().session.isGraded, '問題画面と進行状態が保たれていない');
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+  });
+
+  await test('[表示] 1行目の「問題の式」バッジがなく、式の表示領域が右端まで広い', async () => {
+    await configure({ unit: 'positive-negative', count: 5 });
+    await click('#start-btn');
+    check(!$('.row__note') && !$('.row--given').textContent.includes('問題の式'), 'バッジが残っている');
+    const given = $('.row--given');
+    const math = given.querySelector('.row__math').getBoundingClientRect();
+    const box = given.getBoundingClientRect();
+    check(box.right - math.right < 20, `式の表示領域の右端に余白がある（${Math.round(box.right - math.right)}px）`);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+  });
+
+  await test('[表示] 方程式は全10問で、答案・正しい計算過程とも「＝」の縦の位置がそろう（選択中・採点後も）', async () => {
+    const eqX = (group) => $$(`${group} .eq-op`).map((op) => op.getBoundingClientRect().left);
+    const aligned = (xs) => xs.length >= 2 && Math.max(...xs) - Math.min(...xs) <= 1;
+    await configure({ unit: 'equation', count: 'all' });
+    await click('#start-btn');
+    const s = app().session;
+    while (!s.finished) {
+      const q = s.current;
+      await d.fonts.ready; await sleep(120);
+      check(aligned(eqX('#sheet')), `${q.id}: 答案の「＝」の位置 ${eqX('#sheet').map(Math.round)}`);
+      check($$('#sheet .eq-op').length === q.answerLines.length, `${q.id}: 「＝」で分けられていない行がある`);
+      await click(rowBtn(1)); // 選択中は枠の見た目が変わる
+      check(aligned(eqX('#sheet')), `${q.id}: 行を選んだあと「＝」がずれた ${eqX('#sheet').map(Math.round)}`);
+      await click(rowBtn(1));
+      await answer(s.results.length % 2 === 0);
+      await d.fonts.ready; await sleep(120);
+      check(aligned(eqX('#sheet')), `${q.id}: 採点後に答案の「＝」がずれた ${eqX('#sheet').map(Math.round)}`);
+      check(aligned(eqX('.solution')), `${q.id}: 正しい計算過程の「＝」の位置 ${eqX('.solution').map(Math.round)}`);
+      check(mathOverflowReport().cut === 0, `${q.id}: 見切れている数式がある`);
+      await click('[data-action="next"]');
+    }
+  });
+
   await test('[表示] 全30問で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
     const report = { questions: 0, scrollable: 0, minRow: 999 };
     for (const unit of ['positive-negative', 'expressions', 'equation']) {
@@ -362,6 +554,23 @@
     check(report.questions === 30, `確認した問題数 ${report.questions}`);
     check(report.minRow >= 48, `行の高さの最小 ${report.minRow}px`);
     results.push({ name: `  情報: 横スクロールになった数式 ${report.scrollable} 個 / 行の高さの最小 ${Math.round(report.minRow)}px`, ok: true });
+  });
+
+  await test('タイトル画面の最下部にクレジット表記があり、「T.TAKEMOTO」を5回連打すると開発者用画面が開く', async () => {
+    await openGame(1);
+    const footer = $('.title-footer');
+    check(footer && footer.textContent.includes('©2026 T.TAKEMOTO / KEC Glows'), `表記: ${footer && footer.textContent}`);
+    const fs = parseFloat(w.getComputedStyle(footer).fontSize);
+    check(fs < parseFloat(w.getComputedStyle($('.title-sub')).fontSize), `目立たないサイズになっていない（${fs}px）`);
+    const tap = $('.secret-tap');
+    for (let i = 0; i < 4; i++) tap.click();
+    await sleep(200);
+    check(w.location.pathname.endsWith('/index.html') || w.location.pathname.endsWith('/'), '4回で開いてしまった');
+    check(visible('title'), '4回でタイトル画面から移動した');
+    const navigated = new Promise((resolve) => { frame.onload = resolve; });
+    tap.click();
+    await navigated;
+    check(frame.contentWindow.location.pathname.endsWith('/preview.html'), `開いた画面: ${frame.contentWindow.location.pathname}`);
   });
 
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {

@@ -50,6 +50,9 @@
         </ul>
       </div>
       <p class="load-status" id="load-status" role="status"></p>
+      <footer class="title-footer">
+        <small>©2026 <span class="secret-tap" data-action="secret-tap">T.TAKEMOTO</span> / KEC Glows</small>
+      </footer>
     </section>
 
     <!-- あそびかた -->
@@ -151,10 +154,21 @@
   <!-- やめる確認 -->
   <dialog class="dialog" id="quit-dialog" aria-labelledby="quit-title">
     <h2 id="quit-title" class="dialog__title">トレーニングをやめますか？</h2>
-    <p>ここまでの結果は保存されません。</p>
+    <p id="quit-text">ここまでの結果は保存されません。</p>
     <div class="dialog__actions">
       <button type="button" class="btn btn--secondary" data-action="quit-cancel" autofocus>つづける</button>
       <button type="button" class="btn btn--danger" data-action="quit-confirm">やめる</button>
+    </div>
+  </dialog>
+
+  <!-- 生徒の答案と正しい計算過程を並べて表示（スマホ縦画面では右に90°回転して横長に表示） -->
+  <dialog class="compare-dialog" id="compare-dialog" aria-labelledby="compare-title">
+    <div class="compare" id="compare">
+      <header class="compare__header">
+        <h2 id="compare-title" class="compare__title">生徒の答案と正しい計算過程</h2>
+        <button type="button" class="btn btn--secondary compare__close" data-action="compare-close">閉じる</button>
+      </header>
+      <div class="compare__body" id="compare-body"></div>
     </div>
   </dialog>
 
