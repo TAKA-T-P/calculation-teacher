@@ -137,6 +137,22 @@
       compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       options: async () => click('[data-action="go-options"]'),
+      'transfer-make': async () => {
+        w.__calcTeacher.records.recordOfficial('equation', { score: 2450, maxStreak: 11 }, w.TimeAttack.titleForScore);
+        w.__calcTeacher.records.recordExam('expressions', 1, true);
+        await click('[data-action="go-options"]'); await click('[data-action="transfer-make"]'); await click('[data-action="transfer-issue"]');
+      },
+      'transfer-confirm': async () => {
+        w.__calcTeacher.records.recordOfficial('square-roots', { score: 500, maxStreak: 2 }, w.TimeAttack.titleForScore);
+        const rec = { timeAttack: { official: {
+          'positive-negative': { bestScore: 2450, bestDate: '2026-11-20T10:00:00.000Z', maxStreak: 11, plays: 4 },
+          expressions: { bestScore: 1860, bestDate: '2026-11-21T10:00:00.000Z', maxStreak: 8, plays: 3 },
+          equation: { bestScore: 3120, bestDate: '2026-11-22T10:00:00.000Z', maxStreak: 14, plays: 9 } } },
+        certification: { equation: { highestCleared: 5, exams: Object.fromEntries([1, 2, 3, 4, 5].map((k) => [k, { cleared: true, attempts: 1, firstClearedAt: '2026-11-23T10:00:00.000Z' }])) } } };
+        await click('[data-action="go-options"]'); await click('[data-action="transfer-load"]');
+        $('#transfer-input').value = w.RecordTransfer.createCode(rec);
+        await click('[data-action="transfer-check"]');
+      },
       'reset-dialog': async () => { await click('[data-action="go-options"]'); await click('[data-screen="options"] [data-action="reset-records"]'); },
       // ---- 第3段階（スクリーンショット用）
       'ta-menu': async () => click('[data-action="go-ta-menu"]'),
@@ -1145,6 +1161,140 @@
     check(otherKeys() === othersBefore, '記録以外の保存データが変わった');
     await openGame(2);
     check(recs().officialFor('equation').bestScore === null && recs().customHistory().length === 0 && recs().certFor('equation').highestCleared === 0, '再読み込みで記録が戻った');
+  });
+
+  // ================================================================ 記録の引継ぎ
+  await test('[引継ぎ] 設定画面に「記録の引継ぎ」があり、コードをつくってコピーでき、別の端末（記録を作り直した状態）で確認してから引き継げる', async () => {
+    const RTw = w.RecordTransfer;
+    const SOUND_KEY = 'calcTeacher.sound';
+    // ---- 元の端末の記録をつくる
+    await openGame(2);
+    recs().clearAll();
+    recs().recordOfficial('equation', { score: 2450, maxStreak: 11 }, w.TimeAttack.titleForScore);
+    recs().recordOfficial('positive-negative', { score: 1860, maxStreak: 7 }, w.TimeAttack.titleForScore);
+    recs().recordExam('expressions', 1, true);
+    recs().recordExam('expressions', 2, true);
+    recs().recordExam('expressions', 3, false);
+    recs().addCustom({ unit: 'equation', categories: ['移項'], difficulties: [1], score: 400, correct: 2, wrong: 1, maxStreak: 2 });
+    const srcSnap = JSON.stringify(recs().snapshot());
+    await click('[data-action="go-options"]');
+    // ---- 設定画面：KEC数学科ラボ → 記録の引継ぎ → 記録を消す の順
+    const lab = $('#lab-link').getBoundingClientRect();
+    const card = inScreen('options', '.transfer-card');
+    const reset = inScreen('options', '[data-action="reset-records"]').getBoundingClientRect();
+    check(card && card.textContent.includes('記録の引継ぎ') && card.textContent.includes('別の端末でも、今までの記録を使えるようにできます。'), '記録の引継ぎの見出し・説明');
+    check(card.textContent.includes('公式タイムアタックとティーチャー認定試験の記録を引き継ぎます。') && card.textContent.includes('カスタムタイムアタックの履歴は引き継ぎません。'), '補足説明');
+    check(!/エクスポート|インポート/.test(card.textContent), '専門用語が出ている');
+    const cr = card.getBoundingClientRect();
+    check(lab.bottom <= cr.top + 1 && cr.bottom <= reset.top + 1, `並び順（ラボ ${Math.round(lab.bottom)} / 引継ぎ ${Math.round(cr.top)}〜${Math.round(cr.bottom)} / 記録を消す ${Math.round(reset.top)}）`);
+    $$('.transfer-card .btn').forEach((b) => check(b.getBoundingClientRect().height >= 44, `ボタンが小さい: ${b.textContent}`));
+    check(pageOverflow() <= 0, '設定画面が横にはみ出す');
+    // ---- 引継ぎコードをつくる
+    await click('[data-action="transfer-make"]');
+    const mk = $('#transfer-make-dialog');
+    check(mk.open && mk.textContent.includes('引継ぎコードをつくる') && !$('[data-step="intro"]', mk).hidden, 'つくるダイアログ');
+    await click('[data-action="transfer-close"]');
+    check(!mk.open, 'キャンセルで閉じない');
+    await click('[data-action="transfer-make"]');
+    await click('[data-action="transfer-issue"]');
+    const code = $('#transfer-code').value;
+    check(code.startsWith('CT1-') && code === RTw.createCode(recs().snapshot()), `コード: ${code}`);
+    check(mk.textContent.includes('引継ぎコードができました！') && mk.textContent.includes('コピーしたコードを、引き継ぎたい端末に送ってください。'), '発行後の表示');
+    check($('#transfer-empty').hidden, '記録があるのに「まだ引き継ぐ記録がありません」');
+    check(JSON.stringify(recs().snapshot()) === srcSnap, 'コードをつくったら記録が変わった');
+    const ta = $('#transfer-code').getBoundingClientRect();
+    const dr = mk.getBoundingClientRect();
+    check(ta.left >= dr.left && ta.right <= dr.right + 0.5 && $('#transfer-code').scrollWidth <= $('#transfer-code').clientWidth + 1, 'コードが横に見切れる');
+    check(dr.left >= 0 && dr.right <= w.innerWidth + 0.5 && dr.height <= w.innerHeight + 0.5, 'ダイアログが画面に収まらない');
+    await click('[data-action="transfer-copy"]');
+    await waitFor(() => $('#transfer-copy-status').textContent.length > 0, 'コピーの結果', 3000);
+    const copyMsg = $('#transfer-copy-status').textContent;
+    check(['コピーしました！', 'コピーできませんでした。コードを選択してコピーしてください。'].includes(copyMsg), `コピーの表示: ${copyMsg}`);
+    check($('#transfer-code').value === code, 'コピーしたあとコードが消えた');
+    if (copyMsg.startsWith('コピーできません')) {
+      const t = $('#transfer-code');
+      check(t.selectionStart === 0 && t.selectionEnd === code.length, 'コピーできないときにコードが選択されていない');
+    }
+    await click('#transfer-make-dialog [data-step="result"] [data-action="transfer-close"]');
+    check(!mk.open, '閉じない');
+
+    // ---- 別の端末（この端末の記録を、別の記録・カスタム履歴に作り直す）
+    recs().clearAll();
+    recs().recordOfficial('equation', { score: 9990, maxStreak: 40 }, w.TimeAttack.titleForScore);
+    recs().recordOfficial('square-roots', { score: 500, maxStreak: 2 }, w.TimeAttack.titleForScore);
+    recs().addCustom({ unit: 'positive-negative', categories: null, difficulties: [1, 2, 3, 4], score: 777, correct: 3, wrong: 0, maxStreak: 3 });
+    const myCustom = JSON.stringify(recs().customHistory());
+    const soundBefore = w.localStorage.getItem(SOUND_KEY);
+    const destBefore = JSON.stringify(recs().snapshot());
+    await click('[data-action="transfer-load"]');
+    const ld = $('#transfer-load-dialog');
+    check(ld.open && ld.textContent.includes('別の端末でつくった引継ぎコードを貼り付けてください。'), '読み込むダイアログ');
+    const input = $('#transfer-input');
+    check(input.tagName === 'TEXTAREA' && input.getBoundingClientRect().height >= 80, '入力欄');
+    const tryCode = async (text) => { input.value = text; await click('[data-action="transfer-check"]'); return $('#transfer-input-error').textContent; };
+    check((await tryCode('こんにちは')).includes('引継ぎコードが正しくありません'), '形式違いのメッセージ');
+    check((await tryCode(code.slice(0, code.length - 3))).includes('コードの一部が足りないか'), '途中で切れたコードのメッセージ');
+    check((await tryCode(code.replace('CT1-', 'CT2-'))).includes('アプリを更新してから'), '非対応バージョンのメッセージ');
+    const body = code.slice(4);
+    const flipped = `CT1-${body.slice(0, 5)}${body[5] === 'A' ? 'B' : 'A'}${body.slice(6)}`;
+    check((await tryCode(flipped)).includes('記録を読み込めませんでした'), '壊れたコードのメッセージ');
+    check(!$('[data-step="input"]', ld).hidden && JSON.stringify(recs().snapshot()) === destBefore, '不正なコードで記録が変わった');
+    // 空白・改行が混じったコードを貼り付けて確認する → まだ書き換えない
+    await tryCode(`  ${code.replace(/(.{9})/g, '$1\n')}  `);
+    check($('#transfer-input-error').textContent === '' && !$('[data-step="confirm"]', ld).hidden, '確認画面に進まない');
+    const pv = $('#transfer-preview').textContent;
+    check(pv.includes('方程式：最高2,450点（🎯赤ペンマスター）') && pv.includes('正負の数：最高1,860点'), `公式の確認: ${pv}`);
+    check(pv.includes('文字式：第2試験までクリア（一人前ティーチャー）') && pv.includes('記録なし'), `認定の確認: ${pv}`);
+    check(!$('#transfer-warning').hidden && $('#transfer-warning').textContent.includes('引継ぎコードの内容に置き換えます') && $('#transfer-warning').textContent.includes('カスタムタイムアタックの履歴と効果音設定は変更されません'), '上書きの注意が出ない');
+    check(JSON.stringify(recs().snapshot()) === destBefore, '確認しただけで記録が変わった');
+    // キャンセル → 変わらない
+    await click('#transfer-load-dialog [data-step="confirm"] [data-action="transfer-close"]');
+    check(!ld.open && JSON.stringify(recs().snapshot()) === destBefore, 'キャンセルで記録が変わった');
+    // ブラウザの「戻る」でもダイアログが閉じるだけ
+    await click('[data-action="transfer-load"]');
+    w.history.back();
+    await waitFor(() => !ld.open, '戻るで閉じる', 3000);
+    check(visible('options') && JSON.stringify(recs().snapshot()) === destBefore, '戻るで画面が変わった・記録が変わった');
+    // 引き継ぐ
+    await click('[data-action="transfer-load"]');
+    await tryCode(code);
+    await click('[data-action="transfer-apply"]');
+    check(!$('[data-step="done"]', ld).hidden && ld.textContent.includes('記録の引継ぎが完了しました！'), '完了の表示');
+    check(recs().officialFor('equation').bestScore === 2450 && recs().officialFor('positive-negative').bestScore === 1860, '公式記録が置き換わらない');
+    check(recs().officialFor('square-roots').bestScore === null, 'コードにない単元の公式記録が残った');
+    check(recs().certFor('expressions').highestCleared === 2 && recs().certFor('expressions').exams['3'].attempts === 1, '認定記録');
+    check(JSON.stringify(recs().customHistory()) === myCustom, 'カスタム履歴が変わった');
+    check(w.localStorage.getItem(SOUND_KEY) === soundBefore, '効果音の設定が変わった');
+    check(RTw.createCode(recs().snapshot()) === code, '引き継いだ記録から同じコードにならない（正確に復元できていない）');
+    // 記録を確認する → 記録画面に新しい記録・称号が出る（再起動せずに反映）
+    await click('[data-action="transfer-show-records"]');
+    check(!ld.open && visible('records'), '記録画面に移らない');
+    const rp = $('#records-panel').textContent;
+    check(rp.includes('2450') && rp.includes('🎯赤ペンマスター'), `記録画面: ${rp.slice(0, 200)}`);
+    await click('[data-action="records-tab"][data-tab="cert"]');
+    check($('#records-panel').textContent.includes('一人前ティーチャー'), '認定のランクが反映されない');
+    // 再読み込みしても残る
+    await openGame(2);
+    check(recs().officialFor('equation').bestScore === 2450 && JSON.stringify(recs().customHistory()) === myCustom, '再読み込みで記録が戻った');
+  });
+
+  await test('[引継ぎ] 記録がないときもコードをつくれる（「まだ引き継ぐ記録がありません」）。記録のない端末では上書きの注意を出さない', async () => {
+    recs().clearAll();
+    await click('[data-action="go-options"]');
+    await click('[data-action="transfer-make"]');
+    await click('[data-action="transfer-issue"]');
+    const code = $('#transfer-code').value;
+    check(code.startsWith('CT1-') && !$('#transfer-empty').hidden && $('#transfer-empty').textContent.includes('まだ引き継ぐ記録がありません'), '空の記録のコード');
+    await click('#transfer-make-dialog [data-step="result"] [data-action="transfer-close"]');
+    const full = w.RecordTransfer.createCode({ timeAttack: { official: { equation: { bestScore: 600, bestDate: '2026-11-20T00:00:00.000Z', maxStreak: 3, plays: 1 } } } });
+    await click('[data-action="transfer-load"]');
+    $('#transfer-input').value = full;
+    await click('[data-action="transfer-check"]');
+    check($('#transfer-warning').hidden, '記録のない端末で上書きの注意が出た');
+    await click('[data-action="transfer-apply"]');
+    check(recs().officialFor('equation').bestScore === 600, '記録のない端末へ引き継げない');
+    await click('#transfer-load-dialog [data-step="done"] [data-action="transfer-close"]');
+    recs().clearAll();
   });
 
   // ================================================================ 生徒キャラクター

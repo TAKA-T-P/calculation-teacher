@@ -208,9 +208,72 @@
       return save() ? { ok: true } : { ok: false, reason: 'save-failed' };
     }
 
+    // ------------------------------------------------------------ 引継ぎ（record-transfer.js と組み合わせて使う）
+    /** 公式タイムアタックかティーチャー認定の記録があるか（引継ぎで置き換わる記録があるか） */
+    function hasTransferable() {
+      const hasOfficial = Object.values(data.timeAttack.official).some((r) => r.bestScore !== null || r.plays > 0);
+      const hasCert = Object.values(data.certification).some((c) => c.highestCleared > 0 || Object.keys(c.exams).length > 0);
+      return hasOfficial || hasCert;
+    }
+
+    /**
+     * 引継ぎコードの内容で、公式タイムアタックとティーチャー認定の記録を置き換える。
+     * - カスタムタイムアタックの履歴は、この端末のものをそのまま残す（コードの内容は使わない）。
+     * - 効果音の設定（別のキー）にはふれない。
+     * - 新しい記録データをメモリ上で全部組み立ててから保存し、保存できたことを読み戻して確かめる。
+     *   保存できなければ、この端末の記録は元のまま（部分的に保存しない）。
+     * @param {{official: object, certification: object}} transfer record-transfer.js の decode() で検証済みのデータ
+     * @param {(score:number) => string} titleFor 最高スコア → 称号（time-attack.js の titleForScore）
+     * @returns {{ok:boolean, reason?:'newer-version'|'unavailable'|'save-failed'}}
+     */
+    function replaceTransferable(transfer, titleFor) {
+      if (status.readOnly) return { ok: false, reason: 'newer-version' };
+      if (!storage) return { ok: false, reason: 'unavailable' };
+      const official = {};
+      Object.entries(transfer.official || {}).forEach(([unit, r]) => {
+        official[unit] = {
+          bestScore: r.bestScore,
+          bestDate: r.bestDate,
+          maxStreak: r.maxStreak,
+          plays: r.plays,
+          title: r.bestScore !== null && titleFor ? titleFor(r.bestScore) : null,
+        };
+      });
+      const certification = {};
+      Object.entries(transfer.certification || {}).forEach(([unit, c]) => {
+        const exams = {};
+        Object.entries(c.exams || {}).forEach(([id, e]) => {
+          exams[id] = { cleared: !!e.cleared, attempts: e.attempts, firstClearedAt: e.firstClearedAt };
+        });
+        certification[unit] = { highestCleared: c.highestCleared, exams };
+      });
+      const next = normalize({
+        version: VERSION,
+        timeAttack: { official, custom: data.timeAttack.custom.map((e) => ({ ...e })) }, // この端末のカスタム履歴を残す
+        certification,
+      });
+      const prev = data;
+      const text = JSON.stringify(next);
+      try {
+        storage.setItem(STORAGE_KEY, text);
+        if (storage.getItem(STORAGE_KEY) !== text) throw new Error('読み戻した内容が違います');
+      } catch (e) {
+        // 保存できなかった：保存場所に元のデータを書き戻し（書けなくてもよい）、メモリ上の記録も元のまま
+        try { storage.setItem(STORAGE_KEY, JSON.stringify(prev)); } catch (e2) { /* そのまま */ }
+        data = prev;
+        status.lastError = 'save-failed';
+        return { ok: false, reason: 'save-failed' };
+      }
+      data = next;
+      status.lastError = null;
+      return { ok: true };
+    }
+
     return {
       status,
       clearAll,
+      hasTransferable,
+      replaceTransferable,
       officialFor, recordOfficial,
       addCustom, customHistory,
       certFor, recordExam,

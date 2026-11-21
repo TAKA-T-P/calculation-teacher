@@ -22,6 +22,7 @@
   const TA = window.TimeAttack;
   const C = window.Certification;
   const D = window.CharacterDialogue;
+  const RT = window.RecordTransfer;
   // 生徒キャラクターの抽選に使う乱数。出題順の乱数（rng・?seed=）とは別にして、出題順に影響させない
   let dialogueRng = Math.random;
   // 結果ごとに選んだキャラクターとセリフ（同じ結果を再描画しても変えない）
@@ -146,7 +147,7 @@
   function onPopState(e) {
     const target = (e.state && e.state.screen) || 'title';
     // 並べて表示・解説のポップアップを開いているときの「戻る」は、それを閉じるだけにする
-    const popup = ['#compare-dialog', '#explain-dialog'].map((sel) => $(sel)).find((d) => d.open);
+    const popup = ['#compare-dialog', '#explain-dialog', '#transfer-make-dialog', '#transfer-load-dialog', '#reset-dialog'].map((sel) => $(sel)).find((d) => d.open);
     if (popup) {
       history.pushState({ screen: app.screen }, '');
       popup.close();
@@ -186,6 +187,14 @@
       case 'reset-records': sfx('tap'); setResetStatus(''); if (!$('#reset-dialog').open) $('#reset-dialog').showModal(); break;
       case 'reset-cancel': sfx('tap'); $('#reset-dialog').close(); break;
       case 'reset-confirm': sfx('tap'); $('#reset-dialog').close(); resetRecords(); break;
+      case 'transfer-make': sfx('tap'); openTransferMake(); break;
+      case 'transfer-issue': sfx('tap'); issueTransferCode(); break;
+      case 'transfer-copy': copyTransferCode(); break;
+      case 'transfer-load': sfx('tap'); openTransferLoad(); break;
+      case 'transfer-check': sfx('tap'); checkTransferCode(); break;
+      case 'transfer-apply': sfx('tap'); applyTransfer(); break;
+      case 'transfer-close': sfx('tap'); closeTransferDialogs(); break;
+      case 'transfer-show-records': sfx('tap'); closeTransferDialogs(); renderRecords('official'); show('records'); break;
       case 'go-settings':
         if (!app.ready) return;
         sfx('tap');
@@ -393,6 +402,154 @@
     if (r.ok) setResetStatus('記録を消しました。');
     else if (r.reason === 'newer-version') setResetStatus('新しい版のアプリで保存された記録のため、消せませんでした。', true);
     else setResetStatus('記録を消せませんでした。ブラウザの設定を確認してください。', true);
+  }
+
+  // ============================================================ 記録の引継ぎ（設定画面）
+  // コードの作成・検証は record-transfer.js、記録の置き換え・保存は records.js が担当する。ここでは画面だけを扱う
+  const TRANSFER_ERRORS = {
+    empty: '引継ぎコードを貼り付けてください。',
+    format: '引継ぎコードが正しくありません。もう一度コピーしてください。',
+    truncated: 'コードの一部が足りないか、正しくコピーできていません。',
+    version: 'このコードは現在のアプリでは読み込めません。アプリを更新してからお試しください。',
+    corrupt: '記録を読み込めませんでした。元の端末でコードをつくり直してください。',
+  };
+  const TRANSFER_SAVE_ERRORS = {
+    'newer-version': '新しい版のアプリで保存された記録があるため、この端末では引き継げませんでした。',
+    unavailable: '記録を保存できませんでした。端末の設定や空き容量をご確認ください。',
+    'save-failed': '記録を保存できませんでした。端末の設定や空き容量をご確認ください。',
+  };
+
+  function showTransferStep(dialog, step) {
+    dialog.querySelectorAll('.transfer-step').forEach((el) => { el.hidden = el.dataset.step !== step; });
+    dialog.scrollTop = 0;
+  }
+
+  function closeTransferDialogs() {
+    ['#transfer-make-dialog', '#transfer-load-dialog'].forEach((sel) => { if ($(sel).open) $(sel).close(); });
+    app.transfer = null;
+  }
+
+  function openTransferMake() {
+    const d = $('#transfer-make-dialog');
+    showTransferStep(d, 'intro');
+    $('#transfer-code').value = '';
+    $('#transfer-copy-status').textContent = '';
+    if (!d.open) d.showModal();
+  }
+
+  /** その時点の最新の記録からコードをつくる（記録は変更しない） */
+  function issueTransferCode() {
+    const snap = records.snapshot();
+    const code = RT.createCode(snap);
+    $('#transfer-code').value = code;
+    $('#transfer-empty').hidden = !RT.isEmpty(RT.extract(snap));
+    $('#transfer-copy-status').textContent = '';
+    showTransferStep($('#transfer-make-dialog'), 'result');
+  }
+
+  async function copyTransferCode() {
+    const ta = $('#transfer-code');
+    const text = ta.value;
+    const status = $('#transfer-copy-status');
+    let ok = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch (e) { ok = false; }
+    if (!ok) {
+      // クリップボードの機能が使えない・断られたとき（iPad Safari の権限など）は、選択してコピーを試す
+      try {
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        ok = !!(document.execCommand && document.execCommand('copy'));
+      } catch (e) { ok = false; }
+    }
+    status.textContent = ok ? 'コピーしました！' : 'コピーできませんでした。コードを選択してコピーしてください。';
+    status.classList.toggle('transfer-status--error', !ok);
+    if (ok) sfx('select');
+    else { ta.focus(); ta.select(); } // 作ったコードは消さずに、選択した状態にする
+  }
+
+  function openTransferLoad() {
+    const d = $('#transfer-load-dialog');
+    app.transfer = null;
+    $('#transfer-input').value = '';
+    $('#transfer-input-error').textContent = '';
+    $('#transfer-apply-error').textContent = '';
+    showTransferStep(d, 'input');
+    if (!d.open) d.showModal();
+  }
+
+  /** コードを確かめて、引き継ぐ内容を表示する（この時点では記録を変更しない） */
+  function checkTransferCode() {
+    const input = $('#transfer-input').value;
+    const err = $('#transfer-input-error');
+    if (!input.trim()) { err.textContent = TRANSFER_ERRORS.empty; return; }
+    const res = RT.decode(input);
+    if (!res.ok) {
+      err.textContent = TRANSFER_ERRORS[res.reason] || TRANSFER_ERRORS.corrupt;
+      sfx('incorrect');
+      return;
+    }
+    err.textContent = '';
+    app.transfer = { data: res.data };
+    $('#transfer-preview').innerHTML = transferPreviewHtml(res.data);
+    $('#transfer-warning').hidden = !records.hasTransferable();
+    $('#transfer-apply-error').textContent = '';
+    showTransferStep($('#transfer-load-dialog'), 'confirm');
+  }
+
+  /** 引き継ぐ記録の一覧（単元ごとの最高スコア・最高クリア試験）。単元名・数値はすべてエスケープする */
+  function transferPreviewHtml(data) {
+    const known = (app.units || []).map((u) => u.unit);
+    const extra = [...new Set([...Object.keys(data.official), ...Object.keys(data.certification)])].filter((u) => !known.includes(u)).sort();
+    const units = [...known, ...extra];
+    const label = (u) => (known.includes(u) ? unitLabelById(u) : `このアプリにない単元（${u}）`);
+    const officialItems = units.map((u) => {
+      const r = data.official[u];
+      const text = r && r.bestScore !== null
+        ? `最高${r.bestScore.toLocaleString('ja-JP')}点（${TA.titleForScore(r.bestScore)}）`
+        : '記録なし';
+      return `<li><span class="transfer-list__unit">${esc(label(u))}</span>：${esc(text)}</li>`;
+    }).join('');
+    const certItems = units.map((u) => {
+      const c = data.certification[u];
+      let text = '記録なし';
+      if (c && c.highestCleared > 0) text = `${C.examById(c.highestCleared).name}までクリア（${C.rankFor(c.highestCleared).name}）`;
+      else if (c) text = 'まだクリアした試験はありません';
+      return `<li><span class="transfer-list__unit">${esc(label(u))}</span>：${esc(text)}</li>`;
+    }).join('');
+    const empty = RT.isEmpty(data) ? '<p class="transfer-empty">このコードには記録が入っていません（記録のない状態が引き継がれます）。</p>' : '';
+    return `${empty}
+      <h3 class="transfer-list__title">公式タイムアタック</h3>
+      <ul class="transfer-list">${officialItems}</ul>
+      <h3 class="transfer-list__title">ティーチャー認定試験</h3>
+      <ul class="transfer-list">${certItems}</ul>`;
+  }
+
+  /** 最終確認のあと、記録を置き換えて保存する。保存できたことを確かめてから完了を表示する */
+  function applyTransfer() {
+    const t = app.transfer;
+    const err = $('#transfer-apply-error');
+    if (!t) return;
+    try {
+      RT.validate(t.data); // 念のためもう一度検証する
+    } catch (e) {
+      err.textContent = TRANSFER_ERRORS.corrupt;
+      return;
+    }
+    const res = records.replaceTransferable(t.data, TA.titleForScore);
+    if (!res.ok) {
+      err.textContent = TRANSFER_SAVE_ERRORS[res.reason] || TRANSFER_SAVE_ERRORS['save-failed'];
+      sfx('incorrect');
+      return;
+    }
+    app.transfer = null;
+    showTransferStep($('#transfer-load-dialog'), 'done');
+    sfx('correct');
   }
 
   function openQuitDialog() {

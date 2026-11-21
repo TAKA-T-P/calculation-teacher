@@ -129,6 +129,17 @@
       </div>
       <div class="options-links">
         <a class="btn btn--secondary" id="lab-link" href="https://taka-t-p.github.io/math-app-portal/">🧪 KEC数学科ラボへ</a>
+      </div>
+      <section class="options-card transfer-card" aria-labelledby="transfer-heading">
+        <h3 id="transfer-heading" class="transfer-card__title">記録の引継ぎ</h3>
+        <p class="transfer-card__lead">別の端末でも、今までの記録を使えるようにできます。</p>
+        <div class="transfer-card__actions">
+          <button type="button" class="btn btn--secondary" data-action="transfer-make">📋 引継ぎコードをつくる</button>
+          <button type="button" class="btn btn--secondary" data-action="transfer-load">📥 引継ぎコードを読み込む</button>
+        </div>
+        <p class="options-note">公式タイムアタックとティーチャー認定試験の記録を引き継ぎます。<br>カスタムタイムアタックの履歴は引き継ぎません。</p>
+      </section>
+      <div class="options-danger">
         <button type="button" class="btn btn--danger-outline" data-action="reset-records">🗑 記録を消す</button>
       </div>
       <p class="options-status" id="reset-status" role="status"></p>
@@ -348,6 +359,70 @@
     </div>
   </dialog>
 
+  <!-- 引継ぎコードをつくる -->
+  <dialog class="dialog transfer-dialog" id="transfer-make-dialog" aria-labelledby="transfer-make-title">
+    <div class="transfer-step" data-step="intro">
+      <h2 id="transfer-make-title" class="dialog__title">引継ぎコードをつくる</h2>
+      <p>今までの公式タイムアタックとティーチャー認定試験の記録を、別の端末へ引き継ぐためのコードをつくります。</p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-action="transfer-close">キャンセル</button>
+        <button type="button" class="btn btn--primary" data-action="transfer-issue">引継ぎコードを発行する</button>
+      </div>
+    </div>
+    <div class="transfer-step" data-step="result" hidden>
+      <h2 class="dialog__title">引継ぎコードができました！</h2>
+      <p class="transfer-empty" id="transfer-empty" hidden>まだ引き継ぐ記録がありません。このコードを読み込むと、記録のない状態が引き継がれます。</p>
+      <label class="visually-hidden" for="transfer-code">引継ぎコード</label>
+      <textarea class="transfer-code" id="transfer-code" rows="3" readonly spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+      <div class="transfer-copy">
+        <button type="button" class="btn btn--primary" data-action="transfer-copy">📋 コードをコピー</button>
+        <p class="transfer-status" id="transfer-copy-status" role="status"></p>
+      </div>
+      <p class="transfer-note">コピーしたコードを、引き継ぎたい端末に送ってください。<br>このコードには現在の公式記録と認定記録が含まれています。コードを持っている人は記録を読み込めるので、自分の端末以外には送らないでください。</p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-action="transfer-close">閉じる</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 引継ぎコードを読み込む -->
+  <dialog class="dialog transfer-dialog" id="transfer-load-dialog" aria-labelledby="transfer-load-title">
+    <div class="transfer-step" data-step="input">
+      <h2 id="transfer-load-title" class="dialog__title">引継ぎコードを読み込む</h2>
+      <p>別の端末でつくった引継ぎコードを貼り付けてください。</p>
+      <label class="visually-hidden" for="transfer-input">引継ぎコード</label>
+      <textarea class="transfer-code" id="transfer-input" rows="4" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="CT1-…"></textarea>
+      <p class="transfer-status transfer-status--error" id="transfer-input-error" role="alert"></p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-action="transfer-close">キャンセル</button>
+        <button type="button" class="btn btn--primary" data-action="transfer-check">コードを確認する</button>
+      </div>
+    </div>
+    <div class="transfer-step" data-step="confirm" hidden>
+      <h2 class="dialog__title">引き継ぐ記録を確認</h2>
+      <p>次の記録を引き継ぎます。</p>
+      <div id="transfer-preview"></div>
+      <div class="transfer-warning" id="transfer-warning" hidden>
+        <p><strong>この端末の公式タイムアタック記録とティーチャー認定試験の記録を、引継ぎコードの内容に置き換えます。</strong></p>
+        <p>カスタムタイムアタックの履歴と効果音設定は変更されません。</p>
+        <p>今の公式記録を残したい場合は、先に引継ぎコードをつくって保存してください。</p>
+      </div>
+      <p class="transfer-status transfer-status--error" id="transfer-apply-error" role="alert"></p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-action="transfer-close">キャンセル</button>
+        <button type="button" class="btn btn--primary" data-action="transfer-apply">記録を引き継ぐ</button>
+      </div>
+    </div>
+    <div class="transfer-step" data-step="done" hidden>
+      <h2 class="dialog__title">記録の引継ぎが完了しました！</h2>
+      <p>公式タイムアタックの記録とティーチャー認定試験の記録が引き継がれました。</p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" data-action="transfer-close">閉じる</button>
+        <button type="button" class="btn btn--primary" data-action="transfer-show-records">🏆 記録を確認する</button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- 記録を消す確認 -->
   <dialog class="dialog" id="reset-dialog" aria-labelledby="reset-title">
     <h2 id="reset-title" class="dialog__title">本当に消しますか？</h2>
@@ -392,6 +467,7 @@
   <script src="js/certification.js"></script>
   <script src="js/records.js"></script>
   <script src="js/character-dialogue.js"></script>
+  <script src="js/record-transfer.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
