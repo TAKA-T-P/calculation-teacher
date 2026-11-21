@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "no": 8,
+  "month": 11,
+  "title": "もう一度、前を向いて",
+  "required": 300,
+  "scenes": [
+    {
+      "id": "night",
+      "background": "study-room-autumn",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "11月。夜の自習室。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}、この関数の問題、教えてください！ ……いや、待って。自分で解いてみます。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "お、いいね。どこまで分かったか、教えてくれる？"
+        },
+        {
+          "speaker": "kei",
+          "text": "傾きは出せました。でも、切片がうまく出なくて……。あ、代入するときに符号をまちがえてる！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "自分で見つけたね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "前のオレだったら、難しい問題ばっかりやってたと思うんです。でも、基本の問題をくり返したら、だんだん分かってきて。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "基本の問題は、どんなに難しい問題にも出てくる「部品」だからね。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "あの……{teacher}。質問してもいいですか。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "もちろん。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "この図形の問題、補助線をどこに引けばいいのか分からなくて……。ここに引いてみたんですけど、合っていますか。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "いい考え方だね。そこに引くと、同じ形の三角形が2つできる。続きを考えてみよう。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "……できました！ 質問するの、前はこわかったけど……聞いてよかったです。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "どこまで分かって、どこから分からないかを言えるのは、すごい力だよ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{shiho}、最近よく質問してるよな。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "間違いノートを見せながら話すと、うまく聞けるんです。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも、自分に合った勉強のやり方を見つけてきたね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "でも、まだ安心はできないですよね。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "そうだね。この調子を、入試の日まで続けよう。"
+        },
+        {
+          "speaker": "narration",
+          "text": "自習室の明かりは、その日も遅くまでついていた。"
+        }
+      ]
+    }
+  ]
+}

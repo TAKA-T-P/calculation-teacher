@@ -20,6 +20,8 @@ const TYPES = {
   '.json': 'application/json; charset=utf-8',
   '.md': 'text/markdown; charset=utf-8',
   '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.mp3': 'audio/mpeg',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
 };
@@ -39,10 +41,19 @@ const server = http.createServer((req, res) => {
   }
   fs.readFile(filePath, (err, buf) => {
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); res.end('Not Found'); return; }
-    res.writeHead(200, {
-      'Content-Type': TYPES[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
-      'Cache-Control': 'no-store',
-    });
+    const type = TYPES[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
+    // 音声の途中から再生（シーク）できるよう、Range（部分的な取得）に対応する（GitHub Pages と同じ）
+    const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+    if (m && (m[1] || m[2])) {
+      let start = m[1] ? Number(m[1]) : buf.length - Number(m[2]);
+      let end = m[1] && m[2] ? Number(m[2]) : buf.length - 1;
+      start = Math.max(0, start); end = Math.min(end, buf.length - 1);
+      if (start > end) { res.writeHead(416, { 'Content-Range': `bytes */${buf.length}` }); res.end(); return; }
+      res.writeHead(206, { 'Content-Type': type, 'Content-Range': `bytes ${start}-${end}/${buf.length}`, 'Accept-Ranges': 'bytes', 'Content-Length': end - start + 1, 'Cache-Control': 'no-store' });
+      res.end(buf.subarray(start, end + 1));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-store' });
     res.end(buf);
   });
 });

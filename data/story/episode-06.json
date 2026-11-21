@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "no": 6,
+  "month": 9,
+  "title": "小さな成長、大きな壁",
+  "required": 200,
+  "scenes": [
+    {
+      "id": "result",
+      "background": "meeting-room",
+      "bgm": "sad",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "9月。夏休み明けの模試の結果がとどいた。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}……。第一志望、D判定でした。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私は……E判定です。"
+        },
+        {
+          "speaker": "kei",
+          "text": "夏休み、毎日勉強したのに。こんなの、やっても意味ないじゃないですか！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "くやしいよね。夏の努力を知っているから、その気持ちはよく分かる。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "でも、判定の文字だけを見て終わりにするのは、もったいないよ。答案を一緒に見てみよう。"
+        }
+      ]
+    },
+    {
+      "id": "analysis",
+      "label": "模試の答案を見直す",
+      "background": "meeting-room",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "teacher",
+          "text": "計算問題の正答率を見てごらん。4月は5問中2問。今回は5問中4問。"
+        },
+        {
+          "speaker": "kei",
+          "text": "あ……。計算は、ほとんど合ってる。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も、計算の問題は全部書けています。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "夏の積み重ねは、ちゃんと点数になっているんだ。ここは2人の「伸びたところ」。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "そのかわり、関数と図形の問題で点数を落としている。ここが、次の「課題」だね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "関数……。グラフを見ると、頭がこんがらがるんです。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "図形は、どこから考えればいいのか分からなくて……。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "模試は、合格か不合格かを決めるものじゃない。次に何を勉強すればいいかを教えてくれる「地図」なんだ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "地図……。じゃあ、関数と図形の問題も、間違いノートに入れます。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレも。グラフの問題、毎日1問ずつやってみます。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "いいね。壁は大きいけど、2人はもう登り方を知っているよ。"
+        }
+      ]
+    }
+  ]
+}

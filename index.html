@@ -9,6 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='6' width='40' height='52' rx='5' fill='%23fffdf6' stroke='%232b3a55' stroke-width='3'/%3E%3Cpath d='M20 32l8 8 16-18' fill='none' stroke='%23e5484d' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/story.css">
 </head>
 <body>
   <div id="app" class="app">
@@ -52,6 +53,10 @@
         </button>
         <button type="button" class="btn btn--mode btn--lg" data-action="go-cert-units">
           <span class="btn__icon" aria-hidden="true">🎓</span>ティーチャー認定試験
+        </button>
+        <button type="button" class="btn btn--story btn--lg" data-action="story-go" aria-label="ストーリー">
+          <span class="btn-story__main"><span class="btn__icon" aria-hidden="true">📖</span>ストーリー<span class="story-new-badge" id="story-new-badge" hidden>NEW</span></span>
+          <span class="btn-story__sub">2人の生徒と歩む、1年間の物語</span>
         </button>
         <div class="title-menu__pair">
           <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
@@ -127,6 +132,33 @@
         </div>
         <p class="options-note">設定はこの端末のブラウザに保存され、次に開いたときも使われます。プレイ中は画面上の 🔊 ボタンで音を消せます。</p>
       </div>
+      <section class="options-card bgm-card" aria-labelledby="bgm-heading">
+        <div class="option-row">
+          <div>
+            <p class="option-row__label" id="bgm-heading">ストーリーBGM</p>
+            <p class="option-row__help">ストーリーを読んでいるときだけ流れる音楽です（効果音とは別に設定できます）。</p>
+          </div>
+          <button type="button" class="switch" id="bgm-switch" role="switch" aria-checked="true" data-action="toggle-bgm" aria-label="ストーリーBGM">
+            <span class="switch__knob" aria-hidden="true"></span><span class="switch__text" id="bgm-switch-text">ON</span>
+          </button>
+        </div>
+        <div class="option-row option-row--volume">
+          <label class="option-row__label" for="bgm-volume-range">音量</label>
+          <div class="volume">
+            <span class="volume__icon" aria-hidden="true">🔈</span>
+            <input type="range" id="bgm-volume-range" class="count-range" min="0" max="100" step="1" value="25">
+            <span class="volume__icon" aria-hidden="true">🔊</span>
+            <output class="volume__value" id="bgm-volume-value" for="bgm-volume-range">25%</output>
+          </div>
+        </div>
+        <details class="bgm-credit">
+          <summary>使用している音楽（クレジット）</summary>
+          <p>音楽：<a href="https://bgmer.net/" target="_blank" rel="noopener">BGMer</a>（フリーBGM・SHORT版）</p>
+          <ul id="bgm-credit-list">
+            <li>かのうせいのかたまり</li><li>きみは相棒</li><li>涙の結晶</li><li>きみはやりとげた</li><li>漢太鼓</li><li>こもれびの手紙</li><li>僕らのエピローグ</li>
+          </ul>
+        </details>
+      </section>
       <div class="options-links">
         <a class="btn btn--secondary" id="lab-link" href="https://taka-t-p.github.io/math-app-portal/">🧪 KEC数学科ラボへ</a>
       </div>
@@ -355,6 +387,42 @@
     </section>
 
     <!-- エラー -->
+    <!-- 📖 ストーリー一覧 -->
+    <section class="screen screen--story-list" data-screen="story-list" aria-labelledby="story-list-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="story-list-heading" class="screen-title" tabindex="-1">📖 ストーリー</h2>
+      </header>
+      <div id="story-list-body" class="story-list-body"></div>
+    </section>
+
+    <!-- 📖 ストーリーの会話画面（LINE 風） -->
+    <section class="screen screen--story-read" data-screen="story-read" aria-labelledby="story-read-heading" hidden>
+      <div class="story-stage" id="story-stage" aria-hidden="true">
+        <div class="story-bg is-shown" id="story-bg-0"></div>
+        <div class="story-bg" id="story-bg-1"></div>
+      </div>
+      <header class="story-bar">
+        <button type="button" class="btn btn--ghost story-bar__back" data-action="story-back" aria-label="ストーリー一覧へ戻る">← もどる</button>
+        <div class="story-bar__title">
+          <p class="story-bar__no" id="story-read-no"></p>
+          <h2 class="story-bar__heading" id="story-read-heading" tabindex="-1"></h2>
+        </div>
+        <button type="button" class="btn btn--ghost story-bar__bgm" id="story-bgm-toggle" data-action="story-bgm-toggle" aria-pressed="true">♪ BGM ON</button>
+      </header>
+      <div class="story-log" id="story-log" role="log" aria-live="polite" aria-label="会話"></div>
+      <button type="button" class="story-newer" id="story-newer" data-action="story-newer" hidden>▼ 新しいセリフへ</button>
+      <footer class="story-controls">
+        <button type="button" class="btn btn--secondary story-controls__sub" data-action="story-log-open">📜 ログを見る</button>
+        <button type="button" class="btn btn--primary story-controls__next" id="story-next" data-action="story-next">次へ ▶</button>
+        <button type="button" class="btn btn--secondary story-controls__sub" id="story-skip" data-action="story-skip">スキップ ⏭</button>
+      </footer>
+      <div class="story-ending" id="story-ending" hidden>
+        <div class="story-ending__messages" id="story-ending-messages"></div>
+        <button type="button" class="btn btn--primary btn--lg story-ending__close" id="story-ending-close" data-action="story-ending-close">ストーリー一覧へ</button>
+      </div>
+    </section>
+
     <section class="screen screen--error" data-screen="error" aria-labelledby="error-heading" hidden>
       <h2 id="error-heading" class="screen-title" tabindex="-1">問題を表示できませんでした</h2>
       <p class="error-message" id="error-message"></p>
@@ -439,9 +507,50 @@
   </dialog>
 
   <!-- 記録を消す確認 -->
+  <dialog class="dialog story-names-dialog" id="story-names-dialog" aria-labelledby="story-names-title">
+    <h2 id="story-names-title" class="dialog__title">登場人物の名前</h2>
+    <div class="story-names">
+      <label class="story-names__row">
+        <span class="story-names__label">先生の名前</span>
+        <input type="text" id="story-name-teacher" class="story-names__input" maxlength="10" autocomplete="off" placeholder="（入力しないと「先生」）">
+        <span class="story-names__help">入力した名前のうしろに『先生』がつきます。</span>
+      </label>
+      <label class="story-names__row">
+        <span class="story-names__label"><span aria-hidden="true">👦</span> 男の子の名前</span>
+        <input type="text" id="story-name-kei" class="story-names__input" maxlength="10" autocomplete="off" placeholder="ケイ">
+      </label>
+      <label class="story-names__row">
+        <span class="story-names__label"><span aria-hidden="true">👧</span> 女の子の名前</span>
+        <input type="text" id="story-name-shiho" class="story-names__input" maxlength="10" autocomplete="off" placeholder="シホ">
+      </label>
+      <p class="story-names__preview" id="story-name-preview" role="status"></p>
+      <p class="options-note">10文字まで。空欄にすると、はじめの名前にもどります。名前を変えても、読んだ話や正解数はそのままです。</p>
+    </div>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--primary" data-action="story-names-close">決定</button>
+    </div>
+  </dialog>
+
+  <dialog class="dialog story-log-dialog" id="story-log-dialog" aria-labelledby="story-log-title">
+    <h2 id="story-log-title" class="dialog__title">これまでの会話</h2>
+    <ol class="story-loglist" id="story-log-list"></ol>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--primary" data-action="story-log-close">とじる</button>
+    </div>
+  </dialog>
+
+  <dialog class="dialog" id="story-reset-dialog" aria-labelledby="story-reset-title">
+    <h2 id="story-reset-title" class="dialog__title">ストーリーの記録をリセットしますか？</h2>
+    <p>累積正解数と、読んだ話の記録が0にもどります（第2話から先は、また正解数を集めると読めるようになります）。名前の設定は残ります。ゲームの記録（タイムアタック・認定試験）は消えません。</p>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--secondary" data-action="story-reset-cancel" autofocus>いいえ</button>
+      <button type="button" class="btn btn--danger" data-action="story-reset-confirm">リセットする</button>
+    </div>
+  </dialog>
+
   <dialog class="dialog" id="reset-dialog" aria-labelledby="reset-title">
     <h2 id="reset-title" class="dialog__title">本当に消しますか？</h2>
-    <p>タイムアタックの記録・カスタムの履歴・認定試験の合格状況が、すべて消えます。消した記録は元に戻せません。（効果音の設定は消えません）</p>
+    <p>タイムアタックの記録・カスタムの履歴・認定試験の合格状況が、すべて消えます。消した記録は元に戻せません。（効果音の設定と、ストーリーの記録は消えません）</p>
     <div class="dialog__actions">
       <button type="button" class="btn btn--secondary" data-action="reset-cancel" autofocus>いいえ</button>
       <button type="button" class="btn btn--danger" data-action="reset-confirm">はい</button>
@@ -484,6 +593,10 @@
   <script src="js/records.js"></script>
   <script src="js/character-dialogue.js"></script>
   <script src="js/record-transfer.js"></script>
+  <script src="js/story-records.js"></script>
+  <script src="js/story-data.js"></script>
+  <script src="js/story-bgm.js"></script>
+  <script src="js/story.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

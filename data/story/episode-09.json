@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "no": 9,
+  "month": 12,
+  "title": "リアル入試、開幕！",
+  "required": 350,
+  "scenes": [
+    {
+      "id": "camp",
+      "background": "winter-camp",
+      "bgm": "friendship",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "12月。冬の勉強合宿。今日は、本番と同じ形で解く「リアル入試」の日。"
+        },
+        {
+          "speaker": "kei",
+          "text": "うわあ、本物の入試みたいだ……。手がつめたくなってきた。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私、時間内に全部解けるか心配です。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "今日は「練習の本番」。ここでたくさん失敗して、本番では同じ失敗をしないようにしよう。"
+        },
+        {
+          "speaker": "kei",
+          "text": "練習の本番……。よし！"
+        }
+      ]
+    },
+    {
+      "id": "silence",
+      "label": "リアル入試　試験室",
+      "background": "exam-room",
+      "bgm": null,
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "試験室。えんぴつを置く音だけが聞こえる。"
+        },
+        {
+          "speaker": "narration",
+          "text": "「それでは、試験を始めてください。」",
+          "effect": "announce"
+        }
+      ]
+    },
+    {
+      "id": "exam",
+      "label": "試験開始",
+      "background": "exam-room",
+      "bgm": "exam",
+      "lines": [
+        {
+          "speaker": "kei",
+          "text": "大問1は計算。速く、でも途中式は書く……。",
+          "effect": "thought"
+        },
+        {
+          "speaker": "shiho",
+          "text": "大問2……この問題、時間がかかりそう。でも、ここで止まったら……。",
+          "effect": "thought"
+        },
+        {
+          "speaker": "kei",
+          "text": "よし、方程式も解けた。……あれ？ 確かめ算が合わない！",
+          "effect": "thought"
+        },
+        {
+          "speaker": "shiho",
+          "text": "まだ大問4……。残り10分！？",
+          "effect": "thought"
+        },
+        {
+          "speaker": "narration",
+          "text": "「やめ。えんぴつを置いてください。」",
+          "effect": "announce"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "label": "試験のあとで",
+      "background": "winter-camp",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "kei",
+          "text": "……計算ミス、しちゃいました。確かめ算で気づいたけど、直す時間がなくて。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私は、大問2に時間をかけすぎて……最後の問題まで行けませんでした。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも、自分で何が起きたのか分かっているね。それが今日の一番の収穫だよ。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "{shiho}さん、試験が始まったら、まず全部の問題をざっと見よう。解けそうな問題から先に取るんだ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "分からない問題で止まらずに、あとで戻ってくる……。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "{kei}くんは、緊張すると速く解きすぎるくせがある。本番こそ、ふだんどおりのスピードで、途中式を書こう。"
+        },
+        {
+          "speaker": "kei",
+          "text": "あせったときほど、ゆっくり。……覚えておきます。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "本番で取れる点数を、確実に取る。それが入試の戦い方だよ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "次のリアル入試では、もうミスしない！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私は、時間配分の練習をします。"
+        }
+      ]
+    }
+  ]
+}

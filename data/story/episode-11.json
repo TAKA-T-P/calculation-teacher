@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "no": 11,
+  "month": 2,
+  "title": "最後の一問まで",
+  "required": 450,
+  "scenes": [
+    {
+      "id": "countdown",
+      "tint": "night",
+      "background": "classroom-winter",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "2月。私立高校の入試が終わった。公立高校の入試まで、あと少し。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}……。私立の数学、1問、計算ミスしたかもしれないんです。ずっと気になってて。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も、英語の長文がうまく読めなくて……。落ちていたらどうしよう。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "気になるよね。でも、終わった試験の答えは、もう変えられない。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "変えられるのは、これからの試験だけ。次の試験に向けて、今できることに集中しよう。"
+        },
+        {
+          "speaker": "kei",
+          "text": "……そうですよね。くよくよしてる時間が、もったいない。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "今できること……。間違いノートの見直しと、時間を計った過去問です。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "うん。それから、早めにねて、朝ごはんをしっかり食べること。これも大事な準備だよ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "朝ごはんも作戦のうち！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "試験の日は、1問目から最後の一問まで、あきらめずに書こう。途中までの式でも、点数になることがあるからね。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "白紙で出さない……。4月の私に教えてあげたいです。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレは、見直しの時間を5分残す。確かめ算をする！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも、自分の戦い方が分かっているね。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "{teacher}。今まで、ありがとうございました。……って、まだ早いですね。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "その言葉は、試験が終わってから聞かせてね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "次に会うときは、合格の報告をしに来ます！"
+        },
+        {
+          "speaker": "narration",
+          "text": "黒板のカウントダウンは、「あと7日」になっていた。"
+        }
+      ]
+    }
+  ]
+}

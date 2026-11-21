@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "no": 12,
+  "month": 3,
+  "title": "桜の咲く教室で",
+  "required": 500,
+  "scenes": [
+    {
+      "id": "report",
+      "background": "classroom-sakura",
+      "bgm": "congratulations",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "3月。公立高校の合格発表の日。満開の桜が、教室の窓から見えている。"
+        },
+        {
+          "speaker": "narration",
+          "text": "ろうかを走る足音が、だんだん近づいてくる。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}ー！！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "{teacher}！"
+        },
+        {
+          "speaker": "kei",
+          "text": "合格しました！ 第一志望、合格です！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も……私も、合格しました！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも……おめでとう！ 本当に、おめでとう！"
+        },
+        {
+          "speaker": "kei",
+          "text": "番号を見つけたとき、思わずさけんじゃいました。となりの知らない人とハイタッチしちゃって。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私は、何回も番号を確かめました。夢じゃないかって。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "夢じゃないよ。2人が1年間、積み重ねてきた結果だね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "秋にD判定とE判定だったなんて、うそみたいです。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "あのとき、あきらめなくてよかった……。"
+        }
+      ]
+    },
+    {
+      "id": "paper",
+      "label": "1年前の答案",
+      "background": "classroom-desk",
+      "bgm": "congratulations",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "先生の机の上に、1枚の古い答案が置いてある。"
+        },
+        {
+          "speaker": "kei",
+          "text": "あれ？ これ……4月にオレたちが最初に解いた答案だ！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私の答案、やっぱりほとんど白紙ですね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレのは、移項で符号をまちがえてる。「20＋5」って……なつかしい！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "1年前の2人は、ここから始まったんだよ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私、前は数学がこわかったんです。まちがえるのが、はずかしくて。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "でも今は、まちがえても、どこでまちがえたのかを自分で見つけられます。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレも。前は答えが合うかどうかしか見てなかった。今は、途中式を見直して、自分で直せる。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "それが、この1年で2人が身につけた一番の力だよ。合格したことと同じくらい、大切なことなんだ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "高校に行っても、間違いノートを続けます！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も。……あの、{teacher}。この答案、もらってもいいですか。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "もちろん。2人の「第一歩」だからね。"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "label": "桜の咲く教室で",
+      "background": "classroom-sakura",
+      "bgm": "ending",
+      "lines": [
+        {
+          "speaker": "kei",
+          "text": "{teacher}、本当に、ありがとうございました！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "ありがとうございました。{teacher}の赤ペンのおかげです。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "こちらこそ、ありがとう。2人と過ごした1年は、宝物だよ。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "高校でも、まちがいをこわがらずにね。まちがいを見つけたら、そこからまた始めればいい。"
+        },
+        {
+          "speaker": "kei",
+          "text": "はい！ ……あ、{shiho}、写真とろうぜ！ 桜の前で！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "うん！ {teacher}も、一緒に！"
+        },
+        {
+          "speaker": "narration",
+          "text": "満開の桜の下で、3人は笑っていた。"
+        }
+      ]
+    }
+  ],
+  "ending": true
+}

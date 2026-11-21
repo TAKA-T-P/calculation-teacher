@@ -125,6 +125,28 @@
     return d.documentElement.scrollWidth - w.innerWidth;
   }
 
+  /** スクリーンショット用：ストーリーの画面を開く */
+  async function storyShot(kind) {
+    const total = Number(params.get('total') || 120);
+    const longNames = params.get('names') === '1';
+    w.localStorage.setItem('calcTeacher.story', JSON.stringify({
+      version: 1, totalCorrect: total, readEpisodes: [1, 2, 3].filter((n) => n < Number(params.get('ep') || 99)),
+      teacherName: longNames ? 'たかおみたかおみたか' : '田中', boyName: longNames ? 'ジョナサンジョースター' : 'ケイ', girlName: longNames ? 'エリザベスあいうえお' : 'シホ',
+    }));
+    await openGame(3);
+    if (kind === 'title') return;
+    await click('[data-action="story-go"]');
+    await waitFor(() => $('.story-card'), 'ストーリー一覧');
+    if (kind === 'list') return;
+    if (kind === 'names') { await click('[data-action="story-names"]'); return; }
+    const no = Number(params.get('ep') || 9);
+    await click(`[data-action="story-open"][data-no="${no}"]`);
+    const n = Number(params.get('lines') || 8);
+    for (let i = 1; i < n; i++) await click('#story-next');
+    if (kind === 'end') { await click('#story-skip'); await sleep(7000); }
+    await sleep(900);
+  }
+
   // ================================================================== スクリーンショット用
   if (SHOT) {
     await openGame(Number(params.get('seed') || 3));
@@ -223,6 +245,12 @@
         await click('[data-action="go-cert-list"]');
       },
       records: async () => click('[data-action="go-records"]'),
+      // ストーリー（?shot=story-list / story-read-9 / story-end-12 など。?total= で累積正解数、?names=1 で長い名前）
+      'story-title': async () => storyShot('title'),
+      'story-list': async () => storyShot('list'),
+      'story-read': async () => storyShot('read'),
+      'story-end': async () => storyShot('end'),
+      'story-names': async () => storyShot('names'),
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
     }[SHOT];
     await goto();
@@ -234,7 +262,7 @@
   }
 
   // ================================================================== テスト本体
-  try { ['calcTeacher.sound', 'calcTeacher.records', 'calcTeacher.records.backup'].forEach((k) => localStorage.removeItem(k)); } catch (e) { /* 音声設定・記録を初期状態に */ }
+  try { ['calcTeacher.sound', 'calcTeacher.records', 'calcTeacher.records.backup', 'calcTeacher.story', 'calcTeacher.story.backup', 'calcTeacher.storySound'].forEach((k) => localStorage.removeItem(k)); } catch (e) { /* 音声設定・記録を初期状態に */ }
   await openGame(1);
   // プレビューの確認用に、問題数を先に数えておく（プレビューを開くとゲームの状態は参照できなくなるため）
   const DATA = { total: app().questions.length, expressions: cnt({ unit: 'expressions' }) };
@@ -1736,6 +1764,353 @@
     } finally {
       snd().debug.simulateFailure(false);
     }
+  });
+
+  // ================================================================ ストーリーモード
+  const story = () => w.__calcTeacher.storyStore;
+  const bgmNow = () => w.__calcTeacher.bgm;
+  async function setStory(obj = {}) {
+    localStorage.setItem('calcTeacher.story', JSON.stringify({ version: 1, totalCorrect: 0, readEpisodes: [], teacherName: '', boyName: 'ケイ', girlName: 'シホ', ...obj }));
+    await openGame(7);
+  }
+  async function openStoryList() {
+    if (!visible('title')) await click('[data-action="go-title"]');
+    await click('[data-action="story-go"]');
+    await waitFor(() => visible('story-list') && $$('.story-card').length === 12, 'ストーリー一覧');
+  }
+  async function openEpisode(no) {
+    await click(`[data-action="story-open"][data-no="${no}"]`);
+    await waitFor(() => visible('story-read') && $$('#story-log > *').length > 0, `第${no}話を開く`);
+  }
+  const logItems = () => $$('#story-log .story-msg, #story-log .story-narration');
+  const storyCard = (no) => $(`.story-card[data-no="${no}"]`);
+
+  await test('[ストーリー 24] 累積正解数：トレーニング・1問の解き直し・認定試験・公式／カスタムのタイムアタックの正解だけ +1（不正解・選んだだけ・ヒント・解説・結果画面では増えない。途中でやめても採点済みの正解は残る）', async () => {
+    await setStory({ totalCorrect: 0 });
+    const recBefore = JSON.stringify(recs().snapshot());
+    check(story().totalCorrect === 0, '最初は0');
+    // トレーニング
+    await configure({ unit: 'equation', difficulties: [1], count: 3 });
+    await click('#start-btn');
+    await click(rowBtn(1)); await click(rowBtn(1));
+    await click('#hint-btn');
+    check(story().totalCorrect === 0, '行を選ぶ・ヒントで増えた');
+    await answer(true);
+    check(story().totalCorrect === 1, `トレーニングの正解 ${story().totalCorrect}`);
+    await click('[data-action="compare-open"]'); await click('[data-action="compare-close"]');
+    await click('[data-action="next"]');
+    await answer(false);
+    check(story().totalCorrect === 1, '不正解で増えた');
+    await click('[data-action="next"]');
+    await answer(true);
+    await click('[data-action="next"]');
+    check(visible('summary') && story().totalCorrect === 2, `結果画面 ${story().totalCorrect}`);
+    // 1問の解き直し（まちがえた2問目）
+    await click('[data-action="review-question"][data-index="1"]');
+    await answer(true);
+    check(story().totalCorrect === 3, `解き直しの正解 ${story().totalCorrect}`);
+    await click('[data-action="next"]');
+    // 認定試験（不合格の試験でも、それまでの正解は数える）
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-cert-units"]');
+    await pickCertUnit('square-roots');
+    await click(examCard(1).querySelector('[data-action="cert-start"]'));
+    await answerExam(true); await click('[data-action="next"]');
+    for (let i = 0; i < 3 && app().session; i++) { await answerExam(false); await click('[data-action="next"]'); }
+    check(visible('cert-result') && story().totalCorrect === 4, `認定試験（不合格）の正解 ${story().totalCorrect}`);
+    // 公式タイムアタック：2問正解・1問不正解でやめる（記録はしないが、採点済みの正解は残る）
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    await pickUnit('#ta-unit-select', 'polynomials');
+    await click('#ta-start-btn');
+    await waitFor(() => ta().session && ta().session.started, 'START!', 8000);
+    for (const ok of [true, true, false]) { (ok ? taCorrectEl() : taWrongEl()).click(); await sleep(TA_FEEDBACK + 60); }
+    check(!$('section[data-screen="ta-play"] .story-unlock'), 'タイムアタック中に知らせが出た');
+    await click('[data-action="quit"]'); await click('[data-action="quit-confirm"]');
+    check(story().totalCorrect === 6, `公式タイムアタックの正解 ${story().totalCorrect}`);
+    // カスタムタイムアタック
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="custom"]');
+    await click('#ta-start-btn');
+    await waitFor(() => ta().session && ta().session.started, 'START!', 8000);
+    taCorrectEl().click(); await sleep(TA_FEEDBACK + 60);
+    await click('[data-action="quit"]'); await click('[data-action="quit-confirm"]');
+    check(story().totalCorrect === 7, `カスタムタイムアタックの正解 ${story().totalCorrect}`);
+    // 再読み込み後も残る・ゲームの記録は途中でやめた回を記録していない
+    await openGame(7);
+    check(story().totalCorrect === 7, '再読み込みで消えた');
+    const recAfter = recs().snapshot();
+    check(JSON.stringify(recAfter.timeAttack.official) === JSON.stringify(JSON.parse(recBefore).timeAttack.official), '公式記録が変わった（途中でやめた回が記録された）');
+    // ストーリーを読んでも増えない
+    await openStoryList();
+    await openEpisode(1);
+    await click('#story-skip');
+    check(story().totalCorrect === 7, 'ストーリーを読んで増えた');
+    await click('#story-log [data-action="story-back"]');
+  });
+
+  await test('[ストーリー 22] 解放の知らせ：トレーニングは判定のあと、タイムアタック・認定試験は結果画面で出す（プレイ中には出さない）。タイトルに NEW', async () => {
+    await setStory({ totalCorrect: 19, readEpisodes: [1] });
+    check($('#story-new-badge').hidden, '読める話を全部読んだのに NEW が出ている');
+    await configure({ unit: 'equation', difficulties: [1], count: 2 });
+    await click('#start-btn');
+    await answer(true);
+    const n1 = $('#feedback .story-unlock');
+    check(n1 && n1.textContent.includes('📖 第2話『赤ペンの本当の役目』が解放されました！'), `トレーニングの知らせ: ${n1 && n1.textContent}`);
+    await click('[data-action="next"]');
+    check(!$('#feedback .story-unlock') || $('#feedback').hidden, '同じ知らせがくり返し出た');
+    await click('[data-action="quit"]'); await click('[data-action="quit-confirm"]');
+    check(!$('#story-new-badge').hidden, 'タイトルに NEW が出ない');
+    // タイムアタック：正解で解放 → プレイ中は出さず、ゲームオーバーの結果画面で出す
+    await setStory({ totalCorrect: 49, readEpisodes: [1, 2] });
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="custom"]');
+    await click('#ta-start-btn');
+    await waitFor(() => ta().session && ta().session.started, 'START!', 8000);
+    taCorrectEl().click(); await sleep(TA_FEEDBACK + 60);
+    check(story().totalCorrect === 50 && !$('section[data-screen="ta-play"] .story-unlock'), 'タイムアタック中に知らせが出た');
+    for (let i = 0; i < 3; i++) { taWrongEl().click(); await sleep(TA_FEEDBACK + 60); }
+    await waitFor(() => visible('ta-result'), '結果画面', 6000);
+    check($('#ta-result-body .story-unlock') && $('#ta-result-body .story-unlock').textContent.includes('第3話『間違いノートの秘密』'), 'タイムアタックの結果画面で知らせない');
+    // 認定試験：合否が決まった結果画面で出す
+    await setStory({ totalCorrect: 99, readEpisodes: [1, 2, 3] });
+    await click('[data-action="go-cert-units"]');
+    await pickCertUnit('quadratic-equations');
+    await click(examCard(1).querySelector('[data-action="cert-start"]'));
+    await answerExam(true);
+    check(!$('#feedback .story-unlock'), '認定試験の途中で知らせが出た');
+    await click('[data-action="next"]');
+    while (app().session) { await answerExam(true); await click('[data-action="next"]'); }
+    check(visible('cert-result') && $('#cert-result-body .story-unlock').textContent.includes('第4話『夏の作戦会議』'), '認定試験の結果画面で知らせない');
+  });
+
+  await test('[ストーリー 8] 一覧：タイトル・累積正解数・次の話まで。全12話の月・話数・タイトル・解放条件と、NEW／既読／未解放（鍵・あと○問・開けない）', async () => {
+    await setStory({ totalCorrect: 120, readEpisodes: [1, 2, 3] });
+    check(!$('#story-new-badge').hidden, 'タイトルの NEW');
+    const btn = $('[data-action="story-go"]');
+    check(btn.textContent.includes('ストーリー') && btn.textContent.includes('2人の生徒と歩む、1年間の物語'), 'タイトルのボタン');
+    // タイトル画面：ボタンが押しやすく、横にはみ出さない
+    check(btn.getBoundingClientRect().height >= 56 && pageOverflow() <= 0, 'タイトル画面のボタン');
+    await openStoryList();
+    const head = $('.story-head').textContent;
+    check(head.includes('あの日の赤ペンが、未来を変えた。') && head.includes('ケイくん、シホさんと歩む1年間の物語'), 'タイトル');
+    check(head.includes('累積正解数：120問') && head.includes('次の話まで：あと30問'), `進行状況: ${head}`);
+    const SPEC = [['4月', 1, 'はじめまして、先生', 0], ['5月', 2, '赤ペンの本当の役目', 20], ['6月', 3, '間違いノートの秘密', 50], ['7月', 4, '夏の作戦会議', 100],
+      ['8月', 5, 'あきらめない夏', 150], ['9月', 6, '小さな成長、大きな壁', 200], ['10月', 7, 'E判定からの挑戦', 250], ['11月', 8, 'もう一度、前を向いて', 300],
+      ['12月', 9, 'リアル入試、開幕！', 350], ['1月', 10, '自分を信じる練習', 400], ['2月', 11, '最後の一問まで', 450], ['3月', 12, '桜の咲く教室で', 500]];
+    $$('.story-card').forEach((c, i) => {
+      const [m, no, title, need] = SPEC[i];
+      check(c.dataset.no === String(no) && c.querySelector('.story-card__no').textContent === `${m}・第${no}話` && c.querySelector('.story-card__title').textContent === title, `第${no}話の表示`);
+      check(need === 0 ? c.textContent.includes('最初から読めます') : c.textContent.includes(`累積${need}問正解`), `第${no}話の解放条件`);
+    });
+    check(storyCard(1).querySelector('.story-badge--read') && storyCard(3).querySelector('.story-badge--read'), '既読');
+    check(storyCard(4).querySelector('.story-badge--new') && !storyCard(4).disabled, '解放済み・未読は NEW');
+    check(storyCard(5).disabled && storyCard(5).querySelector('.story-card__lock') && storyCard(5).textContent.includes('あと30問'), '未解放は鍵とあと○問');
+    check(storyCard(12).textContent.includes('あと380問'), '第12話まであと380問');
+    storyCard(5).click(); await sleep(60);
+    check(visible('story-list'), '未解放の話が開いた');
+    check(pageOverflow() <= 0, '一覧が横にはみ出す');
+    // 一覧のサムネイル（背景画像）
+    await waitFor(() => /classroom-spring\.webp/.test(storyCard(1).querySelector('.story-card__thumb').style.backgroundImage), 'サムネイル');
+  });
+
+  await test('[ストーリー 9・10・27] 会話：LINE 風（生徒は左・顔アイコンと名前、先生は右・アイコンなし・「先生」）。次へ・タップ・ログ・スキップ・戻る。最後まで読むと既読', async () => {
+    await setStory({ totalCorrect: 25, readEpisodes: [] });
+    await openStoryList();
+    await openEpisode(1);
+    check($('#story-read-no').textContent === '第1話・4月' && $('#story-read-heading').textContent === 'はじめまして、先生', 'ヘッダー');
+    check(logItems().length === 1 && $('#story-log .story-narration').textContent.includes('4月'), '最初のセリフ');
+    check(bgmNow().debug.desired === 'daily', `BGM ${bgmNow().debug.desired}`);
+    check($('#story-stage').dataset.bg === 'classroom-spring', '背景');
+    await waitFor(() => /classroom-spring\.webp/.test($('.story-bg.is-shown').style.backgroundImage), '背景画像');
+    await click('#story-next');
+    const t = $('#story-log .story-msg--teacher');
+    check(t && t.classList.contains('story-msg--right') && !t.querySelector('.story-face') && t.querySelector('.story-msg__name').textContent === '先生', '先生の吹き出し');
+    await click('#story-next');
+    const k = $('#story-log .story-msg--kei');
+    check(k && k.classList.contains('story-msg--left') && k.querySelector('.story-face').textContent === '👦' && k.querySelector('.story-msg__name').textContent === 'ケイ', 'ケイの吹き出し');
+    check(k.querySelector('.story-bubble').textContent.includes('オレ、ケイです'), 'ケイの名前の差し込み');
+    // 会話エリアをタップして進む
+    $('#story-log').click(); await sleep(60);
+    const s = $('#story-log .story-msg--shiho');
+    check(s && s.querySelector('.story-face').textContent === '👧' && s.querySelector('.story-msg__name').textContent === 'シホ', 'シホの吹き出し（タップで進む）');
+    check($$('#story-log .story-face').length === $$('#story-log .story-msg--kei, #story-log .story-msg--shiho').length, '顔アイコンの数');
+    // 吹き出しと顔アイコンが重ならず、画面からはみ出さない
+    [...$$('#story-log .story-msg--left')].forEach((m) => {
+      const f = m.querySelector('.story-face').getBoundingClientRect();
+      const b = m.querySelector('.story-bubble').getBoundingClientRect();
+      check(f.right <= b.left + 1 && b.right <= w.innerWidth + 1, '吹き出しと顔アイコンが重なる・はみ出す');
+    });
+    for (let i = 0; i < 6; i++) await click('#story-next');
+    const shown = app().screen === 'story-read' && w.__calcTeacher.story.state.shown;
+    // 過去のセリフを読んでいるとき（いちばん下にいない）は、タップしても進まない
+    const log = $('#story-log');
+    await sleep(800);
+    log.scrollTop = 0; log.dispatchEvent(new w.Event('scroll')); await sleep(60);
+    if (log.scrollHeight > log.clientHeight + 40) {
+      check(!$('#story-newer').hidden, '「新しいセリフへ」が出ない');
+      log.click(); await sleep(60);
+      check(w.__calcTeacher.story.state.shown === shown, '過去ログを読んでいるのに進んだ');
+    }
+    // ログを見る
+    await click('[data-action="story-log-open"]');
+    check($('#story-log-dialog').open && $$('#story-log-list li').length === w.__calcTeacher.story.state.shown, 'ログの数');
+    await click('[data-action="story-log-close"]');
+    // 戻る：一覧へ。BGM は止まり、途中なので未読のまま
+    await click('.story-bar__back');
+    check(visible('story-list') && bgmNow().debug.desired === null && !story().isRead(1), '戻る');
+    check(storyCard(1).querySelector('.story-badge--new'), '途中でやめた話が既読になった');
+    // スキップ：最後のセリフまで進み、既読になる。次の話へ進める
+    await openEpisode(1);
+    await click('#story-skip');
+    check(w.__calcTeacher.story.state.ended && logItems().length === 20 && story().isRead(1), 'スキップで最後まで');
+    check($('#story-next').hidden && $('.story-end').textContent.includes('第1話　おわり'), 'おわりの表示');
+    await click('.story-end [data-action="story-open"][data-no="2"]');
+    check($('#story-read-heading').textContent === '赤ペンの本当の役目', '次の話へ');
+    for (let i = 0; i < 40 && !w.__calcTeacher.story.state.ended; i++) await click('#story-next');
+    check(story().isRead(2) && $('.story-end').textContent.includes('あと25問'), `最後まで読むと既読・次の話まであと○問: ${$('.story-end').textContent}`);
+    await click('.story-end [data-action="story-back"]');
+    check(storyCard(2).querySelector('.story-badge--read'), '一覧に既読が出ない');
+    // ブラウザの「戻る」でも一覧へ（BGM は止まる）
+    await openEpisode(1);
+    w.history.back();
+    await waitFor(() => visible('story-list'), '戻る操作で一覧へ');
+    check(bgmNow().debug.desired === null, '戻る操作で BGM が止まらない');
+    await click('[data-action="go-title"]');
+    check($('#story-new-badge').hidden, '全部読んだのに NEW が残る');
+  });
+
+  await test('[ストーリー 15・18・19] 第9話：合宿会場→試験室（静寂）→漢太鼓→合宿会場。第12話：エンディングのメッセージと THE END、一覧へ戻れる', async () => {
+    await setStory({ totalCorrect: 500 });
+    await openStoryList();
+    check(!$$('.story-card').some((c) => c.disabled) && $('.story-head').textContent.includes('全12話が解放されています'), '500問で全話解放');
+    await openEpisode(9);
+    const seen = [];
+    const note = () => { const x = `${$('#story-stage').dataset.bg}:${bgmNow().debug.desired}`; if (seen[seen.length - 1] !== x) seen.push(x); };
+    note();
+    while (!w.__calcTeacher.story.state.ended) { await click('#story-next'); note(); }
+    check(seen.join(' > ') === 'winter-camp:friendship > exam-room:null > exam-room:exam > winter-camp:growth', `第9話の場面と BGM: ${seen.join(' > ')}`);
+    check($('#story-log .story-narration--announce').textContent === '「それでは、試験を始めてください。」', '試験開始のアナウンス');
+    check($$('#story-log .story-msg--thought').length === 4 && $$('#story-log .story-scene').length === 3, '心の声・場面の区切り');
+    await click('.story-end [data-action="story-back"]');
+    await openEpisode(12);
+    check(bgmNow().debug.desired === 'congratulations', '第12話の BGM');
+    await click('#story-skip');
+    check(bgmNow().debug.desired === 'ending', 'エンディングの BGM');
+    check(!$('#story-ending').hidden, 'エンディングが出ない');
+    const end = $('#story-ending').textContent;
+    check(end.includes('間違いは、できるようになるための第一歩。') && end.includes('あなたの赤ペンが、誰かの未来を変える。') && end.includes('― THE END ―'), `エンディングのメッセージ: ${end}`);
+    check(story().isRead(12), '最終話が既読にならない');
+    await sleep(300);
+    check($('#story-stage').classList.contains('is-bright'), '背景が明るくならない');
+    await click('#story-ending-close');
+    check(visible('story-list') && bgmNow().debug.desired === null, 'エンディングから一覧へ');
+  });
+
+  await test('[ストーリー 26] 名前：先生は「○○先生」（重ねない）、生徒の名前は本文にも反映。HTML の文字はそのまま表示。長い名前でも崩れず、再読み込み後も残り、進行度は変わらない', async () => {
+    await setStory({ totalCorrect: 60, readEpisodes: [1] });
+    await openStoryList();
+    await click('[data-action="story-names"]');
+    check($('#story-names-dialog').open && $('#story-names-dialog').textContent.includes('入力した名前のうしろに『先生』がつきます。'), '名前のダイアログ');
+    const typeName = async (sel, v) => { const input = $(sel); input.value = v; input.dispatchEvent(new w.Event('input', { bubbles: true })); await sleep(30); };
+    await typeName('#story-name-teacher', '田中');
+    check($('#story-name-preview').textContent.includes('田中先生'), 'プレビュー');
+    await typeName('#story-name-teacher', '田中先生');
+    check(story().displayNames().teacher === '田中先生', '先生が重なった');
+    await typeName('#story-name-kei', '<b>ユウト</b>');
+    await typeName('#story-name-shiho', 'ミサキさん');
+    await click('[data-action="story-names-close"]');
+    check($('.story-head__sub').textContent === '<b>ユウト</b>くん、ミサキさんと歩む1年間の物語', `一覧のサブタイトル: ${$('.story-head__sub').textContent}`);
+    await openEpisode(1);
+    await click('#story-next'); await click('#story-next'); await click('#story-next'); await click('#story-next');
+    check($('#story-log .story-msg--teacher .story-msg__name').textContent === '田中先生', '先生の名前');
+    check($('#story-log .story-msg--kei .story-msg__name').textContent === '<b>ユウト</b>' && !$('#story-log b'), 'HTML として解釈された');
+    check($('#story-log .story-msg--kei .story-bubble').textContent.includes('オレ、<b>ユウト</b>です'), '本文の名前');
+    check($$('#story-log .story-msg--kei .story-bubble')[1].textContent.includes('田中先生！'), '本文の先生の名前');
+    await click('.story-bar__back');
+    // 長い名前（10文字）
+    await click('[data-action="story-names"]');
+    await typeName('#story-name-teacher', 'たかおみたかおみたかおみ');
+    await typeName('#story-name-kei', 'ジョナサンジョースター');
+    check(story().names().teacher === 'たかおみたかおみたか' && $('#story-name-teacher').value.length <= 10, '10文字まで');
+    await click('[data-action="story-names-close"]');
+    await openEpisode(1);
+    for (let i = 0; i < 8; i++) await click('#story-next');
+    check(pageOverflow() <= 0 && $$('#story-log .story-msg').every((m) => m.getBoundingClientRect().right <= w.innerWidth + 1), '長い名前で横にはみ出す');
+    const bar = $('.story-bar').getBoundingClientRect();
+    check(bar.right <= w.innerWidth + 1 && $('.story-bar__bgm').getBoundingClientRect().right <= w.innerWidth + 1, '上のバーがはみ出す');
+    await click('.story-bar__back');
+    // 再読み込みしても残り、進行度は変わらない。空欄は初期名
+    await openGame(7);
+    check(story().displayNames().teacher === 'たかおみたかおみたか先生' && story().totalCorrect === 60 && story().isRead(1), '再読み込み後の名前・進行度');
+    await openStoryList();
+    await click('[data-action="story-names"]');
+    await typeName('#story-name-teacher', '   ');
+    await typeName('#story-name-kei', '');
+    await click('[data-action="story-names-close"]');
+    check(JSON.stringify(story().displayNames()) === JSON.stringify({ teacher: '先生', kei: 'ケイ', shiho: 'ミサキ' }), `空欄は初期名: ${JSON.stringify(story().displayNames())}`);
+  });
+
+  await test('[ストーリー 16・28] BGM：設定画面で ON/OFF・音量（効果音とは別に保存・再読み込み後も維持）。会話画面のボタンでも切りかえ。ほかの画面では流さない。音声がなくても進む', async () => {
+    await setStory({ totalCorrect: 0 });
+    localStorage.removeItem('calcTeacher.storySound');
+    await openGame(7);
+    await click('[data-action="go-options"]');
+    check($('#bgm-switch').getAttribute('aria-checked') === 'true' && $('#bgm-volume-range').value === '25', 'BGM の初期設定（ON・25%）');
+    check($('.bgm-credit').textContent.includes('BGMer') && $('.bgm-credit').textContent.includes('漢太鼓'), 'クレジット');
+    const soundBefore = JSON.stringify(w.Sound.getSettings());
+    await click('#bgm-switch');
+    const r = $('#bgm-volume-range');
+    await click('#bgm-switch');
+    r.value = '60'; r.dispatchEvent(new w.Event('input', { bubbles: true })); await sleep(30);
+    await click('#bgm-switch');
+    check(JSON.stringify(JSON.parse(localStorage.getItem('calcTeacher.storySound'))) === JSON.stringify({ enabled: false, volume: 60 }), 'BGM の設定が保存されない');
+    check(JSON.stringify(w.Sound.getSettings()) === soundBefore, '効果音の設定が変わった');
+    await openGame(7);
+    check(bgmNow().getSettings().enabled === false && bgmNow().getSettings().volume === 60, '再読み込みで BGM の設定が戻った');
+    // OFF のときは鳴らさず、会話画面のボタンで ON にすると今の場面の曲が鳴る
+    await openStoryList();
+    await openEpisode(1);
+    check(bgmNow().debug.playing === null && $('#story-bgm-toggle').textContent.includes('OFF'), 'OFF なのに鳴った');
+    await click('#story-bgm-toggle');
+    check(bgmNow().debug.playing === 'daily' && $('#story-bgm-toggle').textContent.includes('ON'), 'ON にしても鳴らない');
+    await sleep(300);
+    const v = bgmNow().debug.voices.find((x) => x.track === 'daily');
+    check(v && /assets\/story\/bgm\/daily\.mp3$/.test(v.src), `音声ファイル ${v && v.src}`);
+    await click('.story-bar__back');
+    check(bgmNow().debug.playing === null && bgmNow().debug.desired === null, '一覧に戻っても鳴っている');
+    // ほかのモードでは流さない
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-settings"]');
+    check(bgmNow().debug.playing === null, 'トレーニングで BGM が流れた');
+    // 音声ファイルがないときも、ストーリーは止まらない
+    await openStoryList();
+    w.__calcTeacher.storyData.index.bgm.tracks.daily.file = 'not-found.mp3';
+    await openEpisode(1);
+    await click('#story-next'); await click('#story-next');
+    check(logItems().length === 3, '音声ファイルがないと進まない');
+    await waitFor(() => bgmNow().debug.lastError === 'load-failed' || bgmNow().debug.lastError === 'play-failed', '再生の失敗を記録する', 5000);
+    await click('.story-bar__back');
+  });
+
+  await test('[ストーリー F] 記録：ゲームの「記録を消す」ではストーリーは消えない。ストーリーのリセットは確認してから、名前を残して正解数と既読だけ0に', async () => {
+    await setStory({ totalCorrect: 80, readEpisodes: [1, 2], teacherName: '田中' });
+    await click('[data-action="go-options"]');
+    await click('[data-action="reset-records"]');
+    check($('#reset-dialog').textContent.includes('ストーリーの記録は消えません'), '記録を消すの説明');
+    await click('[data-action="reset-confirm"]');
+    check(story().totalCorrect === 80 && story().isRead(2), 'ゲームの記録を消したらストーリーも消えた');
+    await click('[data-action="go-title"]');
+    await openStoryList();
+    await click('[data-action="story-reset"]');
+    check($('#story-reset-dialog').open, '確認ダイアログが出ない');
+    await click('[data-action="story-reset-cancel"]');
+    check(story().totalCorrect === 80, 'いいえで消えた');
+    await click('[data-action="story-reset"]');
+    await click('[data-action="story-reset-confirm"]');
+    check(story().totalCorrect === 0 && !story().isRead(1) && story().names().teacher === '田中', 'リセットの内容');
+    check($('.story-head').textContent.includes('累積正解数：0問') && storyCard(2).disabled, '一覧に反映されない');
   });
 
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {

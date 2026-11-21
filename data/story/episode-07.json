@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "no": 7,
+  "month": 10,
+  "title": "E判定からの挑戦",
+  "required": 250,
+  "scenes": [
+    {
+      "id": "rain",
+      "background": "meeting-room-rain",
+      "bgm": "sad",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "10月。雨の日の面談室。秋の模試の結果は、またE判定だった。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "{teacher}……。私、志望校を変えたほうがいいでしょうか。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレも、判定が上がらなくて……。もう、あきらめたほうがいいのかなって。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "正直に言うね。今のままだと、合格は難しい。それが今の結果なんだ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "……やっぱり。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "でも、「今のまま」でなければ、まだ変えられる。入試まで、あと4か月以上あるよ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "4か月で、本当に間に合うんですか？"
+        },
+        {
+          "speaker": "teacher",
+          "text": "「絶対に間に合う」とは言えない。でも、何をすればいいかは、一緒に考えられる。"
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "label": "これからの作戦",
+      "background": "meeting-room-rain",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "teacher",
+          "text": "まず、合格に必要な点数を確かめよう。数学は、あと何点あればいいかな。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "去年の合格者の平均だと……今より15点、上げる必要があります。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "その15点を、どこで取るか考えよう。計算と方程式で確実に取れれば、それだけで10点近く上がる。"
+        },
+        {
+          "speaker": "kei",
+          "text": "計算なら、もうミスは減ってきてる。そこを満点にすればいいんだ！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "そう。残りの5点は、関数の基本問題。難しい問題を全部解けなくてもいいんだよ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "全部じゃなくて、取れる問題を確実に……。それなら、私にもできるかもしれません。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "毎週、どの問題が解けるようになったか、一緒に確かめていこう。"
+        },
+        {
+          "speaker": "kei",
+          "text": "E判定から、ひっくり返してやる！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も……もう少しだけ、がんばってみます。……ううん、がんばります。"
+        },
+        {
+          "speaker": "narration",
+          "text": "窓の外の雨は、いつのまにか小降りになっていた。"
+        }
+      ]
+    }
+  ]
+}

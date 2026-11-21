@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "no": 1,
+  "month": 4,
+  "title": "はじめまして、先生",
+  "required": 0,
+  "scenes": [
+    {
+      "id": "classroom",
+      "background": "classroom-spring",
+      "bgm": "daily",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "4月。窓の外に、桜が見える塾の教室。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "はじめまして。今日から2人の数学を担当します。よろしくね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "よろしくお願いしまーす！ オレ、{kei}です。サッカー部です！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "{shiho}です……。よろしくお願いします。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}！ オレ、計算だけは速いんですよ！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "たのもしいね。じゃあ、さっそく1問解いてみようか。「3x＋5＝20」。"
+        },
+        {
+          "speaker": "kei",
+          "text": "楽勝！ ……はい、できました！ x＝25/3！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "はやい！ でも、答えは x＝5 なんだ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "えっ、うそ！？ どこでまちがえたんだろう……。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "答えだけを見ても、どこがちがうのか分からないよね。上から1行ずつ見ていこう。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2行目。＋5 を右に移すとき、「20＋5」になっているね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "あっ……。移項したら符号が変わるんだった！ 20−5 だ！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "そのとおり。ここが「最初にまちがえた行」。ここさえ直せば、あとの計算は合っているよ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "……私、何も書けませんでした。まちがえるのがこわくて。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "書いてくれたら、どこでつまずいたのかを一緒に見つけられる。白紙だと、それもできないんだ。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "まちがいを見つけることは、できるようになるための第一歩。まちがいは、はずかしいものじゃないよ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "第一歩……。じゃあ、次は書いてみます。まちがっていても。"
+        },
+        {
+          "speaker": "kei",
+          "text": "よーし、オレは途中式をちゃんと書く！ ……たぶん！"
+        },
+        {
+          "speaker": "teacher",
+          "text": "「たぶん」かあ（笑）。1年かけて、少しずつやっていこう。"
+        },
+        {
+          "speaker": "narration",
+          "text": "こうして、3人の1年間が始まった。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "no": 5,
+  "month": 8,
+  "title": "あきらめない夏",
+  "required": 150,
+  "scenes": [
+    {
+      "id": "summer",
+      "background": "classroom-summer",
+      "bgm": "friendship",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "8月。夏期講習の教室は、毎日あつい。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "今日の講習はここまで。2人とも、毎日よく来ているね。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "……となりのクラスの子は、もう問題集を2周したそうです。私はまだ半分も……。"
+        },
+        {
+          "speaker": "kei",
+          "text": "……。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "{kei}くん、今日はずっと元気がないね。"
+        }
+      ]
+    },
+    {
+      "id": "sunset",
+      "label": "夕暮れの塾",
+      "background": "classroom-sunset",
+      "bgm": "sad",
+      "lines": [
+        {
+          "speaker": "kei",
+          "text": "……大会、負けたんです。最後の試合。オレのミスで。"
+        },
+        {
+          "speaker": "kei",
+          "text": "勉強も部活も、どっちも中途半端で。もう、何をやってもだめな気がして。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も……。こんなにやっているのに、みんなに追いつけない。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも、本当にがんばってきたんだね。くやしい気持ちになるのは、本気だった証拠だよ。"
+        }
+      ]
+    },
+    {
+      "id": "growth",
+      "background": "classroom-sunset",
+      "bgm": "growth",
+      "lines": [
+        {
+          "speaker": "teacher",
+          "text": "2人に、見せたいものがあるんだ。4月に2人が解いた答案。"
+        },
+        {
+          "speaker": "kei",
+          "text": "うわ、なつかしい。……え、オレ、移項で符号をまちがえてる。今なら、こんなミスしないのに。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私の答案は……ほとんど白紙です。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "じゃあ、きのうのテストと比べてみよう。{kei}くんは、途中式を全部書いている。{shiho}さんは、最後の問題まで書いてある。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "……本当だ。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "比べる相手は、となりの人じゃなくて、前の自分。2人は、4月の自分よりずっと前に進んでいるよ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "前の自分……。オレ、ちゃんと進んでたんだ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "2周はできていないけど、間違いノートは20ページになりました。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "それは、2人だけの財産だね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "よし、明日からまたがんばります。部活の分まで、勉強で取り返す！"
+        },
+        {
+          "speaker": "narration",
+          "text": "夕焼けの窓の外で、セミが鳴いていた。"
+        }
+      ]
+    }
+  ]
+}

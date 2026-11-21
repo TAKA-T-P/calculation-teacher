@@ -40,8 +40,23 @@
     storage: (() => { try { return window.localStorage; } catch (e) { return null; } })(),
   });
 
+  // ストーリーモード（おまけ）。記録は calcTeacher.story・BGM の設定は calcTeacher.storySound で、ゲームの記録とは別。
+  // ストーリー側でどんな失敗があっても、採点・得点・記録には影響させない（呼び出しはすべて try で囲む）
+  const storyStore = window.StoryRecords.createStoryStore({
+    storage: (() => { try { return window.localStorage; } catch (e) { return null; } })(),
+  });
+  const storyData = window.StoryData.createStoryData();
+  const bgm = window.StoryBgm;
+  const story = window.Story.createStoryController({
+    data: storyData, store: storyStore, bgm,
+    show: (name, mode) => show(name, mode),
+    sfx: (name) => sfx(name),
+    reducedMotion: () => prefersReducedMotion(),
+  });
+
   const app = {
     screen: 'title',
+    storyNotices: [],   // 新しく解放されたストーリーの話（まだ知らせていないもの）
     units: [],          // manifest の単元（label, grade, unit, questions）
     questions: [],      // 全問題
     invalidIds: [],     // 出題できない（データ不整合の）問題
@@ -67,6 +82,7 @@
     document.addEventListener('click', onClick);
     document.addEventListener('change', onChange);
     initSound();
+    initStory();
     renderTitleTalk();
     // タイムアタック中に画面が表に戻ったら、すぐに残り時間を更新する（裏にいた間も時間は減っている）
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tickTA(); });
@@ -120,6 +136,7 @@
     stopSfx('long'); // 前の画面の長い効果音（正解音・結果発表など）を次の画面に残さない
     Object.entries(screens).forEach(([key, el]) => { el.hidden = key !== name; });
     app.screen = name;
+    try { story.onScreen(name); } catch (e) { /* ストーリー側の失敗は無視 */ }
     document.body.dataset.currentScreen = name; // 画面の <section data-screen> と区別するため、別の名前にする
     if (historyMode === 'push') history.pushState({ screen: name }, '');
     else if (historyMode === 'replace') history.replaceState({ screen: name }, '');
@@ -156,7 +173,7 @@
   function onPopState(e) {
     const target = (e.state && e.state.screen) || 'title';
     // 並べて表示・解説のポップアップを開いているときの「戻る」は、それを閉じるだけにする
-    const popup = ['#compare-dialog', '#explain-dialog', '#transfer-make-dialog', '#transfer-load-dialog', '#reset-dialog'].map((sel) => $(sel)).find((d) => d.open);
+    const popup = ['#compare-dialog', '#explain-dialog', '#transfer-make-dialog', '#transfer-load-dialog', '#reset-dialog', '#story-names-dialog', '#story-log-dialog', '#story-reset-dialog'].map((sel) => $(sel)).find((d) => d.open);
     if (popup) {
       history.pushState({ screen: app.screen }, '');
       popup.close();
@@ -181,6 +198,8 @@
     }
     if (target === 'play' && app.session && app.session.finished) { renderSummary(); show('summary', 'replace'); return; }
     if (target === 'settings') renderSettings();
+    // ストーリー：会話画面へは「戻る・進む」で入り直さない（一覧を表示する）
+    if (target === 'story-list' || target === 'story-read') { story.openList('replace'); return; }
     show(target, 'none');
   }
 
@@ -273,8 +292,72 @@
       case 'go-records': if (!app.ready) return; sfx('tap'); renderRecords('official'); show('records'); break;
       case 'records-tab': sfx('tap'); renderRecords(el.dataset.tab); break;
       case 'explain-close': sfx('tap'); $('#explain-dialog').close(); break;
-      default: break;
+      // ---------- ストーリー
+      case 'toggle-bgm': bgm.setEnabled(!bgm.getSettings().enabled); break;
+      default:
+        if (action.startsWith('story-')) { try { story.handleAction(action, el); } catch (err) { console.error(err); } }
+        break;
     }
+  }
+
+  // ============================================================ ストーリーモード
+  function initStory() {
+    try {
+      story.bind();
+      // 解放の知らせに話のタイトルを使うので、目次（小さい JSON）だけ先に読んでおく。話の本文は一覧を開いたときに読む
+      storyData.loadIndex().then(() => story.renderTitleBadge(), () => { /* 読めなくてもゲームは続ける */ });
+      story.renderTitleBadge();
+      // 設定画面の BGM 音量：動かしている間に反映する
+      const range = $('#bgm-volume-range');
+      range.addEventListener('input', () => bgm.setVolume(Number(range.value)));
+      bgm.onChange(renderBgmUi);
+      renderBgmUi();
+      // 画面が隠れたら BGM を一時停止し、戻ったら続きから
+      document.addEventListener('visibilitychange', () => {
+        if (app.screen === 'story-read') bgm.setHidden(document.hidden);
+      });
+    } catch (e) {
+      console.error('ストーリーモードを準備できませんでした', e);
+    }
+  }
+
+  /** 正解を1つ数える（同じ採点結果を2回数えない）。新しく解放された話は、あとで知らせるためにためておく */
+  function countStoryCorrect(result) {
+    try {
+      const r = storyStore.addCorrectAnswer(result);
+      if (r.newlyUnlocked.length) app.storyNotices.push(...r.newlyUnlocked);
+    } catch (e) { /* ストーリーの記録に失敗しても、採点・得点・記録には影響させない */ }
+  }
+
+  function takeStoryNotices() {
+    const list = app.storyNotices.slice();
+    app.storyNotices = [];
+    return list;
+  }
+
+  function showStoryNoticeIn(container, list, where) {
+    if (!container || !list || !list.length) return;
+    try {
+      const idx = storyData.index;
+      const text = list.map((no) => {
+        const ep = idx && idx.episodes.find((e) => e.no === no);
+        return ep ? `📖 第${no}話『${ep.title}』が解放されました！` : `📖 ストーリーの第${no}話が解放されました！`;
+      });
+      container.insertAdjacentHTML(where, `<div class="story-unlock" role="status">${text.map((t) => `<p class="story-unlock__text">${esc(t)}</p>`).join('')}<p class="story-unlock__help">タイトル画面の「📖 ストーリー」から読めます。</p></div>`);
+      story.renderTitleBadge();
+    } catch (e) { /* 無視 */ }
+  }
+
+  /** 設定画面の「ストーリーBGM」の表示を、現在の設定に合わせる */
+  function renderBgmUi() {
+    const st = bgm.getSettings();
+    $('#bgm-switch').setAttribute('aria-checked', String(st.enabled));
+    $('#bgm-switch-text').textContent = st.enabled ? 'ON' : 'OFF';
+    const range = $('#bgm-volume-range');
+    range.value = String(st.volume);
+    range.style.setProperty('--fill', `${st.volume}%`);
+    range.disabled = !st.enabled;
+    $('#bgm-volume-value').textContent = `${st.volume}%`;
   }
 
   // ============================================================ 効果音
@@ -952,8 +1035,11 @@
     // 添削の「スタンプ」の音のあと、少し遅らせて正解・不正解の音につなげる（重なって騒がしくならないように）
     sfx('submit');
     sfx(result.correct ? 'correct' : 'incorrect', { delay: 0.12 });
+    if (result.correct) countStoryCorrect(result);
     renderHud();
     renderFeedback(result);
+    // トレーニング（1問の解き直しも）は、判定のあとにストーリーの解放を知らせる。認定試験は結果画面で知らせる
+    if (app.mode === 'training') showStoryNoticeIn($('#feedback'), takeStoryNotices(), 'afterbegin');
   }
 
   function addTag(id, cls, html) {
@@ -1510,6 +1596,7 @@
     const r = s.answer(choice);
     if (!r) { if (s.ended) endTA(); return; }
     sfx(r.correct ? 'quickCorrect' : 'quickIncorrect');
+    if (r.correct) countStoryCorrect(r); // 解放の知らせは、プレイ中には出さず結果画面で出す
     const body = $('#ta-body');
     body.classList.add('is-locked');
     body.querySelectorAll('[data-action="ta-answer"]').forEach((b) => { b.disabled = true; });
@@ -1554,7 +1641,7 @@
     let rec;
     if (s.isOfficial) rec = records.recordOfficial(s.criteria.unit, sum, TA.titleForScore);
     else rec = records.addCustom({ unit: s.criteria.unit, categories: s.criteria.categories, difficulties: s.criteria.difficulties, ...sum });
-    app.ta.result = { session: s, summary: sum, record: rec };
+    app.ta.result = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices() };
     if (sum.gameOver) { showTAOverlay('ゲームオーバー', 'gameover'); sfx('fail'); }
     else { showTAOverlay('タイムアップ！', 'timeup'); sfx('timeup'); }
     later(() => {
@@ -1602,6 +1689,7 @@
       ${talkHtml(dialogueFor(app.ta.result, D.timeAttackGroup({ official: s.isOfficial, isBest: !!(rec && rec.isBest), gameOver: sum.gameOver, score: sum.score })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(items, 'ta-explain')}`;
+    showStoryNoticeIn($('#ta-result-body'), app.ta.result.storyNotices, 'afterbegin');
   }
 
   function openTAExplain(index) {
@@ -1744,7 +1832,7 @@
     const sum = s.summary();
     const passed = sum.outcome === C.OUTCOME.PASS;
     const rec = records.recordExam(s.unit, s.exam.id, passed);
-    app.cert.last = { session: s, summary: sum, record: rec };
+    app.cert.last = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices() };
     app.session = null;
     app.mode = 'training';
     renderCertResult();
@@ -1797,6 +1885,7 @@
     actions.push('<button type="button" class="btn btn--secondary btn--lg" data-action="go-cert-list">認定試験一覧に戻る</button>');
     actions.push('<button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>');
     $('#cert-result-actions').innerHTML = actions.join('');
+    showStoryNoticeIn($('#cert-result-body'), app.cert.last.storyNotices, 'afterbegin');
   }
 
   function openCertExplain(index) {
@@ -2003,6 +2092,10 @@
   window.__calcTeacher = {
     get app() { return app; },
     get records() { return records; },
+    get storyStore() { return storyStore; },
+    get story() { return story; },
+    get storyData() { return storyData; },
+    get bgm() { return bgm; },
     /** 自動テスト用：生徒キャラクターの抽選を固定する（出題順の乱数には影響しない） */
     setDialogueRng(fn) { dialogueRng = fn || Math.random; },
     rerenderTitleTalk: () => renderTitleTalk(),

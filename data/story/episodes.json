@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "title": "あの日の赤ペンが、未来を変えた。",
+  "subtitle": "{kei}くん、{shiho}さんと歩む1年間の物語",
+  "characters": {
+    "teacher": {
+      "defaultName": "",
+      "suffix": "先生"
+    },
+    "kei": {
+      "defaultName": "ケイ",
+      "honorific": "くん",
+      "icon": "👦"
+    },
+    "shiho": {
+      "defaultName": "シホ",
+      "honorific": "さん",
+      "icon": "👧"
+    }
+  },
+  "episodes": [
+    {
+      "no": 1,
+      "month": 4,
+      "title": "はじめまして、先生",
+      "required": 0,
+      "file": "episode-01.json",
+      "thumb": "classroom-spring"
+    },
+    {
+      "no": 2,
+      "month": 5,
+      "title": "赤ペンの本当の役目",
+      "required": 20,
+      "file": "episode-02.json",
+      "thumb": "classroom-desk"
+    },
+    {
+      "no": 3,
+      "month": 6,
+      "title": "間違いノートの秘密",
+      "required": 50,
+      "file": "episode-03.json",
+      "thumb": "study-room"
+    },
+    {
+      "no": 4,
+      "month": 7,
+      "title": "夏の作戦会議",
+      "required": 100,
+      "file": "episode-04.json",
+      "thumb": "classroom-summer"
+    },
+    {
+      "no": 5,
+      "month": 8,
+      "title": "あきらめない夏",
+      "required": 150,
+      "file": "episode-05.json",
+      "thumb": "classroom-sunset"
+    },
+    {
+      "no": 6,
+      "month": 9,
+      "title": "小さな成長、大きな壁",
+      "required": 200,
+      "file": "episode-06.json",
+      "thumb": "meeting-room"
+    },
+    {
+      "no": 7,
+      "month": 10,
+      "title": "E判定からの挑戦",
+      "required": 250,
+      "file": "episode-07.json",
+      "thumb": "meeting-room-rain"
+    },
+    {
+      "no": 8,
+      "month": 11,
+      "title": "もう一度、前を向いて",
+      "required": 300,
+      "file": "episode-08.json",
+      "thumb": "study-room-autumn"
+    },
+    {
+      "no": 9,
+      "month": 12,
+      "title": "リアル入試、開幕！",
+      "required": 350,
+      "file": "episode-09.json",
+      "thumb": "exam-room"
+    },
+    {
+      "no": 10,
+      "month": 1,
+      "title": "自分を信じる練習",
+      "required": 400,
+      "file": "episode-10.json",
+      "thumb": "classroom-winter"
+    },
+    {
+      "no": 11,
+      "month": 2,
+      "title": "最後の一問まで",
+      "required": 450,
+      "file": "episode-11.json",
+      "thumb": "classroom-winter"
+    },
+    {
+      "no": 12,
+      "month": 3,
+      "title": "桜の咲く教室で",
+      "required": 500,
+      "file": "episode-12.json",
+      "thumb": "classroom-sakura"
+    }
+  ],
+  "backgrounds": {
+    "classroom-spring": {
+      "label": "桜の見える春の教室",
+      "file": "classroom-spring.webp",
+      "fallback": "linear-gradient(180deg, #fde7ef 0%, #fff6e9 55%, #f3e2c7 100%)"
+    },
+    "classroom-desk": {
+      "label": "ノートと赤ペンのある机",
+      "file": "classroom-desk.webp",
+      "fallback": "linear-gradient(180deg, #fff3e0 0%, #f6dfbf 60%, #e9c99d 100%)"
+    },
+    "study-room": {
+      "label": "自習室",
+      "file": "study-room.webp",
+      "fallback": "linear-gradient(180deg, #e8f4e8 0%, #f7f1e3 60%, #e6d6bb 100%)"
+    },
+    "study-room-autumn": {
+      "label": "秋の夜の自習室",
+      "file": "study-room-autumn.webp",
+      "fallback": "linear-gradient(180deg, #4a3b5c 0%, #8a5a44 55%, #d9a86c 100%)"
+    },
+    "classroom-summer": {
+      "label": "夏の明るい教室",
+      "file": "classroom-summer.webp",
+      "fallback": "linear-gradient(180deg, #d6f0ff 0%, #f4fbff 55%, #f0e3c6 100%)"
+    },
+    "classroom-sunset": {
+      "label": "夕暮れの教室・塾の玄関",
+      "file": "classroom-sunset.webp",
+      "fallback": "linear-gradient(180deg, #f7b267 0%, #f4845f 50%, #f2d0a4 100%)"
+    },
+    "meeting-room": {
+      "label": "面談室",
+      "file": "meeting-room.webp",
+      "fallback": "linear-gradient(180deg, #eef3f7 0%, #f8f4ec 60%, #e2d5c0 100%)"
+    },
+    "meeting-room-rain": {
+      "label": "雨の日の面談室",
+      "file": "meeting-room-rain.webp",
+      "baseImage": "meeting-room",
+      "overlay": "rain",
+      "fallback": "linear-gradient(180deg, #8d9db0 0%, #b9c4cf 55%, #d7d2c8 100%)"
+    },
+    "winter-camp": {
+      "label": "冬合宿会場",
+      "file": "winter-camp.webp",
+      "fallback": "linear-gradient(180deg, #e3edf7 0%, #f7f3ee 60%, #dcd0bf 100%)"
+    },
+    "exam-room": {
+      "label": "リアル入試の試験室",
+      "file": "exam-room.webp",
+      "fallback": "linear-gradient(180deg, #dfe6ee 0%, #eef1f4 60%, #c9ced6 100%)"
+    },
+    "classroom-winter": {
+      "label": "冬の教室",
+      "file": "classroom-winter.webp",
+      "fallback": "linear-gradient(180deg, #dbe8f5 0%, #f5f8fb 55%, #d9d3c7 100%)"
+    },
+    "classroom-sakura": {
+      "label": "満開の桜が見える春の教室",
+      "file": "classroom-sakura.webp",
+      "fallback": "linear-gradient(180deg, #f9c5d5 0%, #fde2e4 50%, #f7d9b9 100%)"
+    }
+  },
+  "bgm": {
+    "credit": {
+      "site": "BGMer",
+      "url": "https://bgmer.net/",
+      "note": "BGMer のフリーBGM（SHORT版）を使用しています。"
+    },
+    "tracks": {
+      "daily": {
+        "title": "かのうせいのかたまり",
+        "file": "daily.mp3",
+        "use": "普段の教室、明るい日常",
+        "duration": 87.026,
+        "loopStart": 0,
+        "loopEnd": 87.026
+      },
+      "friendship": {
+        "title": "きみは相棒",
+        "file": "friendship.mp3",
+        "use": "努力、仲間、前向きな会話",
+        "duration": 106.108,
+        "loopStart": 0,
+        "loopEnd": 106.108
+      },
+      "sad": {
+        "title": "涙の結晶",
+        "file": "sad.mp3",
+        "use": "落ち込み、不安、挫折",
+        "duration": 107.269,
+        "loopStart": 0,
+        "loopEnd": 107.269
+      },
+      "growth": {
+        "title": "きみはやりとげた",
+        "file": "growth.mp3",
+        "use": "成長、励まし、達成感",
+        "duration": 112.666,
+        "loopStart": 0,
+        "loopEnd": 112.666
+      },
+      "exam": {
+        "title": "漢太鼓",
+        "file": "exam.mp3",
+        "use": "リアル入試、緊張感",
+        "duration": 134.961,
+        "loopStart": 0,
+        "loopEnd": 134.961
+      },
+      "congratulations": {
+        "title": "こもれびの手紙",
+        "file": "congratulations.mp3",
+        "use": "合格報告、感動",
+        "duration": 103.912,
+        "loopStart": 0,
+        "loopEnd": 103.912
+      },
+      "ending": {
+        "title": "僕らのエピローグ",
+        "file": "ending.mp3",
+        "use": "最終話エンディング",
+        "duration": 117.294,
+        "loopStart": 0,
+        "loopEnd": 117.294
+      }
+    }
+  },
+  "ending": {
+    "messages": [
+      "間違いは、できるようになるための第一歩。",
+      "あなたの赤ペンが、誰かの未来を変える。"
+    ],
+    "theEnd": "― THE END ―"
+  }
+}

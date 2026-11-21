@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "no": 10,
+  "month": 1,
+  "title": "自分を信じる練習",
+  "required": 400,
+  "scenes": [
+    {
+      "id": "newyear",
+      "background": "classroom-winter",
+      "bgm": "friendship",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "1月。新しい年。教室の机には、過去問集が積まれている。"
+        },
+        {
+          "speaker": "kei",
+          "text": "{teacher}、あけましておめでとうございます！ 過去問、3年分終わりました！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私は2年分です。でも、点数は少しずつ上がってきました。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "2人とも、本当によく伸びたね。"
+        }
+      ]
+    },
+    {
+      "id": "worry",
+      "label": "不安な気持ち",
+      "background": "classroom-winter",
+      "bgm": "sad",
+      "lines": [
+        {
+          "speaker": "shiho",
+          "text": "……でも、{teacher}。本番で、また頭が真っ白になったらどうしようって。夜、ねむれないことがあるんです。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレも……。新しい問題集を買ったんだけど、解けない問題ばっかりで、不安になって。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "話してくれてありがとう。入試の前に不安になるのは、本気でがんばってきた人なら当たり前のことだよ。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "{kei}くん、この時期に新しい問題を増やしすぎると、できないところばかり目について、不安が大きくなるんだ。"
+        },
+        {
+          "speaker": "kei",
+          "text": "じゃあ、どうすれば……。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "今までの間違いノートを、もう一度解き直そう。そこには、2人が1年かけて乗りこえてきた問題がつまっている。"
+        }
+      ]
+    },
+    {
+      "id": "notebook",
+      "background": "classroom-winter",
+      "bgm": "friendship",
+      "lines": [
+        {
+          "speaker": "shiho",
+          "text": "間違いノート……。もう4冊目です。"
+        },
+        {
+          "speaker": "kei",
+          "text": "オレは3冊！ ……最初のページ、字がきたなすぎる（笑）。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "解き直して、「できる」を1つずつ確かめていこう。それが、自信になるんだ。"
+        },
+        {
+          "speaker": "shiho",
+          "text": "自信って、気持ちだけじゃなくて……練習で育てるものなんですね。"
+        },
+        {
+          "speaker": "teacher",
+          "text": "そのとおり。「自分を信じる練習」だね。"
+        },
+        {
+          "speaker": "kei",
+          "text": "よし、今日は1冊目から全部やり直す！"
+        },
+        {
+          "speaker": "shiho",
+          "text": "私も。……1冊目の最初の問題、今ならすぐに解けます。"
+        },
+        {
+          "speaker": "narration",
+          "text": "ページをめくるたびに、1年分の努力が見えた。"
+        }
+      ]
+    }
+  ]
+}
