@@ -269,6 +269,60 @@ test('[19] 再挑戦（同じ条件で新しいセッション）は状態がリ
   eq([...ids(a)].sort().join(), [...ids(b)].sort().join(), '出題される問題の集合は同じ');
 });
 
+// ---------------------------------------------------------------- カテゴリ
+const S = require('../js/lib/question-schema.js');
+test('[カテゴリ 1] 単元ごとのカテゴリ一覧が、定義の順に正しく出る（問題数つき）', () => {
+  const names = (unit) => G.listCategories(questions, unit, S.UNITS[unit].categories).map((c) => `${c.name}:${c.count}`).join(',');
+  eq(names('positive-negative'), '加法・減法:3,乗法・除法:2,累乗:2,四則混合:3');
+  eq(names('expressions'), '文字式の表し方:1,式の値:2,同類項の計算:3,分配法則など:4');
+  eq(names('equation'), '移項:3,かっこを含む方程式:2,小数を含む方程式:2,分数を含む方程式:3');
+});
+test('[カテゴリ] 定義にないカテゴリや、定義がまだ空の単元（中2・中3）でも、問題データから一覧になる', () => {
+  const extra = [...questions, { ...questions[0], id: 'J1-PN-9998', category: '新しいカテゴリ' }];
+  const list = G.listCategories(extra, 'positive-negative', S.UNITS['positive-negative'].categories).map((c) => c.name);
+  eq(list[list.length - 1], '新しいカテゴリ', '定義にないカテゴリは後ろに付く');
+  const future = [{ ...questions[0], id: 'J2-PO-0001', unit: 'polynomials', grade: 2, category: '単項式の乗除' }];
+  eq(G.listCategories(future, 'polynomials', S.UNITS.polynomials.categories).map((c) => c.name).join(), '単項式の乗除');
+});
+test('[カテゴリ 8] 出題対象はカテゴリと難易度の両方に一致する（それぞれの中は OR、両者は AND）', () => {
+  const s = session({ unit: 'positive-negative', categories: ['加法・減法', '累乗'], difficulties: [2, 3], count: 'all' });
+  const expected = questions.filter((q) => q.unit === 'positive-negative' && ['加法・減法', '累乗'].includes(q.category) && [2, 3].includes(q.difficulty));
+  eq(s.total, expected.length, '問題数');
+  assert(s.questions.every((q) => ['加法・減法', '累乗'].includes(q.category) && [2, 3].includes(q.difficulty)), '条件に合わない問題が出た');
+  eq([...ids(s)].sort().join(), expected.map((q) => q.id).sort().join());
+});
+test('[カテゴリ] カテゴリ条件を渡さない・空のときは、すべてのカテゴリが対象（既存の呼び出しと互換）', () => {
+  eq(G.filterPool(questions, { unit: 'expressions', difficulties: [1, 2, 3, 4] }).length, 10);
+  eq(G.filterPool(questions, { unit: 'expressions', categories: [], difficulties: [1, 2, 3, 4] }).length, 10);
+  eq(session({ unit: 'expressions', count: 'all' }).config.categories, null, 'config.categories');
+});
+test('[カテゴリ 9] カテゴリでしぼると出題できる最大数が変わる（累乗だけ → 2問）', () => {
+  eq(G.filterPool(questions, { unit: 'positive-negative', categories: ['累乗'] }).length, 2);
+  eq(session({ unit: 'positive-negative', categories: ['累乗'], count: 10 }).total, 2, '10問を指定しても2問');
+});
+test('[カテゴリ 10] 条件に合う問題が0問なら開始できない', () => {
+  // 正負の数の累乗には★★★★の問題がない
+  throws(() => session({ unit: 'positive-negative', categories: ['累乗'], difficulties: [4], count: 5 }), RangeError);
+  throws(() => session({ unit: 'positive-negative', categories: ['ないカテゴリ'], count: 5 }), RangeError);
+});
+test('[カテゴリ 12・14] カテゴリでしぼっても重複しない。同じ seed なら同じ順番', () => {
+  const cfg = { unit: 'equation', categories: ['移項', '分数を含む方程式'], difficulties: [1, 2, 3, 4], count: 'all' };
+  for (let seed = 1; seed <= 100; seed++) {
+    const s = session(cfg, seed);
+    eq(new Set(ids(s)).size, s.total, `seed=${seed}`);
+    eq(s.total, 6);
+  }
+  eq(ids(session(cfg, 7)).join(), ids(session(cfg, 7)).join());
+});
+test('[カテゴリ 13] 再挑戦（同じ条件で新しいセッション）でもカテゴリ条件が保たれる', () => {
+  const rng = G.createRng(5);
+  const cfg = { unit: 'expressions', categories: ['同類項の計算', '式の値'], difficulties: [1, 2, 3], count: 'all' };
+  const a = new G.TrainingSession(questions, cfg, rng);
+  const b = new G.TrainingSession(questions, a.config, rng);
+  eq(JSON.stringify(b.config), JSON.stringify(a.config));
+  assert(b.questions.every((q) => ['同類項の計算', '式の値'].includes(q.category)), 'カテゴリ外の問題');
+});
+
 // ---------------------------------------------------------------- データ不整合
 test('データに不整合がある問題は採点せずにエラーにする', () => {
   const broken = { ...questions[0], errorLine: 99 };

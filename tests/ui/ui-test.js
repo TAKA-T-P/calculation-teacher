@@ -54,9 +54,16 @@
     await load(`../../index.html?seed=${seed}`);
     await waitFor(() => w.__calcTeacher && app().ready, 'データ読み込み');
   }
-  async function configure({ unit, difficulties, count }) {
+  async function configure({ unit, categories, difficulties, count }) {
     if (!visible('settings')) await click('[data-action="go-settings"]');
     await click(`[data-action="select-unit"][data-unit="${unit}"]`);
+    // カテゴリ：まず全部選び、指定があればすべて解除してから指定のカテゴリだけ選ぶ
+    const catBulk = () => $('[data-action="toggle-category-all"]');
+    if (catBulk().textContent.includes('すべて選択')) await click(catBulk());
+    if (categories) {
+      await click(catBulk());
+      for (const name of categories) await click(catChip(name));
+    }
     const bulk = () => $('[data-action="toggle-difficulty"][data-difficulty="all"]');
     if (bulk().textContent.includes('すべて選択')) await click(bulk()); // まず全部選ぶ
     if (difficulties) {
@@ -65,6 +72,8 @@
     }
     await setCountTo(count);
   }
+  const catChip = (name) => $$('[data-action="toggle-category"]').find((b) => b.querySelector('.cat-chip__name').textContent === name);
+  const catPressed = () => $$('[data-action="toggle-category"]').filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.querySelector('.cat-chip__name').textContent);
   // 問題数のスライダーを動かす（'all' は最大）
   async function setCountTo(count) {
     const range = $('#count-range');
@@ -219,6 +228,102 @@
     check(range.max === '4' && range.value === '4' && $('#count-value').textContent === '4問', `★★★だけの最大 ${range.max} / ${range.value}`);
     await click('[data-difficulty="all"]'); // すべて選択に戻す
     await setCountTo(5);
+  });
+
+  // ================================================================ カテゴリ選択
+  const EXPECTED_CATS = {
+    'positive-negative': ['加法・減法', '乗法・除法', '累乗', '四則混合'],
+    expressions: ['文字式の表し方', '式の値', '同類項の計算', '分配法則など'],
+    equation: ['移項', 'かっこを含む方程式', '小数を含む方程式', '分数を含む方程式'],
+  };
+  const catBulkText = () => $('[data-action="toggle-category-all"]').textContent.trim();
+
+  await test('[カテゴリ 1・2・6] 単元ごとに正しいカテゴリが出て、最初はすべて選択。単元を変えると新しい単元のカテゴリがすべて選択になる', async () => {
+    if (!visible('settings')) await click('[data-action="go-settings"]');
+    const order = [...$('[data-screen="settings"]').querySelectorAll('.setting__label')].map((l) => l.textContent.trim().slice(0, 4));
+    check(order.join() === '単元をえ,カテゴリ,難易度を,問題数', `項目の順番: ${order}`);
+    for (const unit of ['positive-negative', 'expressions', 'equation']) {
+      await click(`[data-action="select-unit"][data-unit="${unit}"]`);
+      const names = $$('[data-action="toggle-category"] .cat-chip__name').map((n) => n.textContent);
+      check(names.join() === EXPECTED_CATS[unit].join(), `${unit} のカテゴリ: ${names}`);
+      check(catPressed().join() === EXPECTED_CATS[unit].join(), `${unit} の初期選択: ${catPressed()}`);
+      check(catBulkText() === 'すべて解除', `${unit} のボタン表示: ${catBulkText()}`);
+    }
+    // 正負の数で一部を外してから単元を変えて戻ると、すべて選択に戻る（前の選択を引き継がない）
+    await click('[data-action="select-unit"][data-unit="positive-negative"]');
+    await click(catChip('累乗'));
+    await click('[data-action="select-unit"][data-unit="equation"]');
+    check(catPressed().length === 4, `方程式に切り替えたあと: ${catPressed()}`);
+    await click(catChip('移項'));
+    await click('[data-action="select-unit"][data-unit="equation"]'); // 同じ単元を押し直しても選択は保つ
+    check(catPressed().join() === 'かっこを含む方程式,小数を含む方程式,分数を含む方程式', `同じ単元を押し直したあと: ${catPressed()}`);
+    await click('[data-action="select-unit"][data-unit="positive-negative"]');
+    check(catPressed().join() === EXPECTED_CATS['positive-negative'].join(), `正負の数に戻したあと: ${catPressed()}`);
+  });
+
+  await test('[カテゴリ 3・4・5・7] 複数選択・個別の解除・すべて選択⇔すべて解除。1つも選ばないと開始できない', async () => {
+    await click(catChip('乗法・除法'));
+    await click(catChip('四則混合'));
+    check(catPressed().join() === '加法・減法,累乗', `2つ外したあと: ${catPressed()}`);
+    check(catBulkText() === 'すべて選択', 'すべて選ばれていないときの表示');
+    await click(catChip('四則混合'));
+    check(catPressed().join() === '加法・減法,累乗,四則混合', `選び直し: ${catPressed()}`);
+    await click('[data-action="toggle-category-all"]');
+    check(catPressed().length === 4 && catBulkText() === 'すべて解除', 'すべて選択');
+    await click('[data-action="toggle-category-all"]');
+    check(catPressed().length === 0 && catBulkText() === 'すべて選択', 'すべて解除');
+    check($('#start-btn').disabled && $('#count-range').disabled, '0個で開始できてしまう');
+    check($('#setting-summary').textContent.includes('カテゴリを1つ以上'), `メッセージ: ${$('#setting-summary').textContent}`);
+    await click('[data-action="toggle-category-all"]');
+  });
+
+  await test('[カテゴリ 9・10・11] スライダーの最大がカテゴリで変わり、希望問題数は保持される。0問なら開始できない', async () => {
+    await configure({ unit: 'positive-negative', count: 5 });
+    await click('[data-action="toggle-category-all"]'); // すべて解除
+    await click(catChip('累乗'));
+    check($('#count-range').max === '2' && $('#count-value').textContent === '2問', `累乗だけの最大 ${$('#count-range').max} / ${$('#count-value').textContent}`);
+    check($('#setting-summary').textContent.includes('出題できる問題：2問'), $('#setting-summary').textContent);
+    await click(catChip('加法・減法'));
+    check($('#count-range').max === '5' && $('#count-value').textContent === '5問', `加法・減法を足したあと ${$('#count-range').max} / ${$('#count-value').textContent}`);
+    await click('[data-action="toggle-category-all"]');
+    check($('#count-range').max === '10' && $('#count-value').textContent === '5問', '希望の5問に戻らない');
+    // 累乗 × ★★★★ は0問
+    await configure({ unit: 'positive-negative', categories: ['累乗'], difficulties: [4], count: 5 });
+    check($('#start-btn').disabled && $('#count-range').disabled && $('#count-value').textContent === '0問', '0問なのに開始できる');
+    check($('#setting-summary').textContent.includes('出題できる問題がありません'), `メッセージ: ${$('#setting-summary').textContent}`);
+  });
+
+  await test('[カテゴリ 8・12・13] 出題はカテゴリと難易度の両方に一致し、重複しない。再挑戦・単元選択に戻るで設定が引き継がれる', async () => {
+    const cats = ['加法・減法', '累乗'];
+    await configure({ unit: 'positive-negative', categories: cats, difficulties: [2, 3], count: 'all' });
+    const expected = app().questions.filter((q) => q.unit === 'positive-negative' && cats.includes(q.category) && [2, 3].includes(q.difficulty)).map((q) => q.id).sort();
+    check($('#count-range').max === String(expected.length), `最大 ${$('#count-range').max} / ${expected.length}`);
+    await click('#start-btn');
+    const s = app().session;
+    check(s.questionIds.slice().sort().join() === expected.join(), `出題: ${s.questionIds}`);
+    check(new Set(s.questionIds).size === s.total, '重複');
+    while (!s.finished) { await answer(true); await click('[data-action="next"]'); }
+    await click('[data-action="retry"]');
+    const s2 = app().session;
+    check(JSON.stringify(s2.config.categories) === JSON.stringify(cats.slice().sort()) && s2.config.difficulties.join() === '2,3', `再挑戦の条件 ${JSON.stringify(s2.config)}`);
+    check(s2.questionIds.slice().sort().join() === expected.join(), '再挑戦の出題');
+    while (!s2.finished) { await answer(true); await click('[data-action="next"]'); }
+    await click('.summary-actions [data-action="go-settings"]');
+    check(catPressed().join() === cats.join(), `単元選択に戻ったあとのカテゴリ: ${catPressed()}`);
+    check($$('[data-action="toggle-difficulty"]').filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.difficulty).join() === '2,3', '難易度が引き継がれていない');
+  });
+
+  await test('[カテゴリ 16] カテゴリの選択・解除で設定の操作音が鳴り、効果音 OFF では鳴らない', async () => {
+    const S2 = w.Sound;
+    S2.debug.clearLog(); S2.debug.resetThrottle();
+    await click(catChip('累乗'));
+    check(S2.debug.log.filter((e) => e.played).map((e) => e.name).join() === 'tap', `カテゴリの操作音: ${S2.debug.log.map((e) => e.name)}`);
+    S2.setEnabled(false);
+    S2.debug.clearLog(); S2.debug.resetThrottle();
+    await click(catChip('累乗'));
+    await click('[data-action="toggle-category-all"]');
+    check(S2.debug.log.length > 0 && S2.debug.log.every((e) => !e.played && e.reason === 'off'), 'OFF なのに鳴った');
+    S2.setEnabled(true);
   });
 
   await test('[5] 条件に合う問題が少ないときは、スライダーの最大がその数になり、その数だけ出題する', async () => {

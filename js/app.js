@@ -25,7 +25,8 @@
     units: [],          // manifest の単元（label, grade, unit, questions）
     questions: [],      // 全問題
     invalidIds: [],     // 出題できない（データ不整合の）問題
-    config: { unit: null, difficulties: new Set(G.DIFFICULTIES), count: G.DEFAULT_COUNT },
+    // 出題条件。トレーニングの設定画面で選ぶ。再挑戦・「単元選択に戻る」でもそのまま引き継ぐ
+    config: { unit: null, categories: new Set(), difficulties: new Set(G.DIFFICULTIES), count: G.DEFAULT_COUNT },
     session: null,
     retryBase: null,    // 結果画面から1問解き直しているときの、元のトレーニング
     retryIndex: null,
@@ -66,6 +67,7 @@
       app.invalidIds = data.questions.filter((q) => G.validateForPlay(q).length).map((q) => (q && q.id) || '(id なし)');
       if (app.invalidIds.length) console.error('出題できない問題があります（データ不整合）:', app.invalidIds);
       app.config.unit = app.units.length ? app.units[0].unit : null;
+      app.config.categories = new Set(availableCategories().map((c) => c.name)); // 最初はすべてのカテゴリ
       app.ready = true;
       setLoadStatus('');
     } catch (e) {
@@ -144,6 +146,8 @@
         show('settings');
         break;
       case 'select-unit': sfx('tap'); selectUnit(el.dataset.unit); break;
+      case 'toggle-category': sfx('tap'); toggleCategory(Number(el.dataset.index)); break;
+      case 'toggle-category-all': sfx('tap'); toggleAllCategories(); break;
       case 'toggle-difficulty': sfx('tap'); toggleDifficulty(el.dataset.difficulty); break;
       case 'count-minus': sfx('tap'); setCount(effectiveCount(selectedPool().length) - 1); break;
       case 'count-plus': sfx('tap'); setCount(effectiveCount(selectedPool().length) + 1); break;
@@ -365,12 +369,43 @@
   }
 
   function selectUnit(unit) {
+    if (unit === app.config.unit) { renderSettings(); return; } // 同じ単元を押し直したときは、選択をそのまま保つ
     app.config.unit = unit;
-    // 新しい単元に存在しない難易度は選択から外す。何も残らなければ「おまかせ」にする。
+    // カテゴリは単元ごとに違うので、新しい単元のカテゴリをすべて選んだ状態にする（前の単元の選択は引き継がない）
+    app.config.categories = new Set(availableCategories().map((c) => c.name));
+    // 新しい単元に存在しない難易度は選択から外す。何も残らなければすべて選ぶ。
     const { list } = availableDifficulties();
     const kept = [...app.config.difficulties].filter((d) => list.includes(d));
     app.config.difficulties = new Set(kept.length ? kept : list);
     renderSettings();
+  }
+
+  // ---------- カテゴリ
+  // 一覧は question-schema.js の定義と問題データの category から作る（画面には固定で書かない）
+  function availableCategories() {
+    const def = S.UNITS[app.config.unit];
+    return G.listCategories(app.questions, app.config.unit, def ? def.categories : []);
+  }
+
+  // カテゴリは1つずつ自由に選択・解除できる。「すべて選択」「すべて解除」の動きは難易度と同じ
+  function toggleCategory(index) {
+    const cat = availableCategories()[index];
+    if (!cat) return;
+    const set = app.config.categories;
+    if (set.has(cat.name)) set.delete(cat.name);
+    else set.add(cat.name);
+    renderSettings();
+  }
+
+  function toggleAllCategories() {
+    const list = availableCategories().map((c) => c.name);
+    app.config.categories = allCategoriesSelected() ? new Set() : new Set(list);
+    renderSettings();
+  }
+
+  function allCategoriesSelected() {
+    const list = availableCategories();
+    return list.length > 0 && list.every((c) => app.config.categories.has(c.name));
   }
 
   // 難易度は1つずつ自由に選択・解除できる。「すべて選択」「すべて解除」でまとめて切り替える
@@ -426,16 +461,41 @@
     document.querySelector('[data-action="count-plus"]').disabled = !max || n >= max;
   }
 
+  /** 画面で選んだ出題条件（game.js の filterPool・TrainingSession にそのまま渡せる形） */
+  function selectedCriteria() {
+    return {
+      unit: app.config.unit,
+      categories: [...app.config.categories],
+      difficulties: [...app.config.difficulties],
+    };
+  }
+
   function selectedPool() {
-    // 設定画面では「難易度を1つも選んでいない」＝出題なし（game.js の「空＝おまかせ」とは区別する）
-    if (app.config.difficulties.size === 0) return [];
-    return G.filterPool(app.questions, { unit: app.config.unit, difficulties: [...app.config.difficulties] });
+    // 設定画面では「カテゴリ／難易度を1つも選んでいない」＝出題なし（game.js の「空＝すべて」とは区別する）
+    if (app.config.categories.size === 0 || app.config.difficulties.size === 0) return [];
+    return G.filterPool(app.questions, selectedCriteria());
   }
 
   function renderSettings() {
     const { counts, list } = availableDifficulties();
     // 選択中の難易度のうち、この単元にないものは外しておく
     app.config.difficulties = new Set([...app.config.difficulties].filter((d) => list.includes(d)));
+    // 選択中のカテゴリのうち、この単元にないものは外しておく
+    const cats = availableCategories();
+    app.config.categories = new Set([...app.config.categories].filter((name) => cats.some((c) => c.name === name)));
+
+    // カテゴリ：タップで選択・解除。ボタンに出す問題数は単元全体での数
+    $('#category-list').innerHTML = cats.map((c, i) => {
+      const on = app.config.categories.has(c.name);
+      return `<button type="button" class="cat-chip${on ? ' is-selected' : ''}" aria-pressed="${on}"
+          data-action="toggle-category" data-index="${i}" aria-label="${esc(c.name)}（${c.count}問）">
+          <span class="cat-chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
+          <span class="cat-chip__name">${esc(c.name)}</span>
+          <span class="cat-chip__count">${c.count}問</span>
+        </button>`;
+    }).join('');
+    $('#category-bulk').innerHTML = `<button type="button" class="chip chip--bulk" data-action="toggle-category-all"
+        ${cats.length ? '' : 'disabled'}>${allCategoriesSelected() ? 'すべて解除' : 'すべて選択'}</button>`;
 
     $('#unit-list').innerHTML = app.units.map((u) => {
       const on = u.unit === app.config.unit;
@@ -473,8 +533,9 @@
     const pool = selectedPool();
     const summaryEl = $('#setting-summary');
     let text;
-    if (app.config.difficulties.size === 0) text = '難易度を1つ以上えらんでね。';
-    else if (pool.length === 0) text = 'この条件で出題できる問題がありません。';
+    if (app.config.categories.size === 0) text = 'カテゴリを1つ以上えらんでね。';
+    else if (app.config.difficulties.size === 0) text = '難易度を1つ以上えらんでね。';
+    else if (pool.length === 0) text = 'この条件で出題できる問題がありません。カテゴリや難易度を変えてみよう。';
     else text = `出題できる問題：<strong>${pool.length}問</strong> → 今回は <strong>${effectiveCount(pool.length)}問</strong> 出題します。`;
     const unit = currentUnit();
     const invalidHere = app.questions.filter((q) => q && unit && q.unit === unit.unit && G.validateForPlay(q).length).length;
@@ -490,8 +551,7 @@
     if (!pool.length) return;
     try {
       app.session = new G.TrainingSession(app.questions, {
-        unit: app.config.unit,
-        difficulties: [...app.config.difficulties],
+        ...selectedCriteria(),
         count: effectiveCount(pool.length),
       }, rng);
     } catch (e) {

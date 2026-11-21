@@ -366,6 +366,38 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .chip.is-selected { border-color: var(--primary); background: var(--primary-weak); box-shadow: 0 0 0 1px var(--primary) inset; }
 .chip:disabled { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
 
+/* ---------- カテゴリ（スマホでは2列。カテゴリが増えても折り返して並ぶ） */
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.cat-chip {
+  display: grid;
+  grid-template-columns: 1.1em minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 6px 12px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.cat-chip:hover { border-color: var(--primary); }
+.cat-chip__check { color: var(--primary); }
+.cat-chip__name { overflow-wrap: anywhere; line-height: 1.35; } /* 長い名前も見切れず折り返す */
+.cat-chip__count { font-weight: 400; color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.cat-chip.is-selected { border-color: var(--primary); background: var(--primary-weak); box-shadow: 0 0 0 1px var(--primary) inset; }
+.category-bulk { margin-top: 8px; }
+@media (max-width: 480px) {
+  .category-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cat-chip { padding: 6px 8px; font-size: .92rem; }
+}
+
 /* 「すべて選択」／「すべて解除」 */
 .chip--bulk { border-style: dashed; color: var(--primary); }
 

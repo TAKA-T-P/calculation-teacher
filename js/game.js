@@ -68,10 +68,36 @@
   }
 
   // ------------------------------------------------------------ 出題対象
-  /** 単元・難易度で絞り込む（出題できない問題は除く） */
-  function filterPool(questions, { unit, difficulties }) {
+  /*
+   * 出題条件（criteria）は { unit, categories, difficulties } の形で表す。
+   *  - unit         : 単元ID（必須）
+   *  - categories   : カテゴリ名の配列。省略・空なら、その単元のすべてのカテゴリ
+   *  - difficulties : 難易度の配列。省略・空なら、すべての難易度
+   * カテゴリどうし・難易度どうしは「または（OR）」、カテゴリと難易度の間は「かつ（AND）」。
+   * トレーニングでは生徒が画面で選んだ条件を、将来の認定試験などでは試験側が決めた条件を、同じ形で渡せる。
+   */
+  function filterPool(questions, { unit, categories, difficulties }) {
     const diffs = new Set(difficulties && difficulties.length ? difficulties : DIFFICULTIES);
-    return questions.filter((q) => q && q.unit === unit && diffs.has(q.difficulty) && validateForPlay(q).length === 0);
+    const cats = categories && categories.length ? new Set(categories) : null; // null = すべてのカテゴリ
+    return questions.filter((q) => q && q.unit === unit && diffs.has(q.difficulty) &&
+      (!cats || cats.has(q.category)) && validateForPlay(q).length === 0);
+  }
+
+  /**
+   * 単元のカテゴリ一覧（出題できる問題があるもの）。
+   * schemaCategories（question-schema.js の定義）の順に並べ、定義にないが問題データにあるカテゴリは後ろに足す。
+   * 戻り値: [{ name, count }]
+   */
+  function listCategories(questions, unit, schemaCategories) {
+    const counts = new Map();
+    questions.forEach((q) => {
+      if (q && q.unit === unit && typeof q.category === 'string' && validateForPlay(q).length === 0) {
+        counts.set(q.category, (counts.get(q.category) || 0) + 1);
+      }
+    });
+    const ordered = (schemaCategories || []).filter((c) => counts.has(c));
+    const extra = [...counts.keys()].filter((c) => !ordered.includes(c));
+    return [...ordered, ...extra].map((name) => ({ name, count: counts.get(name) }));
   }
 
   /** 単元内で、難易度ごとに出題できる問題数 */
@@ -117,6 +143,8 @@
     constructor(questions, config, rng = Math.random) {
       this.config = {
         unit: config.unit,
+        // null = すべてのカテゴリ（カテゴリ条件を渡さない既存の呼び出しとの互換）
+        categories: config.categories && config.categories.length ? config.categories.slice().sort() : null,
         difficulties: (config.difficulties && config.difficulties.length ? config.difficulties : DIFFICULTIES).slice().sort(),
         count: config.count === undefined ? DEFAULT_COUNT : config.count,
       };
@@ -226,6 +254,6 @@
   return {
     DIFFICULTIES, COUNT_OPTIONS, DEFAULT_COUNT,
     GameDataError, TrainingSession,
-    createRng, shuffle, validateForPlay, filterPool, countByDifficulty, resolveCount, grade, evaluationComment,
+    createRng, shuffle, validateForPlay, filterPool, listCategories, countByDifficulty, resolveCount, grade, evaluationComment,
   };
 });
