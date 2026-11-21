@@ -16,6 +16,11 @@
 
   // 答案の各行が等式（方程式）になる単元。それ以外は「式の計算」として表示を調整する
   const EQUATION_UNITS = new Set(['equation', 'simultaneous-equations', 'quadratic-equations']);
+  /** 「＝」をそろえるまとまりのクラス。中2・中3の方程式は、そろえると収まらないとき左詰めにできる（eq-group--loose） */
+  function eqGroupClass(q) {
+    if (!EQUATION_UNITS.has(q.unit)) return '';
+    return q.unit === 'equation' ? ' eq-group' : ' eq-group eq-group--loose';
+  }
 
   const params = new URLSearchParams(location.search);
   const rng = G.createRng(params.get('seed'));
@@ -857,7 +862,7 @@
         <div class="paper__answer">
           <p class="paper__guide"><span class="label-badge label-badge--student">生徒の答案</span>
             <span>最初に間違えた行をタップ！</span></p>
-          <ol class="sheet${alignEq ? ' eq-group' : ''}" id="sheet">${rows}</ol>
+          <ol class="sheet${eqGroupClass(q)}" id="sheet">${rows}</ol>
           <div class="all-correct-wrap">
             <div class="choice-bar">
               <button type="button" class="btn-all-correct" id="all-correct-btn" data-action="select-all-correct" aria-pressed="false">
@@ -1022,7 +1027,7 @@
       </section>
       <section class="feedback__section">
         <h3 class="feedback__title">${solutionTitle}</h3>
-        <ol class="solution${indentFirst ? '' : ' eq-group'}">${solution}</ol>
+        <ol class="solution${eqGroupClass(q)}">${solution}</ol>
         <button type="button" class="btn btn--secondary btn--compare" data-action="compare-open">
           <span aria-hidden="true">⇆</span> 生徒の答案と並べて表示
         </button>
@@ -1121,8 +1126,15 @@
     return u ? unitLabel(u) : unitId;
   }
 
+  /** 単元を学年ごとに分けて並べる（manifest に単元を足すと、その学年の見出しの下に自動で入る） */
+  function byGradeHtml(renderUnit) {
+    const grades = [...new Set(app.units.map((u) => u.grade))].sort((a, b) => a - b);
+    return grades.map((g) => `<p class="unit-grade-label" role="presentation">中学${g}年生</p>`
+      + app.units.filter((u) => u.grade === g).map(renderUnit).join('')).join('');
+  }
+
   function unitCardsHtml(selectedUnit, action, extra) {
-    return app.units.map((u) => {
+    return byGradeHtml((u) => {
       const on = u.unit === selectedUnit;
       return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}"
           data-action="${action}" data-unit="${esc(u.unit)}">
@@ -1131,7 +1143,7 @@
           <span class="unit-card__count">${extra ? extra(u) : ''}</span>
           <span class="unit-card__check" aria-hidden="true">${on ? '✔' : ''}</span>
         </button>`;
-    }).join('');
+    });
   }
 
   /** カテゴリのボタン（トレーニング・カスタムタイムアタック共通） */
@@ -1237,12 +1249,12 @@
       <p class="paper__instruction">${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
       <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
       <h3 class="feedback__title">生徒の答案</h3>
-      <ol class="solution${isEq ? ' eq-group' : ''}">${lines}</ol>
+      <ol class="solution${eqGroupClass(q)}">${lines}</ol>
       ${allCorrectNote}
       <h3 class="feedback__title">${q.errorLine === null ? '計算のポイント' : 'まちがいの理由'}${q.errorType ? `<span class="error-type">${esc(q.errorType)}</span>` : ''}</h3>
       <p class="feedback__text">${R.richTextHtml(q.explanation)}</p>
       <h3 class="feedback__title">正しい計算過程</h3>
-      <ol class="solution${isEq ? ' eq-group' : ''}">${solution}</ol>`;
+      <ol class="solution${eqGroupClass(q)}">${solution}</ol>`;
     const d = $('#explain-dialog');
     if (!d.open) d.showModal();
     $('#explain-body').scrollTop = 0;
@@ -1466,7 +1478,7 @@
           <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
         </div>
         <div class="paper__answer">
-          <ol class="sheet${isEq ? ' eq-group' : ''}">${rows}</ol>
+          <ol class="sheet${eqGroupClass(q)}">${rows}</ol>
           <div class="all-correct-wrap">
             <button type="button" class="btn-all-correct btn-all-correct--wide" data-action="ta-answer" data-index="all">
               <span class="btn-all-correct__mark" aria-hidden="true">○</span> 全部正しい！
@@ -1615,7 +1627,7 @@
   }
 
   function renderCertUnits() {
-    $('#cert-unit-list').innerHTML = app.units.map((u) => {
+    $('#cert-unit-list').innerHTML = byGradeHtml((u) => {
       const c = records.certFor(u.unit);
       const rank = C.rankFor(c.highestCleared);
       const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
@@ -1628,7 +1640,7 @@
           </span>
           <span class="cert-unit__arrow" aria-hidden="true">›</span>
         </button>`;
-    }).join('');
+    });
   }
 
   function renderCertList(message) {
@@ -1830,6 +1842,8 @@
    * 「=」がちょうど1つでなければ null（そろえずに通常の表示にする）。
    */
   function splitEquation(latex) {
+    // 連立方程式のまとまり（cases・array）は1つの式として表示する（「+)」の「)」などで分割を誤らないように）
+    if (latex.includes('\\begin')) return null;
     let depth = 0;
     const at = [];
     for (let i = 0; i < latex.length; i++) {
@@ -1879,8 +1893,18 @@
     setAll('--eq-lhs-w', 'auto');
     const need = width('.eq-lhs') + width('.eq-op') + width('.eq-rhs') + 2;
     const avail = Math.min(...boxes.map((b) => b.clientWidth));
-    const scale = need > avail ? Math.max(0.7, Math.floor((avail / need) * 100) / 100) : 1;
-    setAll('--eq-scale', String(scale));
+    const fitScale = (n) => (n > avail ? Math.max(0.7, Math.floor((avail / n) * 100) / 100) : 1);
+    if (need > avail && lines[0].closest('.eq-group--loose')) {
+      // 中2・中3の方程式：「＝」をそろえると枠に収まらず縮める必要があるとき（例：長い左辺の式の行と、
+      // 「x=」で始まる解の公式の行）、そろえないほうが大きく表示できるなら、そろえるのをやめて各行を左詰めにする
+      const longest = Math.max(...lines.map((el) => el.scrollWidth)) + 2;
+      if (fitScale(longest) > fitScale(need) || need * 0.7 > avail) {
+        setAll('--eq-scale', String(fitScale(longest)));
+        boxes.forEach((b) => b.classList.toggle('is-scrollable', b.scrollWidth > b.clientWidth + 1));
+        return;
+      }
+    }
+    setAll('--eq-scale', String(fitScale(need)));
     setAll('--eq-lhs-w', `${Math.ceil(width('.eq-lhs'))}px`);
     boxes.forEach((b) => b.classList.toggle('is-scrollable', b.scrollWidth > b.clientWidth + 1));
   }

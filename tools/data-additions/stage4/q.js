@@ -8,10 +8,15 @@
  */
 'use strict';
 
-const UNIT_BY_CODE = { PN: 'positive-negative', EX: 'expressions', EQ: 'equation' };
+const UNIT_BY_CODE = {
+  'J1-PN': 'positive-negative', 'J1-EX': 'expressions', 'J1-EQ': 'equation',
+  'J2-PO': 'polynomials', 'J2-SE': 'simultaneous-equations',
+  'J3-EF': 'expansion-factorization', 'J3-SR': 'square-roots', 'J3-QE': 'quadratic-equations',
+};
 
 function make({ id, cat, d, instr, sub, q, a, e, type, exp, sol, hint }) {
-  const code = id.split('-')[1];
+  const code = id.split('-').slice(0, 2).join('-');
+  if (!UNIT_BY_CODE[code]) throw new Error(`${id}: 単元の記号が不明です`);
   const answerLines = [q, ...a];
   let correctSolution;
   if (sol === undefined || sol === null) {
@@ -22,7 +27,7 @@ function make({ id, cat, d, instr, sub, q, a, e, type, exp, sol, hint }) {
   } else {
     correctSolution = [q, ...sol];
   }
-  const out = { id, grade: 1, unit: UNIT_BY_CODE[code], category: cat, difficulty: d };
+  const out = { id, grade: Number(id[1]), unit: UNIT_BY_CODE[code], category: cat, difficulty: d };
   if (instr) out.instruction = instr;
   if (sub) out.substitution = sub;
   Object.assign(out, {

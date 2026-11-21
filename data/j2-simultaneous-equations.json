@@ -1,0 +1,2897 @@
+{
+  "schemaVersion": 1,
+  "grade": 2,
+  "unit": "simultaneous-equations",
+  "questions": [
+    {
+      "id": "J2-SE-0001",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}3x+y=10\\\\x+y=4\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+y=10\\\\x+y=4\\end{cases}",
+        "\\begin{array}{r}3x+y=10\\\\-)\\ x+y=4\\\\\\hline 2x=14\\end{array}",
+        "x=7",
+        "7+y=4",
+        "y=-3",
+        "x=7,\\ y=-3"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、右辺をたしてしまった誤り",
+      "explanation": "上の式から下の式をひくときは、左辺も右辺もひきます。右辺は $10-4=6$ なので、正しくは $2x=6$ です。$10+4=14$ としたところが誤りです。$y$ の項が消えるようにひいたところは正しくできています。正しく計算すると $x=3$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+y=10\\\\x+y=4\\end{cases}",
+        "\\begin{array}{r}3x+y=10\\\\-)\\ x+y=4\\\\\\hline 2x=6\\end{array}",
+        "x=3",
+        "3+y=4",
+        "y=1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "式どうしをひくとき、右辺の計算はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0002",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}2x+y=9\\\\2x-y=3\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=9\\\\2x-y=3\\end{cases}",
+        "\\begin{array}{r}2x+y=9\\\\+)\\ 2x-y=3\\\\\\hline 4x=12\\end{array}",
+        "x=3",
+        "2\\times3+y=9",
+        "y=3",
+        "x=3,\\ y=3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y$ の係数が $+1$ と $-1$ なので、2つの式をたすと $y$ が消えて $4x=12$、$x=3$ です。$x=3$ を上の式に代入して $6+y=9$、$y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=9\\\\2x-y=3\\end{cases}",
+        "\\begin{array}{r}2x+y=9\\\\+)\\ 2x-y=3\\\\\\hline 4x=12\\end{array}",
+        "x=3",
+        "2\\times3+y=9",
+        "y=3",
+        "x=3,\\ y=3"
+      ],
+      "hint": "2つの式をたすと、どの文字が消えますか？"
+    },
+    {
+      "id": "J2-SE-0003",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}x+3y=11\\\\x-2y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+3y=11\\\\x-2y=1\\end{cases}",
+        "\\begin{array}{r}x+3y=11\\\\-)\\ x-2y=1\\\\\\hline 5y=10\\end{array}",
+        "y=\\frac{1}{2}",
+        "x+3\\times\\frac{1}{2}=11",
+        "x=\\frac{19}{2}",
+        "x=\\frac{19}{2},\\ y=\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "係数でわるとき、わる数とわられる数を逆にした誤り",
+      "explanation": "$5y=10$ の両辺を $5$ でわると、$y=10\\div5=2$ です。$5\\div10$ を計算して $\\frac{1}{2}$ としたところが誤りです。2つの式をひいて $5y=10$ としたところ（$3y-(-2y)=5y$）は正しくできています。正しくは $y=2$、$x=5$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+3y=11\\\\x-2y=1\\end{cases}",
+        "\\begin{array}{r}x+3y=11\\\\-)\\ x-2y=1\\\\\\hline 5y=10\\end{array}",
+        "y=2",
+        "x+3\\times2=11",
+        "x=5",
+        "x=5,\\ y=2"
+      ],
+      "hint": "$5y=10$ の両辺を $5$ でわるとき、わられる数はどちらですか？"
+    },
+    {
+      "id": "J2-SE-0004",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}5x+2y=16\\\\3x+2y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x+2y=16\\\\3x+2y=12\\end{cases}",
+        "\\begin{array}{r}5x+2y=16\\\\-)\\ 3x+2y=12\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "2y=16+10",
+        "y=13",
+        "x=2,\\ y=13"
+      ],
+      "errorLine": 3,
+      "errorType": "代入したあと移項するときの符号ミス",
+      "explanation": "$x=2$ を上の式に代入すると $10+2y=16$ です。$10$ を右辺に移項すると $-10$ になるので、正しくは $2y=16-10=6$ です。$16+10$ としたところが誤りです。$2x=4$、$x=2$ までは正しくできています。正しくは $y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x+2y=16\\\\3x+2y=12\\end{cases}",
+        "\\begin{array}{r}5x+2y=16\\\\-)\\ 3x+2y=12\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "2y=16-10",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "hint": "$x=2$ を代入した式 $10+2y=16$ で、$10$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0005",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}7x-4y=-2\\\\3x-4y=-18\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}7x-4y=-2\\\\3x-4y=-18\\end{cases}",
+        "\\begin{array}{r}7x-4y=-2\\\\-)\\ 3x-4y=-18\\\\\\hline 4x=16\\end{array}",
+        "x=4",
+        "12-4y=-18",
+        "-4y=-6",
+        "y=\\frac{3}{2}",
+        "x=4,\\ y=\\frac{3}{2}"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数どうしの和を差で計算した誤り",
+      "explanation": "$12-4y=-18$ で $12$ を移項すると、$-4y=-18-12=-30$ です。$-18-12$ を $-6$ としたところが誤りです（負の数どうしの和は、絶対値をたします）。ひき算で $4x=16$（$-2-(-18)=16$）、$x=4$ を下の式に代入したところは正しくできています。正しくは $y=\\frac{15}{2}$ です。",
+      "correctSolution": [
+        "\\begin{cases}7x-4y=-2\\\\3x-4y=-18\\end{cases}",
+        "\\begin{array}{r}7x-4y=-2\\\\-)\\ 3x-4y=-18\\\\\\hline 4x=16\\end{array}",
+        "x=4",
+        "12-4y=-18",
+        "-4y=-30",
+        "y=\\frac{15}{2}",
+        "x=4,\\ y=\\frac{15}{2}"
+      ],
+      "hint": "$-18-12$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0006",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+2y=8\\\\3x-y=3\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+2y=8\\\\3x-y=3\\end{cases}",
+        "\\begin{array}{r}x+2y=8\\\\+)\\ 6x-2y=3\\\\\\hline 7x=11\\end{array}",
+        "x=\\frac{11}{7}",
+        "\\frac{11}{7}+2y=8",
+        "y=\\frac{45}{14}",
+        "x=\\frac{11}{7},\\ y=\\frac{45}{14}"
+      ],
+      "errorLine": 1,
+      "errorType": "式を何倍かするとき、右辺にかけ忘れた誤り",
+      "explanation": "下の式を $2$ 倍するときは、左辺だけでなく右辺にも $2$ をかけて $6x-2y=6$ にします。右辺を $3$ のままにしたところが誤りです。$y$ の係数をそろえて、たして消そうとした考え方は正しくできています。正しく計算すると $7x=14$、$x=2$、$y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+2y=8\\\\3x-y=3\\end{cases}",
+        "\\begin{array}{r}x+2y=8\\\\+)\\ 6x-2y=6\\\\\\hline 7x=14\\end{array}",
+        "x=2",
+        "2+2y=8",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "hint": "下の式を $2$ 倍した式を、右辺まで確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0007",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}2x+3y=12\\\\4x-5y=2\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+3y=12\\\\4x-5y=2\\end{cases}",
+        "\\begin{cases}4x+6y=24\\\\4x-5y=2\\end{cases}",
+        "y=22",
+        "2x+66=12",
+        "x=-27",
+        "x=-27,\\ y=22"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをひくとき、うしろの式の項の符号を変え忘れた",
+      "explanation": "$4x+6y=24$ から $4x-5y=2$ をひくと、$y$ の項は $6y-(-5y)=11y$、右辺は $24-2=22$ なので $11y=22$、$y=2$ です。$6y-5y=y$ のように、ひく式の $-5y$ の符号を変え忘れて $y=22$ としたところが誤りです。上の式を $2$ 倍したところは正しくできています。正しくは $y=2$、$x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+3y=12\\\\4x-5y=2\\end{cases}",
+        "\\begin{cases}4x+6y=24\\\\4x-5y=2\\end{cases}",
+        "11y=22",
+        "y=2",
+        "2x+6=12",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$6y-(-5y)$ はいくつですか？"
+    },
+    {
+      "id": "J2-SE-0008",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}3x+2y=4\\\\5x+3y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+2y=4\\\\5x+3y=7\\end{cases}",
+        "\\begin{array}{r}10x+6y=14\\\\-)\\ 9x+6y=12\\\\\\hline x=2\\end{array}",
+        "3\\times2+2y=4",
+        "y=-1",
+        "x=2,\\ y=-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y$ の係数を $6$ にそろえるため、下の式を $2$ 倍、上の式を $3$ 倍しています（$10x+6y=14$、$9x+6y=12$）。ひくと $x=2$ です。上の式に代入して $6+2y=4$、$y=-1$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+2y=4\\\\5x+3y=7\\end{cases}",
+        "\\begin{array}{r}10x+6y=14\\\\-)\\ 9x+6y=12\\\\\\hline x=2\\end{array}",
+        "3\\times2+2y=4",
+        "y=-1",
+        "x=2,\\ y=-1"
+      ],
+      "hint": "それぞれの式を何倍すると、$y$ の係数がそろいますか？"
+    },
+    {
+      "id": "J2-SE-0009",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}4x-3y=6\\\\3x+2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x-3y=6\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}8x-6y=12\\\\+)\\ 9x+6y=39\\\\\\hline 17x=51\\end{array}",
+        "x=3",
+        "3+2y=13",
+        "y=5",
+        "x=3,\\ y=5"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するときに係数をかけ忘れた誤り",
+      "explanation": "$x=3$ を下の式 $3x+2y=13$ に代入すると、$3\\times3=9$ なので $9+2y=13$ です。$3x$ の $3$ をかけ忘れて $3+2y=13$ としたところが誤りです。$y$ の係数を $6$ にそろえて $17x=51$、$x=3$ としたところは正しくできています。正しくは $y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x-3y=6\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}8x-6y=12\\\\+)\\ 9x+6y=39\\\\\\hline 17x=51\\end{array}",
+        "x=3",
+        "9+2y=13",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$3x$ に $x=3$ を代入すると、いくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0010",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}5x-2y=-1\\\\3x+4y=15\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x-2y=-1\\\\3x+4y=15\\end{cases}",
+        "\\begin{array}{r}10x-4y=-2\\\\+)\\ 3x+4y=15\\\\\\hline 13x=13\\end{array}",
+        "x=1",
+        "3+4y=15",
+        "4y=18",
+        "y=\\frac{9}{2}",
+        "x=1,\\ y=\\frac{9}{2}"
+      ],
+      "errorLine": 4,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$3+4y=15$ の $3$ を右辺に移項すると $-3$ になるので、$4y=15-3=12$ です。$15+3=18$ としたところが誤りです。上の式を $2$ 倍してたし、$13x=13$、$x=1$ としたところは正しくできています。正しくは $y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x-2y=-1\\\\3x+4y=15\\end{cases}",
+        "\\begin{array}{r}10x-4y=-2\\\\+)\\ 3x+4y=15\\\\\\hline 13x=13\\end{array}",
+        "x=1",
+        "3+4y=15",
+        "4y=12",
+        "y=3",
+        "x=1,\\ y=3"
+      ],
+      "hint": "$3$ を右辺に移すと、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0011",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}y=x-3\\\\3x+y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=x-3\\\\3x+y=13\\end{cases}",
+        "3x+x+3=13",
+        "4x=10",
+        "x=\\frac{5}{2}",
+        "y=-\\frac{1}{2}",
+        "x=\\frac{5}{2},\\ y=-\\frac{1}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "代入した式のかっこをはずすときの符号ミス",
+      "explanation": "$y=x-3$ を下の式に代入すると $3x+(x-3)=13$ で、かっこをはずすと $3x+x-3=13$ です。$-3$ を $+3$ としたところが誤りです。正しく計算すると $4x=16$、$x=4$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=x-3\\\\3x+y=13\\end{cases}",
+        "3x+(x-3)=13",
+        "4x=16",
+        "x=4",
+        "y=1",
+        "x=4,\\ y=1"
+      ],
+      "hint": "代入した $x-3$ の $-3$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0012",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}x=2y+1\\\\3x-4y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=2y+1\\\\3x-4y=7\\end{cases}",
+        "3(2y+1)-4y=7",
+        "6y+1-4y=7",
+        "2y=6",
+        "y=3",
+        "x=7,\\ y=3"
+      ],
+      "errorLine": 2,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$3(2y+1)$ のかっこをはずすと、$3\\times2y=6y$、$3\\times1=3$ なので $6y+3$ です。$1$ に $3$ をかけ忘れたところが誤りです。$x=2y+1$ をかっこをつけて代入したところは正しくできています。正しくは $2y=4$、$y=2$、$x=5$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=2y+1\\\\3x-4y=7\\end{cases}",
+        "3(2y+1)-4y=7",
+        "6y+3-4y=7",
+        "2y=4",
+        "y=2",
+        "x=5,\\ y=2"
+      ],
+      "hint": "$3(2y+1)$ のかっこをはずすとき、$1$ にも $3$ をかけましたか？"
+    },
+    {
+      "id": "J2-SE-0013",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}y=3x-5\\\\2x+3y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=3x-5\\\\2x+3y=7\\end{cases}",
+        "2x+3(3x-5)=7",
+        "11x-15=7",
+        "11x=-8",
+        "x=-\\frac{8}{11}",
+        "x=-\\frac{8}{11},\\ y=-\\frac{79}{11}"
+      ],
+      "errorLine": 3,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$11x-15=7$ で $-15$ を右辺に移項すると $+15$ になるので、$11x=7+15=22$ です。$7-15=-8$ としたところが誤りです。かっこをつけて代入し、$2x+9x-15=11x-15$ としたところは正しくできています。正しくは $x=2$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=3x-5\\\\2x+3y=7\\end{cases}",
+        "2x+3(3x-5)=7",
+        "11x-15=7",
+        "11x=22",
+        "x=2",
+        "x=2,\\ y=1"
+      ],
+      "hint": "$-15$ を右辺に移すと、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0014",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}2x+y=8\\\\x-2y=-1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=8\\\\x-2y=-1\\end{cases}",
+        "y=8-2x",
+        "x-2(8-2x)=-1",
+        "5x-16=-1",
+        "x=3",
+        "y=8-2\\times3",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $y=8-2x$ と変形してから、下の式に代入しています（代入法）。$-2(8-2x)=-16+4x$ なので $x+4x-16=-1$、$5x=15$、$x=3$ です。$y=8-6=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=8\\\\x-2y=-1\\end{cases}",
+        "y=8-2x",
+        "x-2(8-2x)=-1",
+        "5x-16=-1",
+        "x=3",
+        "y=8-2\\times3",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$-2(8-2x)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0015",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}x=\\frac{1}{2}y+1\\\\4x-3y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=\\frac{1}{2}y+1\\\\4x-3y=1\\end{cases}",
+        "4\\left(\\frac{1}{2}y+1\\right)-3y=1",
+        "2y+4-3y=1",
+        "-y=-3",
+        "y=-3",
+        "x=-\\frac{1}{2},\\ y=-3"
+      ],
+      "errorLine": 4,
+      "errorType": "-y=a から y を求めるときの符号ミス",
+      "explanation": "$-y=-3$ の両辺に $-1$ をかけると、$y=3$ です。符号を変えずに $y=-3$ としたところが誤りです。代入とかっこのはずし方（$4\\times\\frac{1}{2}y=2y$）、$2y-3y=-y$、$4$ の移項は正しくできています。正しくは $y=3$、$x=\\frac{5}{2}$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=\\frac{1}{2}y+1\\\\4x-3y=1\\end{cases}",
+        "4\\left(\\frac{1}{2}y+1\\right)-3y=1",
+        "2y+4-3y=1",
+        "-y=-3",
+        "y=3",
+        "x=\\frac{5}{2},\\ y=3"
+      ],
+      "hint": "$-y=-3$ のとき、$y$ はいくつですか？"
+    },
+    {
+      "id": "J2-SE-0016",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}2(x+y)-y=7\\\\x-y=2\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2(x+y)-y=7\\\\x-y=2\\end{cases}",
+        "\\begin{cases}2x+y-y=7\\\\x-y=2\\end{cases}",
+        "2x=7",
+        "x=\\frac{7}{2}",
+        "y=\\frac{3}{2}",
+        "x=\\frac{7}{2},\\ y=\\frac{3}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$2(x+y)$ のかっこをはずすと $2x+2y$ です。$y$ に $2$ をかけ忘れて $2x+y$ としたところが誤りです。正しくは上の式が $2x+y=7$ になり、下の式とたすと $3x=9$、$x=3$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2(x+y)-y=7\\\\x-y=2\\end{cases}",
+        "\\begin{cases}2x+y=7\\\\x-y=2\\end{cases}",
+        "3x=9",
+        "x=3",
+        "y=1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "$2(x+y)$ のかっこをはずすとき、$y$ にも $2$ をかけましたか？"
+    },
+    {
+      "id": "J2-SE-0017",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}0.2x+0.3y=1.3\\\\x-y=-1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.2x+0.3y=1.3\\\\x-y=-1\\end{cases}",
+        "\\begin{cases}2x+3y=13\\\\2x-2y=-2\\end{cases}",
+        "5y=11",
+        "y=\\frac{11}{5}",
+        "x=\\frac{6}{5}",
+        "x=\\frac{6}{5},\\ y=\\frac{11}{5}"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをひくとき、右辺の負の数をひく符号ミス",
+      "explanation": "$2x+3y=13$ から $2x-2y=-2$ をひくと、右辺は $13-(-2)=15$ なので $5y=15$ です。$13-2=11$ としたところが誤りです。上の式を $10$ 倍し、下の式を $2$ 倍したところは正しくできています。正しくは $y=3$、$x=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.2x+0.3y=1.3\\\\x-y=-1\\end{cases}",
+        "\\begin{cases}2x+3y=13\\\\2x-2y=-2\\end{cases}",
+        "5y=15",
+        "y=3",
+        "x=2",
+        "x=2,\\ y=3"
+      ],
+      "hint": "右辺の $13-(-2)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0018",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "\\begin{cases}\\frac{x}{2}+\\frac{y}{3}=2\\\\x-y=-1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}\\frac{x}{2}+\\frac{y}{3}=2\\\\x-y=-1\\end{cases}",
+        "\\begin{cases}3x+2y=12\\\\x-y=-1\\end{cases}",
+        "\\begin{array}{r}3x+2y=12\\\\+)\\ 2x-2y=-2\\\\\\hline 5x=10\\end{array}",
+        "2+y=-1",
+        "y=-3",
+        "x=2,\\ y=-3"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するときの符号ミス",
+      "explanation": "$x=2$ を $x-y=-1$ に代入すると $2-y=-1$ です。$-y$ を $+y$ と書いたところが誤りです。上の式を $6$ 倍して $3x+2y=12$ とし、下の式を $2$ 倍してたし、$5x=10$ としたところは正しくできています。正しくは $2-y=-1$ より $y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}\\frac{x}{2}+\\frac{y}{3}=2\\\\x-y=-1\\end{cases}",
+        "\\begin{cases}3x+2y=12\\\\x-y=-1\\end{cases}",
+        "\\begin{array}{r}3x+2y=12\\\\+)\\ 2x-2y=-2\\\\\\hline 5x=10\\end{array}",
+        "2-y=-1",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "hint": "$x-y=-1$ に $x=2$ を代入した式を、符号に注意して確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0019",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "\\begin{cases}3(x-1)=2(y+1)\\\\\\frac{x}{3}-\\frac{y}{4}=\\frac{1}{6}\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3(x-1)=2(y+1)\\\\\\frac{x}{3}-\\frac{y}{4}=\\frac{1}{6}\\end{cases}",
+        "\\begin{cases}3x-2y=5\\\\4x-3y=2\\end{cases}",
+        "\\begin{array}{r}9x-6y=15\\\\-)\\ 8x-6y=4\\\\\\hline x=11\\end{array}",
+        "33-2y=5",
+        "y=14",
+        "x=11,\\ y=14"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式はかっこをはずして移項し $3x-2y=5$、下の式は両辺に $12$ をかけて $4x-3y=2$ にしています。$y$ の係数を $6$ にそろえてひくと $x=11$、上の式に代入して $33-2y=5$、$y=14$ です。",
+      "correctSolution": [
+        "\\begin{cases}3(x-1)=2(y+1)\\\\\\frac{x}{3}-\\frac{y}{4}=\\frac{1}{6}\\end{cases}",
+        "\\begin{cases}3x-2y=5\\\\4x-3y=2\\end{cases}",
+        "\\begin{array}{r}9x-6y=15\\\\-)\\ 8x-6y=4\\\\\\hline x=11\\end{array}",
+        "33-2y=5",
+        "y=14",
+        "x=11,\\ y=14"
+      ],
+      "hint": "まず2つの式を「$ax+by=c$」の形に整理しましょう。分母をはらうときは、両辺のすべての項にかけます。"
+    },
+    {
+      "id": "J2-SE-0020",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "\\begin{cases}0.3x+0.4y=1.8\\\\\\frac{x}{4}-\\frac{y}{2}=-1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.3x+0.4y=1.8\\\\\\frac{x}{4}-\\frac{y}{2}=-1\\end{cases}",
+        "\\begin{cases}3x+4y=18\\\\x-2y=-4\\end{cases}",
+        "\\begin{array}{r}3x+4y=18\\\\+)\\ 2x-4y=-8\\\\\\hline 5x=10\\end{array}",
+        "x=2",
+        "2-2y=-4",
+        "y=3",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": 6,
+      "errorType": "答えを書くときに x と y の値を取り違えた",
+      "explanation": "途中の計算で $x=2$、$y=3$ と正しく求めているのに、最後に $x=3$、$y=2$ と値を入れかえて書いたところが誤りです。小数・分数の式を整理したところ、たして $y$ を消したところ、代入して $y$ を求めたところはすべて正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}0.3x+0.4y=1.8\\\\\\frac{x}{4}-\\frac{y}{2}=-1\\end{cases}",
+        "\\begin{cases}3x+4y=18\\\\x-2y=-4\\end{cases}",
+        "\\begin{array}{r}3x+4y=18\\\\+)\\ 2x-4y=-8\\\\\\hline 5x=10\\end{array}",
+        "x=2",
+        "2-2y=-4",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "hint": "最後の答えは、途中で求めた $x$ と $y$ の値と同じですか？"
+    },
+    {
+      "id": "J2-SE-0021",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+y=7\\\\x-y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+y=7\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+y=7\\\\+)\\ x-y=1\\\\\\hline 2x=8\\end{array}",
+        "x=4",
+        "4+y=7",
+        "y=3",
+        "x=4,\\ y=3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y$ の係数が $+1$ と $-1$ なので、2つの式をたすと $y$ が消えて $2x=8$、$x=4$ です。$x=4$ を上の式に代入して $4+y=7$、$y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+y=7\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+y=7\\\\+)\\ x-y=1\\\\\\hline 2x=8\\end{array}",
+        "x=4",
+        "4+y=7",
+        "y=3",
+        "x=4,\\ y=3"
+      ],
+      "hint": "2つの式をたすと、どの文字が消えますか？"
+    },
+    {
+      "id": "J2-SE-0022",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}2x+y=11\\\\x+y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=11\\\\x+y=6\\end{cases}",
+        "\\begin{array}{r}2x+y=11\\\\-)\\ x+y=6\\\\\\hline x=5\\end{array}",
+        "5+y=6",
+        "y=11",
+        "x=5,\\ y=11"
+      ],
+      "errorLine": 3,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$5+y=6$ の $5$ を右辺に移項すると $-5$ になるので、$y=6-5=1$ です。$6+5=11$ としたところが誤りです。2つの式をひいて $x=5$ を求め、下の式に代入したところまでは正しくできています。正しくは $x=5$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=11\\\\x+y=6\\end{cases}",
+        "\\begin{array}{r}2x+y=11\\\\-)\\ x+y=6\\\\\\hline x=5\\end{array}",
+        "5+y=6",
+        "y=1",
+        "x=5,\\ y=1"
+      ],
+      "hint": "$5+y=6$ で、$5$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0023",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}3x+y=9\\\\x+y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+y=9\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x+y=9\\\\-)\\ x+y=5\\\\\\hline 4x=4\\end{array}",
+        "x=1",
+        "1+y=5",
+        "y=4",
+        "x=1,\\ y=4"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、x の項をたしてしまった誤り",
+      "explanation": "上の式から下の式をひくので、$x$ の項は $3x-x=2x$ です。$3x+x=4x$ としたところが誤りです。$y$ が消えることと、右辺 $9-5=4$ は正しくできています。正しくは $2x=4$ で、$x=2$、$y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+y=9\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x+y=9\\\\-)\\ x+y=5\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "2+y=5",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "hint": "式どうしをひくとき、$x$ の項は $3x$ から何をひきますか？"
+    },
+    {
+      "id": "J2-SE-0024",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+2y=8\\\\x-2y=0\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+2y=8\\\\x-2y=0\\end{cases}",
+        "\\begin{array}{r}x+2y=8\\\\+)\\ x-2y=0\\\\\\hline 2x=8\\end{array}",
+        "x=4",
+        "4+2y=8",
+        "y=2",
+        "x=4,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y$ の係数が $+2$ と $-2$ なので、たすと $y$ が消えて $2x=8$、$x=4$ です。上の式に代入して $4+2y=8$、$2y=4$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+2y=8\\\\x-2y=0\\end{cases}",
+        "\\begin{array}{r}x+2y=8\\\\+)\\ x-2y=0\\\\\\hline 2x=8\\end{array}",
+        "x=4",
+        "4+2y=8",
+        "y=2",
+        "x=4,\\ y=2"
+      ],
+      "hint": "$4+2y=8$ から $y$ を求める計算を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0025",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 1,
+      "question": "\\begin{cases}4x+y=13\\\\2x-y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x+y=13\\\\2x-y=5\\end{cases}",
+        "\\begin{array}{r}4x+y=13\\\\+)\\ 2x-y=5\\\\\\hline 6x=18\\end{array}",
+        "x=3",
+        "7+y=13",
+        "y=6",
+        "x=3,\\ y=6"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するとき、係数と値をかけずにたした誤り",
+      "explanation": "$x=3$ を $4x+y=13$ に代入すると、$4x$ は $4\\times3=12$ なので $12+y=13$ です。$4+3=7$ としたところが誤りです。2つの式をたして $x=3$ を求めたところまでは正しくできています。正しくは $y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x+y=13\\\\2x-y=5\\end{cases}",
+        "\\begin{array}{r}4x+y=13\\\\+)\\ 2x-y=5\\\\\\hline 6x=18\\end{array}",
+        "x=3",
+        "12+y=13",
+        "y=1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "$4x$ に $x=3$ を代入すると、いくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0026",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}2x+3y=-4\\\\2x-y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+3y=-4\\\\2x-y=12\\end{cases}",
+        "\\begin{array}{r}2x+3y=-4\\\\-)\\ 2x-y=12\\\\\\hline 4y=-16\\end{array}",
+        "y=-4",
+        "2x+4=12",
+        "x=4",
+        "x=4,\\ y=-4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x$ の係数がそろっているので、ひくと $x$ が消えます。$3y-(-y)=4y$、$-4-12=-16$ で $y=-4$ です。下の式に代入すると $2x-(-4)=12$、$2x+4=12$、$x=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+3y=-4\\\\2x-y=12\\end{cases}",
+        "\\begin{array}{r}2x+3y=-4\\\\-)\\ 2x-y=12\\\\\\hline 4y=-16\\end{array}",
+        "y=-4",
+        "2x+4=12",
+        "x=4",
+        "x=4,\\ y=-4"
+      ],
+      "hint": "$3y-(-y)$ と、$-4-12$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0027",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}3x-2y=4\\\\x+2y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x-2y=4\\\\x+2y=12\\end{cases}",
+        "\\begin{array}{r}3x-2y=4\\\\+)\\ x+2y=12\\\\\\hline 4x=-8\\end{array}",
+        "x=-2",
+        "-2+2y=12",
+        "y=7",
+        "x=-2,\\ y=7"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをたすとき、右辺をひいてしまった誤り",
+      "explanation": "2つの式をたすときは、右辺もたすので $4+12=16$ です。$4-12=-8$ としたところが誤りです。たして $y$ を消し、$x$ の項を $4x$ としたところは正しくできています。正しくは $4x=16$ で、$x=4$、$y=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x-2y=4\\\\x+2y=12\\end{cases}",
+        "\\begin{array}{r}3x-2y=4\\\\+)\\ x+2y=12\\\\\\hline 4x=16\\end{array}",
+        "x=4",
+        "4+2y=12",
+        "y=4",
+        "x=4,\\ y=4"
+      ],
+      "hint": "式どうしをたすとき、右辺はどう計算しますか？"
+    },
+    {
+      "id": "J2-SE-0028",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}5x+y=3\\\\3x+y=-1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x+y=3\\\\3x+y=-1\\end{cases}",
+        "\\begin{array}{r}5x+y=3\\\\-)\\ 3x+y=-1\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "5+y=3",
+        "y=-2",
+        "x=2,\\ y=-2"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するときに係数をかけ忘れた誤り",
+      "explanation": "$x=2$ を $5x+y=3$ に代入すると、$5x=5\\times2=10$ なので $10+y=3$ です。$5$ としたところが誤りです（係数 $5$ と $2$ をかけていません）。ひき算で $2x=4$（$3-(-1)=4$）、$x=2$ を求めたところまでは正しくできています。正しくは $y=-7$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x+y=3\\\\3x+y=-1\\end{cases}",
+        "\\begin{array}{r}5x+y=3\\\\-)\\ 3x+y=-1\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "10+y=3",
+        "y=-7",
+        "x=2,\\ y=-7"
+      ],
+      "hint": "$5x$ に $x=2$ を代入すると、いくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0029",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}x-3y=-5\\\\-x+2y=3\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x-3y=-5\\\\-x+2y=3\\end{cases}",
+        "\\begin{array}{r}x-3y=-5\\\\+)\\ -x+2y=3\\\\\\hline -y=-2\\end{array}",
+        "y=-2",
+        "x+6=-5",
+        "x=-11",
+        "x=-11,\\ y=-2"
+      ],
+      "errorLine": 2,
+      "errorType": "-y=a から y を求めるときの符号ミス",
+      "explanation": "$-y=-2$ の両辺に $-1$ をかけると $y=2$ です。$y=-2$ としたところが誤りです。2つの式をたして $x$ を消したところ（$-3y+2y=-y$、$-5+3=-2$）は正しくできています。正しくは $y=2$、$x=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}x-3y=-5\\\\-x+2y=3\\end{cases}",
+        "\\begin{array}{r}x-3y=-5\\\\+)\\ -x+2y=3\\\\\\hline -y=-2\\end{array}",
+        "y=2",
+        "x-6=-5",
+        "x=1",
+        "x=1,\\ y=2"
+      ],
+      "hint": "$-y=-2$ のとき、$y$ はいくつですか？"
+    },
+    {
+      "id": "J2-SE-0030",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 2,
+      "question": "\\begin{cases}3x+4y=-6\\\\3x-2y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+4y=-6\\\\3x-2y=12\\end{cases}",
+        "\\begin{array}{r}3x+4y=-6\\\\-)\\ 3x-2y=12\\\\\\hline 2y=-18\\end{array}",
+        "y=-9",
+        "3x-36=-6",
+        "x=10",
+        "x=10,\\ y=-9"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、うしろの式の項の符号を変え忘れた",
+      "explanation": "上の式から下の式をひくので、$y$ の項は $4y-(-2y)=6y$ です。$4y-2y=2y$ としたところが誤りです。$x$ が消えることと、右辺 $-6-12=-18$ は正しくできています。正しくは $6y=-18$ で、$y=-3$、$x=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+4y=-6\\\\3x-2y=12\\end{cases}",
+        "\\begin{array}{r}3x+4y=-6\\\\-)\\ 3x-2y=12\\\\\\hline 6y=-18\\end{array}",
+        "y=-3",
+        "3x+6=12",
+        "x=2",
+        "x=2,\\ y=-3"
+      ],
+      "hint": "$4y-(-2y)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0031",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}4x-3y=18\\\\2x-3y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x-3y=18\\\\2x-3y=6\\end{cases}",
+        "\\begin{array}{r}4x-3y=18\\\\-)\\ 2x-3y=6\\\\\\hline 2x=12\\end{array}",
+        "x=6",
+        "24-3y=18",
+        "-3y=42",
+        "y=-14",
+        "x=6,\\ y=-14"
+      ],
+      "errorLine": 4,
+      "errorType": "代入したあと移項するときの符号ミス",
+      "explanation": "$24-3y=18$ の $24$ を右辺に移項すると $-24$ になるので、$-3y=18-24=-6$ です。$18+24=42$ としたところが誤りです。$x=6$ を上の式に代入したところまでは正しくできています。正しくは $-3y=-6$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x-3y=18\\\\2x-3y=6\\end{cases}",
+        "\\begin{array}{r}4x-3y=18\\\\-)\\ 2x-3y=6\\\\\\hline 2x=12\\end{array}",
+        "x=6",
+        "24-3y=18",
+        "-3y=-6",
+        "y=2",
+        "x=6,\\ y=2"
+      ],
+      "hint": "$24-3y=18$ で、$24$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0032",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}5x+3y=7\\\\-5x+2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x+3y=7\\\\-5x+2y=13\\end{cases}",
+        "\\begin{array}{r}5x+3y=7\\\\+)\\ -5x+2y=13\\\\\\hline 5y=20\\end{array}",
+        "y=4",
+        "5x+12=7",
+        "5x=-5",
+        "x=-25",
+        "x=-25,\\ y=4"
+      ],
+      "errorLine": 5,
+      "errorType": "係数でわらずにかけた誤り",
+      "explanation": "$5x=-5$ の両辺を $5$ でわると、$x=(-5)\\div5=-1$ です。$(-5)\\times5=-25$ としたところが誤りです。たして $x$ を消し、$y=4$ を上の式に代入して $5x=-5$ を求めたところまでは正しくできています。正しくは $x=-1$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x+3y=7\\\\-5x+2y=13\\end{cases}",
+        "\\begin{array}{r}5x+3y=7\\\\+)\\ -5x+2y=13\\\\\\hline 5y=20\\end{array}",
+        "y=4",
+        "5x+12=7",
+        "5x=-5",
+        "x=-1",
+        "x=-1,\\ y=4"
+      ],
+      "hint": "$5x=-5$ から $x$ を求めるには、両辺をどうしますか？"
+    },
+    {
+      "id": "J2-SE-0033",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}-6x+5y=-16\\\\6x-y=8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}-6x+5y=-16\\\\6x-y=8\\end{cases}",
+        "\\begin{array}{r}-6x+5y=-16\\\\+)\\ 6x-y=8\\\\\\hline 4y=-8\\end{array}",
+        "y=-2",
+        "6x+2=8",
+        "x=1",
+        "x=1,\\ y=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x$ の係数が $-6$ と $+6$ なので、たすと $x$ が消えて、$5y-y=4y$、$-16+8=-8$ で $y=-2$ です。下の式に代入すると $6x-(-2)=8$、$6x+2=8$、$x=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}-6x+5y=-16\\\\6x-y=8\\end{cases}",
+        "\\begin{array}{r}-6x+5y=-16\\\\+)\\ 6x-y=8\\\\\\hline 4y=-8\\end{array}",
+        "y=-2",
+        "6x+2=8",
+        "x=1",
+        "x=1,\\ y=-2"
+      ],
+      "hint": "$y=-2$ を $6x-y=8$ に代入するときの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0034",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}7x-2y=17\\\\3x+2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}7x-2y=17\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}7x-2y=17\\\\+)\\ 3x+2y=13\\\\\\hline 10x=30\\end{array}",
+        "x=3",
+        "9+2y=13",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y$ の係数が $-2$ と $+2$ なので、たすと $y$ が消えて $10x=30$、$x=3$ です。下の式に代入して $9+2y=13$、$2y=4$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}7x-2y=17\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}7x-2y=17\\\\+)\\ 3x+2y=13\\\\\\hline 10x=30\\end{array}",
+        "x=3",
+        "9+2y=13",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "どちらの式に代入すると計算しやすいか考えてみましょう。"
+    },
+    {
+      "id": "J2-SE-0035",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 3,
+      "question": "\\begin{cases}2x-5y=-1\\\\2x+3y=-9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x-5y=-1\\\\2x+3y=-9\\end{cases}",
+        "\\begin{array}{r}2x-5y=-1\\\\-)\\ 2x+3y=-9\\\\\\hline -8y=8\\end{array}",
+        "y=1",
+        "2x-5=-1",
+        "x=2",
+        "x=2,\\ y=1"
+      ],
+      "errorLine": 2,
+      "errorType": "両辺を負の数でわるときの符号ミス",
+      "explanation": "$-8y=8$ の両辺を $-8$ でわると、$y=8\\div(-8)=-1$ です。$y=1$ としたところが誤りです。ひいて $x$ を消したところ（$-5y-3y=-8y$、$-1-(-9)=8$）は正しくできています。正しくは $y=-1$、$x=-3$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x-5y=-1\\\\2x+3y=-9\\end{cases}",
+        "\\begin{array}{r}2x-5y=-1\\\\-)\\ 2x+3y=-9\\\\\\hline -8y=8\\end{array}",
+        "y=-1",
+        "2x+5=-1",
+        "x=-3",
+        "x=-3,\\ y=-1"
+      ],
+      "hint": "$-8y=8$ の両辺を $-8$ でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0036",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}3x+7y=-5\\\\3x-5y=19\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+7y=-5\\\\3x-5y=19\\end{cases}",
+        "\\begin{array}{r}3x+7y=-5\\\\-)\\ 3x-5y=19\\\\\\hline 12y=-24\\end{array}",
+        "y=-2",
+        "3x-14=-5",
+        "3x=-19",
+        "x=-\\frac{19}{3}",
+        "x=-\\frac{19}{3},\\ y=-2"
+      ],
+      "errorLine": 4,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$3x-14=-5$ の $-14$ を右辺に移項すると $+14$ になるので、$3x=-5+14=9$ です。$-5-14=-19$ としたところが誤りです。ひいて $12y=-24$（$7y-(-5y)=12y$）、$y=-2$ を上の式に代入したところまでは正しくできています。正しくは $x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+7y=-5\\\\3x-5y=19\\end{cases}",
+        "\\begin{array}{r}3x+7y=-5\\\\-)\\ 3x-5y=19\\\\\\hline 12y=-24\\end{array}",
+        "y=-2",
+        "3x-14=-5",
+        "3x=9",
+        "x=3",
+        "x=3,\\ y=-2"
+      ],
+      "hint": "$3x-14=-5$ で、$-14$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0037",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}9x-4y=1\\\\3x-4y=-5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}9x-4y=1\\\\3x-4y=-5\\end{cases}",
+        "\\begin{array}{r}9x-4y=1\\\\-)\\ 3x-4y=-5\\\\\\hline 6x=-4\\end{array}",
+        "x=-\\frac{2}{3}",
+        "-6-4y=1",
+        "-4y=7",
+        "y=-\\frac{7}{4}",
+        "x=-\\frac{2}{3},\\ y=-\\frac{7}{4}"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、右辺の負の数をひく符号ミス",
+      "explanation": "右辺は $1-(-5)=1+5=6$ なので、正しくは $6x=6$ です。$1-5=-4$ としたところが誤りです（負の数をひくときは、符号を変えてたします）。$y$ を消して $x$ の項を $6x$ としたところは正しくできています。正しく計算すると $x=1$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}9x-4y=1\\\\3x-4y=-5\\end{cases}",
+        "\\begin{array}{r}9x-4y=1\\\\-)\\ 3x-4y=-5\\\\\\hline 6x=6\\end{array}",
+        "x=1",
+        "9-4y=1",
+        "-4y=-8",
+        "y=2",
+        "x=1,\\ y=2"
+      ],
+      "hint": "右辺の $1-(-5)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0038",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}5x+6y=8\\\\-5x+4y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x+6y=8\\\\-5x+4y=12\\end{cases}",
+        "\\begin{array}{r}5x+6y=8\\\\+)\\ -5x+4y=12\\\\\\hline 10y=20\\end{array}",
+        "y=2",
+        "5x+12=8",
+        "5x=-4",
+        "x=-\\frac{4}{5}",
+        "x=-\\frac{4}{5},\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。たすと $x$ が消えて $10y=20$、$y=2$ です。上の式に代入して $5x+12=8$、$5x=-4$ なので、$x=-\\frac{4}{5}$ です。解が分数になることもあります。",
+      "correctSolution": [
+        "\\begin{cases}5x+6y=8\\\\-5x+4y=12\\end{cases}",
+        "\\begin{array}{r}5x+6y=8\\\\+)\\ -5x+4y=12\\\\\\hline 10y=20\\end{array}",
+        "y=2",
+        "5x+12=8",
+        "5x=-4",
+        "x=-\\frac{4}{5}",
+        "x=-\\frac{4}{5},\\ y=2"
+      ],
+      "hint": "$5x=-4$ から $x$ を求めるとき、わり切れなければ分数で表します。"
+    },
+    {
+      "id": "J2-SE-0039",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}4x+3y=1\\\\4x-9y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x+3y=1\\\\4x-9y=13\\end{cases}",
+        "\\begin{array}{r}4x+3y=1\\\\-)\\ 4x-9y=13\\\\\\hline 12y=-12\\end{array}",
+        "y=-1",
+        "4x+3=1",
+        "4x=-2",
+        "x=-\\frac{1}{2}",
+        "x=-\\frac{1}{2},\\ y=-1"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するときの符号ミス",
+      "explanation": "$y=-1$ を $4x+3y=1$ に代入すると、$3y=3\\times(-1)=-3$ なので $4x-3=1$ です。$+3$ としたところが誤りです。ひいて $12y=-12$（$3y-(-9y)=12y$、$1-13=-12$）、$y=-1$ を求めたところまでは正しくできています。正しくは $4x=4$、$x=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x+3y=1\\\\4x-9y=13\\end{cases}",
+        "\\begin{array}{r}4x+3y=1\\\\-)\\ 4x-9y=13\\\\\\hline 12y=-12\\end{array}",
+        "y=-1",
+        "4x-3=1",
+        "4x=4",
+        "x=1",
+        "x=1,\\ y=-1"
+      ],
+      "hint": "$3y$ に $y=-1$ を代入すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0040",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（基本）",
+      "difficulty": 4,
+      "question": "\\begin{cases}2x-7y=-1\\\\-2x+3y=-7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x-7y=-1\\\\-2x+3y=-7\\end{cases}",
+        "\\begin{array}{r}2x-7y=-1\\\\+)\\ -2x+3y=-7\\\\\\hline -4y=-8\\end{array}",
+        "y=2",
+        "2x-14=-1",
+        "2x=13",
+        "x=\\frac{2}{13}",
+        "x=\\frac{2}{13},\\ y=2"
+      ],
+      "errorLine": 5,
+      "errorType": "係数でわるとき、わる数とわられる数を逆にした誤り",
+      "explanation": "$2x=13$ の両辺を $2$ でわると、$x=13\\div2=\\frac{13}{2}$ です。$\\frac{2}{13}$ としたところが誤りです（$2\\div13$ を計算しています）。たして $x$ を消し、$y=2$ を代入して $2x=13$ を求めたところまでは正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}2x-7y=-1\\\\-2x+3y=-7\\end{cases}",
+        "\\begin{array}{r}2x-7y=-1\\\\+)\\ -2x+3y=-7\\\\\\hline -4y=-8\\end{array}",
+        "y=2",
+        "2x-14=-1",
+        "2x=13",
+        "x=\\frac{13}{2}",
+        "x=\\frac{13}{2},\\ y=2"
+      ],
+      "hint": "$2x=13$ の両辺を $2$ でわるとき、わられる数はどちらですか？"
+    },
+    {
+      "id": "J2-SE-0041",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+y=5\\\\3x+2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+y=5\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}3x+2y=13\\\\-)\\ 2x+2y=10\\\\\\hline x=3\\end{array}",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $2$ 倍すると $2x+2y=10$ になり、$y$ の係数がそろいます。下の式からひくと $x=3$ です。上の式に代入して $3+y=5$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+y=5\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}3x+2y=13\\\\-)\\ 2x+2y=10\\\\\\hline x=3\\end{array}",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "上の式を何倍すると、$y$ の係数がそろいますか？"
+    },
+    {
+      "id": "J2-SE-0042",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}2x+y=7\\\\3x-2y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=7\\\\3x-2y=7\\end{cases}",
+        "\\begin{array}{r}4x+2y=14\\\\+)\\ 3x-2y=7\\\\\\hline 7x=21\\end{array}",
+        "x=3",
+        "9-2y=7",
+        "-2y=-2",
+        "y=-1",
+        "x=3,\\ y=-1"
+      ],
+      "errorLine": 5,
+      "errorType": "両辺を負の数でわるときの符号ミス",
+      "explanation": "$-2y=-2$ の両辺を $-2$ でわると、$y=(-2)\\div(-2)=1$ です。$y=-1$ としたところが誤りです（負の数を負の数でわると正になります）。上の式を $2$ 倍してたし、$x=3$ を下の式に代入して $-2y=-2$ を求めたところまでは正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=7\\\\3x-2y=7\\end{cases}",
+        "\\begin{array}{r}4x+2y=14\\\\+)\\ 3x-2y=7\\\\\\hline 7x=21\\end{array}",
+        "x=3",
+        "9-2y=7",
+        "-2y=-2",
+        "y=1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "負の数を負の数でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0043",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+3y=10\\\\2x-y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+3y=10\\\\2x-y=6\\end{cases}",
+        "\\begin{array}{r}x+3y=10\\\\+)\\ 6x-3y=18\\\\\\hline 7x=28\\end{array}",
+        "x=4",
+        "4+3y=10",
+        "3y=14",
+        "y=\\frac{14}{3}",
+        "x=4,\\ y=\\frac{14}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "代入したあと移項するときの符号ミス",
+      "explanation": "$4+3y=10$ の $4$ を右辺に移項すると $-4$ になるので、$3y=10-4=6$ です。$10+4=14$ としたところが誤りです。下の式を $3$ 倍してたし、$x=4$ を代入したところまでは正しくできています。正しくは $y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+3y=10\\\\2x-y=6\\end{cases}",
+        "\\begin{array}{r}x+3y=10\\\\+)\\ 6x-3y=18\\\\\\hline 7x=28\\end{array}",
+        "x=4",
+        "4+3y=10",
+        "3y=6",
+        "y=2",
+        "x=4,\\ y=2"
+      ],
+      "hint": "$4+3y=10$ で、$4$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0044",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}3x+y=5\\\\x+2y=0\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+y=5\\\\x+2y=0\\end{cases}",
+        "\\begin{array}{r}6x+2y=10\\\\-)\\ x+2y=0\\\\\\hline 5x=10\\end{array}",
+        "x=\\frac{1}{2}",
+        "\\frac{3}{2}+y=5",
+        "y=\\frac{7}{2}",
+        "x=\\frac{1}{2},\\ y=\\frac{7}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "係数でわるとき、わる数とわられる数を逆にした誤り",
+      "explanation": "$5x=10$ の両辺を $5$ でわると、$x=10\\div5=2$ です。$\\frac{1}{2}$ としたところが誤りです（$5\\div10$ を計算しています）。上の式を $2$ 倍して下の式をひき、$5x=10$ を求めたところは正しくできています。正しくは $x=2$、$y=-1$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+y=5\\\\x+2y=0\\end{cases}",
+        "\\begin{array}{r}6x+2y=10\\\\-)\\ x+2y=0\\\\\\hline 5x=10\\end{array}",
+        "x=2",
+        "6+y=5",
+        "y=-1",
+        "x=2,\\ y=-1"
+      ],
+      "hint": "$5x=10$ の両辺を $5$ でわるとき、わられる数はどちらですか？"
+    },
+    {
+      "id": "J2-SE-0045",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 1,
+      "question": "\\begin{cases}2x+3y=8\\\\x+y=3\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+3y=8\\\\x+y=3\\end{cases}",
+        "\\begin{array}{r}2x+3y=8\\\\-)\\ 2x+2y=3\\\\\\hline y=5\\end{array}",
+        "2x+15=8",
+        "2x=-7",
+        "x=-\\frac{7}{2}",
+        "x=-\\frac{7}{2},\\ y=5"
+      ],
+      "errorLine": 1,
+      "errorType": "式を何倍かするとき、右辺にかけ忘れた誤り",
+      "explanation": "下の式を $2$ 倍するときは、右辺にも $2$ をかけて $2x+2y=6$ にします。右辺を $3$ のままにしたところが誤りです。$x$ の係数をそろえて、ひいて消そうとした考え方は正しくできています。正しく計算すると $y=2$、$x=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+3y=8\\\\x+y=3\\end{cases}",
+        "\\begin{array}{r}2x+3y=8\\\\-)\\ 2x+2y=6\\\\\\hline y=2\\end{array}",
+        "2x+6=8",
+        "2x=2",
+        "x=1",
+        "x=1,\\ y=2"
+      ],
+      "hint": "下の式を $2$ 倍した式を、右辺まで確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0046",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}3x+2y=4\\\\2x-y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+2y=4\\\\2x-y=5\\end{cases}",
+        "\\begin{array}{r}3x+2y=4\\\\+)\\ 4x-2y=10\\\\\\hline 7x=14\\end{array}",
+        "x=2",
+        "6+2y=4",
+        "y=-1",
+        "x=2,\\ y=-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。下の式を $2$ 倍すると $4x-2y=10$ になり、たすと $y$ が消えて $7x=14$、$x=2$ です。上の式に代入して $6+2y=4$、$2y=-2$、$y=-1$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+2y=4\\\\2x-y=5\\end{cases}",
+        "\\begin{array}{r}3x+2y=4\\\\+)\\ 4x-2y=10\\\\\\hline 7x=14\\end{array}",
+        "x=2",
+        "6+2y=4",
+        "y=-1",
+        "x=2,\\ y=-1"
+      ],
+      "hint": "下の式を $2$ 倍したとき、右辺も $2$ 倍されているか確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0047",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}4x-3y=-2\\\\x+2y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x-3y=-2\\\\x+2y=5\\end{cases}",
+        "\\begin{array}{r}4x-3y=-2\\\\-)\\ 4x+8y=20\\\\\\hline -11y=-22\\end{array}",
+        "y=-2",
+        "x-4=5",
+        "x=9",
+        "x=9,\\ y=-2"
+      ],
+      "errorLine": 2,
+      "errorType": "両辺を負の数でわるときの符号ミス",
+      "explanation": "$-11y=-22$ の両辺を $-11$ でわると、$y=(-22)\\div(-11)=2$ です。$y=-2$ としたところが誤りです。下の式を $4$ 倍してひき、$-11y=-22$ を求めたところは正しくできています。正しくは $y=2$、$x=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x-3y=-2\\\\x+2y=5\\end{cases}",
+        "\\begin{array}{r}4x-3y=-2\\\\-)\\ 4x+8y=20\\\\\\hline -11y=-22\\end{array}",
+        "y=2",
+        "x+4=5",
+        "x=1",
+        "x=1,\\ y=2"
+      ],
+      "hint": "負の数を負の数でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0048",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}5x+2y=1\\\\3x+4y=9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x+2y=1\\\\3x+4y=9\\end{cases}",
+        "\\begin{array}{r}10x+4y=2\\\\-)\\ 3x+4y=9\\\\\\hline 7x=-7\\end{array}",
+        "x=-1",
+        "5+2y=1",
+        "y=-2",
+        "x=-1,\\ y=-2"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するときの符号ミス",
+      "explanation": "$x=-1$ を $5x+2y=1$ に代入すると、$5x=5\\times(-1)=-5$ なので $-5+2y=1$ です。$5$ としたところが誤りです。上の式を $2$ 倍してひき、$x=-1$ を求めたところまでは正しくできています。正しくは $2y=6$、$y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x+2y=1\\\\3x+4y=9\\end{cases}",
+        "\\begin{array}{r}10x+4y=2\\\\-)\\ 3x+4y=9\\\\\\hline 7x=-7\\end{array}",
+        "x=-1",
+        "-5+2y=1",
+        "y=3",
+        "x=-1,\\ y=3"
+      ],
+      "hint": "$5x$ に $x=-1$ を代入すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0049",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}x-2y=-3\\\\3x+5y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x-2y=-3\\\\3x+5y=13\\end{cases}",
+        "\\begin{array}{r}3x+5y=13\\\\-)\\ 3x-6y=-9\\\\\\hline 11y=22\\end{array}",
+        "y=2",
+        "x-4=-3",
+        "x=1",
+        "x=2,\\ y=1"
+      ],
+      "errorLine": 5,
+      "errorType": "答えを書くときに x と y の値を取り違えた",
+      "explanation": "計算で求めたのは $x=1$、$y=2$ なので、答えも $x=1,\\ y=2$ と書きます。$x$ と $y$ の値を入れかえて書いたところが誤りです。上の式を $3$ 倍してひいたところ（$5y-(-6y)=11y$、$13-(-9)=22$）から $x=1$ までは正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}x-2y=-3\\\\3x+5y=13\\end{cases}",
+        "\\begin{array}{r}3x+5y=13\\\\-)\\ 3x-6y=-9\\\\\\hline 11y=22\\end{array}",
+        "y=2",
+        "x-4=-3",
+        "x=1",
+        "x=1,\\ y=2"
+      ],
+      "hint": "最後の行の $x$ と $y$ の値を、その前の行と見比べてみましょう。"
+    },
+    {
+      "id": "J2-SE-0050",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 2,
+      "question": "\\begin{cases}2x+y=4\\\\5x+3y=9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=4\\\\5x+3y=9\\end{cases}",
+        "\\begin{array}{r}6x+3y=12\\\\-)\\ 5x+3y=9\\\\\\hline x=3\\end{array}",
+        "6+y=4",
+        "y=-2",
+        "x=3,\\ y=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $3$ 倍すると $6x+3y=12$ になり、下の式をひくと $x=3$ です。上の式に代入して $6+y=4$、$y=-2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=4\\\\5x+3y=9\\end{cases}",
+        "\\begin{array}{r}6x+3y=12\\\\-)\\ 5x+3y=9\\\\\\hline x=3\\end{array}",
+        "6+y=4",
+        "y=-2",
+        "x=3,\\ y=-2"
+      ],
+      "hint": "上の式を $3$ 倍した式から下の式をひくと、何が残りますか？"
+    },
+    {
+      "id": "J2-SE-0051",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}2x-5y=1\\\\3x+2y=11\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x-5y=1\\\\3x+2y=11\\end{cases}",
+        "\\begin{array}{r}6x-15y=3\\\\-)\\ 6x+4y=22\\\\\\hline -19y=-19\\end{array}",
+        "y=1",
+        "2x-5=1",
+        "x=3",
+        "x=3,\\ y=1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $3$ 倍、下の式を $2$ 倍して $x$ の係数を $6$ にそろえます。ひくと $-15y-4y=-19y$、$3-22=-19$ で $y=1$ です。上の式に代入して $2x-5=1$、$x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x-5y=1\\\\3x+2y=11\\end{cases}",
+        "\\begin{array}{r}6x-15y=3\\\\-)\\ 6x+4y=22\\\\\\hline -19y=-19\\end{array}",
+        "y=1",
+        "2x-5=1",
+        "x=3",
+        "x=3,\\ y=1"
+      ],
+      "hint": "両方の式を何倍かして、$x$ の係数をそろえましょう。"
+    },
+    {
+      "id": "J2-SE-0052",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}3x+4y=10\\\\2x+3y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+4y=10\\\\2x+3y=7\\end{cases}",
+        "\\begin{array}{r}6x+8y=20\\\\-)\\ 6x+9y=21\\\\\\hline -y=-1\\end{array}",
+        "y=-1",
+        "3x-4=10",
+        "x=\\frac{14}{3}",
+        "x=\\frac{14}{3},\\ y=-1"
+      ],
+      "errorLine": 2,
+      "errorType": "-y=a から y を求めるときの符号ミス",
+      "explanation": "$-y=-1$ の両辺に $-1$ をかけると $y=1$ です。$y=-1$ としたところが誤りです。上の式を $2$ 倍、下の式を $3$ 倍してひき、$-y=-1$ を求めたところは正しくできています。正しくは $y=1$、$x=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+4y=10\\\\2x+3y=7\\end{cases}",
+        "\\begin{array}{r}6x+8y=20\\\\-)\\ 6x+9y=21\\\\\\hline -y=-1\\end{array}",
+        "y=1",
+        "3x+4=10",
+        "x=2",
+        "x=2,\\ y=1"
+      ],
+      "hint": "$-y=-1$ のとき、$y$ はいくつですか？"
+    },
+    {
+      "id": "J2-SE-0053",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}5x-3y=9\\\\3x+2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x-3y=9\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}10x-6y=18\\\\+)\\ 9x+6y=39\\\\\\hline 19x=57\\end{array}",
+        "x=3",
+        "9+2y=13",
+        "2y=22",
+        "y=11",
+        "x=3,\\ y=11"
+      ],
+      "errorLine": 4,
+      "errorType": "代入したあと移項するときの符号ミス",
+      "explanation": "$9+2y=13$ の $9$ を右辺に移項すると $-9$ になるので、$2y=13-9=4$ です。$13+9=22$ としたところが誤りです。上の式を $2$ 倍、下の式を $3$ 倍してたし、$x=3$ を下の式に代入したところまでは正しくできています。正しくは $y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x-3y=9\\\\3x+2y=13\\end{cases}",
+        "\\begin{array}{r}10x-6y=18\\\\+)\\ 9x+6y=39\\\\\\hline 19x=57\\end{array}",
+        "x=3",
+        "9+2y=13",
+        "2y=4",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$9+2y=13$ で、$9$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0054",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}4x+3y=-1\\\\6x-5y=27\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x+3y=-1\\\\6x-5y=27\\end{cases}",
+        "\\begin{array}{r}12x+9y=-3\\\\-)\\ 12x-10y=54\\\\\\hline -y=-57\\end{array}",
+        "y=57",
+        "4x+171=-1",
+        "x=-43",
+        "x=-43,\\ y=57"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、うしろの式の項の符号を変え忘れた",
+      "explanation": "ひく式の $y$ の項は $-10y$ なので、$9y-(-10y)=19y$ です。$9y-10y=-y$ としたところが誤りです。両方の式を何倍かして $x$ の係数を $12$ にそろえたところと、右辺 $-3-54=-57$ は正しくできています。正しくは $19y=-57$ で、$y=-3$、$x=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x+3y=-1\\\\6x-5y=27\\end{cases}",
+        "\\begin{array}{r}12x+9y=-3\\\\-)\\ 12x-10y=54\\\\\\hline 19y=-57\\end{array}",
+        "y=-3",
+        "4x-9=-1",
+        "x=2",
+        "x=2,\\ y=-3"
+      ],
+      "hint": "$9y-(-10y)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0055",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 3,
+      "question": "\\begin{cases}2x+5y=-4\\\\3x-2y=13\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+5y=-4\\\\3x-2y=13\\end{cases}",
+        "\\begin{array}{r}4x+10y=-8\\\\+)\\ 15x-10y=65\\\\\\hline 19x=57\\end{array}",
+        "x=3",
+        "6+5y=-4",
+        "5y=-10",
+        "y=-2",
+        "x=3,\\ y=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $2$ 倍、下の式を $5$ 倍して、$y$ の係数を $+10$ と $-10$ にそろえます。たすと $19x=57$、$x=3$ です。上の式に代入して $6+5y=-4$、$5y=-10$、$y=-2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+5y=-4\\\\3x-2y=13\\end{cases}",
+        "\\begin{array}{r}4x+10y=-8\\\\+)\\ 15x-10y=65\\\\\\hline 19x=57\\end{array}",
+        "x=3",
+        "6+5y=-4",
+        "5y=-10",
+        "y=-2",
+        "x=3,\\ y=-2"
+      ],
+      "hint": "$y$ の係数を、絶対値が同じで符号が反対になるようにそろえましょう。"
+    },
+    {
+      "id": "J2-SE-0056",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}7x+4y=2\\\\5x+3y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}7x+4y=2\\\\5x+3y=1\\end{cases}",
+        "\\begin{array}{r}21x+12y=6\\\\-)\\ 20x+12y=4\\\\\\hline x=10\\end{array}",
+        "70+4y=2",
+        "4y=-68",
+        "y=-17",
+        "x=10,\\ y=-17"
+      ],
+      "errorLine": 1,
+      "errorType": "式どうしをひくとき、右辺をたしてしまった誤り",
+      "explanation": "式どうしをひくときは、右辺もひくので $6-4=2$ です。$6+4=10$ としたところが誤りです。上の式を $3$ 倍、下の式を $4$ 倍して $y$ の係数を $12$ にそろえたところは正しくできています。正しくは $x=2$、$y=-3$ です。",
+      "correctSolution": [
+        "\\begin{cases}7x+4y=2\\\\5x+3y=1\\end{cases}",
+        "\\begin{array}{r}21x+12y=6\\\\-)\\ 20x+12y=4\\\\\\hline x=2\\end{array}",
+        "14+4y=2",
+        "4y=-12",
+        "y=-3",
+        "x=2,\\ y=-3"
+      ],
+      "hint": "式どうしをひくとき、右辺はどう計算しますか？"
+    },
+    {
+      "id": "J2-SE-0057",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}3x-4y=-7\\\\4x+3y=24\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x-4y=-7\\\\4x+3y=24\\end{cases}",
+        "\\begin{array}{r}9x-12y=-21\\\\+)\\ 16x+12y=96\\\\\\hline 25x=75\\end{array}",
+        "x=3",
+        "7+3y=24",
+        "3y=17",
+        "y=\\frac{17}{3}",
+        "x=3,\\ y=\\frac{17}{3}"
+      ],
+      "errorLine": 3,
+      "errorType": "代入するとき、係数と値をかけずにたした誤り",
+      "explanation": "$x=3$ を $4x+3y=24$ に代入すると、$4x=4\\times3=12$ なので $12+3y=24$ です。$4+3=7$ としたところが誤りです。上の式を $3$ 倍、下の式を $4$ 倍してたし、$x=3$ を求めたところまでは正しくできています。正しくは $3y=12$、$y=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x-4y=-7\\\\4x+3y=24\\end{cases}",
+        "\\begin{array}{r}9x-12y=-21\\\\+)\\ 16x+12y=96\\\\\\hline 25x=75\\end{array}",
+        "x=3",
+        "12+3y=24",
+        "3y=12",
+        "y=4",
+        "x=3,\\ y=4"
+      ],
+      "hint": "$4x$ に $x=3$ を代入すると、いくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0058",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}6x+5y=8\\\\4x+3y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}6x+5y=8\\\\4x+3y=6\\end{cases}",
+        "\\begin{array}{r}12x+10y=16\\\\-)\\ 12x+9y=18\\\\\\hline y=2\\end{array}",
+        "6x+10=8",
+        "6x=-2",
+        "x=-\\frac{1}{3}",
+        "x=-\\frac{1}{3},\\ y=2"
+      ],
+      "errorLine": 1,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "右辺は $16-18=-2$ なので、正しくは $y=-2$ です。$2$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。上の式を $2$ 倍、下の式を $3$ 倍して $x$ の係数を $12$ にそろえ、$10y-9y=y$ としたところは正しくできています。正しく計算すると $x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}6x+5y=8\\\\4x+3y=6\\end{cases}",
+        "\\begin{array}{r}12x+10y=16\\\\-)\\ 12x+9y=18\\\\\\hline y=-2\\end{array}",
+        "6x-10=8",
+        "6x=18",
+        "x=3",
+        "x=3,\\ y=-2"
+      ],
+      "hint": "右辺の $16-18$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0059",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}5x-4y=-3\\\\7x+6y=19\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x-4y=-3\\\\7x+6y=19\\end{cases}",
+        "\\begin{array}{r}15x-12y=-9\\\\+)\\ 14x+12y=38\\\\\\hline 29x=29\\end{array}",
+        "x=1",
+        "5-4y=-3",
+        "-4y=-8",
+        "y=2",
+        "x=1,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $3$ 倍、下の式を $2$ 倍して、$y$ の係数を $-12$ と $+12$ にそろえます。たすと $29x=29$、$x=1$ です。上の式に代入して $5-4y=-3$、$-4y=-8$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x-4y=-3\\\\7x+6y=19\\end{cases}",
+        "\\begin{array}{r}15x-12y=-9\\\\+)\\ 14x+12y=38\\\\\\hline 29x=29\\end{array}",
+        "x=1",
+        "5-4y=-3",
+        "-4y=-8",
+        "y=2",
+        "x=1,\\ y=2"
+      ],
+      "hint": "$y$ の係数 $-4$ と $6$ を、何にそろえるとよいか考えましょう。"
+    },
+    {
+      "id": "J2-SE-0060",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "加減法（応用）",
+      "difficulty": 4,
+      "question": "\\begin{cases}9x+2y=1\\\\6x-5y=-31\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}9x+2y=1\\\\6x-5y=-31\\end{cases}",
+        "\\begin{array}{r}18x+4y=2\\\\-)\\ 18x-15y=-93\\\\\\hline 19y=95\\end{array}",
+        "y=5",
+        "9x+10=1",
+        "9x=-9",
+        "x=1",
+        "x=1,\\ y=5"
+      ],
+      "errorLine": 5,
+      "errorType": "両辺を正の数でわるときに符号を変えてしまった誤り",
+      "explanation": "$9x=-9$ の両辺を $9$ でわると、$x=(-9)\\div9=-1$ です。$x=1$ としたところが誤りです（正の数でわっても符号は変わりません）。両方の式を何倍かしてひき、$y=5$ を代入して $9x=-9$ を求めたところまでは正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}9x+2y=1\\\\6x-5y=-31\\end{cases}",
+        "\\begin{array}{r}18x+4y=2\\\\-)\\ 18x-15y=-93\\\\\\hline 19y=95\\end{array}",
+        "y=5",
+        "9x+10=1",
+        "9x=-9",
+        "x=-1",
+        "x=-1,\\ y=5"
+      ],
+      "hint": "$-9$ を $9$ でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0061",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}y=2x\\\\x+y=9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=2x\\\\x+y=9\\end{cases}",
+        "x+2x=9",
+        "3x=9",
+        "x=3",
+        "y=2\\times3",
+        "x=3,\\ y=6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式の $y=2x$ を下の式の $y$ に代入すると $x+2x=9$、$3x=9$、$x=3$ です。$y=2\\times3=6$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=2x\\\\x+y=9\\end{cases}",
+        "x+2x=9",
+        "3x=9",
+        "x=3",
+        "y=2\\times3",
+        "x=3,\\ y=6"
+      ],
+      "hint": "$y$ のところに $2x$ を代入した式を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0062",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}y=x+1\\\\2x+y=10\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=x+1\\\\2x+y=10\\end{cases}",
+        "2x+(x+1)=10",
+        "3x+1=10",
+        "3x=9",
+        "x=6",
+        "y=6+1",
+        "x=6,\\ y=7"
+      ],
+      "errorLine": 4,
+      "errorType": "両辺を係数でわらずに、係数をひいた誤り",
+      "explanation": "$3x=9$ の両辺を $3$ でわると、$x=9\\div3=3$ です。$9-3=6$ としたところが誤りです。代入して $3x+1=10$、$3x=9$ としたところまでは正しくできています。正しくは $x=3$、$y=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=x+1\\\\2x+y=10\\end{cases}",
+        "2x+(x+1)=10",
+        "3x+1=10",
+        "3x=9",
+        "x=3",
+        "y=3+1",
+        "x=3,\\ y=4"
+      ],
+      "hint": "$3x=9$ から $x$ を求めるには、両辺をどうしますか？"
+    },
+    {
+      "id": "J2-SE-0063",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}x=y+2\\\\x+3y=10\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=y+2\\\\x+3y=10\\end{cases}",
+        "y+2+3y=10",
+        "4y=8",
+        "y=4",
+        "x=4+2",
+        "x=6,\\ y=4"
+      ],
+      "errorLine": 3,
+      "errorType": "両辺を係数でわらずに、係数をひいた誤り",
+      "explanation": "$4y=8$ の両辺を $4$ でわると、$y=8\\div4=2$ です。$8-4=4$ としたところが誤りです。$x=y+2$ を代入して $4y+2=10$、$4y=8$ としたところまでは正しくできています。正しくは $y=2$、$x=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=y+2\\\\x+3y=10\\end{cases}",
+        "y+2+3y=10",
+        "4y=8",
+        "y=2",
+        "x=2+2",
+        "x=4,\\ y=2"
+      ],
+      "hint": "$4y=8$ から $y$ を求めるには、両辺をどうしますか？"
+    },
+    {
+      "id": "J2-SE-0064",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}y=3x\\\\5x-y=4\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=3x\\\\5x-y=4\\end{cases}",
+        "5x+3x=4",
+        "8x=4",
+        "x=\\frac{1}{2}",
+        "y=3\\times\\frac{1}{2}",
+        "x=\\frac{1}{2},\\ y=\\frac{3}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "代入するときの符号ミス",
+      "explanation": "$5x-y$ の $y$ に $3x$ を代入すると $5x-3x$ です。$-y$ の $-$ を落として $5x+3x$ としたところが誤りです。正しくは $5x-3x=4$、$2x=4$ で、$x=2$、$y=6$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=3x\\\\5x-y=4\\end{cases}",
+        "5x-3x=4",
+        "2x=4",
+        "x=2",
+        "y=3\\times2",
+        "x=2,\\ y=6"
+      ],
+      "hint": "$5x-y$ の $y$ を $3x$ におきかえると、どんな式になりますか？"
+    },
+    {
+      "id": "J2-SE-0065",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 1,
+      "question": "\\begin{cases}y=x-4\\\\3x+y=8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=x-4\\\\3x+y=8\\end{cases}",
+        "3x+(x-4)=8",
+        "4x-4=8",
+        "4x=12",
+        "x=3",
+        "y=3-4",
+        "x=3,\\ y=1"
+      ],
+      "errorLine": 6,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$y=3-4$ は $-1$ です。答えを $y=1$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。代入して $x=3$ を求め、$y=3-4$ としたところまでは正しくできています。",
+      "correctSolution": [
+        "\\begin{cases}y=x-4\\\\3x+y=8\\end{cases}",
+        "3x+(x-4)=8",
+        "4x-4=8",
+        "4x=12",
+        "x=3",
+        "y=3-4",
+        "x=3,\\ y=-1"
+      ],
+      "hint": "$3-4$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0066",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}y=2x-1\\\\3x+2y=12\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=2x-1\\\\3x+2y=12\\end{cases}",
+        "3x+2(2x-1)=12",
+        "3x+4x-2=12",
+        "7x=14",
+        "x=2",
+        "y=2\\times2-1",
+        "x=2,\\ y=3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$y=2x-1$ を、かっこをつけて代入します。$2(2x-1)=4x-2$ なので $7x-2=12$、$7x=14$、$x=2$ です。$y=4-1=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=2x-1\\\\3x+2y=12\\end{cases}",
+        "3x+2(2x-1)=12",
+        "3x+4x-2=12",
+        "7x=14",
+        "x=2",
+        "y=2\\times2-1",
+        "x=2,\\ y=3"
+      ],
+      "hint": "$2y$ に $2x-1$ を代入するときは、かっこをつけましょう。"
+    },
+    {
+      "id": "J2-SE-0067",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}x=3y-2\\\\2x-5y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=3y-2\\\\2x-5y=1\\end{cases}",
+        "2(3y-2)-5y=1",
+        "6y-2-5y=1",
+        "y=3",
+        "x=3\\times3-2",
+        "x=7,\\ y=3"
+      ],
+      "errorLine": 2,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$2(3y-2)$ のかっこをはずすときは、$-2$ にも $2$ をかけて $6y-4$ です。$6y-2$ としたところが誤りです。$x=3y-2$ をかっこをつけて代入した1行目は正しくできています。正しくは $y-4=1$、$y=5$、$x=13$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=3y-2\\\\2x-5y=1\\end{cases}",
+        "2(3y-2)-5y=1",
+        "6y-4-5y=1",
+        "y=5",
+        "x=3\\times5-2",
+        "x=13,\\ y=5"
+      ],
+      "hint": "$2(3y-2)$ のかっこをはずすと、数の項はいくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0068",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}y=-x+5\\\\4x-y=10\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=-x+5\\\\4x-y=10\\end{cases}",
+        "4x-(-x+5)=10",
+        "4x-x+5=10",
+        "3x=5",
+        "x=\\frac{5}{3}",
+        "y=-\\frac{5}{3}+5",
+        "x=\\frac{5}{3},\\ y=\\frac{10}{3}"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの前の − を無視してかっこをはずした誤り",
+      "explanation": "$-(-x+5)$ のかっこをはずすと、中の項の符号がすべて変わって $+x-5$ です。符号を変えずに $-x+5$ としたところが誤りです。かっこをつけて代入した1行目は正しくできています。正しくは $4x+x-5=10$、$5x=15$、$x=3$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=-x+5\\\\4x-y=10\\end{cases}",
+        "4x-(-x+5)=10",
+        "4x+x-5=10",
+        "5x=15",
+        "x=3",
+        "y=-3+5",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$-(-x+5)$ のかっこをはずすと、どうなりますか？"
+    },
+    {
+      "id": "J2-SE-0069",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}2x+y=7\\\\y=3x-8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=7\\\\y=3x-8\\end{cases}",
+        "2x+(3x-8)=7",
+        "5x-8=7",
+        "5x=15",
+        "x=3",
+        "y=3\\times3-8",
+        "x=3,\\ y=17"
+      ],
+      "errorLine": 6,
+      "errorType": "代入したあとの計算で、ひき算をたし算にした誤り",
+      "explanation": "$y=3\\times3-8=9-8=1$ です。答えを $y=17$ としたところが誤りです（$9+8$ を計算しています）。代入して $x=3$ を求め、$y=3\\times3-8$ としたところまでは正しくできています。正しくは $x=3,\\ y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=7\\\\y=3x-8\\end{cases}",
+        "2x+(3x-8)=7",
+        "5x-8=7",
+        "5x=15",
+        "x=3",
+        "y=3\\times3-8",
+        "x=3,\\ y=1"
+      ],
+      "hint": "$3\\times3-8$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0070",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 2,
+      "question": "\\begin{cases}x=2y\\\\3x-4y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=2y\\\\3x-4y=6\\end{cases}",
+        "3\\times2y-4y=6",
+        "10y=6",
+        "y=\\frac{3}{5}",
+        "x=2\\times\\frac{3}{5}",
+        "x=\\frac{6}{5},\\ y=\\frac{3}{5}"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$3\\times2y-4y$ は $6y-4y=2y$ です。$10y$ としたところが誤りです（$-4y$ をたしています）。$x=2y$ を代入した1行目は正しくできています。正しくは $2y=6$、$y=3$、$x=6$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=2y\\\\3x-4y=6\\end{cases}",
+        "3\\times2y-4y=6",
+        "2y=6",
+        "y=3",
+        "x=2\\times3",
+        "x=6,\\ y=3"
+      ],
+      "hint": "$6y-4y$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0071",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}x+2y=7\\\\3x-y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+2y=7\\\\3x-y=7\\end{cases}",
+        "x=7-2y",
+        "3(7-2y)-y=7",
+        "21-7y=7",
+        "y=2",
+        "x=7-2\\times2",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $x=7-2y$ と変形して、下の式に代入します。$21-6y-y=7$ なので $-7y=-14$、$y=2$ です。$x=7-4=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+2y=7\\\\3x-y=7\\end{cases}",
+        "x=7-2y",
+        "3(7-2y)-y=7",
+        "21-7y=7",
+        "y=2",
+        "x=7-2\\times2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "どちらの式を、どの文字について解くと代入しやすいか考えましょう。"
+    },
+    {
+      "id": "J2-SE-0072",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}2x+y=5\\\\3x+2y=8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x+y=5\\\\3x+2y=8\\end{cases}",
+        "y=5-2x",
+        "3x+2(5-2x)=8",
+        "-x+10=8",
+        "x=2",
+        "y=5-2\\times2",
+        "x=2,\\ y=1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $y=5-2x$ と変形して代入します。$3x+10-4x=8$ なので $-x+10=8$、$-x=-2$、$x=2$ です。$y=5-4=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x+y=5\\\\3x+2y=8\\end{cases}",
+        "y=5-2x",
+        "3x+2(5-2x)=8",
+        "-x+10=8",
+        "x=2",
+        "y=5-2\\times2",
+        "x=2,\\ y=1"
+      ],
+      "hint": "$2(5-2x)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0073",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}3x-y=5\\\\5x-2y=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x-y=5\\\\5x-2y=7\\end{cases}",
+        "y=3x-5",
+        "5x-2(3x-5)=7",
+        "5x-6x-10=7",
+        "x=-17",
+        "y=3\\times(-17)-5",
+        "x=-17,\\ y=-56"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$-2(3x-5)$ のかっこをはずすと、$(-2)\\times(-5)=+10$ なので $-6x+10$ です。$-10$ としたところが誤りです。上の式を $y=3x-5$ と変形し、かっこをつけて代入したところまでは正しくできています。正しくは $-x+10=7$、$x=3$、$y=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x-y=5\\\\5x-2y=7\\end{cases}",
+        "y=3x-5",
+        "5x-2(3x-5)=7",
+        "5x-6x+10=7",
+        "x=3",
+        "y=3\\times3-5",
+        "x=3,\\ y=4"
+      ],
+      "hint": "$-2(3x-5)$ の数の項 $(-2)\\times(-5)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0074",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}x-3y=1\\\\2x+y=9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x-3y=1\\\\2x+y=9\\end{cases}",
+        "x=3y+1",
+        "2(3y+1)+y=9",
+        "7y=11",
+        "y=\\frac{11}{7}",
+        "x=\\frac{40}{7}",
+        "x=\\frac{40}{7},\\ y=\\frac{11}{7}"
+      ],
+      "errorLine": 3,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$2(3y+1)+y=9$ は $7y+2=9$ です。$2$ を右辺に移項すると $-2$ になるので、$7y=9-2=7$ です。$9+2=11$ としたところが誤りです。上の式を $x=3y+1$ と変形して代入したところまでは正しくできています。正しくは $y=1$、$x=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}x-3y=1\\\\2x+y=9\\end{cases}",
+        "x=3y+1",
+        "2(3y+1)+y=9",
+        "7y=7",
+        "y=1",
+        "x=3\\times1+1",
+        "x=4,\\ y=1"
+      ],
+      "hint": "$7y+2=9$ で、$2$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0075",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 3,
+      "question": "\\begin{cases}4x+y=2\\\\3x-2y=-15\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x+y=2\\\\3x-2y=-15\\end{cases}",
+        "y=2-4x",
+        "3x-2(2-4x)=-15",
+        "11x-4=-15",
+        "x=-1",
+        "y=2-4",
+        "x=-1,\\ y=-2"
+      ],
+      "errorLine": 5,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$y=2-4x$ に $x=-1$ を代入すると、$-4x=(-4)\\times(-1)=+4$ なので $y=2+4=6$ です。$2-4$ としたところが誤りです。$x=-1$ を求めたところまでは正しくできています。正しくは $x=-1,\\ y=6$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x+y=2\\\\3x-2y=-15\\end{cases}",
+        "y=2-4x",
+        "3x-2(2-4x)=-15",
+        "11x-4=-15",
+        "x=-1",
+        "y=2+4",
+        "x=-1,\\ y=6"
+      ],
+      "hint": "$-4x$ に $x=-1$ を代入すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0076",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}x=\\frac{1}{2}y+3\\\\2x-3y=2\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x=\\frac{1}{2}y+3\\\\2x-3y=2\\end{cases}",
+        "2\\left(\\frac{1}{2}y+3\\right)-3y=2",
+        "y+6-3y=2",
+        "-2y=-4",
+        "y=2",
+        "x=\\frac{1}{2}\\times2+3",
+        "x=4,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x=\\frac{1}{2}y+3$ を、かっこをつけて代入します。$2\\times\\frac{1}{2}y=y$、$2\\times3=6$ なので $y+6-3y=2$、$-2y=-4$、$y=2$ です。$x=1+3=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}x=\\frac{1}{2}y+3\\\\2x-3y=2\\end{cases}",
+        "2\\left(\\frac{1}{2}y+3\\right)-3y=2",
+        "y+6-3y=2",
+        "-2y=-4",
+        "y=2",
+        "x=\\frac{1}{2}\\times2+3",
+        "x=4,\\ y=2"
+      ],
+      "hint": "$2\\left(\\frac{1}{2}y+3\\right)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0077",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}y=\\frac{2}{3}x-1\\\\4x-3y=9\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}y=\\frac{2}{3}x-1\\\\4x-3y=9\\end{cases}",
+        "4x-3\\left(\\frac{2}{3}x-1\\right)=9",
+        "4x-2x-3=9",
+        "2x=12",
+        "x=6",
+        "y=\\frac{2}{3}\\times6-1",
+        "x=6,\\ y=3"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$-3\\left(\\frac{2}{3}x-1\\right)$ のかっこをはずすと、$(-3)\\times(-1)=+3$ なので $-2x+3$ です。$-3$ としたところが誤りです。かっこをつけて代入した1行目と、$-3\\times\\frac{2}{3}x=-2x$ は正しくできています。正しくは $2x+3=9$、$x=3$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}y=\\frac{2}{3}x-1\\\\4x-3y=9\\end{cases}",
+        "4x-3\\left(\\frac{2}{3}x-1\\right)=9",
+        "4x-2x+3=9",
+        "2x=6",
+        "x=3",
+        "y=\\frac{2}{3}\\times3-1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "$-3\\left(\\frac{2}{3}x-1\\right)$ の、$(-3)\\times(-1)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0078",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}2x-5y=-3\\\\x+4y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2x-5y=-3\\\\x+4y=5\\end{cases}",
+        "x=5-4y",
+        "2(5-4y)-5y=-3",
+        "10-13y=-3",
+        "y=1",
+        "x=5-4\\times1",
+        "x=1,\\ y=1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。下の式を $x=5-4y$ と変形して、上の式に代入します。$10-8y-5y=-3$ なので $-13y=-13$、$y=1$ です。$x=5-4=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}2x-5y=-3\\\\x+4y=5\\end{cases}",
+        "x=5-4y",
+        "2(5-4y)-5y=-3",
+        "10-13y=-3",
+        "y=1",
+        "x=5-4\\times1",
+        "x=1,\\ y=1"
+      ],
+      "hint": "$x$ の係数が $1$ の式を $x$ について解くと、代入しやすくなります。"
+    },
+    {
+      "id": "J2-SE-0079",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}3x+2y=4\\\\x=-2y+8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3x+2y=4\\\\x=-2y+8\\end{cases}",
+        "-6y+8+2y=4",
+        "-4y=-4",
+        "y=1",
+        "x=-2+8",
+        "x=6,\\ y=1"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$x=-2y+8$ を代入すると $3(-2y+8)+2y=4$ で、かっこをはずすと $8$ にも $3$ をかけて $-6y+24$ です。$-6y+8$ としたところが誤りです。正しくは $-4y+24=4$、$-4y=-20$、$y=5$、$x=-2$ です。",
+      "correctSolution": [
+        "\\begin{cases}3x+2y=4\\\\x=-2y+8\\end{cases}",
+        "3(-2y+8)+2y=4",
+        "-6y+24+2y=4",
+        "-4y=-20",
+        "y=5",
+        "x=-10+8",
+        "x=-2,\\ y=5"
+      ],
+      "hint": "$3x$ に $-2y+8$ を代入するときは、かっこをつけて $3(-2y+8)$ とします。"
+    },
+    {
+      "id": "J2-SE-0080",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "代入法",
+      "difficulty": 4,
+      "question": "\\begin{cases}5x-3y=-1\\\\y=2x+1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}5x-3y=-1\\\\y=2x+1\\end{cases}",
+        "5x-3(2x+1)=-1",
+        "5x-6x-3=-1",
+        "-x=2",
+        "x=2",
+        "y=2\\times2+1",
+        "x=2,\\ y=5"
+      ],
+      "errorLine": 4,
+      "errorType": "-x=a から x を求めるときの符号ミス",
+      "explanation": "$-x=2$ の両辺に $-1$ をかけると $x=-2$ です。$x=2$ としたところが誤りです。かっこをつけて代入し、$-x=2$ を求めたところまでは正しくできています。正しくは $x=-2$、$y=2\\times(-2)+1=-3$ です。",
+      "correctSolution": [
+        "\\begin{cases}5x-3y=-1\\\\y=2x+1\\end{cases}",
+        "5x-3(2x+1)=-1",
+        "5x-6x-3=-1",
+        "-x=2",
+        "x=-2",
+        "y=2\\times(-2)+1",
+        "x=-2,\\ y=-3"
+      ],
+      "hint": "$-x=2$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J2-SE-0081",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}2(x+y)=10\\\\x-y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2(x+y)=10\\\\x-y=1\\end{cases}",
+        "\\begin{cases}x+y=5\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+y=5\\\\+)\\ x-y=1\\\\\\hline 2x=6\\end{array}",
+        "x=3",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式の両辺を $2$ でわって $x+y=5$ と整理します。2つの式をたすと $2x=6$、$x=3$ で、$3+y=5$ から $y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2(x+y)=10\\\\x-y=1\\end{cases}",
+        "\\begin{cases}x+y=5\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+y=5\\\\+)\\ x-y=1\\\\\\hline 2x=6\\end{array}",
+        "x=3",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "かっこのある式は、まず簡単な形に整理しましょう。"
+    },
+    {
+      "id": "J2-SE-0082",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}3(x-1)+y=8\\\\x+y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3(x-1)+y=8\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x+y=9\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x+y=9\\\\-)\\ x+y=5\\\\\\hline 2x=4\\end{array}",
+        "x=2",
+        "2+y=5",
+        "y=3",
+        "x=2,\\ y=3"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$3(x-1)$ のかっこをはずすと $3x-3$ なので、上の式は $3x-3+y=8$、$3x+y=11$ です。$-1$ に $3$ をかけずに $3x-1+y=8$ として $3x+y=9$ としたところが誤りです。正しく計算すると $2x=6$、$x=3$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}3(x-1)+y=8\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x+y=11\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x+y=11\\\\-)\\ x+y=5\\\\\\hline 2x=6\\end{array}",
+        "x=3",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$3(x-1)$ のかっこをはずすと、数の項はいくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0083",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}0.1x+0.2y=0.7\\\\x-y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.1x+0.2y=0.7\\\\x-y=1\\end{cases}",
+        "\\begin{cases}x+2y=7\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+2y=7\\\\-)\\ x-y=1\\\\\\hline y=6\\end{array}",
+        "x-6=1",
+        "x=7",
+        "x=7,\\ y=6"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをひくとき、うしろの式の項の符号を変え忘れた",
+      "explanation": "上の式から下の式をひくと、$y$ の項は $2y-(-y)=3y$ です。$2y-y=y$ としたところが誤りです。上の式を $10$ 倍して $x+2y=7$ と整理したところは正しくできています。正しくは $3y=6$ で、$y=2$、$x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.1x+0.2y=0.7\\\\x-y=1\\end{cases}",
+        "\\begin{cases}x+2y=7\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}x+2y=7\\\\-)\\ x-y=1\\\\\\hline 3y=6\\end{array}",
+        "y=2",
+        "x-2=1",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$2y-(-y)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0084",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+y=6\\\\\\frac{x}{2}+y=4\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+y=6\\\\\\frac{x}{2}+y=4\\end{cases}",
+        "\\begin{cases}x+y=6\\\\x+2y=4\\end{cases}",
+        "\\begin{array}{r}x+2y=4\\\\-)\\ x+y=6\\\\\\hline y=-2\\end{array}",
+        "x-2=6",
+        "x=8",
+        "x=8,\\ y=-2"
+      ],
+      "errorLine": 1,
+      "errorType": "式を何倍かするとき、右辺にかけ忘れた誤り",
+      "explanation": "下の式の分母をはらうために両辺を $2$ 倍すると、右辺も $4\\times2=8$ になるので $x+2y=8$ です。右辺を $4$ のままにしたところが誤りです。左辺の $x+2y$ は正しくできています。正しく計算すると $y=2$、$x=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+y=6\\\\\\frac{x}{2}+y=4\\end{cases}",
+        "\\begin{cases}x+y=6\\\\x+2y=8\\end{cases}",
+        "\\begin{array}{r}x+2y=8\\\\-)\\ x+y=6\\\\\\hline y=2\\end{array}",
+        "x+2=6",
+        "x=4",
+        "x=4,\\ y=2"
+      ],
+      "hint": "両辺を $2$ 倍するとき、右辺の $4$ にも $2$ をかけましたか？"
+    },
+    {
+      "id": "J2-SE-0085",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 1,
+      "question": "\\begin{cases}x+y=-1\\\\2(x-y)=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}x+y=-1\\\\2(x-y)=6\\end{cases}",
+        "\\begin{cases}x+y=-1\\\\x-y=3\\end{cases}",
+        "\\begin{array}{r}x+y=-1\\\\+)\\ x-y=3\\\\\\hline 2x=2\\end{array}",
+        "x=1",
+        "1+y=-1",
+        "y=-2",
+        "x=1,\\ y=-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。下の式の両辺を $2$ でわって $x-y=3$ と整理します。たすと $2x=2$、$x=1$ で、$1+y=-1$ から $y=-2$ です。",
+      "correctSolution": [
+        "\\begin{cases}x+y=-1\\\\2(x-y)=6\\end{cases}",
+        "\\begin{cases}x+y=-1\\\\x-y=3\\end{cases}",
+        "\\begin{array}{r}x+y=-1\\\\+)\\ x-y=3\\\\\\hline 2x=2\\end{array}",
+        "x=1",
+        "1+y=-1",
+        "y=-2",
+        "x=1,\\ y=-2"
+      ],
+      "hint": "$1+y=-1$ から $y$ を求める計算を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0086",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}3(x-2)=y+1\\\\x+y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}3(x-2)=y+1\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x-y=-5\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x-y=-5\\\\+)\\ x+y=5\\\\\\hline 4x=0\\end{array}",
+        "x=0",
+        "y=5",
+        "x=0,\\ y=5"
+      ],
+      "errorLine": 1,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "上の式は $3x-6=y+1$ です。$y$ を左辺に、$-6$ を右辺に移項すると $3x-y=1+6=7$ です。$-6$ を符号を変えずに移項して $1-6=-5$ としたところが誤りです。正しく計算すると $4x=12$、$x=3$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}3(x-2)=y+1\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x-y=7\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x-y=7\\\\+)\\ x+y=5\\\\\\hline 4x=12\\end{array}",
+        "x=3",
+        "3+y=5",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$3x-6=y+1$ で、$-6$ を右辺に移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0087",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}0.3x-0.2y=1\\\\x+y=5\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.3x-0.2y=1\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x-2y=10\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x-2y=10\\\\+)\\ 2x+2y=10\\\\\\hline 5x=20\\end{array}",
+        "x=4",
+        "4+y=5",
+        "y=1",
+        "x=4,\\ y=1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $10$ 倍して $3x-2y=10$ とします（右辺の $1$ も $10$ 倍します）。下の式を $2$ 倍してたすと $5x=20$、$x=4$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.3x-0.2y=1\\\\x+y=5\\end{cases}",
+        "\\begin{cases}3x-2y=10\\\\x+y=5\\end{cases}",
+        "\\begin{array}{r}3x-2y=10\\\\+)\\ 2x+2y=10\\\\\\hline 5x=20\\end{array}",
+        "x=4",
+        "4+y=5",
+        "y=1",
+        "x=4,\\ y=1"
+      ],
+      "hint": "小数をふくむ式を $10$ 倍するとき、右辺も $10$ 倍されているか確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0088",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}\\frac{x}{3}+\\frac{y}{2}=3\\\\x-y=4\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}\\frac{x}{3}+\\frac{y}{2}=3\\\\x-y=4\\end{cases}",
+        "\\begin{cases}2x+3y=18\\\\x-y=4\\end{cases}",
+        "\\begin{array}{r}2x+3y=18\\\\-)\\ 2x-2y=8\\\\\\hline y=10\\end{array}",
+        "x-10=4",
+        "x=14",
+        "x=14,\\ y=10"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをひくとき、うしろの式の項の符号を変え忘れた",
+      "explanation": "ひく式の $y$ の項は $-2y$ なので、$3y-(-2y)=5y$ です。$3y-2y=y$ としたところが誤りです。上の式を $6$ 倍して $2x+3y=18$ と整理し、下の式を $2$ 倍したところは正しくできています。正しくは $5y=10$ で、$y=2$、$x=6$ です。",
+      "correctSolution": [
+        "\\begin{cases}\\frac{x}{3}+\\frac{y}{2}=3\\\\x-y=4\\end{cases}",
+        "\\begin{cases}2x+3y=18\\\\x-y=4\\end{cases}",
+        "\\begin{array}{r}2x+3y=18\\\\-)\\ 2x-2y=8\\\\\\hline 5y=10\\end{array}",
+        "y=2",
+        "x-2=4",
+        "x=6",
+        "x=6,\\ y=2"
+      ],
+      "hint": "$3y-(-2y)$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-SE-0089",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}4x-(x-y)=11\\\\2x+y=8\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}4x-(x-y)=11\\\\2x+y=8\\end{cases}",
+        "\\begin{cases}3x+y=11\\\\2x+y=8\\end{cases}",
+        "\\begin{array}{r}3x+y=11\\\\-)\\ 2x+y=8\\\\\\hline x=19\\end{array}",
+        "38+y=8",
+        "y=-30",
+        "x=19,\\ y=-30"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをひくとき、右辺をたしてしまった誤り",
+      "explanation": "式どうしをひくときは、右辺もひくので $11-8=3$ です。$11+8=19$ としたところが誤りです。上の式を $3x+y=11$ と整理し、$y$ を消したところは正しくできています。正しくは $x=3$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}4x-(x-y)=11\\\\2x+y=8\\end{cases}",
+        "\\begin{cases}3x+y=11\\\\2x+y=8\\end{cases}",
+        "\\begin{array}{r}3x+y=11\\\\-)\\ 2x+y=8\\\\\\hline x=3\\end{array}",
+        "6+y=8",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "式どうしをひくとき、右辺はどう計算しますか？"
+    },
+    {
+      "id": "J2-SE-0090",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 2,
+      "question": "\\begin{cases}0.2x+0.5y=1.6\\\\x-y=1\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.2x+0.5y=1.6\\\\x-y=1\\end{cases}",
+        "\\begin{cases}2x+5y=16\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}2x+5y=16\\\\-)\\ 2x-2y=2\\\\\\hline 7y=14\\end{array}",
+        "y=2",
+        "x-2=1",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式を $10$ 倍して $2x+5y=16$ とし、下の式を $2$ 倍してひきます。$5y-(-2y)=7y$、$16-2=14$ で $y=2$、$x=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.2x+0.5y=1.6\\\\x-y=1\\end{cases}",
+        "\\begin{cases}2x+5y=16\\\\x-y=1\\end{cases}",
+        "\\begin{array}{r}2x+5y=16\\\\-)\\ 2x-2y=2\\\\\\hline 7y=14\\end{array}",
+        "y=2",
+        "x-2=1",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "hint": "ひくときの $5y-(-2y)$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0091",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "\\begin{cases}\\frac{x}{2}-\\frac{y}{3}=1\\\\\\frac{x}{4}+\\frac{y}{6}=\\frac{3}{2}\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}\\frac{x}{2}-\\frac{y}{3}=1\\\\\\frac{x}{4}+\\frac{y}{6}=\\frac{3}{2}\\end{cases}",
+        "\\begin{cases}3x-2y=6\\\\3x+2y=18\\end{cases}",
+        "\\begin{array}{r}3x-2y=6\\\\+)\\ 3x+2y=18\\\\\\hline 6x=24\\end{array}",
+        "x=4",
+        "12+2y=18",
+        "y=3",
+        "x=4,\\ y=3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。上の式は $6$ 倍、下の式は $12$ 倍して分母をはらいます。たすと $6x=24$、$x=4$ で、$12+2y=18$ から $y=3$ です。",
+      "correctSolution": [
+        "\\begin{cases}\\frac{x}{2}-\\frac{y}{3}=1\\\\\\frac{x}{4}+\\frac{y}{6}=\\frac{3}{2}\\end{cases}",
+        "\\begin{cases}3x-2y=6\\\\3x+2y=18\\end{cases}",
+        "\\begin{array}{r}3x-2y=6\\\\+)\\ 3x+2y=18\\\\\\hline 6x=24\\end{array}",
+        "x=4",
+        "12+2y=18",
+        "y=3",
+        "x=4,\\ y=3"
+      ],
+      "hint": "それぞれの式の分母の最小公倍数を両辺にかけましょう。"
+    },
+    {
+      "id": "J2-SE-0092",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "x+2y=3x-y=7",
+      "answerLines": [
+        "x+2y=3x-y=7",
+        "\\begin{cases}x+2y=7\\\\3x-y=7\\end{cases}",
+        "\\begin{array}{r}x+2y=7\\\\+)\\ 6x-2y=7\\\\\\hline 7x=14\\end{array}",
+        "x=2",
+        "2+2y=7",
+        "y=\\frac{5}{2}",
+        "x=2,\\ y=\\frac{5}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "式を何倍かするとき、右辺にかけ忘れた誤り",
+      "explanation": "$3x-y=7$ を $2$ 倍するときは、右辺にも $2$ をかけて $6x-2y=14$ にします。右辺を $7$ のままにしたところが誤りです。$A=B=C$ の形から $x+2y=7$ と $3x-y=7$ の連立方程式をつくったところは正しくできています。正しくは $7x=21$ で、$x=3$、$y=2$ です。",
+      "correctSolution": [
+        "x+2y=3x-y=7",
+        "\\begin{cases}x+2y=7\\\\3x-y=7\\end{cases}",
+        "\\begin{array}{r}x+2y=7\\\\+)\\ 6x-2y=14\\\\\\hline 7x=21\\end{array}",
+        "x=3",
+        "3+2y=7",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "下の式を $2$ 倍した式を、右辺まで確かめましょう。"
+    },
+    {
+      "id": "J2-SE-0093",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "\\begin{cases}2(x+y)-3y=4\\\\3x-2(x-y)=7\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2(x+y)-3y=4\\\\3x-2(x-y)=7\\end{cases}",
+        "\\begin{cases}2x-y=4\\\\x+2y=7\\end{cases}",
+        "\\begin{array}{r}4x-2y=8\\\\+)\\ x+2y=7\\\\\\hline 5x=15\\end{array}",
+        "x=3",
+        "-y=10",
+        "y=-10",
+        "x=3,\\ y=-10"
+      ],
+      "errorLine": 4,
+      "errorType": "数の項を移項するときの符号ミス",
+      "explanation": "$x=3$ を $2x-y=4$ に代入すると $6-y=4$ です。$6$ を右辺に移項すると $-6$ になるので、$-y=4-6=-2$ です。$4+6=10$ としたところが誤りです。2つの式の整理と、$x=3$ を求めたところまでは正しくできています。正しくは $y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2(x+y)-3y=4\\\\3x-2(x-y)=7\\end{cases}",
+        "\\begin{cases}2x-y=4\\\\x+2y=7\\end{cases}",
+        "\\begin{array}{r}4x-2y=8\\\\+)\\ x+2y=7\\\\\\hline 5x=15\\end{array}",
+        "x=3",
+        "-y=-2",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$6-y=4$ で、$6$ を移項すると符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0094",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "\\begin{cases}0.4x+0.3y=1\\\\\\frac{x}{2}-\\frac{y}{4}=0\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.4x+0.3y=1\\\\\\frac{x}{2}-\\frac{y}{4}=0\\end{cases}",
+        "\\begin{cases}4x+3y=1\\\\2x-y=0\\end{cases}",
+        "\\begin{array}{r}4x+3y=1\\\\+)\\ 6x-3y=0\\\\\\hline 10x=1\\end{array}",
+        "x=\\frac{1}{10}",
+        "\\frac{1}{5}-y=0",
+        "y=\\frac{1}{5}",
+        "x=\\frac{1}{10},\\ y=\\frac{1}{5}"
+      ],
+      "errorLine": 1,
+      "errorType": "小数をふくむ式を10倍するとき、右辺にかけ忘れた誤り",
+      "explanation": "上の式を $10$ 倍するときは、右辺も $1\\times10=10$ になるので $4x+3y=10$ です。右辺を $1$ のままにしたところが誤りです。下の式を $4$ 倍して $2x-y=0$ としたところは正しくできています。正しく計算すると $10x=10$、$x=1$、$y=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.4x+0.3y=1\\\\\\frac{x}{2}-\\frac{y}{4}=0\\end{cases}",
+        "\\begin{cases}4x+3y=10\\\\2x-y=0\\end{cases}",
+        "\\begin{array}{r}4x+3y=10\\\\+)\\ 6x-3y=0\\\\\\hline 10x=10\\end{array}",
+        "x=1",
+        "2-y=0",
+        "y=2",
+        "x=1,\\ y=2"
+      ],
+      "hint": "上の式を $10$ 倍したとき、右辺はいくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0095",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 3,
+      "question": "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
+        "\\begin{cases}-x+5y=6\\\\x+y=6\\end{cases}",
+        "\\begin{array}{r}-x+5y=6\\\\+)\\ x+y=6\\\\\\hline 6y=0\\end{array}",
+        "y=0",
+        "x=6",
+        "x=6,\\ y=0"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをたすとき、右辺をひいてしまった誤り",
+      "explanation": "2つの式をたすときは、右辺もたすので $6+6=12$ です。$6-6=0$ としたところが誤りです。上の式を $6$ 倍して $2(x+y)-3(x-y)=6$、$-x+5y=6$ と整理したところは正しくできています。正しくは $6y=12$ で、$y=2$、$x=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
+        "\\begin{cases}-x+5y=6\\\\x+y=6\\end{cases}",
+        "\\begin{array}{r}-x+5y=6\\\\+)\\ x+y=6\\\\\\hline 6y=12\\end{array}",
+        "y=2",
+        "x+2=6",
+        "x=4",
+        "x=4,\\ y=2"
+      ],
+      "hint": "式どうしをたすとき、右辺はどう計算しますか？"
+    },
+    {
+      "id": "J2-SE-0096",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "2x+y=x+3y-1=8",
+      "answerLines": [
+        "2x+y=x+3y-1=8",
+        "\\begin{cases}2x+y=8\\\\x+3y=9\\end{cases}",
+        "\\begin{array}{r}2x+6y=18\\\\-)\\ 2x+y=8\\\\\\hline 5y=10\\end{array}",
+        "y=2",
+        "2x+2=8",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$A=B=C$ の形の方程式は、$A=C$、$B=C$ の連立方程式にします。$x+3y-1=8$ は $x+3y=9$ です。これを $2$ 倍して上の式をひくと $5y=10$、$y=2$、$x=3$ です。",
+      "correctSolution": [
+        "2x+y=x+3y-1=8",
+        "\\begin{cases}2x+y=8\\\\x+3y=9\\end{cases}",
+        "\\begin{array}{r}2x+6y=18\\\\-)\\ 2x+y=8\\\\\\hline 5y=10\\end{array}",
+        "y=2",
+        "2x+2=8",
+        "x=3",
+        "x=3,\\ y=2"
+      ],
+      "hint": "$A=B=C$ の形は、どの2つの式の組にすると解きやすいか考えましょう。"
+    },
+    {
+      "id": "J2-SE-0097",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "\\begin{cases}0.5x-0.2y=1.3\\\\\\frac{x}{3}+\\frac{y}{4}=\\frac{5}{4}\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}0.5x-0.2y=1.3\\\\\\frac{x}{3}+\\frac{y}{4}=\\frac{5}{4}\\end{cases}",
+        "\\begin{cases}5x-2y=13\\\\4x+3y=15\\end{cases}",
+        "\\begin{array}{r}15x-6y=39\\\\+)\\ 8x+6y=30\\\\\\hline 23x=69\\end{array}",
+        "x=3",
+        "4+3y=15",
+        "y=\\frac{11}{3}",
+        "x=3,\\ y=\\frac{11}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "代入するときに係数をかけ忘れた誤り",
+      "explanation": "$x=3$ を $4x+3y=15$ に代入すると、$4x=4\\times3=12$ なので $12+3y=15$ です。$4$ としたところが誤りです（係数 $4$ と $3$ をかけていません）。小数・分数をふくむ式の整理と、$x=3$ を求めたところまでは正しくできています。正しくは $3y=3$、$y=1$ です。",
+      "correctSolution": [
+        "\\begin{cases}0.5x-0.2y=1.3\\\\\\frac{x}{3}+\\frac{y}{4}=\\frac{5}{4}\\end{cases}",
+        "\\begin{cases}5x-2y=13\\\\4x+3y=15\\end{cases}",
+        "\\begin{array}{r}15x-6y=39\\\\+)\\ 8x+6y=30\\\\\\hline 23x=69\\end{array}",
+        "x=3",
+        "12+3y=15",
+        "y=1",
+        "x=3,\\ y=1"
+      ],
+      "hint": "$4x$ に $x=3$ を代入すると、いくつになりますか？"
+    },
+    {
+      "id": "J2-SE-0098",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "5x-2y=3x+y=11",
+      "answerLines": [
+        "5x-2y=3x+y=11",
+        "\\begin{cases}5x-2y=11\\\\3x+y=11\\end{cases}",
+        "\\begin{array}{r}5x-2y=11\\\\+)\\ 6x+2y=22\\\\\\hline 11x=11\\end{array}",
+        "x=1",
+        "3+y=11",
+        "y=8",
+        "x=1,\\ y=8"
+      ],
+      "errorLine": 2,
+      "errorType": "式どうしをたすとき、右辺をひいてしまった誤り",
+      "explanation": "2つの式をたすときは、右辺もたすので $11+22=33$ です。$22-11=11$ としたところが誤りです。$A=B=C$ の形から連立方程式をつくり、下の式を $2$ 倍したところは正しくできています。正しくは $11x=33$ で、$x=3$、$y=2$ です。",
+      "correctSolution": [
+        "5x-2y=3x+y=11",
+        "\\begin{cases}5x-2y=11\\\\3x+y=11\\end{cases}",
+        "\\begin{array}{r}5x-2y=11\\\\+)\\ 6x+2y=22\\\\\\hline 11x=33\\end{array}",
+        "x=3",
+        "9+y=11",
+        "y=2",
+        "x=3,\\ y=2"
+      ],
+      "hint": "式どうしをたすとき、右辺はどう計算しますか？"
+    },
+    {
+      "id": "J2-SE-0099",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "\\begin{cases}2(x+2y)=x+y-1\\\\0.3x+0.2y=0.4\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}2(x+2y)=x+y-1\\\\0.3x+0.2y=0.4\\end{cases}",
+        "\\begin{cases}x+3y=-1\\\\3x+2y=4\\end{cases}",
+        "\\begin{array}{r}3x+9y=-3\\\\-)\\ 3x+2y=4\\\\\\hline 7y=-7\\end{array}",
+        "y=-1",
+        "x+3=-1",
+        "x=-4",
+        "x=-4,\\ y=-1"
+      ],
+      "errorLine": 4,
+      "errorType": "代入するときの符号ミス",
+      "explanation": "$y=-1$ を $x+3y=-1$ に代入すると、$3y=3\\times(-1)=-3$ なので $x-3=-1$ です。$x+3$ としたところが誤りです。2つの式の整理（$2x+4y=x+y-1$ から $x+3y=-1$）と、$y=-1$ を求めたところまでは正しくできています。正しくは $x=2$ です。",
+      "correctSolution": [
+        "\\begin{cases}2(x+2y)=x+y-1\\\\0.3x+0.2y=0.4\\end{cases}",
+        "\\begin{cases}x+3y=-1\\\\3x+2y=4\\end{cases}",
+        "\\begin{array}{r}3x+9y=-3\\\\-)\\ 3x+2y=4\\\\\\hline 7y=-7\\end{array}",
+        "y=-1",
+        "x-3=-1",
+        "x=2",
+        "x=2,\\ y=-1"
+      ],
+      "hint": "$3y$ に $y=-1$ を代入すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-SE-0100",
+      "grade": 2,
+      "unit": "simultaneous-equations",
+      "category": "連立方程式の総合",
+      "difficulty": 4,
+      "question": "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
+      "answerLines": [
+        "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
+        "\\begin{cases}3x+2y=17\\\\2x-y=2\\end{cases}",
+        "\\begin{array}{r}3x+2y=17\\\\+)\\ 4x-2y=4\\\\\\hline 7x=21\\end{array}",
+        "x=3",
+        "-y=8",
+        "y=-8",
+        "x=3,\\ y=-8"
+      ],
+      "errorLine": 4,
+      "errorType": "代入したあと移項するときの符号ミス",
+      "explanation": "$x=3$ を $2x-y=2$ に代入すると $6-y=2$ です。$6$ を右辺に移項すると $-6$ になるので、$-y=2-6=-4$ です。$2+6=8$ としたところが誤りです。2つの式の整理（$3(x-1)+2(y+2)=18$、$2x-(y-4)=6$）と、$x=3$ を求めたところまでは正しくできています。正しくは $y=4$ です。",
+      "correctSolution": [
+        "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
+        "\\begin{cases}3x+2y=17\\\\2x-y=2\\end{cases}",
+        "\\begin{array}{r}3x+2y=17\\\\+)\\ 4x-2y=4\\\\\\hline 7x=21\\end{array}",
+        "x=3",
+        "-y=-4",
+        "y=4",
+        "x=3,\\ y=4"
+      ],
+      "hint": "$6-y=2$ で、$6$ を移項すると符号はどうなりますか？"
+    }
+  ]
+}

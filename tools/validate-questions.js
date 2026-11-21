@@ -110,10 +110,11 @@ function validateQuestion(q, ctx) {
   const checkLines = (key) => {
     const lines = q[key];
     if (!lines.every((l) => typeof l === 'string' && l.trim())) err(`"${key}" に空行または文字列以外があります`);
-    if (lines.length < S.LINE_COUNT.min || lines.length > S.LINE_COUNT.max) {
-      err(`"${key}" の行数 ${lines.length} が範囲外です（${S.LINE_COUNT.min}〜${S.LINE_COUNT.max}）`);
-    } else if (lines.length > S.LINE_COUNT.recommendedMax) {
-      warn(`"${key}" が ${lines.length} 行あります（推奨は ${S.LINE_COUNT.recommendedMax} 行以下）`);
+    const LC = S.lineCountFor(q.unit);
+    if (lines.length < LC.min || lines.length > LC.max) {
+      err(`"${key}" の行数 ${lines.length} が範囲外です（${LC.min}〜${LC.max}）`);
+    } else if (lines.length > LC.recommendedMax) {
+      warn(`"${key}" が ${lines.length} 行あります（推奨は ${LC.recommendedMax} 行以下）`);
     }
     if (lines[0] !== q.question) err(`"${key}" の1行目が question と一致しません`);
   };
@@ -201,22 +202,50 @@ function mathCheck(q, r) {
   reportParseFailures(ans, 'answerLines');
 
   // 式の値の問題：代入後の行に文字が残っていないか（残っていても誤りではないが確認する）
+  // 中1はすぐに代入する。中2以降は「式を簡単にしてから代入する」のがふつうなので、最終行だけを確かめる
   if (substitution) {
-    ans.parsed.slice(1).forEach((p, i) => {
-      if (p.ok && p.vars.length) warn(`式の値の問題ですが answerLines の${lineLabel(i + 1)}に文字が残っています`);
+    const lines = q.grade === 1 ? ans.parsed.slice(1).map((p, i) => [p, i + 1]) : [[ans.parsed[ans.parsed.length - 1], ans.parsed.length - 1]];
+    lines.forEach(([p, i]) => {
+      if (p.ok && p.vars.length) warn(`式の値の問題ですが answerLines の${lineLabel(i)}に文字が残っています`);
     });
   }
+
+  // 最終行に求める「答えの形」（第6段階の単元。中1の単元は従来どおり確かめない）
+  const formKind = M.formKindFor(q.unit, q.instruction);
+  const FORM_LABEL = { polynomial: '整理された式', expanded: '展開した式', factored: '因数分解した式', radical: '根号をふくむ数のいちばん簡単な形', quadratic: '解の簡単な形' };
+  const checkFinalForm = (line) => {
+    if (mode === 'quadratic') return M.checkQuadraticAnswerForm(line);
+    if (formKind) return M.checkForm(line, formKind);
+    return { ok: true };
+  };
+  const formLabel = FORM_LABEL[mode === 'quadratic' ? 'quadratic' : formKind];
 
   // ---- 正しい計算過程
   sol.steps.forEach((s) => {
     if (s.vsPrev === 'different') err(`correctSolution の${lineLabel(s.index)}が直前の行と等価ではありません${diffDetail(s)}`);
   });
   const solLast = sol.parsed[sol.parsed.length - 1];
+  const lastSolLine = q.correctSolution[q.correctSolution.length - 1];
   if (mode === 'equation' && solLast.ok) {
     if (!M.isSolvedForm(solLast)) err('correctSolution の最終行が「x=数」の形ではありません');
     const s0 = M.solutionSet(sol.parsed[0]);
     if (s0.type !== 'unique' && s0.type !== 'unknown') warn(`元の方程式の解が1つに定まりません（${M.describeSolution(s0)}）`);
     if (s0.type === 'unique') r.info.push(`正しい解: ${M.describeSolution(s0)}`);
+  }
+  if (mode === 'quadratic' && solLast.ok) {
+    if (!M.isQuadraticSolvedForm(solLast)) err('correctSolution の最終行が「x=数」の形ではありません');
+    const s0 = M.lineSolutionSet(sol.parsed[0]);
+    if (s0.type === 'set') {
+      r.info.push(`正しい解: ${M.describeSet(s0)}`);
+      if (!s0.values.length) warn('実数の解がない方程式です');
+    }
+  }
+  if (mode === 'system') {
+    if (sol.solution.type !== 'unique') manual(`連立方程式の解を自動で求められません（${sol.solution.reason}）`);
+    else {
+      r.info.push(`正しい解: ${Object.entries(sol.solution.env).map(([k, v]) => `${k}=${v.toString()}`).join(', ')}`);
+      if (!sol.finalValues) err('correctSolution の最終行が「x=数, y=数」の形ではありません');
+    }
   }
   if (mode === 'expression' && sol.parsed[0].ok) {
     if (substitution) {
@@ -225,13 +254,25 @@ function mathCheck(q, r) {
       try { r.info.push(`正しい値: ${M.evaluate(sol.parsed[0].ast, {}).toString()}`); } catch (e) { /* 0除算は上で検出 */ }
     }
   }
+  if (formLabel && solLast.ok) {
+    const f = checkFinalForm(lastSolLine);
+    if (f.ok === false) err(`correctSolution の最終行が${formLabel}になっていません（${f.reason}）`);
+    if (f.ok === null) manual(`correctSolution の最終行が${formLabel}か自動判定できません（${f.reason}）`);
+  }
   // 最終行が整理された形か（簡易的な目安。最終判断は手動）
-  const lastSol = q.correctSolution[q.correctSolution.length - 1];
-  if (/\\times|\\div|\\cdot/.test(lastSol)) manual('correctSolution の最終行に × や ÷ が残っています。答えの形として適切か確認してください');
+  if (/\\times|\\div|\\cdot/.test(lastSol(q))) manual('correctSolution の最終行に × や ÷ が残っています。答えの形として適切か確認してください');
 
   // ---- 生徒の答案
   const ansLast = ans.parsed[ans.parsed.length - 1];
-  const finalVsCorrect = ansLast.ok && solLast.ok ? M.compareLines(ansLast, solLast, mode, substitution).result : 'unknown';
+  const lastAnsLine = q.answerLines[q.answerLines.length - 1];
+  let finalVsCorrect = 'unknown';
+  if (mode === 'system') {
+    if (ans.finalValues && sol.solution.type === 'unique') {
+      finalVsCorrect = Object.entries(sol.solution.env).every(([k, v]) => ans.finalValues[k] && ans.finalValues[k].equals(v)) ? 'equal' : 'different';
+    }
+  } else if (ansLast.ok && solLast.ok) {
+    finalVsCorrect = M.compareLines(ansLast, solLast, mode, substitution).result;
+  }
 
   if (q.errorLine === null) {
     ans.steps.forEach((s) => {
@@ -241,33 +282,59 @@ function mathCheck(q, r) {
     });
     if (finalVsCorrect === 'different') err('正しい答案の最終行が correctSolution の最終行と一致しません');
     if (mode === 'equation' && ansLast.ok && !M.isSolvedForm(ansLast)) err('正しい答案の最終行が「x=数」の形ではありません');
+    if (mode === 'quadratic' && ansLast.ok && !M.isQuadraticSolvedForm(ansLast)) err('正しい答案の最終行が「x=数」の形ではありません');
+    if (mode === 'system' && sol.solution.type === 'unique' && !ans.finalValues) err('正しい答案の最終行が「x=数, y=数」の形ではありません');
+    if (formLabel && ansLast.ok) {
+      const f = checkFinalForm(lastAnsLine);
+      if (f.ok === false) err(`正しい答案のはずですが、最終行が${formLabel}になっていません（${f.reason}）`);
+      if (f.ok === null) manual(`正しい答案の最終行が${formLabel}か自動判定できません（${f.reason}）`);
+    }
     if (S.canonicalJson(q.answerLines) !== S.canonicalJson(q.correctSolution)) {
       r.info.push('answerLines と correctSolution の途中式が異なります（別解として妥当か手動で確認）');
       manual('正しい答案の途中式が correctSolution と異なります。別解・表記として妥当か確認してください');
     }
   } else {
     const e = q.errorLine;
+    const lastIndex = q.answerLines.length - 1;
+    // 「形の誤り」：最後の行が、数学的には直前の行と等しいが、問題が求める答えの形になっていない
+    //  （展開しきっていない・因数分解が途中・根号を簡単にしていない・解を約分していない など）
+    let formError = false;
+    if (e === lastIndex && formLabel && ans.steps[e] && ans.steps[e].vsPrev === 'equal') {
+      const f = checkFinalForm(lastAnsLine);
+      if (f.ok === false) {
+        formError = true;
+        r.info.push(`誤り行（最後の行）は数学的には直前と等しいが、${formLabel}になっていない（${f.reason}）`);
+      }
+    }
     ans.steps.forEach((s) => {
       if (s.index === 0) return;
       if (s.index < e && s.vsPrev === 'different') {
         err(`指定した誤り行（index ${e}）より前の${lineLabel(s.index)}で、すでに直前の行と等価でなくなっています${diffDetail(s)}`);
       }
-      if (s.index === e && s.vsPrev === 'equal') {
+      if (s.index === e && s.vsPrev === 'equal' && !formError) {
         err(`指定した誤り行（index ${e}）は直前の行と数学的に等価です。誤りになっていません`);
       }
       if (s.index > e && s.vsPrev === 'different') {
         err(`誤り行（index ${e}）より後の${lineLabel(s.index)}に、別の独立した誤りがあります${diffDetail(s)}`);
       }
     });
+    if (mode === 'system' && ans.steps[e] && ans.steps[e].consistentWithFinal === false) {
+      err(`誤り行（index ${e}）の式が、最終行の答えでは成り立ちません（誤りのあとの計算が一貫していません）`);
+    }
     if (ans.firstDifferent !== null && ans.firstDifferent === e) r.info.push(`自動判定の最初の誤り行: index ${e}（データと一致）`);
-    if (finalVsCorrect === 'equal') warn('誤答なのに最終行が正しい答えと等価です（途中の誤りが打ち消されていないか確認）');
+    if (finalVsCorrect === 'equal' && !formError) warn('誤答なのに最終行が正しい答えと等価です（途中の誤りが打ち消されていないか確認）');
     if (mode === 'equation' && ansLast.ok && !M.isSolvedForm(ansLast)) warn('誤答の最終行が「x=数」の形ではありません');
+    if (mode === 'quadratic' && ansLast.ok && !M.isQuadraticSolvedForm(ansLast)) warn('誤答の最終行が「x=数」の形ではありません');
   }
 
   // ---- 単元固有の手動確認項目
   if (q.category === '文字式の表し方') {
     manual('文字式の表記ルール（× の省略・係数の位置・累乗の書き方など）は自動判定できません。表記を確認してください');
   }
+}
+
+function lastSol(q) {
+  return q.correctSolution[q.correctSolution.length - 1];
 }
 
 function fmt(v) {

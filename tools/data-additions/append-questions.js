@@ -21,6 +21,16 @@ for (const [file, questions] of Object.entries(additions)) {
   const existing = new Set(JSON.parse(raw).questions.map((q) => q.id));
   const fresh = questions.filter((q) => !existing.has(q.id));
   if (!fresh.length) { console.log(`${file}: 追加する問題はありません`); continue; }
+  if (JSON.parse(raw).questions.length === 0) {
+    // まだ問題が1問もないファイル（第6段階の新しい単元）は、ファイル全体を書く
+    const data = JSON.parse(raw);
+    const body = fresh.map((q) => indent(JSON.stringify(q, null, 2), 4)).join(',\n');
+    const out = `{\n  "schemaVersion": ${data.schemaVersion},\n  "grade": ${data.grade},\n  "unit": "${data.unit}",\n  "questions": [\n${body}\n  ]\n}\n`;
+    JSON.parse(out);
+    fs.writeFileSync(p, out);
+    console.log(`${file}: ${fresh.length} 問を追加しました（${fresh.map((q) => q.id).join(', ')}）`);
+    continue;
+  }
   const m = /\n(\s*)\]\s*\n\}\s*$/.exec(raw);
   if (!m) throw new Error(`${file}: 末尾の形式が想定と違います`);
   const head = raw.slice(0, m.index);

@@ -19,7 +19,9 @@ const S = require('../js/lib/question-schema.js');
 const Report = require('./question-report.js');
 
 const ROOT = path.join(__dirname, '..');
-const data = Report.load();
+// 第4段階のテストは中1の3単元（300問）が対象。中2・中3の単元（第6段階）は tools/test-stage6.js で確かめる
+const all = Report.load();
+const data = { manifest: { ...all.manifest, files: all.manifest.files.filter((f) => f.grade === 1) }, items: all.items.filter((it) => it.q.grade === 1) };
 const questions = data.items.map((it) => it.q);
 const rep = Report.buildReport(data);
 

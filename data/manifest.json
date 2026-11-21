@@ -3,6 +3,11 @@
   "files": [
     { "grade": 1, "unit": "positive-negative", "label": "正負の数", "file": "j1-positive-negative.json" },
     { "grade": 1, "unit": "expressions", "label": "文字式", "file": "j1-expressions.json" },
-    { "grade": 1, "unit": "equation", "label": "方程式", "file": "j1-equations.json" }
+    { "grade": 1, "unit": "equation", "label": "方程式", "file": "j1-equations.json" },
+    { "grade": 2, "unit": "polynomials", "label": "式の計算", "file": "j2-polynomials.json" },
+    { "grade": 2, "unit": "simultaneous-equations", "label": "連立方程式", "file": "j2-simultaneous-equations.json" },
+    { "grade": 3, "unit": "expansion-factorization", "label": "展開・因数分解", "file": "j3-expansion-factorization.json" },
+    { "grade": 3, "unit": "square-roots", "label": "平方根", "file": "j3-square-roots.json" },
+    { "grade": 3, "unit": "quadratic-equations", "label": "2次方程式", "file": "j3-quadratic-equations.json" }
   ]
 }

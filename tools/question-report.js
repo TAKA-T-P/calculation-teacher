@@ -33,6 +33,8 @@ const TARGETS = {
   // 誤答の最初の誤り行（画面の「○行目」。index+1）の目安。tolerance 以上ずれたら WARN
   errorLineShare: { 2: 0.25, 3: 0.35, 4: 0.25, '5+': 0.15 },
   errorLineTolerance: 0.10,
+  // 誤り行の目安を当てはめない単元（第6段階の指示：連立方程式は答案が6〜7行と長いため、目安は柔軟に扱う）。参考として表示だけする
+  errorLineShareExempt: ['simultaneous-equations'],
   // 1つの errorType が単元の誤答に占める割合の上限
   errorTypeShareMax: 0.10,
 };
@@ -82,6 +84,7 @@ function load() {
 function buildReport({ manifest, items }) {
   const warnings = [];
   const warn = (scope, msg) => warnings.push({ scope, msg });
+  const notes = []; // WARN にしない参考情報（目安を柔軟に扱う単元など）
   const units = manifest.files.map((f) => f.unit);
   const pct = (n, d) => (d ? Math.round((n / d) * 1000) / 10 : 0);
 
@@ -130,7 +133,9 @@ function buildReport({ manifest, items }) {
     if (wrong.length >= 20) {
       Object.entries(TARGETS.errorLineShare).forEach(([k, share]) => {
         const actual = errorLines[k] / wrong.length;
-        if (Math.abs(actual - share) > TARGETS.errorLineTolerance) warn(label, `最初の誤りが${k}行目の答案が ${pct(errorLines[k], wrong.length)}%（目安 ${share * 100}%）`);
+        if (Math.abs(actual - share) <= TARGETS.errorLineTolerance) return;
+        if (TARGETS.errorLineShareExempt.includes(unit)) notes.push(`[${label}] 最初の誤りが${k}行目の答案が ${pct(errorLines[k], wrong.length)}%（目安 ${share * 100}%。答案が長い単元のため WARN にしない）`);
+        else warn(label, `最初の誤りが${k}行目の答案が ${pct(errorLines[k], wrong.length)}%（目安 ${share * 100}%）`);
       });
       Object.entries(errorTypes).forEach(([t, n]) => {
         if (n >= 3 && n / wrong.length > TARGETS.errorTypeShareMax) warn(label, `errorType「${t}」が ${n}問（誤答の ${pct(n, wrong.length)}%）`);
@@ -164,6 +169,7 @@ function buildReport({ manifest, items }) {
     units: unitReports,
     similar,
     warnings,
+    notes,
   };
 }
 
@@ -209,6 +215,7 @@ function printReport(rep) {
   line('\n=== 出題バランス・制作目標の WARN');
   if (rep.warnings.length) rep.warnings.forEach((w) => line(`WARN  [${w.scope}] ${w.msg}`));
   else line('なし');
+  rep.notes.forEach((n) => line(`参考  ${n}`));
   line(`\n全体: ${rep.total}問（完成 ${rep.done}問）・「全部正しい！」${rep.correctRatio}%・バランスの WARN ${rep.warnings.length} 件`);
 }
 

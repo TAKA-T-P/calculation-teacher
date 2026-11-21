@@ -1,0 +1,2411 @@
+{
+  "schemaVersion": 1,
+  "grade": 3,
+  "unit": "quadratic-equations",
+  "questions": [
+    {
+      "id": "J3-QE-0001",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2-5x+6=0",
+      "answerLines": [
+        "x^2-5x+6=0",
+        "(x+2)(x+3)=0",
+        "x=-2,\\ -3"
+      ],
+      "errorLine": 1,
+      "errorType": "因数分解の符号ミス",
+      "explanation": "積が $6$、和が $-5$ になる2数は $-2$ と $-3$ なので、$(x-2)(x-3)=0$ です。$(x+2)(x+3)$ を展開すると $x^2+5x+6$ になり、元の式と違うので誤りです。正しい解は $x=2,\\ 3$ です。",
+      "correctSolution": [
+        "x^2-5x+6=0",
+        "(x-2)(x-3)=0",
+        "x=2,\\ 3"
+      ],
+      "hint": "$(x+2)(x+3)$ を展開すると、$x$ の項の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0002",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2-7x=0",
+      "answerLines": [
+        "x^2-7x=0",
+        "x(x-7)=0",
+        "x=0,\\ 7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。共通因数 $x$ をくくり出して $x(x-7)=0$ です。$AB=0$ ならば $A=0$ または $B=0$ なので、$x=0$ または $x-7=0$ で、解は $x=0,\\ 7$ の2つです。$x=0$ も解であることに注意しましょう。",
+      "correctSolution": [
+        "x^2-7x=0",
+        "x(x-7)=0",
+        "x=0,\\ 7"
+      ],
+      "hint": "$x(x-7)=0$ になるのは、どんなときですか？ 解はいくつありますか？"
+    },
+    {
+      "id": "J3-QE-0003",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "x^2+2x-15=0",
+      "answerLines": [
+        "x^2+2x-15=0",
+        "(x+5)(x-3)=0",
+        "x=5,\\ -3"
+      ],
+      "errorLine": 2,
+      "errorType": "ゼロ積の法則で解の符号を誤った",
+      "explanation": "$(x+5)(x-3)=0$ より、$x+5=0$ または $x-3=0$ なので、$x=-5,\\ 3$ です。かっこの中の数をそのまま解にして $x=5,\\ -3$ としたところが誤りです。因数分解は正しくできています。",
+      "correctSolution": [
+        "x^2+2x-15=0",
+        "(x+5)(x-3)=0",
+        "x=-5,\\ 3"
+      ],
+      "hint": "$x+5=0$ を解くと、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0004",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "2x^2-8x-10=0",
+      "answerLines": [
+        "2x^2-8x-10=0",
+        "x^2-4x-5=0",
+        "(x-5)(x+1)=0",
+        "x=5"
+      ],
+      "errorLine": 3,
+      "errorType": "解を1つだけ求めて終わった",
+      "explanation": "$(x-5)(x+1)=0$ より、$x-5=0$ または $x+1=0$ なので、解は $x=5$ と $x=-1$ の2つです。$x=-1$ を書き忘れたところが誤りです。両辺を $2$ でわったところと因数分解は正しくできています。",
+      "correctSolution": [
+        "2x^2-8x-10=0",
+        "x^2-4x-5=0",
+        "(x-5)(x+1)=0",
+        "x=5,\\ -1"
+      ],
+      "hint": "$(x-5)(x+1)=0$ になる $x$ は、いくつありますか？"
+    },
+    {
+      "id": "J3-QE-0005",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "(x-2)(x+3)=2x",
+      "answerLines": [
+        "(x-2)(x+3)=2x",
+        "x^2+x-6=2x",
+        "x^2-x-6=0",
+        "(x-3)(x+2)=0",
+        "x=3,\\ 2"
+      ],
+      "errorLine": 4,
+      "errorType": "片方の解の符号を誤った",
+      "explanation": "$(x-3)(x+2)=0$ より、$x-3=0$ または $x+2=0$ なので、$x=3,\\ -2$ です。$x+2=0$ の解を $x=2$ としたところが誤りです。左辺を展開して 「（2次式）$=0$」 の形に整理し、因数分解したところは正しくできています。",
+      "correctSolution": [
+        "(x-2)(x+3)=2x",
+        "x^2+x-6=2x",
+        "x^2-x-6=0",
+        "(x-3)(x+2)=0",
+        "x=3,\\ -2"
+      ],
+      "hint": "$x+2=0$ を解くと、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0006",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "x^2=16",
+      "answerLines": [
+        "x^2=16",
+        "x=4"
+      ],
+      "errorLine": 1,
+      "errorType": "x²=a で負の解を忘れた",
+      "explanation": "2乗して $16$ になる数は、$4$ と $-4$ の2つです。$x=\\pm4$ が正しい答えです。正の数の $4$ だけを書いたところが誤りです。",
+      "correctSolution": [
+        "x^2=16",
+        "x=\\pm4"
+      ],
+      "hint": "$(-4)^2$ はいくつですか？ 2乗して $16$ になる数はいくつありますか？"
+    },
+    {
+      "id": "J3-QE-0007",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "3x^2-15=0",
+      "answerLines": [
+        "3x^2-15=0",
+        "3x^2=15",
+        "x^2=45",
+        "x=\\pm3\\sqrt5"
+      ],
+      "errorLine": 2,
+      "errorType": "係数でわらずにかけた誤り",
+      "explanation": "$3x^2=15$ の両辺を $3$ でわると、$x^2=5$ です。$15\\times3=45$ としたところが誤りです。$-15$ を移項したところは正しくできています。正しくは $x=\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "3x^2-15=0",
+        "3x^2=15",
+        "x^2=5",
+        "x=\\pm\\sqrt5"
+      ],
+      "hint": "$3x^2=15$ から $x^2$ を求めるには、両辺をどうしますか？"
+    },
+    {
+      "id": "J3-QE-0008",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "(x-3)^2=7",
+      "answerLines": [
+        "(x-3)^2=7",
+        "x-3=\\pm\\sqrt7",
+        "x=3\\pm\\sqrt7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x-3$ をひとまとまりと見ると、2乗して $7$ になる数なので $x-3=\\pm\\sqrt7$ です。$-3$ を移項して $x=3\\pm\\sqrt7$ です。",
+      "correctSolution": [
+        "(x-3)^2=7",
+        "x-3=\\pm\\sqrt7",
+        "x=3\\pm\\sqrt7"
+      ],
+      "hint": "$x-3$ をひとまとまりと見ると、どんな数ですか？"
+    },
+    {
+      "id": "J3-QE-0009",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "(x+2)^2-18=0",
+      "answerLines": [
+        "(x+2)^2-18=0",
+        "(x+2)^2=18",
+        "x+2=\\pm3\\sqrt2",
+        "x=2\\pm3\\sqrt2"
+      ],
+      "errorLine": 3,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "$x+2=\\pm3\\sqrt2$ の $+2$ を右辺に移項すると $-2$ になるので、$x=-2\\pm3\\sqrt2$ です。$2\\pm3\\sqrt2$ としたところが誤りです。平方根をとって $\\pm\\sqrt{18}=\\pm3\\sqrt2$ としたところは正しくできています。",
+      "correctSolution": [
+        "(x+2)^2-18=0",
+        "(x+2)^2=18",
+        "x+2=\\pm3\\sqrt2",
+        "x=-2\\pm3\\sqrt2"
+      ],
+      "hint": "$+2$ を右辺に移すと、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0010",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "x^2+6x+4=0",
+      "answerLines": [
+        "x^2+6x+4=0",
+        "x^2+6x=-4",
+        "x^2+6x+9=-4+9",
+        "(x+3)^2=5",
+        "x+3=\\sqrt5",
+        "x=-3+\\sqrt5"
+      ],
+      "errorLine": 4,
+      "errorType": "平方完成のあと、平方根をとるときに±を忘れた",
+      "explanation": "$(x+3)^2=5$ のとき、$x+3$ は2乗して $5$ になる数なので、$x+3=\\pm\\sqrt5$ です。$+\\sqrt5$ だけにしたところが誤りで、解が1つ足りなくなっています。$x$ の係数 $6$ の半分の2乗 $9$ を両辺にたして平方完成したところは正しくできています。正しくは $x=-3\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "x^2+6x+4=0",
+        "x^2+6x=-4",
+        "x^2+6x+9=-4+9",
+        "(x+3)^2=5",
+        "x+3=\\pm\\sqrt5",
+        "x=-3\\pm\\sqrt5"
+      ],
+      "hint": "2乗して $5$ になる数は、$\\sqrt5$ だけですか？"
+    },
+    {
+      "id": "J3-QE-0011",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2+3x+1=0",
+      "answerLines": [
+        "x^2+3x+1=0",
+        "x=\\frac{3\\pm\\sqrt{3^2-4\\times1\\times1}}{2\\times1}",
+        "x=\\frac{3\\pm\\sqrt5}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "解の公式で −b の符号を誤った",
+      "explanation": "解の公式は $x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}$ です。$b=3$ なので分子の初めは $-b=-3$ です。$3$ としたところが誤りです。根号の中 $3^2-4\\times1\\times1$ と分母 $2\\times1$ は正しくできています。正しくは $x=\\frac{-3\\pm\\sqrt5}{2}$ です。",
+      "correctSolution": [
+        "x^2+3x+1=0",
+        "x=\\frac{-3\\pm\\sqrt{3^2-4\\times1\\times1}}{2\\times1}",
+        "x=\\frac{-3\\pm\\sqrt5}{2}"
+      ],
+      "hint": "解の公式の分子は $-b$ から始まります。$b$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0012",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "2x^2-5x+1=0",
+      "answerLines": [
+        "2x^2-5x+1=0",
+        "x=\\frac{-(-5)\\pm\\sqrt{(-5)^2-4\\times2\\times1}}{2\\times2}",
+        "x=\\frac{5\\pm\\sqrt{17}}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "解の公式の分母の誤り（2a を 2 とした）",
+      "explanation": "分母は $2a=2\\times2=4$ です。前の行で $2\\times2$ と正しく書いているのに、$2$ としたところが誤りです。根号の中は $25-8=17$ で正しくできています。正しくは $x=\\frac{5\\pm\\sqrt{17}}{4}$ です。",
+      "correctSolution": [
+        "2x^2-5x+1=0",
+        "x=\\frac{-(-5)\\pm\\sqrt{(-5)^2-4\\times2\\times1}}{2\\times2}",
+        "x=\\frac{5\\pm\\sqrt{17}}{4}"
+      ],
+      "hint": "分母の $2\\times2$ を計算するといくつですか？"
+    },
+    {
+      "id": "J3-QE-0013",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "x^2-4x-1=0",
+      "answerLines": [
+        "x^2-4x-1=0",
+        "x=\\frac{-(-4)\\pm\\sqrt{(-4)^2-4\\times1\\times(-1)}}{2\\times1}",
+        "x=\\frac{4\\pm\\sqrt{20}}{2}",
+        "x=\\frac{4\\pm4\\sqrt5}{2}",
+        "x=2\\pm2\\sqrt5"
+      ],
+      "errorLine": 3,
+      "errorType": "根号の簡単化の誤り（平方数4をそのまま外に出した）",
+      "explanation": "$20=2^2\\times5$ なので、$\\sqrt{20}=2\\sqrt5$ です。$4\\sqrt5$ としたところが誤りです（$4\\sqrt5=\\sqrt{80}$ です）。解の公式への代入と、根号の中の計算 $16+4=20$ は正しくできています。正しくは $x=\\frac{4\\pm2\\sqrt5}{2}=2\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "x^2-4x-1=0",
+        "x=\\frac{-(-4)\\pm\\sqrt{(-4)^2-4\\times1\\times(-1)}}{2\\times1}",
+        "x=\\frac{4\\pm\\sqrt{20}}{2}",
+        "x=\\frac{4\\pm2\\sqrt5}{2}",
+        "x=2\\pm\\sqrt5"
+      ],
+      "hint": "$\\sqrt{20}$ を簡単にすると、根号の外に出る数はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0014",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "3x^2+2x-1=0",
+      "answerLines": [
+        "3x^2+2x-1=0",
+        "x=\\frac{-2\\pm\\sqrt{2^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{-2\\pm\\sqrt{16}}{6}",
+        "x=\\frac{-2\\pm4}{6}",
+        "x=\\frac{1}{3},\\ -1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$a=3$、$b=2$、$c=-1$ を解の公式に代入すると、根号の中は $4+12=16$ で $\\sqrt{16}=4$ です。$\\frac{-2+4}{6}=\\frac{1}{3}$、$\\frac{-2-4}{6}=-1$ と、2つの解を分けて求めています。",
+      "correctSolution": [
+        "3x^2+2x-1=0",
+        "x=\\frac{-2\\pm\\sqrt{2^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{-2\\pm\\sqrt{16}}{6}",
+        "x=\\frac{-2\\pm4}{6}",
+        "x=\\frac{1}{3},\\ -1"
+      ],
+      "hint": "根号の中が平方数になったら、根号をはずして2つの解を別々に計算しましょう。"
+    },
+    {
+      "id": "J3-QE-0015",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "2x^2+6x+3=0",
+      "answerLines": [
+        "2x^2+6x+3=0",
+        "x=\\frac{-6\\pm\\sqrt{6^2-4\\times2\\times3}}{2\\times2}",
+        "x=\\frac{-6\\pm\\sqrt{12}}{4}",
+        "x=\\frac{-6\\pm2\\sqrt3}{4}",
+        "x=\\frac{-3\\pm2\\sqrt3}{2}"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で分子の一部の項だけをわった誤り",
+      "explanation": "$\\frac{-6\\pm2\\sqrt3}{4}$ を約分するときは、分子の $-6$ と $2\\sqrt3$ の両方と分母を $2$ でわって $\\frac{-3\\pm\\sqrt3}{2}$ にします。$2\\sqrt3$ をわり忘れたところが誤りです。解の公式への代入と、$\\sqrt{12}=2\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "2x^2+6x+3=0",
+        "x=\\frac{-6\\pm\\sqrt{6^2-4\\times2\\times3}}{2\\times2}",
+        "x=\\frac{-6\\pm\\sqrt{12}}{4}",
+        "x=\\frac{-6\\pm2\\sqrt3}{4}",
+        "x=\\frac{-3\\pm\\sqrt3}{2}"
+      ],
+      "hint": "約分するとき、分子のすべての項を $2$ でわりましたか？"
+    },
+    {
+      "id": "J3-QE-0016",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "x^2=3x",
+      "answerLines": [
+        "x^2=3x",
+        "x=3"
+      ],
+      "errorLine": 1,
+      "errorType": "両辺を x でわって解を失った",
+      "explanation": "両辺を $x$ でわると、$x=0$ の場合を考えずに解を1つ失ってしまいます。$x^2-3x=0$ と移項して $x(x-3)=0$ とすると、解は $x=0,\\ 3$ の2つです。$x=3$ だけにしたところが誤りです。",
+      "correctSolution": [
+        "x^2=3x",
+        "x^2-3x=0",
+        "x(x-3)=0",
+        "x=0,\\ 3"
+      ],
+      "hint": "$x=0$ は、この方程式の解になりますか？"
+    },
+    {
+      "id": "J3-QE-0017",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "(x+1)(x-4)=6",
+      "answerLines": [
+        "(x+1)(x-4)=6",
+        "x^2-3x-4=6",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。左辺を展開して右辺の $6$ を移項し、「（2次式）$=0$」 の形にしてから因数分解しています。$(x+1)(x-4)=6$ のまま「$x+1=6$ または $x-4=6$」とするのは誤りなので、この解き方が正しい方法です。",
+      "correctSolution": [
+        "(x+1)(x-4)=6",
+        "x^2-3x-4=6",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "hint": "右辺が $0$ でないときは、まず 「（2次式）$=0$」 の形に整理しましょう。"
+    },
+    {
+      "id": "J3-QE-0018",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "x^2-10x+25=0",
+      "answerLines": [
+        "x^2-10x+25=0",
+        "(x-5)^2=0",
+        "x=5,\\ -5"
+      ],
+      "errorLine": 2,
+      "errorType": "重解なのに符号の違う解を加えた",
+      "explanation": "$(x-5)^2=0$ となるのは $x-5=0$ のときだけなので、解は $x=5$ の1つ（重解）です。$x^2=a$ の形と混同して $-5$ も加えたところが誤りです。$x=-5$ を代入すると $(-10)^2=100$ で $0$ になりません。因数分解は正しくできています。",
+      "correctSolution": [
+        "x^2-10x+25=0",
+        "(x-5)^2=0",
+        "x=5"
+      ],
+      "hint": "$x=-5$ を元の方程式に代入して、確かめてみましょう。"
+    },
+    {
+      "id": "J3-QE-0019",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "(x-2)^2-3(x-2)-4=0",
+      "answerLines": [
+        "(x-2)^2-3(x-2)-4=0",
+        "\\{(x-2)-4\\}\\{(x-2)+1\\}=0",
+        "(x-2-4)(x-2+1)=0",
+        "(x-6)(x-3)=0",
+        "x=6,\\ 3"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこをはずしたあとの数の計算ミス",
+      "explanation": "$x-2+1$ は $x-1$ です。$x-3$ としたところが誤りです。$x-2$ をひとまとまりと見て、積が $-4$、和が $-3$ になる $-4$ と $1$ で因数分解したところは正しくできています。正しい解は $x=6,\\ 1$ です。",
+      "correctSolution": [
+        "(x-2)^2-3(x-2)-4=0",
+        "\\{(x-2)-4\\}\\{(x-2)+1\\}=0",
+        "(x-2-4)(x-2+1)=0",
+        "(x-6)(x-1)=0",
+        "x=6,\\ 1"
+      ],
+      "hint": "$x-2+1$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0020",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "\\frac{1}{2}x^2-x-\\frac{3}{2}=0",
+      "answerLines": [
+        "\\frac{1}{2}x^2-x-\\frac{3}{2}=0",
+        "x^2-2x-3=0",
+        "(x-3)(x+1)=0",
+        "x-3=0\\ \\text{または}\\ x+1=0",
+        "x=3,\\ 1"
+      ],
+      "errorLine": 4,
+      "errorType": "片方の解の符号を誤った",
+      "explanation": "$x+1=0$ を解くと $x=-1$ です。$x=1$ としたところが誤りです。両辺に $2$ をかけて分母をはらったところ、因数分解、「$x-3=0$ または $x+1=0$」までは正しくできています。正しい解は $x=3,\\ -1$ です。",
+      "correctSolution": [
+        "\\frac{1}{2}x^2-x-\\frac{3}{2}=0",
+        "x^2-2x-3=0",
+        "(x-3)(x+1)=0",
+        "x-3=0\\ \\text{または}\\ x+1=0",
+        "x=3,\\ -1"
+      ],
+      "hint": "$x+1=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0021",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2+5x+4=0",
+      "answerLines": [
+        "x^2+5x+4=0",
+        "(x+1)(x+4)=0",
+        "x=-1,\\ -4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。積が $4$、和が $5$ になる2数は $1$ と $4$ なので $(x+1)(x+4)=0$ です。$x+1=0$ または $x+4=0$ より、$x=-1,\\ -4$ です。",
+      "correctSolution": [
+        "x^2+5x+4=0",
+        "(x+1)(x+4)=0",
+        "x=-1,\\ -4"
+      ],
+      "hint": "$x+1=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0022",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2-3x-10=0",
+      "answerLines": [
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=-5,\\ 2"
+      ],
+      "errorLine": 2,
+      "errorType": "ゼロ積の法則で解の符号を誤った",
+      "explanation": "$(x-5)(x+2)=0$ より、$x-5=0$ または $x+2=0$ なので、$x=5,\\ -2$ です。かっこの中の数をそのまま使って $x=-5,\\ 2$ としたところが誤りです。因数分解は正しくできています。",
+      "correctSolution": [
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "hint": "$x-5=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0023",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2+6x=0",
+      "answerLines": [
+        "x^2+6x=0",
+        "x(x+6)=0",
+        "x=0,\\ -6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。共通因数 $x$ でくくると $x(x+6)=0$ です。$x=0$ または $x+6=0$ より、$x=0,\\ -6$ です。",
+      "correctSolution": [
+        "x^2+6x=0",
+        "x(x+6)=0",
+        "x=0,\\ -6"
+      ],
+      "hint": "$x=0$ も解の1つです。"
+    },
+    {
+      "id": "J3-QE-0024",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2-x-12=0",
+      "answerLines": [
+        "x^2-x-12=0",
+        "(x-3)(x+4)=0",
+        "x=3,\\ -4"
+      ],
+      "errorLine": 1,
+      "errorType": "因数分解の符号ミス",
+      "explanation": "積が $-12$、和が $-1$ になる2数は $3$ と $-4$ なので、$(x+3)(x-4)=0$ です。$(x-3)(x+4)$ では和が $+1$ になり、もとの式にもどりません。正しくは $x=-3,\\ 4$ です。",
+      "correctSolution": [
+        "x^2-x-12=0",
+        "(x+3)(x-4)=0",
+        "x=-3,\\ 4"
+      ],
+      "hint": "$(x-3)(x+4)$ を展開して、もとの式になるか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0025",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 1,
+      "question": "x^2-49=0",
+      "answerLines": [
+        "x^2-49=0",
+        "(x+7)(x-7)=0",
+        "x=7"
+      ],
+      "errorLine": 2,
+      "errorType": "解を1つだけ求めて終わった",
+      "explanation": "$(x+7)(x-7)=0$ より、$x+7=0$ または $x-7=0$ なので、解は $x=-7$ と $x=7$ の2つです。$x=7$ だけで終わったところが誤りです。因数分解は正しくできています。",
+      "correctSolution": [
+        "x^2-49=0",
+        "(x+7)(x-7)=0",
+        "x=\\pm7"
+      ],
+      "hint": "$x+7=0$ からも、解が1つ出てきませんか？"
+    },
+    {
+      "id": "J3-QE-0026",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "x^2=7x-12",
+      "answerLines": [
+        "x^2=7x-12",
+        "x^2-7x+12=0",
+        "(x-3)(x-4)=0",
+        "x=3,\\ 4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。右辺の項を移項して $x^2-7x+12=0$ とします。積が $12$、和が $-7$ になる2数は $-3$ と $-4$ なので、$x=3,\\ 4$ です。",
+      "correctSolution": [
+        "x^2=7x-12",
+        "x^2-7x+12=0",
+        "(x-3)(x-4)=0",
+        "x=3,\\ 4"
+      ],
+      "hint": "まず「$\\cdots=0$」の形に整理しましょう。"
+    },
+    {
+      "id": "J3-QE-0027",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "x^2-9x+18=0",
+      "answerLines": [
+        "x^2-9x+18=0",
+        "(x-2)(x-9)=0",
+        "x=2,\\ 9"
+      ],
+      "errorLine": 1,
+      "errorType": "積だけを考えて、和を確かめなかった誤り",
+      "explanation": "$-2$ と $-9$ は積が $18$ ですが、和は $-11$ で $-9$ になりません。積が $18$、和が $-9$ になる2数は $-3$ と $-6$ なので、$(x-3)(x-6)=0$ です。正しくは $x=3,\\ 6$ です。",
+      "correctSolution": [
+        "x^2-9x+18=0",
+        "(x-3)(x-6)=0",
+        "x=3,\\ 6"
+      ],
+      "hint": "見つけた2数の和が $-9$ になっているか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0028",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "x^2+4x-21=0",
+      "answerLines": [
+        "x^2+4x-21=0",
+        "(x-7)(x+3)=0",
+        "x=7,\\ -3"
+      ],
+      "errorLine": 1,
+      "errorType": "因数分解の符号ミス",
+      "explanation": "積が $-21$、和が $4$ になる2数は $7$ と $-3$ なので、$(x+7)(x-3)=0$ です。符号を逆にして $(x-7)(x+3)$ としたところが誤りです（展開すると $x^2-4x-21$ になります）。正しくは $x=-7,\\ 3$ です。",
+      "correctSolution": [
+        "x^2+4x-21=0",
+        "(x+7)(x-3)=0",
+        "x=-7,\\ 3"
+      ],
+      "hint": "$(x-7)(x+3)$ を展開して、$x$ の項の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0029",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "x^2-10x+21=0",
+      "answerLines": [
+        "x^2-10x+21=0",
+        "(x-3)(x-7)=0",
+        "x=3,\\ 7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。積が $21$、和が $-10$ になる2数は $-3$ と $-7$ なので $(x-3)(x-7)=0$、$x=3,\\ 7$ です。",
+      "correctSolution": [
+        "x^2-10x+21=0",
+        "(x-3)(x-7)=0",
+        "x=3,\\ 7"
+      ],
+      "hint": "積が正で和が負のとき、2数はどちらも負の数です。"
+    },
+    {
+      "id": "J3-QE-0030",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 2,
+      "question": "3x^2-12x=0",
+      "answerLines": [
+        "3x^2-12x=0",
+        "3x(x-4)=0",
+        "x=3,\\ 4"
+      ],
+      "errorLine": 2,
+      "errorType": "3x=0 の解を x=3 とした誤り",
+      "explanation": "$3x=0$ の両辺を $3$ でわると $x=0$ です。$x=3$ としたところが誤りです。共通因数 $3x$ でくくった $3x(x-4)=0$ は正しくできています。正しくは $x=0,\\ 4$ です。",
+      "correctSolution": [
+        "3x^2-12x=0",
+        "3x(x-4)=0",
+        "x=0,\\ 4"
+      ],
+      "hint": "$3x=0$ を満たす $x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0031",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "2x^2-6x-20=0",
+      "answerLines": [
+        "2x^2-6x-20=0",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。両辺を $2$ でわって $x^2-3x-10=0$ とします。積が $-10$、和が $-3$ になる2数は $-5$ と $2$ なので、$x=5,\\ -2$ です。",
+      "correctSolution": [
+        "2x^2-6x-20=0",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "hint": "まず両辺を $x^2$ の係数でわると、因数分解しやすくなります。"
+    },
+    {
+      "id": "J3-QE-0032",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "x^2+x=12",
+      "answerLines": [
+        "x^2+x=12",
+        "x^2+x-12=0",
+        "(x+4)(x-3)=0",
+        "x=4,\\ -3"
+      ],
+      "errorLine": 3,
+      "errorType": "2つの解の符号をどちらも誤った",
+      "explanation": "$(x+4)(x-3)=0$ より、$x+4=0$ または $x-3=0$ なので、$x=-4,\\ 3$ です。符号を逆にして $x=4,\\ -3$ としたところが誤りです。移項と因数分解は正しくできています。",
+      "correctSolution": [
+        "x^2+x=12",
+        "x^2+x-12=0",
+        "(x+4)(x-3)=0",
+        "x=-4,\\ 3"
+      ],
+      "hint": "$x+4=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0033",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "x(x-5)=14",
+      "answerLines": [
+        "x(x-5)=14",
+        "x^2-5=14",
+        "x^2=19",
+        "x=\\pm\\sqrt{19}"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$x(x-5)$ のかっこをはずすと、$5$ にも $x$ をかけて $x^2-5x$ です。$x^2-5$ としたところが誤りです。正しくは $x^2-5x-14=0$、$(x-7)(x+2)=0$ で、$x=7,\\ -2$ です。",
+      "correctSolution": [
+        "x(x-5)=14",
+        "x^2-5x=14",
+        "x^2-5x-14=0",
+        "(x-7)(x+2)=0",
+        "x=7,\\ -2"
+      ],
+      "hint": "$x(x-5)$ を展開すると、$x$ の項はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0034",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "4x^2+4x-24=0",
+      "answerLines": [
+        "4x^2+4x-24=0",
+        "x^2+x-6=0",
+        "(x+3)(x-2)=0",
+        "x=-3,\\ -2"
+      ],
+      "errorLine": 3,
+      "errorType": "片方の解の符号を誤った",
+      "explanation": "$x-2=0$ より $x=2$ です。$x=-2$ としたところが誤りです。両辺を $4$ でわり、$(x+3)(x-2)=0$ と因数分解したところまでは正しくできています。正しくは $x=-3,\\ 2$ です。",
+      "correctSolution": [
+        "4x^2+4x-24=0",
+        "x^2+x-6=0",
+        "(x+3)(x-2)=0",
+        "x=-3,\\ 2"
+      ],
+      "hint": "$x-2=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0035",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 3,
+      "question": "9x^2-6x+1=0",
+      "answerLines": [
+        "9x^2-6x+1=0",
+        "(3x-1)^2=0",
+        "x=\\frac{1}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$9x^2=(3x)^2$、$1=1^2$、$6x=2\\times3x\\times1$ なので $(3x-1)^2=0$ です。$3x-1=0$ より $x=\\frac{1}{3}$ です。解は1つだけです（重解）。",
+      "correctSolution": [
+        "9x^2-6x+1=0",
+        "(3x-1)^2=0",
+        "x=\\frac{1}{3}"
+      ],
+      "hint": "左辺は、乗法公式の形になっていませんか？"
+    },
+    {
+      "id": "J3-QE-0036",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "(x+2)(x-5)=-6",
+      "answerLines": [
+        "(x+2)(x-5)=-6",
+        "x^2-3x-10=-6",
+        "x^2-3x-4=0",
+        "(x-4)(x+1)=0",
+        "x=4,\\ 1"
+      ],
+      "errorLine": 4,
+      "errorType": "片方の解の符号を誤った",
+      "explanation": "$x+1=0$ より $x=-1$ です。$x=1$ としたところが誤りです。展開して $x^2-3x-4=0$ と整理し、$(x-4)(x+1)=0$ と因数分解したところまでは正しくできています。正しくは $x=4,\\ -1$ です。",
+      "correctSolution": [
+        "(x+2)(x-5)=-6",
+        "x^2-3x-10=-6",
+        "x^2-3x-4=0",
+        "(x-4)(x+1)=0",
+        "x=4,\\ -1"
+      ],
+      "hint": "$x+1=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0037",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "x^2=2(x+4)",
+      "answerLines": [
+        "x^2=2(x+4)",
+        "x^2=2x+8",
+        "x^2+2x-8=0",
+        "(x+4)(x-2)=0",
+        "x=-4,\\ 2"
+      ],
+      "errorLine": 2,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "$x^2=2x+8$ の $2x$ と $8$ を左辺に移項すると、どちらも符号が変わって $x^2-2x-8=0$ です。$+2x$ としたところが誤りです。かっこをはずした2行目は正しくできています。正しくは $(x-4)(x+2)=0$ で、$x=4,\\ -2$ です。",
+      "correctSolution": [
+        "x^2=2(x+4)",
+        "x^2=2x+8",
+        "x^2-2x-8=0",
+        "(x-4)(x+2)=0",
+        "x=4,\\ -2"
+      ],
+      "hint": "$2x$ を左辺に移項すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0038",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "\\frac{1}{3}x^2-x-6=0",
+      "answerLines": [
+        "\\frac{1}{3}x^2-x-6=0",
+        "x^2-3x-18=0",
+        "(x-6)(x+3)=0",
+        "x=-6,\\ 3"
+      ],
+      "errorLine": 3,
+      "errorType": "ゼロ積の法則で解の符号を誤った",
+      "explanation": "$(x-6)(x+3)=0$ より、$x-6=0$ または $x+3=0$ なので、$x=6,\\ -3$ です。かっこの中の数をそのまま使って $x=-6,\\ 3$ としたところが誤りです。両辺を $3$ 倍して整理し、因数分解したところまでは正しくできています。",
+      "correctSolution": [
+        "\\frac{1}{3}x^2-x-6=0",
+        "x^2-3x-18=0",
+        "(x-6)(x+3)=0",
+        "x=6,\\ -3"
+      ],
+      "hint": "$x-6=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0039",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "(x-1)^2-(x-1)-6=0",
+      "answerLines": [
+        "(x-1)^2-(x-1)-6=0",
+        "\\{(x-1)-3\\}\\{(x-1)+2\\}=0",
+        "(x-1-3)(x-1+2)=0",
+        "(x-4)(x+1)=0",
+        "x=-4,\\ 1"
+      ],
+      "errorLine": 4,
+      "errorType": "ゼロ積の法則で解の符号を誤った",
+      "explanation": "$(x-4)(x+1)=0$ より、$x=4,\\ -1$ です。かっこの中の数をそのまま使って $x=-4,\\ 1$ としたところが誤りです。$x-1$ を1つのまとまりと見た因数分解と、かっこのはずし方は正しくできています。",
+      "correctSolution": [
+        "(x-1)^2-(x-1)-6=0",
+        "\\{(x-1)-3\\}\\{(x-1)+2\\}=0",
+        "(x-1-3)(x-1+2)=0",
+        "(x-4)(x+1)=0",
+        "x=4,\\ -1"
+      ],
+      "hint": "$x-4=0$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0040",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "因数分解による解法",
+      "difficulty": 4,
+      "question": "2x^2+3x-2=0",
+      "answerLines": [
+        "2x^2+3x-2=0",
+        "(2x-1)(x+2)=0",
+        "x=2,\\ -2"
+      ],
+      "errorLine": 2,
+      "errorType": "1次方程式で、わる数とわられる数を逆にした誤り",
+      "explanation": "$2x-1=0$ より $2x=1$ で、両辺を $2$ でわると $x=\\frac{1}{2}$ です。$x=2$ としたところが誤りです。$(2x-1)(x+2)=0$ と因数分解したところは正しくできています。正しくは $x=\\frac{1}{2},\\ -2$ です。",
+      "correctSolution": [
+        "2x^2+3x-2=0",
+        "(2x-1)(x+2)=0",
+        "x=\\frac{1}{2},\\ -2"
+      ],
+      "hint": "$2x=1$ のとき、$x$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0041",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "x^2=25",
+      "answerLines": [
+        "x^2=25",
+        "x=\\pm5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。2乗して $25$ になる数は $5$ と $-5$ の2つなので、$x=\\pm5$ です。",
+      "correctSolution": [
+        "x^2=25",
+        "x=\\pm5"
+      ],
+      "hint": "2乗して $25$ になる数は、いくつありますか？"
+    },
+    {
+      "id": "J3-QE-0042",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "x^2-36=0",
+      "answerLines": [
+        "x^2-36=0",
+        "x^2=36",
+        "x=\\pm6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-36$ を移項して $x^2=36$ とし、$36$ の平方根を求めて $x=\\pm6$ です。",
+      "correctSolution": [
+        "x^2-36=0",
+        "x^2=36",
+        "x=\\pm6"
+      ],
+      "hint": "$x^2=36$ の形にしてから、平方根を考えましょう。"
+    },
+    {
+      "id": "J3-QE-0043",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "5x^2=35",
+      "answerLines": [
+        "5x^2=35",
+        "x^2=7",
+        "x=\\pm\\sqrt7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。両辺を $5$ でわって $x^2=7$ です。$7$ は平方数ではないので、解は根号を使って $x=\\pm\\sqrt7$ と表します。",
+      "correctSolution": [
+        "5x^2=35",
+        "x^2=7",
+        "x=\\pm\\sqrt7"
+      ],
+      "hint": "$7$ の平方根を、根号を使って表しましょう。"
+    },
+    {
+      "id": "J3-QE-0044",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "4x^2=36",
+      "answerLines": [
+        "4x^2=36",
+        "x^2=32",
+        "x=\\pm4\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "両辺を係数でわらずに、係数をひいた誤り",
+      "explanation": "$4x^2=36$ の両辺を $4$ でわると $x^2=9$ です。$36-4=32$ としたところが誤りです。正しくは $x=\\pm3$ です。",
+      "correctSolution": [
+        "4x^2=36",
+        "x^2=9",
+        "x=\\pm3"
+      ],
+      "hint": "$4x^2$ を $x^2$ にするには、両辺をどうしますか？"
+    },
+    {
+      "id": "J3-QE-0045",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 1,
+      "question": "(x-1)^2=9",
+      "answerLines": [
+        "(x-1)^2=9",
+        "x-1=\\pm3",
+        "x=4"
+      ],
+      "errorLine": 2,
+      "errorType": "解を1つだけ求めて終わった",
+      "explanation": "$x-1=\\pm3$ は、$x-1=3$ と $x-1=-3$ の2つを表しているので、$x=4$ と $x=-2$ の2つが解です。$x=4$ だけで終わったところが誤りです。$x-1=\\pm3$ は正しくできています。",
+      "correctSolution": [
+        "(x-1)^2=9",
+        "x-1=\\pm3",
+        "x=4,\\ -2"
+      ],
+      "hint": "$x-1=-3$ のときの $x$ も求めましたか？"
+    },
+    {
+      "id": "J3-QE-0046",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "2x^2-10=0",
+      "answerLines": [
+        "2x^2-10=0",
+        "2x^2=10",
+        "x^2=5",
+        "x=\\pm\\sqrt5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-10$ を移項して $2x^2=10$、両辺を $2$ でわって $x^2=5$ です。$5$ の平方根なので $x=\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "2x^2-10=0",
+        "2x^2=10",
+        "x^2=5",
+        "x=\\pm\\sqrt5"
+      ],
+      "hint": "$x^2=\\cdots$ の形にしてから、平方根を考えましょう。"
+    },
+    {
+      "id": "J3-QE-0047",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "(x+4)^2=5",
+      "answerLines": [
+        "(x+4)^2=5",
+        "x+4=\\pm\\sqrt5",
+        "x=4\\pm\\sqrt5"
+      ],
+      "errorLine": 2,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "$x+4=\\pm\\sqrt5$ の $4$ を右辺に移項すると $-4$ になるので、$x=-4\\pm\\sqrt5$ です。$4\\pm\\sqrt5$ としたところが誤りです。$x+4=\\pm\\sqrt5$ は正しくできています。",
+      "correctSolution": [
+        "(x+4)^2=5",
+        "x+4=\\pm\\sqrt5",
+        "x=-4\\pm\\sqrt5"
+      ],
+      "hint": "$4$ を右辺に移項すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0048",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "x^2-12=0",
+      "answerLines": [
+        "x^2-12=0",
+        "x^2=12",
+        "x=\\pm\\sqrt{12}"
+      ],
+      "errorLine": 2,
+      "errorType": "解の根号を簡単にしていない",
+      "explanation": "$x=\\pm\\sqrt{12}$ は正しい解の値ですが、根号の中をいちばん小さい自然数にしていません。$12=2^2\\times3$ なので、答えは $x=\\pm2\\sqrt3$ と表します。$\\sqrt{12}$ のままで終わったところが誤りです。",
+      "correctSolution": [
+        "x^2-12=0",
+        "x^2=12",
+        "x=\\pm2\\sqrt3"
+      ],
+      "hint": "$\\sqrt{12}$ は、もっと簡単にできませんか？"
+    },
+    {
+      "id": "J3-QE-0049",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "9x^2=4",
+      "answerLines": [
+        "9x^2=4",
+        "x^2=\\frac{4}{9}",
+        "x=\\pm\\frac{4}{9}"
+      ],
+      "errorLine": 2,
+      "errorType": "平方根をとらずに、そのまま ± をつけた誤り",
+      "explanation": "$x^2=\\frac{4}{9}$ のとき、$x$ は $\\frac{4}{9}$ の平方根なので $\\pm\\sqrt{\\frac{4}{9}}=\\pm\\frac{2}{3}$ です。平方根をとらずに $\\pm\\frac{4}{9}$ としたところが誤りです。両辺を $9$ でわった $x^2=\\frac{4}{9}$ は正しくできています。",
+      "correctSolution": [
+        "9x^2=4",
+        "x^2=\\frac{4}{9}",
+        "x=\\pm\\frac{2}{3}"
+      ],
+      "hint": "2乗して $\\frac{4}{9}$ になる数は何ですか？"
+    },
+    {
+      "id": "J3-QE-0050",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 2,
+      "question": "(x-2)^2-16=0",
+      "answerLines": [
+        "(x-2)^2-16=0",
+        "(x-2)^2=16",
+        "x-2=\\pm4",
+        "x=6,\\ 2"
+      ],
+      "errorLine": 3,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "$x-2=-4$ のとき、$x=-4+2=-2$ です。$2$ としたところが誤りです。$x-2=\\pm4$ までと、$x-2=4$ から $x=6$ を求めたところは正しくできています。正しくは $x=6,\\ -2$ です。",
+      "correctSolution": [
+        "(x-2)^2-16=0",
+        "(x-2)^2=16",
+        "x-2=\\pm4",
+        "x=6,\\ -2"
+      ],
+      "hint": "$x-2=-4$ を解き直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0051",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "3(x+1)^2=24",
+      "answerLines": [
+        "3(x+1)^2=24",
+        "(x+1)^2=8",
+        "x+1=\\pm2\\sqrt2",
+        "x=-1\\pm2\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。両辺を $3$ でわって $(x+1)^2=8$ です。$\\sqrt8=2\\sqrt2$ なので $x+1=\\pm2\\sqrt2$、$1$ を移項して $x=-1\\pm2\\sqrt2$ です。",
+      "correctSolution": [
+        "3(x+1)^2=24",
+        "(x+1)^2=8",
+        "x+1=\\pm2\\sqrt2",
+        "x=-1\\pm2\\sqrt2"
+      ],
+      "hint": "かっこの中を1つのまとまりと見て、平方根を考えましょう。"
+    },
+    {
+      "id": "J3-QE-0052",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "(2x-1)^2=9",
+      "answerLines": [
+        "(2x-1)^2=9",
+        "2x-1=\\pm3",
+        "2x=-1\\pm3",
+        "x=1,\\ -2"
+      ],
+      "errorLine": 2,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "$2x-1=\\pm3$ の $-1$ を右辺に移項すると $+1$ になるので、$2x=1\\pm3$ です。$-1\\pm3$ としたところが誤りです。$2x-1=\\pm3$ は正しくできています。正しくは $2x=4,\\ -2$ で、$x=2,\\ -1$ です。",
+      "correctSolution": [
+        "(2x-1)^2=9",
+        "2x-1=\\pm3",
+        "2x=1\\pm3",
+        "x=2,\\ -1"
+      ],
+      "hint": "$-1$ を右辺に移項すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0053",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "x^2+4x=1",
+      "answerLines": [
+        "x^2+4x=1",
+        "x^2+4x+4=1",
+        "(x+2)^2=1",
+        "x+2=\\pm1",
+        "x=-1,\\ -3"
+      ],
+      "errorLine": 1,
+      "errorType": "平方完成で、右辺に同じ数をたし忘れた誤り",
+      "explanation": "$x$ の係数 $4$ の半分の2乗 $4$ を左辺にたしたら、右辺にも $4$ をたして $x^2+4x+4=1+4$ にします。右辺にたし忘れたところが誤りです。正しくは $(x+2)^2=5$、$x=-2\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "x^2+4x=1",
+        "x^2+4x+4=1+4",
+        "(x+2)^2=5",
+        "x+2=\\pm\\sqrt5",
+        "x=-2\\pm\\sqrt5"
+      ],
+      "hint": "左辺に $4$ をたしたら、右辺はどうしますか？"
+    },
+    {
+      "id": "J3-QE-0054",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "(x+3)^2=12",
+      "answerLines": [
+        "(x+3)^2=12",
+        "x+3=\\pm6",
+        "x=3,\\ -9"
+      ],
+      "errorLine": 1,
+      "errorType": "平方根を求めるとき、2でわった誤り",
+      "explanation": "$x+3$ は $12$ の平方根なので、$x+3=\\pm\\sqrt{12}=\\pm2\\sqrt3$ です。$12\\div2=6$ として $\\pm6$ としたところが誤りです（$6^2=36$ です）。正しくは $x=-3\\pm2\\sqrt3$ です。",
+      "correctSolution": [
+        "(x+3)^2=12",
+        "x+3=\\pm2\\sqrt3",
+        "x=-3\\pm2\\sqrt3"
+      ],
+      "hint": "2乗して $12$ になる数は何ですか？"
+    },
+    {
+      "id": "J3-QE-0055",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 3,
+      "question": "x^2-6x-3=0",
+      "answerLines": [
+        "x^2-6x-3=0",
+        "x^2-6x=3",
+        "x^2-6x+9=3+9",
+        "(x-3)^2=12",
+        "x-3=\\pm4\\sqrt3",
+        "x=3\\pm4\\sqrt3"
+      ],
+      "errorLine": 4,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt{12}=\\sqrt{2^2\\times3}=2\\sqrt3$ なので、$x-3=\\pm2\\sqrt3$ です。$4$ を外に出して $\\pm4\\sqrt3$ としたところが誤りです。平方完成して $(x-3)^2=12$ としたところまでは正しくできています。正しくは $x=3\\pm2\\sqrt3$ です。",
+      "correctSolution": [
+        "x^2-6x-3=0",
+        "x^2-6x=3",
+        "x^2-6x+9=3+9",
+        "(x-3)^2=12",
+        "x-3=\\pm2\\sqrt3",
+        "x=3\\pm2\\sqrt3"
+      ],
+      "hint": "$\\sqrt4$ はいくつですか？ 根号の外に出すのはその数です。"
+    },
+    {
+      "id": "J3-QE-0056",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "2x^2-12x+8=0",
+      "answerLines": [
+        "2x^2-12x+8=0",
+        "x^2-6x+4=0",
+        "x^2-6x=-4",
+        "x^2-6x+9=-4+9",
+        "(x-3)^2=5",
+        "x=3\\pm\\sqrt5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。両辺を $2$ でわってから、数の項を移項します。$x$ の係数 $-6$ の半分の2乗 $9$ を両辺にたすと $(x-3)^2=5$ になり、$x-3=\\pm\\sqrt5$ より $x=3\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "2x^2-12x+8=0",
+        "x^2-6x+4=0",
+        "x^2-6x=-4",
+        "x^2-6x+9=-4+9",
+        "(x-3)^2=5",
+        "x=3\\pm\\sqrt5"
+      ],
+      "hint": "両辺に何をたすと、左辺が $(x+m)^2$ の形になりますか？"
+    },
+    {
+      "id": "J3-QE-0057",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "x^2+5x+3=0",
+      "answerLines": [
+        "x^2+5x+3=0",
+        "x^2+5x=-3",
+        "x^2+5x+\\frac{25}{4}=-3+\\frac{25}{4}",
+        "\\left(x+\\frac{5}{2}\\right)^2=\\frac{37}{4}",
+        "x=\\frac{-5\\pm\\sqrt{37}}{2}"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "右辺は $-3+\\frac{25}{4}=-\\frac{12}{4}+\\frac{25}{4}=\\frac{13}{4}$ です。$\\frac{37}{4}$ としたところが誤りです（$-3$ を $+3$ として計算しています）。$x$ の係数の半分の2乗 $\\frac{25}{4}$ を両辺にたしたところまでは正しくできています。正しくは $x=\\frac{-5\\pm\\sqrt{13}}{2}$ です。",
+      "correctSolution": [
+        "x^2+5x+3=0",
+        "x^2+5x=-3",
+        "x^2+5x+\\frac{25}{4}=-3+\\frac{25}{4}",
+        "\\left(x+\\frac{5}{2}\\right)^2=\\frac{13}{4}",
+        "x+\\frac{5}{2}=\\pm\\frac{\\sqrt{13}}{2}",
+        "x=\\frac{-5\\pm\\sqrt{13}}{2}"
+      ],
+      "hint": "$-3+\\frac{25}{4}$ を、分母をそろえて計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0058",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "4(x-1)^2-20=0",
+      "answerLines": [
+        "4(x-1)^2-20=0",
+        "4(x-1)^2=20",
+        "(x-1)^2=16",
+        "x-1=\\pm4",
+        "x=5,\\ -3"
+      ],
+      "errorLine": 2,
+      "errorType": "両辺を係数でわらずに、係数をひいた誤り",
+      "explanation": "$4(x-1)^2=20$ の両辺を $4$ でわると $(x-1)^2=5$ です。$20-4=16$ としたところが誤りです。$-20$ を移項した2行目は正しくできています。正しくは $x-1=\\pm\\sqrt5$、$x=1\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "4(x-1)^2-20=0",
+        "4(x-1)^2=20",
+        "(x-1)^2=5",
+        "x-1=\\pm\\sqrt5",
+        "x=1\\pm\\sqrt5"
+      ],
+      "hint": "$4(x-1)^2$ を $(x-1)^2$ にするには、両辺をどうしますか？"
+    },
+    {
+      "id": "J3-QE-0059",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "\\frac{1}{2}(x-4)^2=10",
+      "answerLines": [
+        "\\frac{1}{2}(x-4)^2=10",
+        "(x-4)^2=5",
+        "x-4=\\pm\\sqrt5",
+        "x=4\\pm\\sqrt5"
+      ],
+      "errorLine": 1,
+      "errorType": "両辺に2をかけるところを、2でわった誤り",
+      "explanation": "$\\frac{1}{2}(x-4)^2=10$ の両辺に $2$ をかけると $(x-4)^2=20$ です。両辺を $2$ でわって $5$ としたところが誤りです。正しくは $x-4=\\pm2\\sqrt5$、$x=4\\pm2\\sqrt5$ です。",
+      "correctSolution": [
+        "\\frac{1}{2}(x-4)^2=10",
+        "(x-4)^2=20",
+        "x-4=\\pm2\\sqrt5",
+        "x=4\\pm2\\sqrt5"
+      ],
+      "hint": "$\\frac{1}{2}$ を消すには、両辺に何をかけますか？"
+    },
+    {
+      "id": "J3-QE-0060",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "平方根を利用する解法",
+      "difficulty": 4,
+      "question": "x^2-8x+11=0",
+      "answerLines": [
+        "x^2-8x+11=0",
+        "x^2-8x=-11",
+        "x^2-8x+16=-11+16",
+        "(x-4)^2=27",
+        "x-4=\\pm3\\sqrt3",
+        "x=4\\pm3\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "右辺は $-11+16=5$ なので、$(x-4)^2=5$ です。$27$ としたところが誤りです（$11$ と $16$ をたしています）。移項と、両辺に $16$ をたしたところまでは正しくできています。正しくは $x-4=\\pm\\sqrt5$、$x=4\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "x^2-8x+11=0",
+        "x^2-8x=-11",
+        "x^2-8x+16=-11+16",
+        "(x-4)^2=5",
+        "x-4=\\pm\\sqrt5",
+        "x=4\\pm\\sqrt5"
+      ],
+      "hint": "$-11+16$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0061",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2+5x+2=0",
+      "answerLines": [
+        "x^2+5x+2=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times1\\times2}}{2\\times1}",
+        "x=\\frac{-5\\pm\\sqrt{17}}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。解の公式 $x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}$ に $a=1$、$b=5$、$c=2$ を代入します。$25-8=17$ なので $x=\\frac{-5\\pm\\sqrt{17}}{2}$ です。",
+      "correctSolution": [
+        "x^2+5x+2=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times1\\times2}}{2\\times1}",
+        "x=\\frac{-5\\pm\\sqrt{17}}{2}"
+      ],
+      "hint": "$a$、$b$、$c$ の値を確かめてから、公式に代入しましょう。"
+    },
+    {
+      "id": "J3-QE-0062",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2+x-3=0",
+      "answerLines": [
+        "x^2+x-3=0",
+        "x=\\frac{-1\\pm\\sqrt{1^2-4\\times1\\times(-3)}}{2\\times1}",
+        "x=\\frac{1\\pm\\sqrt{13}}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "解の公式で −b の符号を書き落とした誤り",
+      "explanation": "2行目の分子は $-1\\pm\\sqrt{13}$ なので、$x=\\frac{-1\\pm\\sqrt{13}}{2}$ です。$-1$ の $-$ を書き落として $1$ としたところが誤りです。公式への代入と、根号の中 $1+12=13$ は正しくできています。",
+      "correctSolution": [
+        "x^2+x-3=0",
+        "x=\\frac{-1\\pm\\sqrt{1^2-4\\times1\\times(-3)}}{2\\times1}",
+        "x=\\frac{-1\\pm\\sqrt{13}}{2}"
+      ],
+      "hint": "2行目の分子の最初の数は、$1$ ですか $-1$ ですか？"
+    },
+    {
+      "id": "J3-QE-0063",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2-3x-2=0",
+      "answerLines": [
+        "x^2-3x-2=0",
+        "x=\\frac{-(-3)\\pm\\sqrt{(-3)^2-4\\times1\\times(-2)}}{2\\times1}",
+        "x=\\frac{3\\pm\\sqrt{17}}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$a=1$、$b=-3$、$c=-2$ です。$-b=3$、$b^2-4ac=9+8=17$ なので $x=\\frac{3\\pm\\sqrt{17}}{2}$ です。",
+      "correctSolution": [
+        "x^2-3x-2=0",
+        "x=\\frac{-(-3)\\pm\\sqrt{(-3)^2-4\\times1\\times(-2)}}{2\\times1}",
+        "x=\\frac{3\\pm\\sqrt{17}}{2}"
+      ],
+      "hint": "$b$ や $c$ が負の数のときは、かっこをつけて代入しましょう。"
+    },
+    {
+      "id": "J3-QE-0064",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2+7x+5=0",
+      "answerLines": [
+        "x^2+7x+5=0",
+        "x=\\frac{-7\\pm\\sqrt{7^2+4\\times1\\times5}}{2\\times1}",
+        "x=\\frac{-7\\pm\\sqrt{69}}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "解の公式の根号の中を b²+4ac とした誤り",
+      "explanation": "解の公式の根号の中は $b^2-4ac$ なので、$7^2-4\\times1\\times5=49-20=29$ です。$+4\\times1\\times5$ としたところが誤りです。正しくは $x=\\frac{-7\\pm\\sqrt{29}}{2}$ です。",
+      "correctSolution": [
+        "x^2+7x+5=0",
+        "x=\\frac{-7\\pm\\sqrt{7^2-4\\times1\\times5}}{2\\times1}",
+        "x=\\frac{-7\\pm\\sqrt{29}}{2}"
+      ],
+      "hint": "解の公式の根号の中は、$b^2+4ac$ ですか $b^2-4ac$ ですか？"
+    },
+    {
+      "id": "J3-QE-0065",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 1,
+      "question": "x^2-x-1=0",
+      "answerLines": [
+        "x^2-x-1=0",
+        "x=\\frac{-(-1)\\pm\\sqrt{(-1)^2-4\\times1\\times(-1)}}{2\\times1}",
+        "x=\\frac{1\\pm\\sqrt3}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の2乗の符号ミス",
+      "explanation": "$(-1)^2=1$ なので、根号の中は $1+4=5$ です。$(-1)^2$ を $-1$ として $-1+4=3$ としたところが誤りです。公式への代入は正しくできています。正しくは $x=\\frac{1\\pm\\sqrt5}{2}$ です。",
+      "correctSolution": [
+        "x^2-x-1=0",
+        "x=\\frac{-(-1)\\pm\\sqrt{(-1)^2-4\\times1\\times(-1)}}{2\\times1}",
+        "x=\\frac{1\\pm\\sqrt5}{2}"
+      ],
+      "hint": "$(-1)^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0066",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "2x^2+3x-1=0",
+      "answerLines": [
+        "2x^2+3x-1=0",
+        "x=\\frac{-3\\pm\\sqrt{3^2-4\\times2\\times(-1)}}{2\\times2}",
+        "x=\\frac{-3\\pm\\sqrt{17}}{4}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$a=2$、$b=3$、$c=-1$ を代入します。根号の中は $9+8=17$、分母は $2\\times2=4$ です。",
+      "correctSolution": [
+        "2x^2+3x-1=0",
+        "x=\\frac{-3\\pm\\sqrt{3^2-4\\times2\\times(-1)}}{2\\times2}",
+        "x=\\frac{-3\\pm\\sqrt{17}}{4}"
+      ],
+      "hint": "分母の $2a$ を、$a=2$ で計算しましょう。"
+    },
+    {
+      "id": "J3-QE-0067",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "3x^2-x-1=0",
+      "answerLines": [
+        "3x^2-x-1=0",
+        "x=\\frac{-(-1)\\pm\\sqrt{(-1)^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{1\\pm\\sqrt{13}}{3}"
+      ],
+      "errorLine": 2,
+      "errorType": "解の公式の分母の誤り（2a を a とした）",
+      "explanation": "分母は $2\\times3=6$ なので、$x=\\frac{1\\pm\\sqrt{13}}{6}$ です。分母を $3$ としたところが誤りです。公式への代入と、根号の中 $1+12=13$ は正しくできています。",
+      "correctSolution": [
+        "3x^2-x-1=0",
+        "x=\\frac{-(-1)\\pm\\sqrt{(-1)^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{1\\pm\\sqrt{13}}{6}"
+      ],
+      "hint": "2行目の分母 $2\\times3$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0068",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "5x^2+3x-1=0",
+      "answerLines": [
+        "5x^2+3x-1=0",
+        "x=\\frac{-3\\pm\\sqrt{3^2-4\\times5\\times(-1)}}{2\\times5}",
+        "x=\\frac{-3\\pm\\sqrt{29}}{10}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$a=5$、$b=3$、$c=-1$ を代入します。根号の中は $9+20=29$、分母は $10$ です。$29$ は平方数の因数をふくまないので、これ以上簡単にできません。",
+      "correctSolution": [
+        "5x^2+3x-1=0",
+        "x=\\frac{-3\\pm\\sqrt{3^2-4\\times5\\times(-1)}}{2\\times5}",
+        "x=\\frac{-3\\pm\\sqrt{29}}{10}"
+      ],
+      "hint": "$-4\\times5\\times(-1)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0069",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "2x^2-7x+4=0",
+      "answerLines": [
+        "2x^2-7x+4=0",
+        "x=\\frac{-(-7)\\pm\\sqrt{(-7)^2-4\\times2\\times4}}{2}",
+        "x=\\frac{7\\pm\\sqrt{17}}{2}"
+      ],
+      "errorLine": 1,
+      "errorType": "解の公式の分母の誤り（2a を 2 とした）",
+      "explanation": "解の公式の分母は $2a$ なので、$a=2$ のときは $2\\times2=4$ です。分母を $2$ としたところが誤りです。分子への代入は正しくできています。正しくは $x=\\frac{7\\pm\\sqrt{17}}{4}$ です。",
+      "correctSolution": [
+        "2x^2-7x+4=0",
+        "x=\\frac{-(-7)\\pm\\sqrt{(-7)^2-4\\times2\\times4}}{2\\times2}",
+        "x=\\frac{7\\pm\\sqrt{17}}{4}"
+      ],
+      "hint": "解の公式の分母は $2$ ですか、$2a$ ですか？"
+    },
+    {
+      "id": "J3-QE-0070",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 2,
+      "question": "x^2+6x+2=0",
+      "answerLines": [
+        "x^2+6x+2=0",
+        "x=\\frac{-6\\pm\\sqrt{6^2-4\\times1\\times2}}{2\\times1}",
+        "x=\\frac{-6\\pm\\sqrt{28}}{2}",
+        "x=\\frac{-6\\pm2\\sqrt7}{2}",
+        "x=-3\\pm\\sqrt7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。根号の中は $36-8=28$ で、$\\sqrt{28}=2\\sqrt7$ です。分子のどちらの項も $2$ でわれるので、約分して $x=-3\\pm\\sqrt7$ です。",
+      "correctSolution": [
+        "x^2+6x+2=0",
+        "x=\\frac{-6\\pm\\sqrt{6^2-4\\times1\\times2}}{2\\times1}",
+        "x=\\frac{-6\\pm\\sqrt{28}}{2}",
+        "x=\\frac{-6\\pm2\\sqrt7}{2}",
+        "x=-3\\pm\\sqrt7"
+      ],
+      "hint": "根号を簡単にしたあと、約分できるか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0071",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "x^2-2x-5=0",
+      "answerLines": [
+        "x^2-2x-5=0",
+        "x=\\frac{-(-2)\\pm\\sqrt{(-2)^2-4\\times1\\times(-5)}}{2\\times1}",
+        "x=\\frac{2\\pm\\sqrt{24}}{2}",
+        "x=\\frac{2\\pm2\\sqrt6}{2}",
+        "x=1\\pm2\\sqrt6"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で、根号の項の係数をわり忘れた誤り",
+      "explanation": "$\\frac{2\\pm2\\sqrt6}{2}$ は、分子のどちらの項も $2$ でわるので $1\\pm\\sqrt6$ です。$2\\sqrt6$ を $2$ でわり忘れたところが誤りです。公式への代入、$\\sqrt{24}=2\\sqrt6$ は正しくできています。",
+      "correctSolution": [
+        "x^2-2x-5=0",
+        "x=\\frac{-(-2)\\pm\\sqrt{(-2)^2-4\\times1\\times(-5)}}{2\\times1}",
+        "x=\\frac{2\\pm\\sqrt{24}}{2}",
+        "x=\\frac{2\\pm2\\sqrt6}{2}",
+        "x=1\\pm\\sqrt6"
+      ],
+      "hint": "分子の $2\\sqrt6$ も $2$ でわりましたか？"
+    },
+    {
+      "id": "J3-QE-0072",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "3x^2+4x-2=0",
+      "answerLines": [
+        "3x^2+4x-2=0",
+        "x=\\frac{-4\\pm\\sqrt{4^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-4\\pm\\sqrt{40}}{6}",
+        "x=\\frac{-4\\pm2\\sqrt{10}}{6}",
+        "x=\\frac{-2\\pm\\sqrt{10}}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。根号の中は $16+24=40$ で、$\\sqrt{40}=2\\sqrt{10}$ です。分子と分母を $2$ で約分して $x=\\frac{-2\\pm\\sqrt{10}}{3}$ です。",
+      "correctSolution": [
+        "3x^2+4x-2=0",
+        "x=\\frac{-4\\pm\\sqrt{4^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-4\\pm\\sqrt{40}}{6}",
+        "x=\\frac{-4\\pm2\\sqrt{10}}{6}",
+        "x=\\frac{-2\\pm\\sqrt{10}}{3}"
+      ],
+      "hint": "約分するときは、分子のすべての項と分母を同じ数でわります。"
+    },
+    {
+      "id": "J3-QE-0073",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "x^2+8x+13=0",
+      "answerLines": [
+        "x^2+8x+13=0",
+        "x=\\frac{-8\\pm\\sqrt{8^2-4\\times1\\times13}}{2\\times1}",
+        "x=\\frac{-8\\pm\\sqrt{12}}{2}",
+        "x=\\frac{-8\\pm4\\sqrt3}{2}",
+        "x=-4\\pm2\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt{12}=\\sqrt{2^2\\times3}=2\\sqrt3$ なので、外に出すのは $4$ ではなく $2$ です。$4\\sqrt3$ としたところが誤りです。公式への代入と、根号の中 $64-52=12$ は正しくできています。正しくは $\\frac{-8\\pm2\\sqrt3}{2}=-4\\pm\\sqrt3$ です。",
+      "correctSolution": [
+        "x^2+8x+13=0",
+        "x=\\frac{-8\\pm\\sqrt{8^2-4\\times1\\times13}}{2\\times1}",
+        "x=\\frac{-8\\pm\\sqrt{12}}{2}",
+        "x=\\frac{-8\\pm2\\sqrt3}{2}",
+        "x=-4\\pm\\sqrt3"
+      ],
+      "hint": "$\\sqrt4$ はいくつですか？ 根号の外に出すのはその数です。"
+    },
+    {
+      "id": "J3-QE-0074",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "4x^2-4x-1=0",
+      "answerLines": [
+        "4x^2-4x-1=0",
+        "x=\\frac{-(-4)\\pm\\sqrt{(-4)^2-4\\times4\\times(-1)}}{2\\times4}",
+        "x=\\frac{4\\pm\\sqrt0}{8}",
+        "x=\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "解の公式で、c の符号を見落とした誤り",
+      "explanation": "根号の中は $16-4\\times4\\times(-1)=16+16=32$ です。$c=-1$ の符号を見落として $16-16=0$ としたところが誤りです。公式への代入は正しくできています。正しくは $\\frac{4\\pm4\\sqrt2}{8}=\\frac{1\\pm\\sqrt2}{2}$ です。",
+      "correctSolution": [
+        "4x^2-4x-1=0",
+        "x=\\frac{-(-4)\\pm\\sqrt{(-4)^2-4\\times4\\times(-1)}}{2\\times4}",
+        "x=\\frac{4\\pm\\sqrt{32}}{8}",
+        "x=\\frac{4\\pm4\\sqrt2}{8}",
+        "x=\\frac{1\\pm\\sqrt2}{2}"
+      ],
+      "hint": "$-4\\times4\\times(-1)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0075",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 3,
+      "question": "x^2-6x+7=0",
+      "answerLines": [
+        "x^2-6x+7=0",
+        "x=\\frac{-6\\pm\\sqrt{(-6)^2-4\\times1\\times7}}{2\\times1}",
+        "x=\\frac{-6\\pm\\sqrt8}{2}",
+        "x=\\frac{-6\\pm2\\sqrt2}{2}",
+        "x=-3\\pm\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "解の公式で −b の符号を誤った",
+      "explanation": "$b=-6$ なので、分子の $-b$ は $-(-6)=6$ です。$-6$ としたところが誤りです。根号の中 $(-6)^2-28=8$ は正しく代入できています。正しくは $\\frac{6\\pm2\\sqrt2}{2}=3\\pm\\sqrt2$ です。",
+      "correctSolution": [
+        "x^2-6x+7=0",
+        "x=\\frac{-(-6)\\pm\\sqrt{(-6)^2-4\\times1\\times7}}{2\\times1}",
+        "x=\\frac{6\\pm\\sqrt8}{2}",
+        "x=\\frac{6\\pm2\\sqrt2}{2}",
+        "x=3\\pm\\sqrt2"
+      ],
+      "hint": "$b=-6$ のとき、$-b$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0076",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "2x^2-2x-1=0",
+      "answerLines": [
+        "2x^2-2x-1=0",
+        "x=\\frac{-(-2)\\pm\\sqrt{(-2)^2-4\\times2\\times(-1)}}{2\\times2}",
+        "x=\\frac{2\\pm\\sqrt{12}}{4}",
+        "x=\\frac{2\\pm2\\sqrt3}{4}",
+        "x=\\frac{1\\pm\\sqrt3}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。根号の中は $4+8=12$、$\\sqrt{12}=2\\sqrt3$ です。分子と分母を $2$ で約分して $x=\\frac{1\\pm\\sqrt3}{2}$ です。",
+      "correctSolution": [
+        "2x^2-2x-1=0",
+        "x=\\frac{-(-2)\\pm\\sqrt{(-2)^2-4\\times2\\times(-1)}}{2\\times2}",
+        "x=\\frac{2\\pm\\sqrt{12}}{4}",
+        "x=\\frac{2\\pm2\\sqrt3}{4}",
+        "x=\\frac{1\\pm\\sqrt3}{2}"
+      ],
+      "hint": "最後に約分できるか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0077",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "3x^2-6x+1=0",
+      "answerLines": [
+        "3x^2-6x+1=0",
+        "x=\\frac{-(-6)\\pm\\sqrt{(-6)^2-4\\times3\\times1}}{2\\times3}",
+        "x=\\frac{6\\pm\\sqrt{24}}{6}",
+        "x=\\frac{6\\pm2\\sqrt6}{6}",
+        "x=1\\pm\\sqrt6"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で分子の一部の項だけをわった誤り",
+      "explanation": "$\\frac{6\\pm2\\sqrt6}{6}$ は、分子と分母を $2$ でわって $\\frac{3\\pm\\sqrt6}{3}$ です。$6\\div6=1$ とした一方で、$2\\sqrt6$ は $\\sqrt6$ にしかしておらず、分子と分母を同じ数でわっていないところが誤りです。公式への代入と $\\sqrt{24}=2\\sqrt6$ は正しくできています。",
+      "correctSolution": [
+        "3x^2-6x+1=0",
+        "x=\\frac{-(-6)\\pm\\sqrt{(-6)^2-4\\times3\\times1}}{2\\times3}",
+        "x=\\frac{6\\pm\\sqrt{24}}{6}",
+        "x=\\frac{6\\pm2\\sqrt6}{6}",
+        "x=\\frac{3\\pm\\sqrt6}{3}"
+      ],
+      "hint": "分子のすべての項と分母を、同じ数でわりましたか？"
+    },
+    {
+      "id": "J3-QE-0078",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "\\frac{1}{2}x^2+x-\\frac{1}{3}=0",
+      "answerLines": [
+        "\\frac{1}{2}x^2+x-\\frac{1}{3}=0",
+        "3x^2+x-2=0",
+        "x=\\frac{-1\\pm\\sqrt{1^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-1\\pm5}{6}",
+        "x=\\frac{2}{3},\\ -1"
+      ],
+      "errorLine": 1,
+      "errorType": "分母をはらうとき、一部の項に数をかけ忘れた誤り",
+      "explanation": "両辺に $6$ をかけると、$x$ の項も $6$ 倍されて $6x$ になるので、$3x^2+6x-2=0$ です。$x$ のままにしたところが誤りです。正しく解くと $x=\\frac{-6\\pm\\sqrt{60}}{6}=\\frac{-3\\pm\\sqrt{15}}{3}$ です。",
+      "correctSolution": [
+        "\\frac{1}{2}x^2+x-\\frac{1}{3}=0",
+        "3x^2+6x-2=0",
+        "x=\\frac{-6\\pm\\sqrt{6^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-6\\pm\\sqrt{60}}{6}",
+        "x=\\frac{-6\\pm2\\sqrt{15}}{6}",
+        "x=\\frac{-3\\pm\\sqrt{15}}{3}"
+      ],
+      "hint": "両辺に $6$ をかけたとき、$x$ の項はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0079",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "(x+1)(x-3)=1",
+      "answerLines": [
+        "(x+1)(x-3)=1",
+        "x^2-2x-3=1",
+        "x^2-2x-2=0",
+        "x=\\frac{2\\pm\\sqrt{12}}{2}",
+        "x=\\frac{2\\pm2\\sqrt3}{2}",
+        "x=1\\pm\\sqrt3"
+      ],
+      "errorLine": 2,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "右辺の $1$ を左辺に移項すると $-1$ になるので、$x^2-2x-3-1=0$、$x^2-2x-4=0$ です。$-3+1=-2$ としたところが誤りです。展開は正しくできています。正しくは $x=\\frac{2\\pm\\sqrt{20}}{2}=1\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "(x+1)(x-3)=1",
+        "x^2-2x-3=1",
+        "x^2-2x-4=0",
+        "x=\\frac{2\\pm\\sqrt{20}}{2}",
+        "x=\\frac{2\\pm2\\sqrt5}{2}",
+        "x=1\\pm\\sqrt5"
+      ],
+      "hint": "右辺の $1$ を移項すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0080",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "解の公式",
+      "difficulty": 4,
+      "question": "0.3x^2+0.5x-0.1=0",
+      "answerLines": [
+        "0.3x^2+0.5x-0.1=0",
+        "3x^2+5x-1=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{-5\\pm\\sqrt{13}}{6}"
+      ],
+      "errorLine": 3,
+      "errorType": "解の公式で、c の符号を見落とした誤り",
+      "explanation": "根号の中は $25-4\\times3\\times(-1)=25+12=37$ です。$c=-1$ の符号を見落として $25-12=13$ としたところが誤りです。両辺を $10$ 倍して整理し、公式に代入したところまでは正しくできています。正しくは $x=\\frac{-5\\pm\\sqrt{37}}{6}$ です。",
+      "correctSolution": [
+        "0.3x^2+0.5x-0.1=0",
+        "3x^2+5x-1=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times3\\times(-1)}}{2\\times3}",
+        "x=\\frac{-5\\pm\\sqrt{37}}{6}"
+      ],
+      "hint": "$-4\\times3\\times(-1)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0081",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "x^2-8x+16=0",
+      "answerLines": [
+        "x^2-8x+16=0",
+        "(x-4)^2=0",
+        "x=4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。左辺は差の平方の形なので $(x-4)^2=0$ です。$x-4=0$ より $x=4$ で、解は1つだけです。",
+      "correctSolution": [
+        "x^2-8x+16=0",
+        "(x-4)^2=0",
+        "x=4"
+      ],
+      "hint": "左辺が乗法公式の形になっていないか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0082",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "x^2=-5x",
+      "answerLines": [
+        "x^2=-5x",
+        "x=-5"
+      ],
+      "errorLine": 1,
+      "errorType": "両辺を x でわって、x=0 の解を失った",
+      "explanation": "両辺を $x$ でわると、$x=0$ のときを考えられなくなり、解 $x=0$ を失います。移項して $x^2+5x=0$、$x(x+5)=0$ とすると、解は $x=0,\\ -5$ の2つです。",
+      "correctSolution": [
+        "x^2=-5x",
+        "x^2+5x=0",
+        "x(x+5)=0",
+        "x=0,\\ -5"
+      ],
+      "hint": "$x=0$ を代入すると、もとの方程式は成り立ちませんか？"
+    },
+    {
+      "id": "J3-QE-0083",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "x^2-2x-35=0",
+      "answerLines": [
+        "x^2-2x-35=0",
+        "(x-7)(x+5)=0",
+        "x=7,\\ -5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。積が $-35$、和が $-2$ になる2数は $-7$ と $5$ なので $(x-7)(x+5)=0$、$x=7,\\ -5$ です。",
+      "correctSolution": [
+        "x^2-2x-35=0",
+        "(x-7)(x+5)=0",
+        "x=7,\\ -5"
+      ],
+      "hint": "積が $-35$ になる2数の組を書き出してみましょう。"
+    },
+    {
+      "id": "J3-QE-0084",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "2x^2=18",
+      "answerLines": [
+        "2x^2=18",
+        "x^2=9",
+        "x=3"
+      ],
+      "errorLine": 2,
+      "errorType": "x²=a で負の解を忘れた",
+      "explanation": "$x^2=9$ を満たす $x$ は、$3$ と $-3$ の2つです。$x=3$ だけで終わったところが誤りです。両辺を $2$ でわった $x^2=9$ は正しくできています。正しくは $x=\\pm3$ です。",
+      "correctSolution": [
+        "2x^2=18",
+        "x^2=9",
+        "x=\\pm3"
+      ],
+      "hint": "$(-3)^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0085",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 1,
+      "question": "x^2+4x+1=0",
+      "answerLines": [
+        "x^2+4x+1=0",
+        "x=\\frac{-4\\pm\\sqrt{4^2-4\\times1\\times1}}{2\\times1}",
+        "x=\\frac{-4\\pm\\sqrt{20}}{2}",
+        "x=\\frac{-4\\pm2\\sqrt5}{2}",
+        "x=-2\\pm\\sqrt5"
+      ],
+      "errorLine": 2,
+      "errorType": "根号の中の計算で、ひき算をたし算にした誤り",
+      "explanation": "根号の中は $4^2-4\\times1\\times1=16-4=12$ です。$16+4=20$ としたところが誤りです。解の公式への代入は正しくできています。正しくは $\\frac{-4\\pm2\\sqrt3}{2}=-2\\pm\\sqrt3$ です。",
+      "correctSolution": [
+        "x^2+4x+1=0",
+        "x=\\frac{-4\\pm\\sqrt{4^2-4\\times1\\times1}}{2\\times1}",
+        "x=\\frac{-4\\pm\\sqrt{12}}{2}",
+        "x=\\frac{-4\\pm2\\sqrt3}{2}",
+        "x=-2\\pm\\sqrt3"
+      ],
+      "hint": "根号の中の $16-4$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0086",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "x(x+3)=10",
+      "answerLines": [
+        "x(x+3)=10",
+        "x^2+3x-10=0",
+        "(x+5)(x-2)=0",
+        "x=-5,\\ 2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。左辺を展開して $10$ を移項すると $x^2+3x-10=0$ です。積が $-10$、和が $3$ になる2数は $5$ と $-2$ なので、$x=-5,\\ 2$ です。",
+      "correctSolution": [
+        "x(x+3)=10",
+        "x^2+3x-10=0",
+        "(x+5)(x-2)=0",
+        "x=-5,\\ 2"
+      ],
+      "hint": "まず展開して「$\\cdots=0$」の形に整理しましょう。"
+    },
+    {
+      "id": "J3-QE-0087",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "(x-3)^2=2x-6",
+      "answerLines": [
+        "(x-3)^2=2x-6",
+        "x^2-6x+9=2x-6",
+        "x^2-8x+3=0",
+        "x=\\frac{8\\pm\\sqrt{52}}{2}",
+        "x=4\\pm\\sqrt{13}"
+      ],
+      "errorLine": 2,
+      "errorType": "移項するときの符号ミス",
+      "explanation": "右辺の $-6$ を左辺に移項すると $+6$ になるので、数の項は $9+6=15$ で、$x^2-8x+15=0$ です。$9-6=3$ としたところが誤りです。展開は正しくできています。正しくは $(x-3)(x-5)=0$ で、$x=3,\\ 5$ です。",
+      "correctSolution": [
+        "(x-3)^2=2x-6",
+        "x^2-6x+9=2x-6",
+        "x^2-8x+15=0",
+        "(x-3)(x-5)=0",
+        "x=3,\\ 5"
+      ],
+      "hint": "右辺の $-6$ を移項すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-QE-0088",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "x^2+3x=2x+12",
+      "answerLines": [
+        "x^2+3x=2x+12",
+        "x^2+3x-2x-12=0",
+        "x^2+x-12=0",
+        "(x+6)(x-2)=0",
+        "x=-6,\\ 2"
+      ],
+      "errorLine": 3,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "$6$ と $-2$ は積が $-12$ ですが、和は $4$ で $1$ になりません。積が $-12$、和が $1$ になる2数は $4$ と $-3$ なので、$(x+4)(x-3)=0$ です。移項して $x^2+x-12=0$ と整理したところまでは正しくできています。正しくは $x=-4,\\ 3$ です。",
+      "correctSolution": [
+        "x^2+3x=2x+12",
+        "x^2+3x-2x-12=0",
+        "x^2+x-12=0",
+        "(x+4)(x-3)=0",
+        "x=-4,\\ 3"
+      ],
+      "hint": "見つけた2数の和が $1$ になっているか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0089",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "(x+2)^2=3(x+2)",
+      "answerLines": [
+        "(x+2)^2=3(x+2)",
+        "x+2=3",
+        "x=1"
+      ],
+      "errorLine": 1,
+      "errorType": "両辺を x をふくむ式でわって解を失った",
+      "explanation": "両辺を $x+2$ でわると、$x+2=0$ のときを考えられなくなり、解 $x=-2$ を失います。移項して $(x+2)^2-3(x+2)=0$ とし、$x+2$ でくくると $(x+2)(x-1)=0$ なので、解は $x=-2,\\ 1$ の2つです。",
+      "correctSolution": [
+        "(x+2)^2=3(x+2)",
+        "(x+2)^2-3(x+2)=0",
+        "(x+2)(x+2-3)=0",
+        "(x+2)(x-1)=0",
+        "x=-2,\\ 1"
+      ],
+      "hint": "$x=-2$ を代入すると、もとの方程式は成り立ちませんか？"
+    },
+    {
+      "id": "J3-QE-0090",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 2,
+      "question": "3x^2+5x-2=0",
+      "answerLines": [
+        "3x^2+5x-2=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-5\\pm\\sqrt{49}}{6}",
+        "x=\\frac{-5\\pm49}{6}",
+        "x=\\frac{22}{3},\\ -9"
+      ],
+      "errorLine": 3,
+      "errorType": "平方根を求めずに、根号をはずしただけの誤り",
+      "explanation": "$\\sqrt{49}=7$ なので、$x=\\frac{-5\\pm7}{6}$ です。根号をはずしただけで $49$ としたところが誤りです。公式への代入と、根号の中 $25+24=49$ は正しくできています。正しくは $x=\\frac{2}{6}=\\frac{1}{3}$、$x=\\frac{-12}{6}=-2$ です。",
+      "correctSolution": [
+        "3x^2+5x-2=0",
+        "x=\\frac{-5\\pm\\sqrt{5^2-4\\times3\\times(-2)}}{2\\times3}",
+        "x=\\frac{-5\\pm\\sqrt{49}}{6}",
+        "x=\\frac{-5\\pm7}{6}",
+        "x=\\frac{1}{3},\\ -2"
+      ],
+      "hint": "$\\sqrt{49}$ はいくつですか？"
+    },
+    {
+      "id": "J3-QE-0091",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "(2x-1)(x+3)=x+5",
+      "answerLines": [
+        "(2x-1)(x+3)=x+5",
+        "2x^2+5x-3=x+5",
+        "x^2+2x-4=0",
+        "x=\\frac{-2\\pm\\sqrt{20}}{2}",
+        "x=\\frac{-2\\pm2\\sqrt5}{2}",
+        "x=-1\\pm\\sqrt5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。展開して移項すると $2x^2+4x-8=0$ で、両辺を $2$ でわって $x^2+2x-4=0$ です。因数分解できないので解の公式を使い、$\\sqrt{20}=2\\sqrt5$ として約分すると $x=-1\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "(2x-1)(x+3)=x+5",
+        "2x^2+5x-3=x+5",
+        "x^2+2x-4=0",
+        "x=\\frac{-2\\pm\\sqrt{20}}{2}",
+        "x=\\frac{-2\\pm2\\sqrt5}{2}",
+        "x=-1\\pm\\sqrt5"
+      ],
+      "hint": "因数分解できないときは、解の公式を使いましょう。"
+    },
+    {
+      "id": "J3-QE-0092",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "x^2-6x=-7",
+      "answerLines": [
+        "x^2-6x=-7",
+        "x^2-6x+9=-7+9",
+        "(x-3)^2=2",
+        "x-3=\\pm2",
+        "x=5,\\ 1"
+      ],
+      "errorLine": 3,
+      "errorType": "平方根をとらずに、そのまま ± をつけた誤り",
+      "explanation": "$(x-3)^2=2$ のとき、$x-3$ は $2$ の平方根なので $\\pm\\sqrt2$ です。平方根をとらずに $\\pm2$ としたところが誤りです。平方完成して $(x-3)^2=2$ としたところまでは正しくできています。正しくは $x=3\\pm\\sqrt2$ です。",
+      "correctSolution": [
+        "x^2-6x=-7",
+        "x^2-6x+9=-7+9",
+        "(x-3)^2=2",
+        "x-3=\\pm\\sqrt2",
+        "x=3\\pm\\sqrt2"
+      ],
+      "hint": "2乗して $2$ になる数は何ですか？"
+    },
+    {
+      "id": "J3-QE-0093",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "x^2+6x+9=5",
+      "answerLines": [
+        "x^2+6x+9=5",
+        "(x+3)^2=5",
+        "x+3=\\sqrt5",
+        "x=-3+\\sqrt5"
+      ],
+      "errorLine": 2,
+      "errorType": "平方根をとるときに ± を忘れた",
+      "explanation": "$(x+3)^2=5$ のとき、$x+3$ は $5$ の平方根なので、$x+3=\\pm\\sqrt5$ です。$-\\sqrt5$ を忘れて $\\sqrt5$ だけにしたところが誤りです。左辺を $(x+3)^2$ としたところは正しくできています。正しくは $x=-3\\pm\\sqrt5$ です。",
+      "correctSolution": [
+        "x^2+6x+9=5",
+        "(x+3)^2=5",
+        "x+3=\\pm\\sqrt5",
+        "x=-3\\pm\\sqrt5"
+      ],
+      "hint": "$5$ の平方根は、いくつありますか？"
+    },
+    {
+      "id": "J3-QE-0094",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "\\frac{x^2}{3}-\\frac{x}{2}=1",
+      "answerLines": [
+        "\\frac{x^2}{3}-\\frac{x}{2}=1",
+        "2x^2-3x=6",
+        "2x^2-3x-6=0",
+        "x=\\frac{-(-3)\\pm\\sqrt{(-3)^2-4\\times2\\times(-6)}}{2}",
+        "x=\\frac{3\\pm\\sqrt{57}}{2}"
+      ],
+      "errorLine": 3,
+      "errorType": "解の公式の分母の誤り（2a を 2 とした）",
+      "explanation": "解の公式の分母は $2a$ なので、$a=2$ のときは $2\\times2=4$ です。分母を $2$ としたところが誤りです。両辺を $6$ 倍して $2x^2-3x-6=0$ と整理したところと、分子への代入は正しくできています。正しくは $x=\\frac{3\\pm\\sqrt{57}}{4}$ です。",
+      "correctSolution": [
+        "\\frac{x^2}{3}-\\frac{x}{2}=1",
+        "2x^2-3x=6",
+        "2x^2-3x-6=0",
+        "x=\\frac{-(-3)\\pm\\sqrt{(-3)^2-4\\times2\\times(-6)}}{2\\times2}",
+        "x=\\frac{3\\pm\\sqrt{57}}{4}"
+      ],
+      "hint": "解の公式の分母は $2$ ですか、$2a$ ですか？"
+    },
+    {
+      "id": "J3-QE-0095",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 3,
+      "question": "(x-1)(x+2)=4(x-1)",
+      "answerLines": [
+        "(x-1)(x+2)=4(x-1)",
+        "(x-1)(x+2)-4(x-1)=0",
+        "(x-1)\\{(x+2)+4\\}=0",
+        "(x-1)(x+6)=0",
+        "x=1,\\ -6"
+      ],
+      "errorLine": 2,
+      "errorType": "くくり出したあとのかっこの中の符号ミス",
+      "explanation": "$(x-1)(x+2)-4(x-1)$ を $x-1$ でくくると、うしろの項は $-4$ が残るので $(x-1)\\{(x+2)-4\\}$ です。$+4$ としたところが誤りです。移項した2行目は正しくできています。正しくは $(x-1)(x-2)=0$ で、$x=1,\\ 2$ です。",
+      "correctSolution": [
+        "(x-1)(x+2)=4(x-1)",
+        "(x-1)(x+2)-4(x-1)=0",
+        "(x-1)\\{(x+2)-4\\}=0",
+        "(x-1)(x-2)=0",
+        "x=1,\\ 2"
+      ],
+      "hint": "$-4(x-1)$ から $x-1$ をくくり出すと、何が残りますか？"
+    },
+    {
+      "id": "J3-QE-0096",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "(x+3)^2-5(x+3)+6=0",
+      "answerLines": [
+        "(x+3)^2-5(x+3)+6=0",
+        "\\{(x+3)-2\\}\\{(x+3)-3\\}=0",
+        "(x+5)x=0",
+        "x=-5,\\ 0"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$(x+3)-2$ は $x+1$ です。$x+5$ としたところが誤りです（$3$ と $2$ をたしています）。$x+3$ を1つのまとまりと見て因数分解した2行目と、$(x+3)-3=x$ は正しくできています。正しくは $(x+1)x=0$ で、$x=-1,\\ 0$ です。",
+      "correctSolution": [
+        "(x+3)^2-5(x+3)+6=0",
+        "\\{(x+3)-2\\}\\{(x+3)-3\\}=0",
+        "(x+1)x=0",
+        "x=-1,\\ 0"
+      ],
+      "hint": "$(x+3)-2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-QE-0097",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "0.1x^2-0.3x-1=0",
+      "answerLines": [
+        "0.1x^2-0.3x-1=0",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。両辺を $10$ 倍すると、右辺の $0$ は $0$ のままで $x^2-3x-10=0$ です。積が $-10$、和が $-3$ になる2数は $-5$ と $2$ なので、$x=5,\\ -2$ です。",
+      "correctSolution": [
+        "0.1x^2-0.3x-1=0",
+        "x^2-3x-10=0",
+        "(x-5)(x+2)=0",
+        "x=5,\\ -2"
+      ],
+      "hint": "小数をふくむ方程式は、両辺を $10$ 倍して整数の係数にしましょう。"
+    },
+    {
+      "id": "J3-QE-0098",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "(x-2)^2=3x-2",
+      "answerLines": [
+        "(x-2)^2=3x-2",
+        "x^2-4x+4=3x-2",
+        "x^2-7x+6=0",
+        "(x-2)(x-3)=0",
+        "x=2,\\ 3"
+      ],
+      "errorLine": 3,
+      "errorType": "積だけを考えて、和を確かめなかった誤り",
+      "explanation": "$-2$ と $-3$ は積が $6$ ですが、和は $-5$ で $-7$ になりません。積が $6$、和が $-7$ になる2数は $-1$ と $-6$ なので、$(x-1)(x-6)=0$ です。展開と移項は正しくできています。正しくは $x=1,\\ 6$ です。",
+      "correctSolution": [
+        "(x-2)^2=3x-2",
+        "x^2-4x+4=3x-2",
+        "x^2-7x+6=0",
+        "(x-1)(x-6)=0",
+        "x=1,\\ 6"
+      ],
+      "hint": "見つけた2数の和が $-7$ になっているか確かめましょう。"
+    },
+    {
+      "id": "J3-QE-0099",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "(x+1)(x-1)=2x+1",
+      "answerLines": [
+        "(x+1)(x-1)=2x+1",
+        "x^2-1=2x+1",
+        "x^2-2x-2=0",
+        "x=\\frac{2\\pm\\sqrt{12}}{2}",
+        "x=\\frac{2\\pm2\\sqrt3}{2}",
+        "x=1\\pm2\\sqrt3"
+      ],
+      "errorLine": 5,
+      "errorType": "約分で、根号の項の係数をわり忘れた誤り",
+      "explanation": "$\\frac{2\\pm2\\sqrt3}{2}$ は、分子のどちらの項も $2$ でわるので $1\\pm\\sqrt3$ です。$2\\sqrt3$ を $2$ でわり忘れたところが誤りです。展開、移項、解の公式、$\\sqrt{12}=2\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "(x+1)(x-1)=2x+1",
+        "x^2-1=2x+1",
+        "x^2-2x-2=0",
+        "x=\\frac{2\\pm\\sqrt{12}}{2}",
+        "x=\\frac{2\\pm2\\sqrt3}{2}",
+        "x=1\\pm\\sqrt3"
+      ],
+      "hint": "分子の $2\\sqrt3$ も $2$ でわりましたか？"
+    },
+    {
+      "id": "J3-QE-0100",
+      "grade": 3,
+      "unit": "quadratic-equations",
+      "category": "2次方程式の総合",
+      "difficulty": 4,
+      "question": "x^2+2x=3(x+2)",
+      "answerLines": [
+        "x^2+2x=3(x+2)",
+        "x^2+2x=3x+6",
+        "x^2-x-6=0",
+        "(x+3)(x-2)=0",
+        "x=-3,\\ 2"
+      ],
+      "errorLine": 3,
+      "errorType": "因数分解の符号ミス",
+      "explanation": "積が $-6$、和が $-1$ になる2数は $-3$ と $2$ なので、$(x-3)(x+2)=0$ です。符号を逆にして $(x+3)(x-2)$ としたところが誤りです（展開すると $x^2+x-6$ になります）。展開と移項は正しくできています。正しくは $x=3,\\ -2$ です。",
+      "correctSolution": [
+        "x^2+2x=3(x+2)",
+        "x^2+2x=3x+6",
+        "x^2-x-6=0",
+        "(x-3)(x+2)=0",
+        "x=3,\\ -2"
+      ],
+      "hint": "$(x+3)(x-2)$ を展開して、$x$ の項の符号を確かめましょう。"
+    }
+  ]
+}

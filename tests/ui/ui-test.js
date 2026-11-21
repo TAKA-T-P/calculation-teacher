@@ -137,6 +137,16 @@
       compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       options: async () => click('[data-action="go-options"]'),
+      // 指定した問題（?q=J2-SE-0006）を表示する。&answered=1 なら答え合わせのあと（不正解の答え）を表示
+      question: async () => {
+        const id = params.get('q');
+        const q = app().questions.find((x) => x.id === id);
+        await configure({ unit: q.unit, count: 'all' });
+        await click('#start-btn');
+        const s = app().session;
+        while (s.current.id !== id) { await answer(true); await click('[data-action="next"]'); }
+        if (params.get('answered')) await answer(false);
+      },
       'transfer-make': async () => {
         w.__calcTeacher.records.recordOfficial('equation', { score: 2450, maxStreak: 11 }, w.TimeAttack.titleForScore);
         w.__calcTeacher.records.recordExam('expressions', 1, true);
@@ -228,8 +238,10 @@
     check(visible('settings'), '設定画面へ進めない');
   });
 
-  await test('[2] 単元は manifest の3単元から選べ、変更すると対象問題が切り替わる', async () => {
-    check($$('section[data-screen="settings"] .unit-card').length === 3, `単元の数 ${$$('section[data-screen="settings"] .unit-card').length}`);
+  await test('[2] 単元は manifest のすべての単元（学年ごとの見出しつき）から選べ、変更すると対象問題が切り替わる', async () => {
+    check($$('section[data-screen="settings"] .unit-card').length === app().units.length, `単元の数 ${$$('section[data-screen="settings"] .unit-card').length}`);
+    const grades = [...new Set(app().units.map((u) => u.grade))];
+    check(grades.every((g) => $('#unit-list').textContent.includes(`中学${g}年生`)), '学年の見出しがない');
     await click('[data-action="select-unit"][data-unit="equation"]');
     check($('[data-unit="equation"]').getAttribute('aria-checked') === 'true', '方程式が選択されていない');
     const eqStar1 = $('[data-difficulty="1"]').textContent;
@@ -761,7 +773,7 @@
 
   await test('[表示] 全問題で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
     const report = { questions: 0, scrollable: 0, minRow: 999 };
-    for (const unit of ['positive-negative', 'expressions', 'equation']) {
+    for (const unit of app().units.map((u) => u.unit)) {
       await configure({ unit, count: 'all' });
       await click('#start-btn');
       const s = app().session;
@@ -1004,7 +1016,7 @@
   await test('[認定] 最初は第1試験だけ挑戦できる。ヒントは使えない。3問正解で合格し、昇格・次の試験の解放が表示・保存される', async () => {
     await click('[data-action="go-title"]');
     await click('[data-action="go-cert-units"]');
-    check($$('#cert-unit-list .cert-unit').length === 3 && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元の一覧');
+    check($$('#cert-unit-list .cert-unit').length === app().units.length && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元の一覧');
     await click('[data-action="cert-unit"][data-unit="equation"]');
     check(visible('cert-list'), '試験一覧');
     check(examCard(1).querySelector('[data-action="cert-start"]') && !examCard(1).querySelector('button').disabled, '第1試験が始められない');

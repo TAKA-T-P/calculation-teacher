@@ -1,0 +1,2400 @@
+{
+  "schemaVersion": 1,
+  "grade": 2,
+  "unit": "polynomials",
+  "questions": [
+    {
+      "id": "J2-PO-0001",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(3x+2y)+(5x-6y)",
+      "answerLines": [
+        "(3x+2y)+(5x-6y)",
+        "=3x+5x+2y+6y",
+        "=8x+8y"
+      ],
+      "errorLine": 1,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "$+(5x-6y)$ のかっこは、中の符号をそのままにしてはずします。並べかえても $-6y$ は $-6y$ のままなので、正しくは $3x+5x+2y-6y$ です。$+6y$ としたところが誤りです。正しく計算すると $8x-4y$ です。",
+      "correctSolution": [
+        "(3x+2y)+(5x-6y)",
+        "=3x+5x+2y-6y",
+        "=8x-4y"
+      ],
+      "hint": "かっこをはずしたり並べかえたりしたとき、$6y$ の項の符号は変わりますか？"
+    },
+    {
+      "id": "J2-PO-0002",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(4a-3b)-(a-5b)",
+      "answerLines": [
+        "(4a-3b)-(a-5b)",
+        "=4a-3b-a+5b",
+        "=3a+2b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。ひく式のかっこをはずすときは、中のすべての項の符号を変えるので、$-(a-5b)=-a+5b$ です。同類項をまとめて、$4a-a=3a$、$-3b+5b=2b$ です。",
+      "correctSolution": [
+        "(4a-3b)-(a-5b)",
+        "=4a-3b-a+5b",
+        "=3a+2b"
+      ],
+      "hint": "$-(a-5b)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0003",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(2x^2-3x+1)-(x^2+x-4)",
+      "answerLines": [
+        "(2x^2-3x+1)-(x^2+x-4)",
+        "=2x^2-3x+1-x^2-x+4",
+        "=x^2-2x+5"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項の係数の計算で符号を誤った",
+      "explanation": "$-3x-x$ は、$(-3-1)x=-4x$ です。$-2x$ としたところが誤りです。かっこのはずし方と、$2x^2-x^2=x^2$、$1+4=5$ は正しくできています。正しくは $x^2-4x+5$ です。",
+      "correctSolution": [
+        "(2x^2-3x+1)-(x^2+x-4)",
+        "=2x^2-3x+1-x^2-x+4",
+        "=x^2-4x+5"
+      ],
+      "hint": "$x$ の項 $-3x-x$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0004",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(5x^2-2xy+y^2)-(-3x^2+xy-4y^2)",
+      "answerLines": [
+        "(5x^2-2xy+y^2)-(-3x^2+xy-4y^2)",
+        "=5x^2-2xy+y^2+3x^2-xy+4y^2",
+        "=5x^2+3x^2-2xy-xy+y^2+4y^2",
+        "=8x^2-xy+5y^2"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項の係数の計算で符号を誤った",
+      "explanation": "$-2xy-xy$ は、$(-2-1)xy=-3xy$ です。$-xy$ としたところが誤りです。かっこのはずし方（すべての項の符号を変える）、並べかえ、$8x^2$・$5y^2$ は正しくできています。正しくは $8x^2-3xy+5y^2$ です。",
+      "correctSolution": [
+        "(5x^2-2xy+y^2)-(-3x^2+xy-4y^2)",
+        "=5x^2-2xy+y^2+3x^2-xy+4y^2",
+        "=5x^2+3x^2-2xy-xy+y^2+4y^2",
+        "=8x^2-3xy+5y^2"
+      ],
+      "hint": "$xy$ の項どうしの計算 $-2xy-xy$ を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0005",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "\\left(\\frac{1}{2}a-\\frac{2}{3}b\\right)-\\left(\\frac{3}{4}a-\\frac{1}{6}b\\right)",
+      "answerLines": [
+        "\\left(\\frac{1}{2}a-\\frac{2}{3}b\\right)-\\left(\\frac{3}{4}a-\\frac{1}{6}b\\right)",
+        "=\\frac{1}{2}a-\\frac{2}{3}b-\\frac{3}{4}a+\\frac{1}{6}b",
+        "=-\\frac{1}{4}a-\\frac{5}{6}b"
+      ],
+      "errorLine": 2,
+      "errorType": "分数の係数の計算で、異符号の和を絶対値の和にした誤り",
+      "explanation": "$b$ の項は、分母を $6$ にそろえて $-\\frac{4}{6}b+\\frac{1}{6}b=-\\frac{3}{6}b=-\\frac{1}{2}b$ です。$-\\frac{5}{6}b$ としたところが誤りです（絶対値をたしています）。かっこのはずし方と、$a$ の項 $\\frac{2}{4}a-\\frac{3}{4}a=-\\frac{1}{4}a$ は正しくできています。",
+      "correctSolution": [
+        "\\left(\\frac{1}{2}a-\\frac{2}{3}b\\right)-\\left(\\frac{3}{4}a-\\frac{1}{6}b\\right)",
+        "=\\frac{1}{2}a-\\frac{2}{3}b-\\frac{3}{4}a+\\frac{1}{6}b",
+        "=-\\frac{1}{4}a-\\frac{1}{2}b"
+      ],
+      "hint": "$-\\frac{2}{3}b+\\frac{1}{6}b$ を、分母をそろえて計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0006",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "3a^2\\times4a^3",
+      "answerLines": [
+        "3a^2\\times4a^3",
+        "=12a^6"
+      ],
+      "errorLine": 1,
+      "errorType": "指数をたさずにかけた誤り",
+      "explanation": "同じ文字の積は、指数をたします。$a^2\\times a^3=a^{2+3}=a^5$ なので、答えは $12a^5$ です。指数をかけて $a^6$ としたところが誤りです。係数の $3\\times4=12$ は正しくできています。",
+      "correctSolution": [
+        "3a^2\\times4a^3",
+        "=12a^5"
+      ],
+      "hint": "$a^2\\times a^3$ は、$a$ を何回かけていますか？"
+    },
+    {
+      "id": "J2-PO-0007",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "(-2x)^3\\times3xy",
+      "answerLines": [
+        "(-2x)^3\\times3xy",
+        "=(-8x^3)\\times3xy",
+        "=24x^4y"
+      ],
+      "errorLine": 2,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$(-8x^3)\\times3xy$ は、負の数と正の数の積なので符号は「$-$」になり、$-24x^4y$ です。$24x^4y$ としたところが誤りです。$(-2x)^3=-8x^3$ は正しくできています。",
+      "correctSolution": [
+        "(-2x)^3\\times3xy",
+        "=(-8x^3)\\times3xy",
+        "=-24x^4y"
+      ],
+      "hint": "$(-8x^3)\\times3xy$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0008",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "12a^2b\\div(-4ab)",
+      "answerLines": [
+        "12a^2b\\div(-4ab)",
+        "=-\\frac{12a^2b}{4ab}",
+        "=-3a"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数でわるので符号は「$-$」です。分数の形にして約分すると、$\\frac{12a^2b}{4ab}=3a$ になります（$a^2\\div a=a$、$b\\div b=1$）。",
+      "correctSolution": [
+        "12a^2b\\div(-4ab)",
+        "=-\\frac{12a^2b}{4ab}",
+        "=-3a"
+      ],
+      "hint": "わり算を分数の形にしてから、数と文字をそれぞれ約分しましょう。"
+    },
+    {
+      "id": "J2-PO-0009",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "8x^2y\\div\\frac{2}{3}xy",
+      "answerLines": [
+        "8x^2y\\div\\frac{2}{3}xy",
+        "=8x^2y\\div\\frac{2xy}{3}",
+        "=8x^2y\\times\\frac{3}{2xy}",
+        "=12xy"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で文字を消し忘れた誤り",
+      "explanation": "$8x^2y\\times\\frac{3}{2xy}=\\frac{8x^2y\\times3}{2xy}$ で、$x^2\\div x=x$、$y\\div y=1$ なので、答えは $12x$ です。$y$ を約分し忘れて $12xy$ としたところが誤りです。$\\frac{2}{3}xy=\\frac{2xy}{3}$ と直し、逆数をかけたところは正しくできています。",
+      "correctSolution": [
+        "8x^2y\\div\\frac{2}{3}xy",
+        "=8x^2y\\div\\frac{2xy}{3}",
+        "=8x^2y\\times\\frac{3}{2xy}",
+        "=12x"
+      ],
+      "hint": "分子と分母の $y$ は約分できますか？"
+    },
+    {
+      "id": "J2-PO-0010",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "6a^3b^2\\div(-3ab)^2\\times(-2b)",
+      "answerLines": [
+        "6a^3b^2\\div(-3ab)^2\\times(-2b)",
+        "=6a^3b^2\\div9a^2b^2\\times(-2b)",
+        "=-\\frac{6a^3b^2\\times2b}{9a^2b^2}",
+        "=-\\frac{12a^3b^3}{9a^2b^2}",
+        "=-\\frac{3}{4}ab"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で分母と分子を逆にした誤り",
+      "explanation": "$\\frac{12a^3b^3}{9a^2b^2}$ は、数の部分が $\\frac{12}{9}=\\frac{4}{3}$、文字の部分が $\\frac{a^3b^3}{a^2b^2}=ab$ なので、答えは $-\\frac{4}{3}ab$ です。$-\\frac{3}{4}ab$ と分母と分子を逆にしたところが誤りです。$(-3ab)^2=9a^2b^2$、符号を「$-$」にしたところはどれも正しくできています。",
+      "correctSolution": [
+        "6a^3b^2\\div(-3ab)^2\\times(-2b)",
+        "=6a^3b^2\\div9a^2b^2\\times(-2b)",
+        "=-\\frac{6a^3b^2\\times2b}{9a^2b^2}",
+        "=-\\frac{12a^3b^3}{9a^2b^2}",
+        "=-\\frac{4}{3}ab"
+      ],
+      "hint": "$\\frac{12}{9}$ を約分するといくつですか？"
+    },
+    {
+      "id": "J2-PO-0011",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "-3(2x-5y)",
+      "answerLines": [
+        "-3(2x-5y)",
+        "=-6x-15y"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "分配法則で、$-3\\times2x=-6x$、$-3\\times(-5y)=+15y$ です。$-15y$ としたところが誤りです。正しくは $-6x+15y$ です。",
+      "correctSolution": [
+        "-3(2x-5y)",
+        "=-6x+15y"
+      ],
+      "hint": "$-3\\times(-5y)$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0012",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "(12a^2-8ab)\\div4a",
+      "answerLines": [
+        "(12a^2-8ab)\\div4a",
+        "=\\frac{12a^2}{4a}-\\frac{8ab}{4a}",
+        "=3a-2ab"
+      ],
+      "errorLine": 2,
+      "errorType": "約分で文字を消し忘れた誤り",
+      "explanation": "$\\frac{8ab}{4a}$ は、$a$ が分子と分母にあるので約分できて $2b$ です。$a$ を残して $2ab$ としたところが誤りです。それぞれの項を $4a$ でわる式と、$\\frac{12a^2}{4a}=3a$ は正しくできています。正しくは $3a-2b$ です。",
+      "correctSolution": [
+        "(12a^2-8ab)\\div4a",
+        "=\\frac{12a^2}{4a}-\\frac{8ab}{4a}",
+        "=3a-2b"
+      ],
+      "hint": "$\\frac{8ab}{4a}$ の $a$ は約分できますか？"
+    },
+    {
+      "id": "J2-PO-0013",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "2(3a-b)-3(a-2b)",
+      "answerLines": [
+        "2(3a-b)-3(a-2b)",
+        "=6a-2b-3a+6b",
+        "=6a-3a-2b+6b",
+        "=9a+4b"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$6a-3a$ は $3a$ です。$-3a$ をたしてしまい $9a$ としたところが誤りです。分配法則（$-3\\times(-2b)=+6b$ など）と並べかえ、$-2b+6b=4b$ は正しくできています。正しくは $3a+4b$ です。",
+      "correctSolution": [
+        "2(3a-b)-3(a-2b)",
+        "=6a-2b-3a+6b",
+        "=6a-3a-2b+6b",
+        "=3a+4b"
+      ],
+      "hint": "$6a-3a$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0014",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "(6x^2y-9xy^2)\\div\\left(-\\frac{3}{2}xy\\right)",
+      "answerLines": [
+        "(6x^2y-9xy^2)\\div\\left(-\\frac{3}{2}xy\\right)",
+        "=(6x^2y-9xy^2)\\times\\left(-\\frac{2}{3xy}\\right)",
+        "=-4x+6y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-\\frac{3}{2}xy=-\\frac{3xy}{2}$ の逆数 $-\\frac{2}{3xy}$ をかけています。$6x^2y\\times\\left(-\\frac{2}{3xy}\\right)=-4x$、$-9xy^2\\times\\left(-\\frac{2}{3xy}\\right)=+6y$ です。",
+      "correctSolution": [
+        "(6x^2y-9xy^2)\\div\\left(-\\frac{3}{2}xy\\right)",
+        "=(6x^2y-9xy^2)\\times\\left(-\\frac{2}{3xy}\\right)",
+        "=-4x+6y"
+      ],
+      "hint": "$-\\frac{3}{2}xy$ の逆数は何ですか？ 2つの項それぞれの符号も確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0015",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "\\frac{2}{3}(6a-9b)-\\frac{1}{4}(8a-12b)",
+      "answerLines": [
+        "\\frac{2}{3}(6a-9b)-\\frac{1}{4}(8a-12b)",
+        "=4a-6b-\\frac{1}{4}(8a-12b)",
+        "=4a-6b-2a+3b",
+        "=4a-2a-6b+3b",
+        "=2a-9b"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$-6b+3b$ は、$(-6+3)b=-3b$ です。$-9b$ としたところが誤りです。分配法則（$\\frac{2}{3}(6a-9b)=4a-6b$、$-\\frac{1}{4}(8a-12b)=-2a+3b$）、並べかえ、$4a-2a=2a$ はどれも正しくできています。正しくは $2a-3b$ です。",
+      "correctSolution": [
+        "\\frac{2}{3}(6a-9b)-\\frac{1}{4}(8a-12b)",
+        "=4a-6b-\\frac{1}{4}(8a-12b)",
+        "=4a-6b-2a+3b",
+        "=4a-2a-6b+3b",
+        "=2a-3b"
+      ],
+      "hint": "$-6b+3b$ の係数の計算を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0016",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "question": "\\frac{x+y}{2}+\\frac{x-y}{3}",
+      "answerLines": [
+        "\\frac{x+y}{2}+\\frac{x-y}{3}",
+        "=\\frac{x+y+x-y}{6}",
+        "=\\frac{2x}{6}",
+        "=\\frac{x}{3}"
+      ],
+      "errorLine": 1,
+      "errorType": "通分で分子に数をかけ忘れた誤り",
+      "explanation": "分母を $6$ にそろえるときは、分子にもそれぞれ $3$ と $2$ をかけます。正しくは $\\frac{3(x+y)+2(x-y)}{6}$ です。分子にかけ忘れたところが誤りです。正しく計算すると $\\frac{3x+3y+2x-2y}{6}=\\frac{5x+y}{6}$ です。",
+      "correctSolution": [
+        "\\frac{x+y}{2}+\\frac{x-y}{3}",
+        "=\\frac{3(x+y)+2(x-y)}{6}",
+        "=\\frac{3x+3y+2x-2y}{6}",
+        "=\\frac{5x+y}{6}"
+      ],
+      "hint": "$\\frac{x+y}{2}$ を分母が $6$ の分数に直すと、分子はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0017",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "question": "\\frac{3a-b}{4}-\\frac{a-2b}{2}",
+      "answerLines": [
+        "\\frac{3a-b}{4}-\\frac{a-2b}{2}",
+        "=\\frac{3a-b-2(a-2b)}{4}",
+        "=\\frac{3a-b-2a+4b}{4}",
+        "=\\frac{a-3b}{4}"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-b+4b$ は、$(-1+4)b=3b$ です。$-3b$ としたところが誤りです。通分してかっこをつけたところ、$-2(a-2b)=-2a+4b$、$3a-2a=a$ は正しくできています。正しくは $\\frac{a+3b}{4}$ です。",
+      "correctSolution": [
+        "\\frac{3a-b}{4}-\\frac{a-2b}{2}",
+        "=\\frac{3a-b-2(a-2b)}{4}",
+        "=\\frac{3a-b-2a+4b}{4}",
+        "=\\frac{a+3b}{4}"
+      ],
+      "hint": "分子の $b$ の項 $-b+4b$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0018",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "question": "-4x^2y\\times(-3xy)^2\\div6x^3y^2",
+      "answerLines": [
+        "-4x^2y\\times(-3xy)^2\\div6x^3y^2",
+        "=-4x^2y\\times9x^2y^2\\div6x^3y^2",
+        "=\\frac{4x^2y\\times9x^2y^2}{6x^3y^2}",
+        "=6xy"
+      ],
+      "errorLine": 2,
+      "errorType": "符号を決め忘れた誤り",
+      "explanation": "$-4x^2y\\times9x^2y^2\\div6x^3y^2$ で、負の数は $-4$ の1つだけなので、答えの符号は「$-$」です。分数にするときに「$-$」を落としたところが誤りです。$(-3xy)^2=9x^2y^2$ は正しくできています。正しくは $-\\frac{4x^2y\\times9x^2y^2}{6x^3y^2}=-6xy$ です。",
+      "correctSolution": [
+        "-4x^2y\\times(-3xy)^2\\div6x^3y^2",
+        "=-4x^2y\\times9x^2y^2\\div6x^3y^2",
+        "=-\\frac{4x^2y\\times9x^2y^2}{6x^3y^2}",
+        "=-6xy"
+      ],
+      "hint": "かけ算・わり算の式で、負の数はいくつありますか？"
+    },
+    {
+      "id": "J2-PO-0019",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "question": "\\frac{2x-y}{3}-\\frac{x-2y}{4}-\\frac{x}{6}",
+      "answerLines": [
+        "\\frac{2x-y}{3}-\\frac{x-2y}{4}-\\frac{x}{6}",
+        "=\\frac{4(2x-y)-3(x-2y)-2x}{12}",
+        "=\\frac{8x-4y-3x+6y-2x}{12}",
+        "=\\frac{3x+2y}{12}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分母 $3$、$4$、$6$ の最小公倍数 $12$ で通分し、分子にかっこをつけています。$-3(x-2y)=-3x+6y$ に注意します。$8x-3x-2x=3x$、$-4y+6y=2y$ なので $\\frac{3x+2y}{12}$ です。",
+      "correctSolution": [
+        "\\frac{2x-y}{3}-\\frac{x-2y}{4}-\\frac{x}{6}",
+        "=\\frac{4(2x-y)-3(x-2y)-2x}{12}",
+        "=\\frac{8x-4y-3x+6y-2x}{12}",
+        "=\\frac{3x+2y}{12}"
+      ],
+      "hint": "3つの分数を通分するときの分母と、分子にかける数を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0020",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "question": "(2a^2b)^3\\div(-4a^3b^2)\\times\\left(-\\frac{b}{2a}\\right)^2",
+      "answerLines": [
+        "(2a^2b)^3\\div(-4a^3b^2)\\times\\left(-\\frac{b}{2a}\\right)^2",
+        "=8a^6b^3\\div(-4a^3b^2)\\times\\frac{b^2}{4a^2}",
+        "=-\\frac{8a^6b^3\\times b^2}{4a^3b^2\\times4a^2}",
+        "=-\\frac{1}{2}ab^5"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で文字を消し忘れた誤り",
+      "explanation": "$\\frac{8a^6b^3\\times b^2}{4a^3b^2\\times4a^2}$ で、$b$ は分子に $b^5$、分母に $b^2$ があるので、約分すると $b^3$ です。分母の $b^2$ を約分し忘れて $b^5$ としたところが誤りです。累乗の計算（$(2a^2b)^3=8a^6b^3$、$\\left(-\\frac{b}{2a}\\right)^2=\\frac{b^2}{4a^2}$）と符号は正しくできています。正しくは $-\\frac{1}{2}ab^3$ です。",
+      "correctSolution": [
+        "(2a^2b)^3\\div(-4a^3b^2)\\times\\left(-\\frac{b}{2a}\\right)^2",
+        "=8a^6b^3\\div(-4a^3b^2)\\times\\frac{b^2}{4a^2}",
+        "=-\\frac{8a^6b^3\\times b^2}{4a^3b^2\\times4a^2}",
+        "=-\\frac{1}{2}ab^3"
+      ],
+      "hint": "分母にある $b^2$ も約分しましたか？"
+    },
+    {
+      "id": "J2-PO-0021",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(2a+5b)+(4a-3b)",
+      "answerLines": [
+        "(2a+5b)+(4a-3b)",
+        "=2a+4a+5b-3b",
+        "=6a+2b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。たす式のかっこは、中の符号をそのままにしてはずします。同類項を集めて、$2a+4a=6a$、$5b-3b=2b$ です。",
+      "correctSolution": [
+        "(2a+5b)+(4a-3b)",
+        "=2a+4a+5b-3b",
+        "=6a+2b"
+      ],
+      "hint": "かっこをはずしたあと、$a$ の項どうし、$b$ の項どうしをまとめられているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0022",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(7x-2y)-(3x+4y)",
+      "answerLines": [
+        "(7x-2y)-(3x+4y)",
+        "=7x-2y-3x+4y",
+        "=4x+2y"
+      ],
+      "errorLine": 1,
+      "errorType": "ひく式のかっこをはずすとき、うしろの項の符号を変え忘れた誤り",
+      "explanation": "ひく式のかっこをはずすときは、かっこの中のすべての項の符号を変えるので、$-(3x+4y)=-3x-4y$ です。$+4y$ としたところが誤りです（$3x$ の符号は正しく変えています）。正しく計算すると $4x-6y$ です。",
+      "correctSolution": [
+        "(7x-2y)-(3x+4y)",
+        "=7x-2y-3x-4y",
+        "=4x-6y"
+      ],
+      "hint": "$-(3x+4y)$ のかっこをはずすと、$4y$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0023",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(5a-b)-(2a-6b)",
+      "answerLines": [
+        "(5a-b)-(2a-6b)",
+        "=5a-b-2a+6b",
+        "=3a+5b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。ひく式のかっこをはずすときは、すべての項の符号を変えて $-2a+6b$ とします。同類項をまとめて、$5a-2a=3a$、$-b+6b=5b$ です。",
+      "correctSolution": [
+        "(5a-b)-(2a-6b)",
+        "=5a-b-2a+6b",
+        "=3a+5b"
+      ],
+      "hint": "$-(2a-6b)$ のかっこのはずし方と、$-b+6b$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0024",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(-x+3y)+(4x-8y)",
+      "answerLines": [
+        "(-x+3y)+(4x-8y)",
+        "=-x+4x+3y-8y",
+        "=5x-5y"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$-x+4x$ は $(-1+4)x=3x$ です。$5x$ としたところが誤りです（$1$ と $4$ をたしています）。かっこのはずし方と並べかえ、$3y-8y=-5y$ は正しくできています。正しく計算すると $3x-5y$ です。",
+      "correctSolution": [
+        "(-x+3y)+(4x-8y)",
+        "=-x+4x+3y-8y",
+        "=3x-5y"
+      ],
+      "hint": "$-x+4x$ の係数を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0025",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 1,
+      "question": "(3x+y)-(5x-4y)",
+      "answerLines": [
+        "(3x+y)-(5x-4y)",
+        "=3x+y-5x+4y",
+        "=2x+5y"
+      ],
+      "errorLine": 2,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$3x-5x$ は $(3-5)x=-2x$ です。$2x$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。かっこのはずし方と、$y+4y=5y$ は正しくできています。正しく計算すると $-2x+5y$ です。",
+      "correctSolution": [
+        "(3x+y)-(5x-4y)",
+        "=3x+y-5x+4y",
+        "=-2x+5y"
+      ],
+      "hint": "$3x-5x$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0026",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(x^2+4x-3)+(2x^2-x+5)",
+      "answerLines": [
+        "(x^2+4x-3)+(2x^2-x+5)",
+        "=x^2+2x^2+4x-x-3+5",
+        "=3x^2+4x+2"
+      ],
+      "errorLine": 2,
+      "errorType": "係数が1の項を見落とした誤り",
+      "explanation": "$4x-x$ は $(4-1)x=3x$ です。$-x$ の係数 $1$ を見落として、$4x$ のままにしたところが誤りです。並べかえと、$x^2+2x^2=3x^2$、$-3+5=2$ は正しくできています。正しく計算すると $3x^2+3x+2$ です。",
+      "correctSolution": [
+        "(x^2+4x-3)+(2x^2-x+5)",
+        "=x^2+2x^2+4x-x-3+5",
+        "=3x^2+3x+2"
+      ],
+      "hint": "$-x$ は $-1x$ のことです。$4x-x$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0027",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(3a^2-2a+4)-(a^2-5a+1)",
+      "answerLines": [
+        "(3a^2-2a+4)-(a^2-5a+1)",
+        "=3a^2-2a+4-a^2+5a-1",
+        "=3a^2-a^2-2a+5a+4-1",
+        "=2a^2-3a+3"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-2a+5a$ は $(-2+5)a=3a$ です。$-3a$ としたところが誤りです（絶対値の大きい $5a$ の符号が答えの符号になります）。かっこのはずし方、並べかえ、$3a^2-a^2=2a^2$、$4-1=3$ は正しくできています。正しくは $2a^2+3a+3$ です。",
+      "correctSolution": [
+        "(3a^2-2a+4)-(a^2-5a+1)",
+        "=3a^2-2a+4-a^2+5a-1",
+        "=3a^2-a^2-2a+5a+4-1",
+        "=2a^2+3a+3"
+      ],
+      "hint": "$-2a+5a$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0028",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(4x^2-x)-(x^2-3x+2)",
+      "answerLines": [
+        "(4x^2-x)-(x^2-3x+2)",
+        "=4x^2-x-x^2+3x-2",
+        "=3x^2+2x-2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。ひく式のかっこをはずすと $-x^2+3x-2$ になります。同類項をまとめて、$4x^2-x^2=3x^2$、$-x+3x=2x$ で、数の項 $-2$ はそのまま残ります。",
+      "correctSolution": [
+        "(4x^2-x)-(x^2-3x+2)",
+        "=4x^2-x-x^2+3x-2",
+        "=3x^2+2x-2"
+      ],
+      "hint": "ひく式の3つの項の符号が、すべて変わっているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0029",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(2y^2+5y-7)+(-3y^2+y+4)",
+      "answerLines": [
+        "(2y^2+5y-7)+(-3y^2+y+4)",
+        "=2y^2-3y^2+5y+y-7+4",
+        "=-y^2+6y-11"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "数の項は $-7+4=-3$ です。$-11$ としたところが誤りです（$7$ と $4$ をたしています）。並べかえと、$2y^2-3y^2=-y^2$、$5y+y=6y$ は正しくできています。正しく計算すると $-y^2+6y-3$ です。",
+      "correctSolution": [
+        "(2y^2+5y-7)+(-3y^2+y+4)",
+        "=2y^2-3y^2+5y+y-7+4",
+        "=-y^2+6y-3"
+      ],
+      "hint": "数の項 $-7+4$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0030",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 2,
+      "question": "(5x^2-3x+2)-(2x^2+4x-6)",
+      "answerLines": [
+        "(5x^2-3x+2)-(2x^2+4x-6)",
+        "=5x^2-3x+2-2x^2-4x-6",
+        "=3x^2-7x-4"
+      ],
+      "errorLine": 1,
+      "errorType": "ひく式のかっこをはずすとき、負の項の符号を変え忘れた誤り",
+      "explanation": "ひく式のかっこをはずすときは、すべての項の符号を変えます。$-6$ は $+6$ になるので、正しくは $5x^2-3x+2-2x^2-4x+6$ です。$-6$ のままにしたところが誤りです（$2x^2$ と $4x$ の符号は正しく変えています）。正しく計算すると $3x^2-7x+8$ です。",
+      "correctSolution": [
+        "(5x^2-3x+2)-(2x^2+4x-6)",
+        "=5x^2-3x+2-2x^2-4x+6",
+        "=3x^2-7x+8"
+      ],
+      "hint": "$-(2x^2+4x-6)$ の、$-6$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0031",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(2x^2-3xy+y^2)+(x^2+5xy-4y^2)",
+      "answerLines": [
+        "(2x^2-3xy+y^2)+(x^2+5xy-4y^2)",
+        "=2x^2+x^2-3xy-5xy+y^2-4y^2",
+        "=3x^2-8xy-3y^2"
+      ],
+      "errorLine": 1,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "たす式のかっこは符号を変えずにはずすので、$5xy$ は $+5xy$ のままです。並べかえるときに $-5xy$ としたところが誤りです。$x^2$ の項と $y^2$ の項は正しく並べかえています。正しく計算すると $3x^2+2xy-3y^2$ です。",
+      "correctSolution": [
+        "(2x^2-3xy+y^2)+(x^2+5xy-4y^2)",
+        "=2x^2+x^2-3xy+5xy+y^2-4y^2",
+        "=3x^2+2xy-3y^2"
+      ],
+      "hint": "$+(x^2+5xy-4y^2)$ のかっこをはずしたとき、$5xy$ の符号は変わりますか？"
+    },
+    {
+      "id": "J2-PO-0032",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(4ab-3a+2b)-(-2ab+a-5b)",
+      "answerLines": [
+        "(4ab-3a+2b)-(-2ab+a-5b)",
+        "=4ab-3a+2b+2ab-a+5b",
+        "=4ab+2ab-3a-a+2b+5b",
+        "=6ab-4a+7b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。ひく式のかっこをはずすと $+2ab-a+5b$ になります。同類項を集めて、$4ab+2ab=6ab$、$-3a-a=-4a$、$2b+5b=7b$ です。",
+      "correctSolution": [
+        "(4ab-3a+2b)-(-2ab+a-5b)",
+        "=4ab-3a+2b+2ab-a+5b",
+        "=4ab+2ab-3a-a+2b+5b",
+        "=6ab-4a+7b"
+      ],
+      "hint": "かっこの中の3つの項の符号が、すべて変わっているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0033",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(a-2b+3c)-(4a+b-c)",
+      "answerLines": [
+        "(a-2b+3c)-(4a+b-c)",
+        "=a-2b+3c-4a-b+c",
+        "=a-4a-2b-b+3c+c",
+        "=-3a-b+4c"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$-2b-b$ は $(-2-1)b=-3b$ です。$-b$ としたところが誤りです（$-b$ を $+b$ として計算しています）。かっこのはずし方、並べかえ、$a-4a=-3a$、$3c+c=4c$ は正しくできています。正しくは $-3a-3b+4c$ です。",
+      "correctSolution": [
+        "(a-2b+3c)-(4a+b-c)",
+        "=a-2b+3c-4a-b+c",
+        "=a-4a-2b-b+3c+c",
+        "=-3a-3b+4c"
+      ],
+      "hint": "$b$ の項 $-2b-b$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0034",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(x^2-4x+1)-(3x^2-2x-5)+(x^2+x)",
+      "answerLines": [
+        "(x^2-4x+1)-(3x^2-2x-5)+(x^2+x)",
+        "=x^2-4x+1-3x^2+2x+5+x^2+x",
+        "=x^2-3x^2+x^2-4x-2x+x+1+5",
+        "=-x^2-5x+6"
+      ],
+      "errorLine": 2,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "2行目の $+2x$ を並べかえるとき、$-2x$ としたところが誤りです。並べかえても項の符号は変わらないので、正しくは $x^2-3x^2+x^2-4x+2x+x+1+5$ です。かっこのはずし方は正しくできています。正しく計算すると $-x^2-x+6$ です。",
+      "correctSolution": [
+        "(x^2-4x+1)-(3x^2-2x-5)+(x^2+x)",
+        "=x^2-4x+1-3x^2+2x+5+x^2+x",
+        "=x^2-3x^2+x^2-4x+2x+x+1+5",
+        "=-x^2-x+6"
+      ],
+      "hint": "2行目と3行目で、$x$ の項の符号が変わっていないか比べてみましょう。"
+    },
+    {
+      "id": "J2-PO-0035",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 3,
+      "question": "(6xy-2x+3y)-(2xy-5x)-(xy+4y)",
+      "answerLines": [
+        "(6xy-2x+3y)-(2xy-5x)-(xy+4y)",
+        "=6xy-2x+3y-2xy+5x-xy+4y",
+        "=6xy-2xy-xy-2x+5x+3y+4y",
+        "=3xy+3x+7y"
+      ],
+      "errorLine": 1,
+      "errorType": "ひく式のかっこをはずすとき、うしろの項の符号を変え忘れた誤り",
+      "explanation": "3つ目のかっこも、ひく式なので $-(xy+4y)=-xy-4y$ です。$+4y$ としたところが誤りです。2つ目のかっこ $-(2xy-5x)=-2xy+5x$ は正しくはずせています。正しく計算すると $3xy+3x-y$ です。",
+      "correctSolution": [
+        "(6xy-2x+3y)-(2xy-5x)-(xy+4y)",
+        "=6xy-2x+3y-2xy+5x-xy-4y",
+        "=6xy-2xy-xy-2x+5x+3y-4y",
+        "=3xy+3x-y"
+      ],
+      "hint": "$-(xy+4y)$ のかっこをはずすと、$4y$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0036",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "\\left(\\frac{1}{2}x+\\frac{1}{3}y\\right)+\\left(\\frac{1}{4}x-\\frac{5}{6}y\\right)",
+      "answerLines": [
+        "\\left(\\frac{1}{2}x+\\frac{1}{3}y\\right)+\\left(\\frac{1}{4}x-\\frac{5}{6}y\\right)",
+        "=\\frac{1}{2}x+\\frac{1}{4}x+\\frac{1}{3}y-\\frac{5}{6}y",
+        "=\\frac{2}{4}x+\\frac{1}{4}x+\\frac{1}{6}y-\\frac{5}{6}y",
+        "=\\frac{3}{4}x-\\frac{4}{6}y",
+        "=\\frac{3}{4}x-\\frac{2}{3}y"
+      ],
+      "errorLine": 2,
+      "errorType": "通分で分子に数をかけ忘れた誤り",
+      "explanation": "$\\frac{1}{3}$ を分母 $6$ の分数にするときは、分母と分子の両方に $2$ をかけて $\\frac{2}{6}$ にします。$\\frac{1}{6}$ としたところが誤りです（分子に $2$ をかけていません）。$x$ の項の通分 $\\frac{1}{2}=\\frac{2}{4}$ は正しくできています。正しく計算すると $\\frac{3}{4}x-\\frac{1}{2}y$ です。",
+      "correctSolution": [
+        "\\left(\\frac{1}{2}x+\\frac{1}{3}y\\right)+\\left(\\frac{1}{4}x-\\frac{5}{6}y\\right)",
+        "=\\frac{1}{2}x+\\frac{1}{4}x+\\frac{1}{3}y-\\frac{5}{6}y",
+        "=\\frac{2}{4}x+\\frac{1}{4}x+\\frac{2}{6}y-\\frac{5}{6}y",
+        "=\\frac{3}{4}x-\\frac{3}{6}y",
+        "=\\frac{3}{4}x-\\frac{1}{2}y"
+      ],
+      "hint": "$\\frac{1}{3}$ と等しい、分母が $6$ の分数を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0037",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "(0.3a-1.2b)-(0.5a-0.4b)",
+      "answerLines": [
+        "(0.3a-1.2b)-(0.5a-0.4b)",
+        "=0.3a-1.2b-0.5a+0.4b",
+        "=0.3a-0.5a-1.2b+0.4b",
+        "=-0.2a-0.8b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。ひく式のかっこをはずすと $-0.5a+0.4b$ になります。同類項をまとめて、$0.3a-0.5a=-0.2a$、$-1.2b+0.4b=-0.8b$ です。",
+      "correctSolution": [
+        "(0.3a-1.2b)-(0.5a-0.4b)",
+        "=0.3a-1.2b-0.5a+0.4b",
+        "=0.3a-0.5a-1.2b+0.4b",
+        "=-0.2a-0.8b"
+      ],
+      "hint": "小数の係数でも、整数と同じように符号に気をつけて計算できているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0038",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "\\left(\\frac{2}{3}a-\\frac{1}{2}b\\right)-\\left(\\frac{1}{6}a-\\frac{3}{4}b\\right)",
+      "answerLines": [
+        "\\left(\\frac{2}{3}a-\\frac{1}{2}b\\right)-\\left(\\frac{1}{6}a-\\frac{3}{4}b\\right)",
+        "=\\frac{2}{3}a-\\frac{1}{2}b-\\frac{1}{6}a+\\frac{3}{4}b",
+        "=\\frac{4}{6}a-\\frac{1}{6}a-\\frac{2}{4}b+\\frac{3}{4}b",
+        "=\\frac{3}{6}a+\\frac{5}{4}b",
+        "=\\frac{1}{2}a+\\frac{5}{4}b"
+      ],
+      "errorLine": 3,
+      "errorType": "分数の係数の計算で、異符号の和を絶対値の和にした誤り",
+      "explanation": "$b$ の項は $-\\frac{2}{4}b+\\frac{3}{4}b=\\frac{1}{4}b$ です。$\\frac{5}{4}b$ としたところが誤りです（$2$ と $3$ をたしています）。かっこのはずし方、並べかえと通分、$a$ の項 $\\frac{4}{6}a-\\frac{1}{6}a=\\frac{3}{6}a$ は正しくできています。正しく計算すると $\\frac{1}{2}a+\\frac{1}{4}b$ です。",
+      "correctSolution": [
+        "\\left(\\frac{2}{3}a-\\frac{1}{2}b\\right)-\\left(\\frac{1}{6}a-\\frac{3}{4}b\\right)",
+        "=\\frac{2}{3}a-\\frac{1}{2}b-\\frac{1}{6}a+\\frac{3}{4}b",
+        "=\\frac{4}{6}a-\\frac{1}{6}a-\\frac{2}{4}b+\\frac{3}{4}b",
+        "=\\frac{3}{6}a+\\frac{1}{4}b",
+        "=\\frac{1}{2}a+\\frac{1}{4}b"
+      ],
+      "hint": "$-\\frac{2}{4}b+\\frac{3}{4}b$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0039",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "(1.5x^2-0.7x+2)-(0.8x^2-1.3x-0.4)",
+      "answerLines": [
+        "(1.5x^2-0.7x+2)-(0.8x^2-1.3x-0.4)",
+        "=1.5x^2-0.7x+2-0.8x^2+1.3x+0.4",
+        "=1.5x^2-0.8x^2-0.7x+1.3x+2+0.4",
+        "=0.7x^2-0.6x+2.4"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-0.7x+1.3x$ は $(-0.7+1.3)x=0.6x$ です。$-0.6x$ としたところが誤りです（絶対値の大きい $1.3x$ の符号が答えの符号になります）。かっこのはずし方、並べかえ、$1.5x^2-0.8x^2=0.7x^2$、$2+0.4=2.4$ は正しくできています。正しくは $0.7x^2+0.6x+2.4$ です。",
+      "correctSolution": [
+        "(1.5x^2-0.7x+2)-(0.8x^2-1.3x-0.4)",
+        "=1.5x^2-0.7x+2-0.8x^2+1.3x+0.4",
+        "=1.5x^2-0.8x^2-0.7x+1.3x+2+0.4",
+        "=0.7x^2+0.6x+2.4"
+      ],
+      "hint": "$-0.7x+1.3x$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0040",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式の加法・減法",
+      "difficulty": 4,
+      "question": "\\left(\\frac{3}{4}x^2-\\frac{1}{2}x\\right)-\\left(\\frac{1}{3}x^2-\\frac{5}{6}x\\right)",
+      "answerLines": [
+        "\\left(\\frac{3}{4}x^2-\\frac{1}{2}x\\right)-\\left(\\frac{1}{3}x^2-\\frac{5}{6}x\\right)",
+        "=\\frac{3}{4}x^2-\\frac{1}{2}x-\\frac{1}{3}x^2+\\frac{5}{6}x",
+        "=\\frac{9}{12}x^2-\\frac{4}{12}x^2-\\frac{3}{6}x+\\frac{5}{6}x",
+        "=\\frac{5}{12}x^2+\\frac{2}{6}x",
+        "=\\frac{5}{12}x^2+\\frac{1}{3}x"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かっこをはずしたあと、$x^2$ の項は分母を $12$ に、$x$ の項は分母を $6$ にそろえます。$\\frac{9}{12}-\\frac{4}{12}=\\frac{5}{12}$、$-\\frac{3}{6}+\\frac{5}{6}=\\frac{2}{6}=\\frac{1}{3}$ です。",
+      "correctSolution": [
+        "\\left(\\frac{3}{4}x^2-\\frac{1}{2}x\\right)-\\left(\\frac{1}{3}x^2-\\frac{5}{6}x\\right)",
+        "=\\frac{3}{4}x^2-\\frac{1}{2}x-\\frac{1}{3}x^2+\\frac{5}{6}x",
+        "=\\frac{9}{12}x^2-\\frac{4}{12}x^2-\\frac{3}{6}x+\\frac{5}{6}x",
+        "=\\frac{5}{12}x^2+\\frac{2}{6}x",
+        "=\\frac{5}{12}x^2+\\frac{1}{3}x"
+      ],
+      "hint": "通分したあとの分子の計算と、最後の約分を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0041",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "4x\\times(-3y)",
+      "answerLines": [
+        "4x\\times(-3y)",
+        "=4\\times(-3)\\times x\\times y",
+        "=-12xy"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。単項式の乗法は、係数の積と文字の積をそれぞれ求めます。係数は $4\\times(-3)=-12$、文字は $x\\times y=xy$ です。",
+      "correctSolution": [
+        "4x\\times(-3y)",
+        "=4\\times(-3)\\times x\\times y",
+        "=-12xy"
+      ],
+      "hint": "係数どうしの積の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0042",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "(-5a)\\times(-2b)",
+      "answerLines": [
+        "(-5a)\\times(-2b)",
+        "=(-5)\\times(-2)\\times a\\times b",
+        "=-10ab"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数どうしの積の符号ミス",
+      "explanation": "負の数どうしの積は正の数になるので、$(-5)\\times(-2)=10$ です。$-10$ としたところが誤りです。係数と文字に分けて書いた2行目は正しくできています。正しくは $10ab$ です。",
+      "correctSolution": [
+        "(-5a)\\times(-2b)",
+        "=(-5)\\times(-2)\\times a\\times b",
+        "=10ab"
+      ],
+      "hint": "$(-5)\\times(-2)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0043",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "15xy\\div5x",
+      "answerLines": [
+        "15xy\\div5x",
+        "=\\frac{15xy}{5x}",
+        "=3y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わり算を分数の形に直し、係数どうし・文字どうしを約分します。$15\\div5=3$ で、$x$ は分母と分子で約分されて、$y$ が残ります。",
+      "correctSolution": [
+        "15xy\\div5x",
+        "=\\frac{15xy}{5x}",
+        "=3y"
+      ],
+      "hint": "分数の形にしたあと、どの文字が約分できるか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0044",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "2x\\times5x^2",
+      "answerLines": [
+        "2x\\times5x^2",
+        "=2\\times5\\times x\\times x^2",
+        "=10x^2"
+      ],
+      "errorLine": 2,
+      "errorType": "同じ文字の積の指数をたし忘れた誤り",
+      "explanation": "$x\\times x^2$ は $x$ を $1+2=3$ 個かけたものなので $x^3$ です。$x^2$ としたところが誤りです。係数の積 $2\\times5=10$ は正しくできています。正しくは $10x^3$ です。",
+      "correctSolution": [
+        "2x\\times5x^2",
+        "=2\\times5\\times x\\times x^2",
+        "=10x^3"
+      ],
+      "hint": "$x\\times x^2$ では、$x$ を何個かけていますか？"
+    },
+    {
+      "id": "J2-PO-0045",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 1,
+      "question": "-18ab\\div(-6b)",
+      "answerLines": [
+        "-18ab\\div(-6b)",
+        "=-\\frac{18ab}{6b}",
+        "=-3a"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数どうしの商の符号ミス",
+      "explanation": "負の数を負の数でわると、商は正の数になります。分数の形にするときに $-$ をつけたところが誤りです。正しくは $\\frac{18ab}{6b}=3a$ です。約分の仕方（$18\\div6=3$、$b$ を約分）は正しくできています。",
+      "correctSolution": [
+        "-18ab\\div(-6b)",
+        "=\\frac{18ab}{6b}",
+        "=3a"
+      ],
+      "hint": "負の数 $\\div$ 負の数 の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0046",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "(-3x)^2\\times2y",
+      "answerLines": [
+        "(-3x)^2\\times2y",
+        "=(-3)^2x^2\\times2y",
+        "=-9x^2\\times2y",
+        "=-18x^2y"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の2乗を負にした誤り",
+      "explanation": "$(-3)^2=(-3)\\times(-3)=9$ なので、$(-3x)^2=9x^2$ です。$-9x^2$ としたところが誤りです。2行目の $(-3)^2x^2$ は正しく書けています。正しく計算すると $18x^2y$ です。",
+      "correctSolution": [
+        "(-3x)^2\\times2y",
+        "=(-3)^2x^2\\times2y",
+        "=9x^2\\times2y",
+        "=18x^2y"
+      ],
+      "hint": "$(-3)^2$ は $(-3)\\times(-3)$ です。符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0047",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "(2a)^3\\div4a",
+      "answerLines": [
+        "(2a)^3\\div4a",
+        "=2^3a^3\\div4a",
+        "=6a^3\\div4a",
+        "=\\frac{6a^3}{4a}",
+        "=\\frac{3}{2}a^2"
+      ],
+      "errorLine": 2,
+      "errorType": "累乗の計算で、指数を底にかけた誤り",
+      "explanation": "$2^3$ は $2$ を $3$ 個かけたものなので、$2\\times2\\times2=8$ です。$2\\times3=6$ としたところが誤りです。$(2a)^3=2^3a^3$ と分けたところは正しくできています。正しく計算すると $8a^3\\div4a=2a^2$ です。",
+      "correctSolution": [
+        "(2a)^3\\div4a",
+        "=2^3a^3\\div4a",
+        "=8a^3\\div4a",
+        "=\\frac{8a^3}{4a}",
+        "=2a^2"
+      ],
+      "hint": "$2^3$ は $2\\times3$ ではありません。計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0048",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "6x^2y\\div(-2xy)",
+      "answerLines": [
+        "6x^2y\\div(-2xy)",
+        "=-\\frac{6x^2y}{2xy}",
+        "=-3x"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。正の数を負の数でわるので、商は負になります。分数の形にして約分すると、$6\\div2=3$、$x^2\\div x=x$、$y\\div y=1$ で、$-3x$ です。",
+      "correctSolution": [
+        "6x^2y\\div(-2xy)",
+        "=-\\frac{6x^2y}{2xy}",
+        "=-3x"
+      ],
+      "hint": "商の符号と、$x^2\\div x$ の約分を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0049",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "\\frac{2}{3}a\\times\\frac{9}{4}b",
+      "answerLines": [
+        "\\frac{2}{3}a\\times\\frac{9}{4}b",
+        "=\\frac{2\\times9}{3\\times4}ab",
+        "=\\frac{18}{12}ab",
+        "=\\frac{2}{3}ab"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で分母と分子を逆にした誤り",
+      "explanation": "$\\frac{18}{12}$ を $6$ で約分すると $\\frac{3}{2}$ です。$\\frac{2}{3}$ としたところが誤りです（分母と分子が逆になっています）。係数の積の式 $\\frac{2\\times9}{3\\times4}$ と $\\frac{18}{12}$ は正しくできています。正しくは $\\frac{3}{2}ab$ です。",
+      "correctSolution": [
+        "\\frac{2}{3}a\\times\\frac{9}{4}b",
+        "=\\frac{2\\times9}{3\\times4}ab",
+        "=\\frac{18}{12}ab",
+        "=\\frac{3}{2}ab"
+      ],
+      "hint": "$\\frac{18}{12}$ を約分すると、分子と分母はそれぞれいくつになりますか？"
+    },
+    {
+      "id": "J2-PO-0050",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 2,
+      "question": "10a^3b^2\\div(-5ab)",
+      "answerLines": [
+        "10a^3b^2\\div(-5ab)",
+        "=-\\frac{10a^3b^2}{5ab}",
+        "=-2a^2b^2"
+      ],
+      "errorLine": 2,
+      "errorType": "約分で一部の文字だけをわった誤り",
+      "explanation": "分母にある $b$ も約分するので、$b^2\\div b=b$ です。$b^2$ のまま残したところが誤りです。商の符号、$10\\div5=2$、$a^3\\div a=a^2$ は正しくできています。正しくは $-2a^2b$ です。",
+      "correctSolution": [
+        "10a^3b^2\\div(-5ab)",
+        "=-\\frac{10a^3b^2}{5ab}",
+        "=-2a^2b"
+      ],
+      "hint": "分母の $b$ を約分し忘れていませんか？"
+    },
+    {
+      "id": "J2-PO-0051",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "4x^2y\\times(-3xy)\\div6xy^2",
+      "answerLines": [
+        "4x^2y\\times(-3xy)\\div6xy^2",
+        "=-\\frac{4x^2y\\times3xy}{6xy^2}",
+        "=-\\frac{12x^3y^2}{6xy^2}",
+        "=-2x^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わる式を分母にして1つの分数にまとめます。負の数が1つなので符号は $-$ です。分子は $12x^3y^2$ で、分母の $6xy^2$ で約分すると $-2x^2$ になります。",
+      "correctSolution": [
+        "4x^2y\\times(-3xy)\\div6xy^2",
+        "=-\\frac{4x^2y\\times3xy}{6xy^2}",
+        "=-\\frac{12x^3y^2}{6xy^2}",
+        "=-2x^2"
+      ],
+      "hint": "負の数の個数で符号を決め、分子の $x$ と $y$ の指数を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0052",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "-6a^2b\\div\\frac{3}{4}ab",
+      "answerLines": [
+        "-6a^2b\\div\\frac{3}{4}ab",
+        "=-6a^2b\\times\\frac{4}{3}ab",
+        "=-8a^3b^2"
+      ],
+      "errorLine": 1,
+      "errorType": "わる式の逆数で、文字を分母にしなかった誤り",
+      "explanation": "$\\frac{3}{4}ab$ は $\\frac{3ab}{4}$ のことなので、逆数は $\\frac{4}{3ab}$ です。文字 $ab$ を分子に残して $\\frac{4}{3}ab$ をかけたところが誤りです。正しくは $-6a^2b\\times\\frac{4}{3ab}=-\\frac{6a^2b\\times4}{3ab}=-8a$ です。",
+      "correctSolution": [
+        "-6a^2b\\div\\frac{3}{4}ab",
+        "=-6a^2b\\times\\frac{4}{3ab}",
+        "=-\\frac{6a^2b\\times4}{3ab}",
+        "=-8a"
+      ],
+      "hint": "$\\frac{3}{4}ab=\\frac{3ab}{4}$ です。この式の逆数を考えてみましょう。"
+    },
+    {
+      "id": "J2-PO-0053",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "12x^3y^2\\div(-4xy)^2",
+      "answerLines": [
+        "12x^3y^2\\div(-4xy)^2",
+        "=12x^3y^2\\div16x^2y",
+        "=\\frac{12x^3y^2}{16x^2y}",
+        "=\\frac{3}{4}xy"
+      ],
+      "errorLine": 1,
+      "errorType": "累乗で、かっこの中の一部の文字を2乗し忘れた誤り",
+      "explanation": "$(-4xy)^2$ は、かっこの中の $-4$、$x$、$y$ のすべてを2乗するので $16x^2y^2$ です。$y$ を2乗し忘れて $16x^2y$ としたところが誤りです。正しく計算すると $\\frac{12x^3y^2}{16x^2y^2}=\\frac{3}{4}x$ です。",
+      "correctSolution": [
+        "12x^3y^2\\div(-4xy)^2",
+        "=12x^3y^2\\div16x^2y^2",
+        "=\\frac{12x^3y^2}{16x^2y^2}",
+        "=\\frac{3}{4}x"
+      ],
+      "hint": "$(-4xy)^2$ で、$y$ も2乗されていますか？"
+    },
+    {
+      "id": "J2-PO-0054",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "(-a^2b)^3\\div a^4b",
+      "answerLines": [
+        "(-a^2b)^3\\div a^4b",
+        "=(-a^2b)\\times(-a^2b)\\times(-a^2b)\\div a^4b",
+        "=a^6b^3\\div a^4b",
+        "=\\frac{a^6b^3}{a^4b}",
+        "=a^2b^2"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の3乗を正にした誤り",
+      "explanation": "負の数を3回（奇数回）かけると、積は負になります。$(-a^2b)^3=-a^6b^3$ なので、$a^6b^3$ としたところが誤りです。2行目のかけ算の形と、指数 $a^6b^3$ は正しくできています。正しく計算すると $-a^2b^2$ です。",
+      "correctSolution": [
+        "(-a^2b)^3\\div a^4b",
+        "=(-a^2b)\\times(-a^2b)\\times(-a^2b)\\div a^4b",
+        "=-a^6b^3\\div a^4b",
+        "=-\\frac{a^6b^3}{a^4b}",
+        "=-a^2b^2"
+      ],
+      "hint": "負の数を3回かけたときの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0055",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 3,
+      "question": "8ab^2\\times(-a)^3\\div(-2ab)",
+      "answerLines": [
+        "8ab^2\\times(-a)^3\\div(-2ab)",
+        "=8ab^2\\times(-a^3)\\div(-2ab)",
+        "=\\frac{8ab^2\\times a^3}{2ab}",
+        "=4a^4b"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で文字を消し忘れた誤り",
+      "explanation": "分子の $a$ は $a\\times a^3=a^4$、分母に $a$ があるので、約分すると $a^4\\div a=a^3$ です。分母の $a$ で約分せず $a^4$ のままにしたところが誤りです。符号（負の数が2つで正）と、$8\\div2=4$、$b^2\\div b=b$ は正しくできています。正しくは $4a^3b$ です。",
+      "correctSolution": [
+        "8ab^2\\times(-a)^3\\div(-2ab)",
+        "=8ab^2\\times(-a^3)\\div(-2ab)",
+        "=\\frac{8ab^2\\times a^3}{2ab}",
+        "=4a^3b"
+      ],
+      "hint": "分母の $a$ で、分子の $a^4$ を約分しましたか？"
+    },
+    {
+      "id": "J2-PO-0056",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "\\left(-\\frac{3}{2}x^2y\\right)^2\\div\\frac{9}{8}x^3y",
+      "answerLines": [
+        "\\left(-\\frac{3}{2}x^2y\\right)^2\\div\\frac{9}{8}x^3y",
+        "=\\frac{9}{4}x^4y^2\\div\\frac{9}{8}x^3y",
+        "=\\frac{9}{4}x^4y^2\\times\\frac{8}{9x^3y}",
+        "=\\frac{9x^4y^2\\times8}{4\\times9x^3y}",
+        "=2xy"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\left(-\\frac{3}{2}x^2y\\right)^2=\\frac{9}{4}x^4y^2$ です。$\\frac{9}{8}x^3y=\\frac{9x^3y}{8}$ なので、逆数 $\\frac{8}{9x^3y}$ をかけます。約分すると $\\frac{72}{36}=2$、$x^4\\div x^3=x$、$y^2\\div y=y$ で、$2xy$ です。",
+      "correctSolution": [
+        "\\left(-\\frac{3}{2}x^2y\\right)^2\\div\\frac{9}{8}x^3y",
+        "=\\frac{9}{4}x^4y^2\\div\\frac{9}{8}x^3y",
+        "=\\frac{9}{4}x^4y^2\\times\\frac{8}{9x^3y}",
+        "=\\frac{9x^4y^2\\times8}{4\\times9x^3y}",
+        "=2xy"
+      ],
+      "hint": "2乗の計算と、わる式の逆数の形（文字は分母）を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0057",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "-12a^3b\\div(-2a)^2\\times(-3b)",
+      "answerLines": [
+        "-12a^3b\\div(-2a)^2\\times(-3b)",
+        "=-12a^3b\\div4a^2\\times(-3b)",
+        "=-12a^3b\\times\\frac{1}{4a^2}\\times(-3b)",
+        "=-\\frac{12a^3b\\times3b}{4a^2}",
+        "=-9ab^2"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数を2回かけたときの符号ミス",
+      "explanation": "3行目の式には負の数が $-12a^3b$ と $-3b$ の2つあるので、積の符号は正です。1つの分数にまとめるときに $-$ をつけたところが誤りです。$(-2a)^2=4a^2$ と、わる式を逆数にした3行目までは正しくできています。正しく計算すると $9ab^2$ です。",
+      "correctSolution": [
+        "-12a^3b\\div(-2a)^2\\times(-3b)",
+        "=-12a^3b\\div4a^2\\times(-3b)",
+        "=-12a^3b\\times\\frac{1}{4a^2}\\times(-3b)",
+        "=\\frac{12a^3b\\times3b}{4a^2}",
+        "=9ab^2"
+      ],
+      "hint": "3行目の式に、負の数はいくつありますか？"
+    },
+    {
+      "id": "J2-PO-0058",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "\\frac{2}{3}xy^2\\div\\left(-\\frac{4}{9}x^2y\\right)\\times(-6x^3)",
+      "answerLines": [
+        "\\frac{2}{3}xy^2\\div\\left(-\\frac{4}{9}x^2y\\right)\\times(-6x^3)",
+        "=\\frac{2}{3}xy^2\\times\\left(-\\frac{9}{4x^2y}\\right)\\times(-6x^3)",
+        "=\\frac{2xy^2\\times9\\times6x^3}{3\\times4x^2y}",
+        "=9x^2y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-\\frac{4}{9}x^2y=-\\frac{4x^2y}{9}$ なので、逆数は $-\\frac{9}{4x^2y}$ です。負の数が2つなので符号は正です。約分すると $\\frac{108}{12}=9$、$x^4\\div x^2=x^2$、$y^2\\div y=y$ で、$9x^2y$ です。",
+      "correctSolution": [
+        "\\frac{2}{3}xy^2\\div\\left(-\\frac{4}{9}x^2y\\right)\\times(-6x^3)",
+        "=\\frac{2}{3}xy^2\\times\\left(-\\frac{9}{4x^2y}\\right)\\times(-6x^3)",
+        "=\\frac{2xy^2\\times9\\times6x^3}{3\\times4x^2y}",
+        "=9x^2y"
+      ],
+      "hint": "わる式の逆数の形と、負の数の個数を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0059",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "(2a^2b)^3\\div(-4ab)^2",
+      "answerLines": [
+        "(2a^2b)^3\\div(-4ab)^2",
+        "=8a^5b^3\\div16a^2b^2",
+        "=\\frac{8a^5b^3}{16a^2b^2}",
+        "=\\frac{1}{2}a^3b"
+      ],
+      "errorLine": 1,
+      "errorType": "累乗の指数をかけずにたした誤り",
+      "explanation": "$(a^2)^3$ は $a^2$ を3回かけたものなので、$a^{2\\times3}=a^6$ です。$a^{2+3}=a^5$ としたところが誤りです。$2^3=8$、$b^3$、$(-4ab)^2=16a^2b^2$ は正しくできています。正しく計算すると $\\frac{8a^6b^3}{16a^2b^2}=\\frac{1}{2}a^4b$ です。",
+      "correctSolution": [
+        "(2a^2b)^3\\div(-4ab)^2",
+        "=8a^6b^3\\div16a^2b^2",
+        "=\\frac{8a^6b^3}{16a^2b^2}",
+        "=\\frac{1}{2}a^4b"
+      ],
+      "hint": "$(a^2)^3=a^2\\times a^2\\times a^2$ です。指数を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0060",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "単項式の乗法・除法",
+      "difficulty": 4,
+      "question": "-\\frac{5}{6}x^3y^2\\times\\left(-\\frac{3}{5}xy\\right)\\div\\left(-\\frac{1}{2}x^2y\\right)^2",
+      "answerLines": [
+        "-\\frac{5}{6}x^3y^2\\times\\left(-\\frac{3}{5}xy\\right)\\div\\left(-\\frac{1}{2}x^2y\\right)^2",
+        "=-\\frac{5}{6}x^3y^2\\times\\left(-\\frac{3}{5}xy\\right)\\div\\frac{1}{4}x^4y^2",
+        "=\\frac{5}{6}x^3y^2\\times\\frac{3}{5}xy\\times\\frac{4}{x^4y^2}",
+        "=\\frac{5\\times3\\times4x^4y^3}{6\\times5x^4y^2}",
+        "=\\frac{1}{2}y"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で、分子と分母の数を逆にわった誤り",
+      "explanation": "分子は $5\\times3\\times4=60$、分母は $6\\times5=30$ なので、$\\frac{60}{30}=2$ です。$\\frac{1}{2}$ としたところが誤りです（分子と分母を逆にしています）。2乗の計算、逆数、符号、文字の約分は正しくできています。正しくは $2y$ です。",
+      "correctSolution": [
+        "-\\frac{5}{6}x^3y^2\\times\\left(-\\frac{3}{5}xy\\right)\\div\\left(-\\frac{1}{2}x^2y\\right)^2",
+        "=-\\frac{5}{6}x^3y^2\\times\\left(-\\frac{3}{5}xy\\right)\\div\\frac{1}{4}x^4y^2",
+        "=\\frac{5}{6}x^3y^2\\times\\frac{3}{5}xy\\times\\frac{4}{x^4y^2}",
+        "=\\frac{5\\times3\\times4x^4y^3}{6\\times5x^4y^2}",
+        "=2y"
+      ],
+      "hint": "4行目の分子と分母の数を計算して、約分し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0061",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "5(2x-3y)",
+      "answerLines": [
+        "5(2x-3y)",
+        "=5\\times2x-5\\times3y",
+        "=10x-15y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分配法則で、かっこの中のそれぞれの項に $5$ をかけます。$5\\times2x=10x$、$5\\times3y=15y$ です。",
+      "correctSolution": [
+        "5(2x-3y)",
+        "=5\\times2x-5\\times3y",
+        "=10x-15y"
+      ],
+      "hint": "かっこの中のすべての項に $5$ をかけているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0062",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "-2(4a-b)",
+      "answerLines": [
+        "-2(4a-b)",
+        "=-8a-2b"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数を分配するとき、うしろの項の符号を変え忘れた誤り",
+      "explanation": "$-2$ を $-b$ にもかけるので、$(-2)\\times(-b)=+2b$ です。$-2b$ としたところが誤りです。$(-2)\\times4a=-8a$ は正しくできています。正しくは $-8a+2b$ です。",
+      "correctSolution": [
+        "-2(4a-b)",
+        "=-8a+2b"
+      ],
+      "hint": "$(-2)\\times(-b)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0063",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "(12x-9y)\\div3",
+      "answerLines": [
+        "(12x-9y)\\div3",
+        "=\\frac{12x}{3}-\\frac{9y}{3}",
+        "=4x-3y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。多項式を数でわるときは、それぞれの項を $3$ でわります。$12x\\div3=4x$、$9y\\div3=3y$ です。",
+      "correctSolution": [
+        "(12x-9y)\\div3",
+        "=\\frac{12x}{3}-\\frac{9y}{3}",
+        "=4x-3y"
+      ],
+      "hint": "2つの項の両方を $3$ でわっているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0064",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "(8a-12b)\\div(-4)",
+      "answerLines": [
+        "(8a-12b)\\div(-4)",
+        "=\\frac{8a}{-4}-\\frac{12b}{-4}",
+        "=-2a-3b"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数でわるとき、うしろの項の符号を変え忘れた誤り",
+      "explanation": "$-\\frac{12b}{-4}$ は、$-12b$ を $-4$ でわるので $+3b$ です。$-3b$ としたところが誤りです。2行目の式と、$\\frac{8a}{-4}=-2a$ は正しくできています。正しくは $-2a+3b$ です。",
+      "correctSolution": [
+        "(8a-12b)\\div(-4)",
+        "=\\frac{8a}{-4}-\\frac{12b}{-4}",
+        "=-2a+3b"
+      ],
+      "hint": "$-12b$ を $-4$ でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0065",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 1,
+      "question": "3(x+2y)+2(x-y)",
+      "answerLines": [
+        "3(x+2y)+2(x-y)",
+        "=3x+6y+2x-2y",
+        "=5x+8y"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$6y-2y$ は $4y$ です。$8y$ としたところが誤りです（$-2y$ をたしています）。分配法則でかっこをはずした2行目と、$3x+2x=5x$ は正しくできています。正しくは $5x+4y$ です。",
+      "correctSolution": [
+        "3(x+2y)+2(x-y)",
+        "=3x+6y+2x-2y",
+        "=5x+4y"
+      ],
+      "hint": "$y$ の項 $6y-2y$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0066",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "4(2a-b)-3(a+2b)",
+      "answerLines": [
+        "4(2a-b)-3(a+2b)",
+        "=8a-4b-3a-6b",
+        "=5a-10b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-3$ をかっこの中の両方の項にかけるので、$-3(a+2b)=-3a-6b$ です。同類項をまとめて、$8a-3a=5a$、$-4b-6b=-10b$ です。",
+      "correctSolution": [
+        "4(2a-b)-3(a+2b)",
+        "=8a-4b-3a-6b",
+        "=5a-10b"
+      ],
+      "hint": "$-3(a+2b)$ の符号と、$b$ の項のまとめ方を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0067",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "(10a-15b+5)\\div5",
+      "answerLines": [
+        "(10a-15b+5)\\div5",
+        "=\\frac{10a}{5}-\\frac{15b}{5}+\\frac{5}{5}",
+        "=2a-3b"
+      ],
+      "errorLine": 2,
+      "errorType": "数の項をわった結果を書き忘れた誤り",
+      "explanation": "数の項も $5$ でわって、$\\frac{5}{5}=1$ が残ります。$+1$ を書かずに消してしまったところが誤りです。2行目の式と、$2a$、$-3b$ は正しくできています。正しくは $2a-3b+1$ です。",
+      "correctSolution": [
+        "(10a-15b+5)\\div5",
+        "=\\frac{10a}{5}-\\frac{15b}{5}+\\frac{5}{5}",
+        "=2a-3b+1"
+      ],
+      "hint": "$\\frac{5}{5}$ はいくつになりますか？ $0$ ではありません。"
+    },
+    {
+      "id": "J2-PO-0068",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "2(3x-5)-(4x-7)",
+      "answerLines": [
+        "2(3x-5)-(4x-7)",
+        "=6x-10-4x+7",
+        "=2x+3"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "数の項は $-10+7=-3$ です。$+3$ としたところが誤りです（絶対値の大きい $-10$ の符号が答えの符号になります）。かっこのはずし方と、$6x-4x=2x$ は正しくできています。正しくは $2x-3$ です。",
+      "correctSolution": [
+        "2(3x-5)-(4x-7)",
+        "=6x-10-4x+7",
+        "=2x-3"
+      ],
+      "hint": "$-10+7$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0069",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "-3(a-4b)+5(2a-b)",
+      "answerLines": [
+        "-3(a-4b)+5(2a-b)",
+        "=-3a+12b+10a-5b",
+        "=-3a+10a+12b-5b",
+        "=13a+7b"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の係数をまとめるとき絶対値をたした誤り",
+      "explanation": "$-3a+10a$ は $(-3+10)a=7a$ です。$13a$ としたところが誤りです（$3$ と $10$ をたしています）。かっこのはずし方、並べかえ、$12b-5b=7b$ は正しくできています。正しくは $7a+7b$ です。",
+      "correctSolution": [
+        "-3(a-4b)+5(2a-b)",
+        "=-3a+12b+10a-5b",
+        "=-3a+10a+12b-5b",
+        "=7a+7b"
+      ],
+      "hint": "$-3a+10a$ の係数を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0070",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 2,
+      "question": "(6x^2-9x+3)\\div(-3)",
+      "answerLines": [
+        "(6x^2-9x+3)\\div(-3)",
+        "=-\\frac{6x^2}{3}+\\frac{9x}{3}-\\frac{3}{3}",
+        "=-2x^2+3x-1"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。負の数でわるので、それぞれの項の符号が変わります。$6x^2\\div(-3)=-2x^2$、$-9x\\div(-3)=3x$、$3\\div(-3)=-1$ です。",
+      "correctSolution": [
+        "(6x^2-9x+3)\\div(-3)",
+        "=-\\frac{6x^2}{3}+\\frac{9x}{3}-\\frac{3}{3}",
+        "=-2x^2+3x-1"
+      ],
+      "hint": "3つの項すべての符号が変わっているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0071",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "\\frac{1}{3}(6x-9y)+\\frac{1}{2}(4x+2y)",
+      "answerLines": [
+        "\\frac{1}{3}(6x-9y)+\\frac{1}{2}(4x+2y)",
+        "=2x-3y+2x+y",
+        "=4x-2y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{1}{3}\\times6x=2x$、$\\frac{1}{3}\\times9y=3y$、$\\frac{1}{2}\\times4x=2x$、$\\frac{1}{2}\\times2y=y$ です。同類項をまとめて、$4x$ と $-3y+y=-2y$ です。",
+      "correctSolution": [
+        "\\frac{1}{3}(6x-9y)+\\frac{1}{2}(4x+2y)",
+        "=2x-3y+2x+y",
+        "=4x-2y"
+      ],
+      "hint": "分数をかけるときの約分と、$-3y+y$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0072",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "(8x-12y)\\div\\frac{4}{3}",
+      "answerLines": [
+        "(8x-12y)\\div\\frac{4}{3}",
+        "=(8x-12y)\\times\\frac{4}{3}",
+        "=8x\\times\\frac{4}{3}-12y\\times\\frac{4}{3}",
+        "=\\frac{32}{3}x-16y"
+      ],
+      "errorLine": 1,
+      "errorType": "わる数を逆数にしていない",
+      "explanation": "分数でわるときは、わる数の逆数をかけます。$\\frac{4}{3}$ の逆数は $\\frac{3}{4}$ なので、$(8x-12y)\\times\\frac{3}{4}$ です。$\\frac{4}{3}$ のままかけたところが誤りです。正しく計算すると $6x-9y$ です。",
+      "correctSolution": [
+        "(8x-12y)\\div\\frac{4}{3}",
+        "=(8x-12y)\\times\\frac{3}{4}",
+        "=8x\\times\\frac{3}{4}-12y\\times\\frac{3}{4}",
+        "=6x-9y"
+      ],
+      "hint": "$\\div\\frac{4}{3}$ は、何をかけることと同じですか？"
+    },
+    {
+      "id": "J2-PO-0073",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "3(2a^2-a+1)-2(a^2+3a-4)",
+      "answerLines": [
+        "3(2a^2-a+1)-2(a^2+3a-4)",
+        "=6a^2-3a+3-2a^2-6a-8",
+        "=6a^2-2a^2-3a-6a+3-8",
+        "=4a^2-9a-5"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数を分配するとき、負の項との積の符号ミス",
+      "explanation": "$-2$ を $-4$ にかけると $(-2)\\times(-4)=+8$ です。$-8$ としたところが誤りです。$3(2a^2-a+1)$ と、$-2a^2$、$-6a$ は正しくできています。正しく計算すると $4a^2-9a+11$ です。",
+      "correctSolution": [
+        "3(2a^2-a+1)-2(a^2+3a-4)",
+        "=6a^2-3a+3-2a^2-6a+8",
+        "=6a^2-2a^2-3a-6a+3+8",
+        "=4a^2-9a+11"
+      ],
+      "hint": "$-2(a^2+3a-4)$ の最後の項 $(-2)\\times(-4)$ を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0074",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "0.5(4a-6b)-1.2(a-5b)",
+      "answerLines": [
+        "0.5(4a-6b)-1.2(a-5b)",
+        "=2a-3b-1.2a+6b",
+        "=2a-1.2a-3b+6b",
+        "=0.8a+9b"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$-3b+6b$ は $(-3+6)b=3b$ です。$9b$ としたところが誤りです（$3$ と $6$ をたしています）。小数をかけてかっこをはずした2行目、並べかえ、$2a-1.2a=0.8a$ は正しくできています。正しくは $0.8a+3b$ です。",
+      "correctSolution": [
+        "0.5(4a-6b)-1.2(a-5b)",
+        "=2a-3b-1.2a+6b",
+        "=2a-1.2a-3b+6b",
+        "=0.8a+3b"
+      ],
+      "hint": "$b$ の項 $-3b+6b$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0075",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 3,
+      "question": "5(x-2y)-3(2x-y)+(x+4y)",
+      "answerLines": [
+        "5(x-2y)-3(2x-y)+(x+4y)",
+        "=5x-10y-6x+3y+x+4y",
+        "=5x-6x+x-10y+3y+4y",
+        "=-3y"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x$ の項は $5x-6x+x=0$ で消え、$y$ の項は $-10y+3y+4y=-3y$ です。答えは $-3y$ だけになります。",
+      "correctSolution": [
+        "5(x-2y)-3(2x-y)+(x+4y)",
+        "=5x-10y-6x+3y+x+4y",
+        "=5x-6x+x-10y+3y+4y",
+        "=-3y"
+      ],
+      "hint": "$x$ の項の係数 $5-6+1$ を計算してみましょう。"
+    },
+    {
+      "id": "J2-PO-0076",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "\\frac{2}{3}(9a-6b)-\\frac{3}{4}(8a-4b)",
+      "answerLines": [
+        "\\frac{2}{3}(9a-6b)-\\frac{3}{4}(8a-4b)",
+        "=\\frac{2}{3}\\times9a-\\frac{2}{3}\\times6b-\\frac{3}{4}\\times8a+\\frac{3}{4}\\times4b",
+        "=6a-4b-6a-3b",
+        "=6a-6a-4b-3b",
+        "=-7b"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数と負の数の積の符号ミス",
+      "explanation": "2行目の $+\\frac{3}{4}\\times4b$ は $3b$ なので、3行目は $6a-4b-6a+3b$ です。$-3b$ としたところが誤りです（$-\\frac{3}{4}$ と $-4b$ の積は正になります）。2行目の分配法則と、$6a$、$-4b$、$-6a$ は正しくできています。正しく計算すると $-b$ です。",
+      "correctSolution": [
+        "\\frac{2}{3}(9a-6b)-\\frac{3}{4}(8a-4b)",
+        "=\\frac{2}{3}\\times9a-\\frac{2}{3}\\times6b-\\frac{3}{4}\\times8a+\\frac{3}{4}\\times4b",
+        "=6a-4b-6a+3b",
+        "=6a-6a-4b+3b",
+        "=-b"
+      ],
+      "hint": "2行目の最後の項 $+\\frac{3}{4}\\times4b$ を計算すると、符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0077",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "-\\frac{1}{2}(4x-6y+2)+\\frac{1}{3}(3x+9y-6)",
+      "answerLines": [
+        "-\\frac{1}{2}(4x-6y+2)+\\frac{1}{3}(3x+9y-6)",
+        "=-2x+3y-1+x+3y-2",
+        "=-2x+x+3y+3y-1-2",
+        "=x+6y-3"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "$-2x+x$ は $(-2+1)x=-x$ です。$x$ としたところが誤りです（絶対値の大きい $-2x$ の符号が答えの符号になります）。分数をかけてかっこをはずした2行目、並べかえ、$6y$、$-3$ は正しくできています。正しくは $-x+6y-3$ です。",
+      "correctSolution": [
+        "-\\frac{1}{2}(4x-6y+2)+\\frac{1}{3}(3x+9y-6)",
+        "=-2x+3y-1+x+3y-2",
+        "=-2x+x+3y+3y-1-2",
+        "=-x+6y-3"
+      ],
+      "hint": "$-2x+x$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0078",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "1.5(2x-4y)-0.4(5x-10y)",
+      "answerLines": [
+        "1.5(2x-4y)-0.4(5x-10y)",
+        "=3x-6y-2x+4y",
+        "=3x-2x-6y+4y",
+        "=x+2y"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項の係数の計算で符号を誤った",
+      "explanation": "$-6y+4y$ は $(-6+4)y=-2y$ です。$+2y$ としたところが誤りです。小数をかけてかっこをはずした2行目（$1.5\\times4=6$、$0.4\\times10=4$）と並べかえ、$3x-2x=x$ は正しくできています。正しくは $x-2y$ です。",
+      "correctSolution": [
+        "1.5(2x-4y)-0.4(5x-10y)",
+        "=3x-6y-2x+4y",
+        "=3x-2x-6y+4y",
+        "=x-2y"
+      ],
+      "hint": "$-6y+4y$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0079",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "\\frac{3}{4}(8x^2-4x+12)-\\frac{1}{2}(6x^2-10x+8)",
+      "answerLines": [
+        "\\frac{3}{4}(8x^2-4x+12)-\\frac{1}{2}(6x^2-10x+8)",
+        "=6x^2-3x+9-3x^2+5x-4",
+        "=6x^2-3x^2-3x-5x+9-4",
+        "=3x^2-8x+5"
+      ],
+      "errorLine": 2,
+      "errorType": "項を並べかえるときの符号ミス",
+      "explanation": "2行目の $+5x$ を並べかえるとき、$-5x$ としたところが誤りです。並べかえても項の符号は変わりません。かっこのはずし方（$\\frac{3}{4}\\times8x^2=6x^2$、$-\\frac{1}{2}\\times(-10x)=5x$ など）は正しくできています。正しく計算すると $3x^2+2x+5$ です。",
+      "correctSolution": [
+        "\\frac{3}{4}(8x^2-4x+12)-\\frac{1}{2}(6x^2-10x+8)",
+        "=6x^2-3x+9-3x^2+5x-4",
+        "=6x^2-3x^2-3x+5x+9-4",
+        "=3x^2+2x+5"
+      ],
+      "hint": "2行目と3行目で、$5x$ の符号が変わっていないか比べてみましょう。"
+    },
+    {
+      "id": "J2-PO-0080",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "多項式と単項式の計算",
+      "difficulty": 4,
+      "question": "2(0.3x-1.2y)-0.5(1.4x-2y)",
+      "answerLines": [
+        "2(0.3x-1.2y)-0.5(1.4x-2y)",
+        "=0.6x-2.4y-0.7x+y",
+        "=0.6x-0.7x-2.4y+y",
+        "=0.1x-1.4y"
+      ],
+      "errorLine": 3,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "$0.6x-0.7x$ は $(0.6-0.7)x=-0.1x$ です。$0.1x$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。かっこのはずし方、並べかえ、$-2.4y+y=-1.4y$ は正しくできています。正しくは $-0.1x-1.4y$ です。",
+      "correctSolution": [
+        "2(0.3x-1.2y)-0.5(1.4x-2y)",
+        "=0.6x-2.4y-0.7x+y",
+        "=0.6x-0.7x-2.4y+y",
+        "=-0.1x-1.4y"
+      ],
+      "hint": "$0.6x-0.7x$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0081",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "question": "\\frac{a+b}{2}+\\frac{a-b}{4}",
+      "answerLines": [
+        "\\frac{a+b}{2}+\\frac{a-b}{4}",
+        "=\\frac{2(a+b)}{4}+\\frac{a-b}{4}",
+        "=\\frac{2a+2b+a-b}{4}",
+        "=\\frac{3a+b}{4}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分母を $4$ にそろえるため、$\\frac{a+b}{2}$ の分母と分子に $2$ をかけます。分子をまとめると、$2a+a=3a$、$2b-b=b$ です。",
+      "correctSolution": [
+        "\\frac{a+b}{2}+\\frac{a-b}{4}",
+        "=\\frac{2(a+b)}{4}+\\frac{a-b}{4}",
+        "=\\frac{2a+2b+a-b}{4}",
+        "=\\frac{3a+b}{4}"
+      ],
+      "hint": "通分したときに、分子のすべての項に $2$ をかけているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0082",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "question": "\\frac{x-y}{3}+\\frac{x+2y}{6}",
+      "answerLines": [
+        "\\frac{x-y}{3}+\\frac{x+2y}{6}",
+        "=\\frac{2(x-y)}{6}+\\frac{x+2y}{6}",
+        "=\\frac{2x-y+x+2y}{6}",
+        "=\\frac{3x+y}{6}"
+      ],
+      "errorLine": 2,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "$2(x-y)$ のかっこをはずすときは、$y$ にも $2$ をかけて $2x-2y$ です。$-y$ としたところが誤りです。分母を $6$ にそろえた2行目は正しくできています。正しく計算すると $\\frac{3x}{6}=\\frac{x}{2}$ です。",
+      "correctSolution": [
+        "\\frac{x-y}{3}+\\frac{x+2y}{6}",
+        "=\\frac{2(x-y)}{6}+\\frac{x+2y}{6}",
+        "=\\frac{2x-2y+x+2y}{6}",
+        "=\\frac{3x}{6}",
+        "=\\frac{x}{2}"
+      ],
+      "hint": "$2(x-y)$ のかっこをはずすと、$y$ の項はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0083",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "instruction": "$x=3$、$y=-2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "3",
+        "y": "-2"
+      },
+      "question": "2(x+y)-(x-3y)",
+      "answerLines": [
+        "2(x+y)-(x-3y)",
+        "=2x+2y-x+3y",
+        "=x+5y",
+        "=3+5\\times(-2)",
+        "=-7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。先に式を簡単にしてから代入すると、計算が楽になります。$x+5y$ に $x=3$、$y=-2$ を代入して、$3-10=-7$ です。",
+      "correctSolution": [
+        "2(x+y)-(x-3y)",
+        "=2x+2y-x+3y",
+        "=x+5y",
+        "=3+5\\times(-2)",
+        "=-7"
+      ],
+      "hint": "式を簡単にした $x+5y$ に、負の数をかっこをつけて代入できているか確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0084",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "question": "\\frac{3x-y}{2}-\\frac{x+y}{2}",
+      "answerLines": [
+        "\\frac{3x-y}{2}-\\frac{x+y}{2}",
+        "=\\frac{3x-y-x+y}{2}",
+        "=\\frac{2x}{2}",
+        "=x"
+      ],
+      "errorLine": 1,
+      "errorType": "ひく分数の分子の、うしろの項の符号を変え忘れた誤り",
+      "explanation": "ひく分数の分子は、かっこがついているものと考えて、すべての項の符号を変えます。$-(x+y)=-x-y$ なので、$+y$ としたところが誤りです。正しくは $\\frac{3x-y-x-y}{2}=\\frac{2x-2y}{2}=x-y$ です。",
+      "correctSolution": [
+        "\\frac{3x-y}{2}-\\frac{x+y}{2}",
+        "=\\frac{3x-y-x-y}{2}",
+        "=\\frac{2x-2y}{2}",
+        "=x-y"
+      ],
+      "hint": "ひく分数の分子 $x+y$ を、かっこでくくって考えてみましょう。"
+    },
+    {
+      "id": "J2-PO-0085",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 1,
+      "instruction": "$a=-2$、$b=3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-2",
+        "b": "3"
+      },
+      "question": "6a^2b\\div3a",
+      "answerLines": [
+        "6a^2b\\div3a",
+        "=\\frac{6a^2b}{3a}",
+        "=2ab",
+        "=2\\times(-2)\\times3",
+        "=12"
+      ],
+      "errorLine": 4,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$2\\times(-2)\\times3$ は、負の数が1つなので積は負になり、$-12$ です。$12$ としたところが誤りです。式を $2ab$ に簡単にしたところと、代入した式は正しくできています。",
+      "correctSolution": [
+        "6a^2b\\div3a",
+        "=\\frac{6a^2b}{3a}",
+        "=2ab",
+        "=2\\times(-2)\\times3",
+        "=-12"
+      ],
+      "hint": "$2\\times(-2)\\times3$ に、負の数はいくつありますか？"
+    },
+    {
+      "id": "J2-PO-0086",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "question": "\\frac{2a-b}{3}-\\frac{a-2b}{4}",
+      "answerLines": [
+        "\\frac{2a-b}{3}-\\frac{a-2b}{4}",
+        "=\\frac{4(2a-b)}{12}-\\frac{3(a-2b)}{12}",
+        "=\\frac{8a-4b-3a+6b}{12}",
+        "=\\frac{5a+2b}{12}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分母を $12$ にそろえ、分子のかっこをはずします。ひく分数の分子は $-3(a-2b)=-3a+6b$ です。まとめて、$8a-3a=5a$、$-4b+6b=2b$ です。",
+      "correctSolution": [
+        "\\frac{2a-b}{3}-\\frac{a-2b}{4}",
+        "=\\frac{4(2a-b)}{12}-\\frac{3(a-2b)}{12}",
+        "=\\frac{8a-4b-3a+6b}{12}",
+        "=\\frac{5a+2b}{12}"
+      ],
+      "hint": "$-3(a-2b)$ のかっこのはずし方を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0087",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "question": "\\frac{x+3y}{4}-\\frac{x-y}{2}",
+      "answerLines": [
+        "\\frac{x+3y}{4}-\\frac{x-y}{2}",
+        "=\\frac{x+3y}{4}-\\frac{2(x-y)}{4}",
+        "=\\frac{x+3y-2x+2y}{4}",
+        "=\\frac{x+5y}{4}"
+      ],
+      "errorLine": 3,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "分子の $x-2x$ は $(1-2)x=-x$ です。$x$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。通分と、ひく分数のかっこのはずし方、$3y+2y=5y$ は正しくできています。正しくは $\\frac{-x+5y}{4}$ です。",
+      "correctSolution": [
+        "\\frac{x+3y}{4}-\\frac{x-y}{2}",
+        "=\\frac{x+3y}{4}-\\frac{2(x-y)}{4}",
+        "=\\frac{x+3y-2x+2y}{4}",
+        "=\\frac{-x+5y}{4}"
+      ],
+      "hint": "分子の $x$ の項 $x-2x$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0088",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "instruction": "$x=-1$、$y=2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-1",
+        "y": "2"
+      },
+      "question": "3(2x-y)-2(x-4y)",
+      "answerLines": [
+        "3(2x-y)-2(x-4y)",
+        "=6x-3y-2x+8y",
+        "=4x+5y",
+        "=4\\times1+5\\times2",
+        "=14"
+      ],
+      "errorLine": 3,
+      "errorType": "負の数を代入するときに符号を落とした誤り",
+      "explanation": "$x=-1$ なので、$4x$ には $4\\times(-1)$ と、かっこをつけて代入します。$4\\times1$ としたところが誤りです。式を $4x+5y$ に簡単にしたところは正しくできています。正しく計算すると $-4+10=6$ です。",
+      "correctSolution": [
+        "3(2x-y)-2(x-4y)",
+        "=6x-3y-2x+8y",
+        "=4x+5y",
+        "=4\\times(-1)+5\\times2",
+        "=6"
+      ],
+      "hint": "$x$ にはどんな数を代入しますか？ 符号に気をつけましょう。"
+    },
+    {
+      "id": "J2-PO-0089",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "question": "12x^2y\\div(-3x)\\times2y",
+      "answerLines": [
+        "12x^2y\\div(-3x)\\times2y",
+        "=-\\frac{12x^2y\\times2y}{3x}",
+        "=-8xy^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わる式は分母に、かける式は分子にして1つの分数にまとめます。負の数が1つなので符号は $-$ です。$\\frac{24}{3}=8$、$x^2\\div x=x$、$y\\times y=y^2$ で、$-8xy^2$ です。",
+      "correctSolution": [
+        "12x^2y\\div(-3x)\\times2y",
+        "=-\\frac{12x^2y\\times2y}{3x}",
+        "=-8xy^2"
+      ],
+      "hint": "$2y$ は分子と分母のどちらに入りますか？"
+    },
+    {
+      "id": "J2-PO-0090",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 2,
+      "instruction": "$a=3$、$b=-2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "3",
+        "b": "-2"
+      },
+      "question": "18a^2b^3\\div(-6ab^2)",
+      "answerLines": [
+        "18a^2b^3\\div(-6ab^2)",
+        "=-\\frac{18a^2b^3}{6ab^2}",
+        "=-3ab",
+        "=-3\\times3\\times(-2)",
+        "=-18"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数を2回かけたときの符号ミス",
+      "explanation": "$-3\\times3\\times(-2)$ には負の数が2つあるので、積は正になり、$18$ です。$-18$ としたところが誤りです。式を $-3ab$ に簡単にしたところと、代入した式は正しくできています。",
+      "correctSolution": [
+        "18a^2b^3\\div(-6ab^2)",
+        "=-\\frac{18a^2b^3}{6ab^2}",
+        "=-3ab",
+        "=-3\\times3\\times(-2)",
+        "=18"
+      ],
+      "hint": "$-3\\times3\\times(-2)$ に、負の数はいくつありますか？"
+    },
+    {
+      "id": "J2-PO-0091",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "question": "\\frac{3x-2y}{4}-\\frac{2x-5y}{6}",
+      "answerLines": [
+        "\\frac{3x-2y}{4}-\\frac{2x-5y}{6}",
+        "=\\frac{3(3x-2y)}{12}-\\frac{2(2x-5y)}{12}",
+        "=\\frac{9x-6y-4x-10y}{12}",
+        "=\\frac{5x-16y}{12}"
+      ],
+      "errorLine": 2,
+      "errorType": "ひく分数の分子の、うしろの項の符号を変え忘れた誤り",
+      "explanation": "ひく分数の分子は、$-2(2x-5y)=-4x+10y$ です。$-10y$ としたところが誤りです（$-2$ と $-5y$ の積は正です）。分母を $12$ にそろえた2行目と、$9x-6y$、$-4x$ は正しくできています。正しく計算すると $\\frac{5x+4y}{12}$ です。",
+      "correctSolution": [
+        "\\frac{3x-2y}{4}-\\frac{2x-5y}{6}",
+        "=\\frac{3(3x-2y)}{12}-\\frac{2(2x-5y)}{12}",
+        "=\\frac{9x-6y-4x+10y}{12}",
+        "=\\frac{5x+4y}{12}"
+      ],
+      "hint": "$-2(2x-5y)$ のかっこをはずすと、$5y$ の項の符号はどうなりますか？"
+    },
+    {
+      "id": "J2-PO-0092",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "question": "2x-\\frac{x-3y}{5}",
+      "answerLines": [
+        "2x-\\frac{x-3y}{5}",
+        "=\\frac{10x}{5}-\\frac{x-3y}{5}",
+        "=\\frac{10x-x+3y}{5}",
+        "=\\frac{9x+3y}{5}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$2x$ を分母 $5$ の分数 $\\frac{10x}{5}$ にしてから、分子どうしを計算します。ひく分数の分子は符号が変わるので、$-x+3y$ です。",
+      "correctSolution": [
+        "2x-\\frac{x-3y}{5}",
+        "=\\frac{10x}{5}-\\frac{x-3y}{5}",
+        "=\\frac{10x-x+3y}{5}",
+        "=\\frac{9x+3y}{5}"
+      ],
+      "hint": "$2x$ を分母が $5$ の分数に直すと、分子はいくつになりますか？"
+    },
+    {
+      "id": "J2-PO-0093",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "question": "-3a^2b\\times(-2ab)^2\\div(-4a^3b)",
+      "answerLines": [
+        "-3a^2b\\times(-2ab)^2\\div(-4a^3b)",
+        "=-3a^2b\\times4a^2b^2\\div(-4a^3b)",
+        "=-\\frac{3a^2b\\times4a^2b^2}{4a^3b}",
+        "=-3ab^2"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の個数で符号を決めるときの誤り",
+      "explanation": "2行目の式には負の数が $-3a^2b$ と $-4a^3b$ の2つあるので、結果の符号は正です。1つの分数にまとめるときに $-$ をつけたところが誤りです。$(-2ab)^2=4a^2b^2$ は正しくできています。正しく計算すると $3ab^2$ です。",
+      "correctSolution": [
+        "-3a^2b\\times(-2ab)^2\\div(-4a^3b)",
+        "=-3a^2b\\times4a^2b^2\\div(-4a^3b)",
+        "=\\frac{3a^2b\\times4a^2b^2}{4a^3b}",
+        "=3ab^2"
+      ],
+      "hint": "2行目の式に、負の数はいくつありますか？"
+    },
+    {
+      "id": "J2-PO-0094",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "instruction": "$x=\\frac{1}{2}$、$y=-3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "\\frac{1}{2}",
+        "y": "-3"
+      },
+      "question": "4(x-2y)-2(3x-y)",
+      "answerLines": [
+        "4(x-2y)-2(3x-y)",
+        "=4x-8y-6x+2y",
+        "=-2x-6y",
+        "=-1+18",
+        "=19"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$-1+18$ は $17$ です。$19$ としたところが誤りです（$1$ と $18$ をたしています）。式を $-2x-6y$ に簡単にしたところと、$-2\\times\\frac{1}{2}=-1$、$-6\\times(-3)=18$ は正しくできています。",
+      "correctSolution": [
+        "4(x-2y)-2(3x-y)",
+        "=4x-8y-6x+2y",
+        "=-2x-6y",
+        "=-1+18",
+        "=17"
+      ],
+      "hint": "$-1+18$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0095",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 3,
+      "question": "\\frac{a-3b}{2}-\\frac{2a-b}{3}+b",
+      "answerLines": [
+        "\\frac{a-3b}{2}-\\frac{2a-b}{3}+b",
+        "=\\frac{3(a-3b)-2(2a-b)+b}{6}",
+        "=\\frac{3a-9b-4a+2b+b}{6}",
+        "=\\frac{-a-6b}{6}"
+      ],
+      "errorLine": 1,
+      "errorType": "分母のない項を通分するとき、分母をかけ忘れた誤り",
+      "explanation": "分母のない $b$ も、分母を $6$ にそろえると $\\frac{6b}{6}$ なので、分子は $6b$ です。$b$ のままにしたところが誤りです。2つの分数の通分は正しくできています。正しく計算すると $\\frac{3a-9b-4a+2b+6b}{6}=\\frac{-a-b}{6}$ です。",
+      "correctSolution": [
+        "\\frac{a-3b}{2}-\\frac{2a-b}{3}+b",
+        "=\\frac{3(a-3b)-2(2a-b)+6b}{6}",
+        "=\\frac{3a-9b-4a+2b+6b}{6}",
+        "=\\frac{-a-b}{6}"
+      ],
+      "hint": "$b$ を分母が $6$ の分数に直すと、どうなりますか？"
+    },
+    {
+      "id": "J2-PO-0096",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "question": "\\frac{2x-y}{3}-\\frac{3x-2y}{4}+\\frac{x}{2}",
+      "answerLines": [
+        "\\frac{2x-y}{3}-\\frac{3x-2y}{4}+\\frac{x}{2}",
+        "=\\frac{4(2x-y)}{12}-\\frac{3(3x-2y)}{12}+\\frac{6x}{12}",
+        "=\\frac{4(2x-y)-3(3x-2y)+6x}{12}",
+        "=\\frac{8x-4y-9x+6y+6x}{12}",
+        "=\\frac{5x-2y}{12}"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "分子の $y$ の項は $-4y+6y=2y$ です。$-2y$ としたところが誤りです（絶対値の大きい $6y$ の符号が答えの符号になります）。通分、かっこのはずし方、$x$ の項 $8x-9x+6x=5x$ は正しくできています。正しくは $\\frac{5x+2y}{12}$ です。",
+      "correctSolution": [
+        "\\frac{2x-y}{3}-\\frac{3x-2y}{4}+\\frac{x}{2}",
+        "=\\frac{4(2x-y)}{12}-\\frac{3(3x-2y)}{12}+\\frac{6x}{12}",
+        "=\\frac{4(2x-y)-3(3x-2y)+6x}{12}",
+        "=\\frac{8x-4y-9x+6y+6x}{12}",
+        "=\\frac{5x+2y}{12}"
+      ],
+      "hint": "分子の $-4y+6y$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0097",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "question": "\\frac{5a-2b}{6}-\\frac{2a-3b}{9}-\\frac{a}{3}",
+      "answerLines": [
+        "\\frac{5a-2b}{6}-\\frac{2a-3b}{9}-\\frac{a}{3}",
+        "=\\frac{3(5a-2b)-2(2a-3b)-6a}{18}",
+        "=\\frac{15a-6b-4a+6b-6a}{18}",
+        "=\\frac{5a-12b}{18}"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "分子の $b$ の項は $-6b+6b=0$ で消えます。$-12b$ としたところが誤りです（$6$ と $6$ をたしています）。分母を $18$ にそろえた通分、かっこのはずし方、$a$ の項 $15a-4a-6a=5a$ は正しくできています。正しくは $\\frac{5a}{18}$ です。",
+      "correctSolution": [
+        "\\frac{5a-2b}{6}-\\frac{2a-3b}{9}-\\frac{a}{3}",
+        "=\\frac{3(5a-2b)-2(2a-3b)-6a}{18}",
+        "=\\frac{15a-6b-4a+6b-6a}{18}",
+        "=\\frac{5a}{18}"
+      ],
+      "hint": "分子の $-6b+6b$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J2-PO-0098",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "instruction": "$a=-\\frac{1}{3}$、$b=\\frac{1}{2}$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-\\frac{1}{3}",
+        "b": "\\frac{1}{2}"
+      },
+      "question": "6a^2b\\times(-2ab)\\div4ab^2",
+      "answerLines": [
+        "6a^2b\\times(-2ab)\\div4ab^2",
+        "=-\\frac{6a^2b\\times2ab}{4ab^2}",
+        "=-3a^2",
+        "=-3\\times\\left(-\\frac{1}{3}\\right)^2",
+        "=\\frac{1}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数の2乗を負にした誤り",
+      "explanation": "$\\left(-\\frac{1}{3}\\right)^2=\\frac{1}{9}$ なので、$-3\\times\\frac{1}{9}=-\\frac{1}{3}$ です。$\\frac{1}{3}$ としたところが誤りです（$\\left(-\\frac{1}{3}\\right)^2$ を負の数として計算しています）。式を $-3a^2$ に簡単にしたところと、代入した式は正しくできています。",
+      "correctSolution": [
+        "6a^2b\\times(-2ab)\\div4ab^2",
+        "=-\\frac{6a^2b\\times2ab}{4ab^2}",
+        "=-3a^2",
+        "=-3\\times\\left(-\\frac{1}{3}\\right)^2",
+        "=-\\frac{1}{3}"
+      ],
+      "hint": "$\\left(-\\frac{1}{3}\\right)^2$ の符号を確かめてから、$-3$ をかけましょう。"
+    },
+    {
+      "id": "J2-PO-0099",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "instruction": "$x=-2$、$y=3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-2",
+        "y": "3"
+      },
+      "question": "\\frac{x+2y}{4}-\\frac{3x-y}{6}",
+      "answerLines": [
+        "\\frac{x+2y}{4}-\\frac{3x-y}{6}",
+        "=\\frac{3(x+2y)-2(3x-y)}{12}",
+        "=\\frac{-3x+8y}{12}",
+        "=\\frac{-3\\times(-2)+8\\times3}{12}",
+        "=\\frac{5}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。式を $\\frac{-3x+8y}{12}$ に簡単にしてから代入します。分子は $6+24=30$ で、$\\frac{30}{12}=\\frac{5}{2}$ です。",
+      "correctSolution": [
+        "\\frac{x+2y}{4}-\\frac{3x-y}{6}",
+        "=\\frac{3(x+2y)-2(3x-y)}{12}",
+        "=\\frac{-3x+8y}{12}",
+        "=\\frac{-3\\times(-2)+8\\times3}{12}",
+        "=\\frac{5}{2}"
+      ],
+      "hint": "分子の $3(x+2y)-2(3x-y)$ の計算と、代入したあとの約分を確かめましょう。"
+    },
+    {
+      "id": "J2-PO-0100",
+      "grade": 2,
+      "unit": "polynomials",
+      "category": "式の計算の総合",
+      "difficulty": 4,
+      "question": "(-3xy^2)^2\\div\\frac{9}{2}x^3y\\times\\left(-\\frac{2}{3}x\\right)",
+      "answerLines": [
+        "(-3xy^2)^2\\div\\frac{9}{2}x^3y\\times\\left(-\\frac{2}{3}x\\right)",
+        "=9x^2y^4\\div\\frac{9}{2}x^3y\\times\\left(-\\frac{2}{3}x\\right)",
+        "=9x^2y^4\\times\\frac{2}{9x^3y}\\times\\left(-\\frac{2}{3}x\\right)",
+        "=-\\frac{9x^2y^4\\times2\\times2x}{9x^3y\\times3}",
+        "=-\\frac{4}{3}y^4"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で一部の文字だけをわった誤り",
+      "explanation": "$y$ は分子に $y^4$、分母に $y$ があるので、約分すると $y^4\\div y=y^3$ です。$y^4$ のままにしたところが誤りです。2乗、逆数、符号、係数 $\\frac{36}{27}=\\frac{4}{3}$、$x$ の約分は正しくできています。正しくは $-\\frac{4}{3}y^3$ です。",
+      "correctSolution": [
+        "(-3xy^2)^2\\div\\frac{9}{2}x^3y\\times\\left(-\\frac{2}{3}x\\right)",
+        "=9x^2y^4\\div\\frac{9}{2}x^3y\\times\\left(-\\frac{2}{3}x\\right)",
+        "=9x^2y^4\\times\\frac{2}{9x^3y}\\times\\left(-\\frac{2}{3}x\\right)",
+        "=-\\frac{9x^2y^4\\times2\\times2x}{9x^3y\\times3}",
+        "=-\\frac{4}{3}y^3"
+      ],
+      "hint": "分母の $y$ で、分子の $y^4$ を約分しましたか？"
+    }
+  ]
+}

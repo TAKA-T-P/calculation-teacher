@@ -1,0 +1,2351 @@
+{
+  "schemaVersion": 1,
+  "grade": 3,
+  "unit": "square-roots",
+  "questions": [
+    {
+      "id": "J3-SR-0001",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt3\\times\\sqrt5",
+      "answerLines": [
+        "\\sqrt3\\times\\sqrt5",
+        "=\\sqrt8"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の積で中の数をたした誤り",
+      "explanation": "根号のかけ算は、中の数どうしをかけます。$\\sqrt3\\times\\sqrt5=\\sqrt{3\\times5}=\\sqrt{15}$ です。$3+5=8$ とたして $\\sqrt8$ としたところが誤りです。",
+      "correctSolution": [
+        "\\sqrt3\\times\\sqrt5",
+        "=\\sqrt{15}"
+      ],
+      "hint": "$\\sqrt a\\times\\sqrt b$ は、$\\sqrt{a+b}$ と $\\sqrt{a\\times b}$ のどちらですか？"
+    },
+    {
+      "id": "J3-SR-0002",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt{18}\\div\\sqrt2",
+      "answerLines": [
+        "\\sqrt{18}\\div\\sqrt2",
+        "=\\sqrt{\\frac{18}{2}}",
+        "=\\sqrt9",
+        "=3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。根号のわり算は、中の数どうしをわります。$\\sqrt{18}\\div\\sqrt2=\\sqrt{9}=3$ です。$\\sqrt9$ は根号を使わずに $3$ と表します。",
+      "correctSolution": [
+        "\\sqrt{18}\\div\\sqrt2",
+        "=\\sqrt{\\frac{18}{2}}",
+        "=\\sqrt9",
+        "=3"
+      ],
+      "hint": "$\\sqrt a\\div\\sqrt b$ は、根号の中をどのように計算しますか？"
+    },
+    {
+      "id": "J3-SR-0003",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "\\sqrt6\\times\\sqrt{10}",
+      "answerLines": [
+        "\\sqrt6\\times\\sqrt{10}",
+        "=\\sqrt{60}",
+        "=4\\sqrt{15}"
+      ],
+      "errorLine": 2,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$60=2^2\\times15$ なので、根号の外に出せるのは $2$ です。$\\sqrt{60}=2\\sqrt{15}$ になります。$4$ をそのまま外に出して $4\\sqrt{15}$ としたところが誤りです（$4\\sqrt{15}=\\sqrt{240}$ です）。$\\sqrt6\\times\\sqrt{10}=\\sqrt{60}$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt6\\times\\sqrt{10}",
+        "=\\sqrt{60}",
+        "=2\\sqrt{15}"
+      ],
+      "hint": "$\\sqrt{4}$ はいくつですか？ 根号の外に出すのは $4$ ですか、$2$ ですか？"
+    },
+    {
+      "id": "J3-SR-0004",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "2\\sqrt3\\times3\\sqrt6",
+      "answerLines": [
+        "2\\sqrt3\\times3\\sqrt6",
+        "=6\\sqrt{18}",
+        "=6\\sqrt{3^2\\times2}",
+        "=9\\sqrt2"
+      ],
+      "errorLine": 3,
+      "errorType": "根号の外に出した数を、係数とたしてしまった誤り",
+      "explanation": "$\\sqrt{3^2\\times2}=3\\sqrt2$ なので、$6\\sqrt{3^2\\times2}=6\\times3\\sqrt2=18\\sqrt2$ です。外に出した $3$ を係数の $6$ にたして $9$ としたところが誤りです。係数どうし・根号どうしのかけ算 $6\\sqrt{18}$ と、$18=3^2\\times2$ は正しくできています。",
+      "correctSolution": [
+        "2\\sqrt3\\times3\\sqrt6",
+        "=6\\sqrt{18}",
+        "=6\\sqrt{3^2\\times2}",
+        "=18\\sqrt2"
+      ],
+      "hint": "根号の外に出した $3$ は、係数の $6$ とたしますか、かけますか？"
+    },
+    {
+      "id": "J3-SR-0005",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "\\sqrt{24}\\div\\sqrt3\\times\\sqrt{12}",
+      "answerLines": [
+        "\\sqrt{24}\\div\\sqrt3\\times\\sqrt{12}",
+        "=\\sqrt{\\frac{24}{3}}\\times\\sqrt{12}",
+        "=\\sqrt8\\times\\sqrt{12}",
+        "=\\sqrt{96}",
+        "=4\\sqrt3"
+      ],
+      "errorLine": 4,
+      "errorType": "平方数でくくり出したあとの数の誤り",
+      "explanation": "$96=16\\times6=4^2\\times6$ なので、$\\sqrt{96}=4\\sqrt6$ です。根号の中に残る数を $3$ としたところが誤りです（$4\\sqrt3=\\sqrt{48}$ です）。左から順に計算した $\\sqrt8\\times\\sqrt{12}=\\sqrt{96}$ までは正しくできています。",
+      "correctSolution": [
+        "\\sqrt{24}\\div\\sqrt3\\times\\sqrt{12}",
+        "=\\sqrt{\\frac{24}{3}}\\times\\sqrt{12}",
+        "=\\sqrt8\\times\\sqrt{12}",
+        "=\\sqrt{96}",
+        "=4\\sqrt6"
+      ],
+      "hint": "$96$ を「平方数×整数」の形に分けて、確かめ直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0006",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\sqrt{50}",
+      "answerLines": [
+        "\\sqrt{50}",
+        "=25\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$50=5^2\\times2$ なので、$\\sqrt{50}=5\\sqrt2$ です。$25$ をそのまま外に出して $25\\sqrt2$ としたところが誤りです。根号の外に出すのは、$25$ の平方根の $5$ です。",
+      "correctSolution": [
+        "\\sqrt{50}",
+        "=5\\sqrt2"
+      ],
+      "hint": "$\\sqrt{25}$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0007",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\frac{6}{\\sqrt3}",
+      "answerLines": [
+        "\\frac{6}{\\sqrt3}",
+        "=\\frac{6\\times\\sqrt3}{\\sqrt3\\times\\sqrt3}",
+        "=\\frac{6\\sqrt3}{9}",
+        "=\\frac{2\\sqrt3}{3}"
+      ],
+      "errorLine": 2,
+      "errorType": "√a×√a を a² とした誤り",
+      "explanation": "$\\sqrt3\\times\\sqrt3=3$ です。分母を $9$ としたところが誤りです。分母と分子に $\\sqrt3$ をかけて有理化しようとしたところは正しくできています。正しくは $\\frac{6\\sqrt3}{3}=2\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{6}{\\sqrt3}",
+        "=\\frac{6\\times\\sqrt3}{\\sqrt3\\times\\sqrt3}",
+        "=\\frac{6\\sqrt3}{3}",
+        "=2\\sqrt3"
+      ],
+      "hint": "$\\sqrt3\\times\\sqrt3$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0008",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\frac{\\sqrt5}{\\sqrt{12}}",
+      "answerLines": [
+        "\\frac{\\sqrt5}{\\sqrt{12}}",
+        "=\\frac{\\sqrt5}{2\\sqrt3}",
+        "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{15}}{6}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。先に分母の $\\sqrt{12}$ を $2\\sqrt3$ と簡単にしてから、分母と分子に $\\sqrt3$ をかけて有理化しています。分母は $2\\sqrt3\\times\\sqrt3=2\\times3=6$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt5}{\\sqrt{12}}",
+        "=\\frac{\\sqrt5}{2\\sqrt3}",
+        "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{15}}{6}"
+      ],
+      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。分母の計算を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0009",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\frac{10}{\\sqrt{20}}",
+      "answerLines": [
+        "\\frac{10}{\\sqrt{20}}",
+        "=\\frac{10}{2\\sqrt5}",
+        "=\\frac{5}{\\sqrt5}",
+        "=5\\sqrt5"
+      ],
+      "errorLine": 3,
+      "errorType": "分子だけに根号をかけた有理化の誤り",
+      "explanation": "有理化するときは、分母と分子の両方に $\\sqrt5$ をかけます。$\\frac{5}{\\sqrt5}=\\frac{5\\sqrt5}{\\sqrt5\\times\\sqrt5}=\\frac{5\\sqrt5}{5}=\\sqrt5$ です。分子にだけ $\\sqrt5$ をかけて $5\\sqrt5$ としたところが誤りです。$\\sqrt{20}=2\\sqrt5$ と約分は正しくできています。",
+      "correctSolution": [
+        "\\frac{10}{\\sqrt{20}}",
+        "=\\frac{10}{2\\sqrt5}",
+        "=\\frac{5}{\\sqrt5}",
+        "=\\frac{5\\sqrt5}{5}",
+        "=\\sqrt5"
+      ],
+      "hint": "分母を有理化するとき、分母にも同じ数をかけましたか？"
+    },
+    {
+      "id": "J3-SR-0010",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\frac{3}{\\sqrt6}\\times\\sqrt8",
+      "answerLines": [
+        "\\frac{3}{\\sqrt6}\\times\\sqrt8",
+        "=\\frac{3\\sqrt8}{\\sqrt6}",
+        "=3\\sqrt{\\frac{6}{8}}",
+        "=3\\sqrt{\\frac{3}{4}}",
+        "=\\frac{3\\sqrt3}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "根号どうしのわり算で、分母と分子を逆にした誤り",
+      "explanation": "$\\frac{\\sqrt8}{\\sqrt6}=\\sqrt{\\frac{8}{6}}$ です。分母と分子を逆にして $\\sqrt{\\frac{6}{8}}$ としたところが誤りです。正しくは $3\\sqrt{\\frac{4}{3}}=3\\times\\frac{2}{\\sqrt3}=\\frac{6}{\\sqrt3}=2\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{3}{\\sqrt6}\\times\\sqrt8",
+        "=\\frac{3\\sqrt8}{\\sqrt6}",
+        "=3\\sqrt{\\frac{4}{3}}",
+        "=\\frac{6}{\\sqrt3}",
+        "=2\\sqrt3"
+      ],
+      "hint": "$\\frac{\\sqrt8}{\\sqrt6}$ を1つの根号にまとめると、分子と分母はどちらがどちらですか？"
+    },
+    {
+      "id": "J3-SR-0011",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "4\\sqrt5-\\sqrt5",
+      "answerLines": [
+        "4\\sqrt5-\\sqrt5",
+        "=4"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の項をまとめるとき、係数1を見落とした誤り",
+      "explanation": "$\\sqrt5$ は $1\\sqrt5$ のことなので、$4\\sqrt5-\\sqrt5=(4-1)\\sqrt5=3\\sqrt5$ です。$\\sqrt5$ どうしが消えると考えて $4$ としたところが誤りです。",
+      "correctSolution": [
+        "4\\sqrt5-\\sqrt5",
+        "=3\\sqrt5"
+      ],
+      "hint": "$\\sqrt5$ の係数はいくつですか？ 同類項の計算と同じように考えましょう。"
+    },
+    {
+      "id": "J3-SR-0012",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "\\sqrt{12}+\\sqrt{27}",
+      "answerLines": [
+        "\\sqrt{12}+\\sqrt{27}",
+        "=2\\sqrt3+3\\sqrt3",
+        "=5\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "根号の加法で、根号の中の数もたした誤り",
+      "explanation": "$2\\sqrt3+3\\sqrt3$ は、$\\sqrt3$ を1つの文字のように見て $(2+3)\\sqrt3=5\\sqrt3$ です。根号の中の数もたして $\\sqrt6$ としたところが誤りです。根号の加法は、根号の中の数をたす計算ではありません。$\\sqrt{12}=2\\sqrt3$、$\\sqrt{27}=3\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{12}+\\sqrt{27}",
+        "=2\\sqrt3+3\\sqrt3",
+        "=5\\sqrt3"
+      ],
+      "hint": "$2\\sqrt3+3\\sqrt3$ は、$2a+3a$ と同じように計算できます。根号の中はどうなりますか？"
+    },
+    {
+      "id": "J3-SR-0013",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\sqrt{48}-\\sqrt{75}+\\sqrt3",
+      "answerLines": [
+        "\\sqrt{48}-\\sqrt{75}+\\sqrt3",
+        "=4\\sqrt3-5\\sqrt3+\\sqrt3",
+        "=0"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{48}=4\\sqrt3$、$\\sqrt{75}=5\\sqrt3$ とそろえると、$(4-5+1)\\sqrt3=0$ です。答えが $0$ になることもあります。",
+      "correctSolution": [
+        "\\sqrt{48}-\\sqrt{75}+\\sqrt3",
+        "=4\\sqrt3-5\\sqrt3+\\sqrt3",
+        "=0"
+      ],
+      "hint": "それぞれの根号を $a\\sqrt3$ の形にそろえてから計算しましょう。"
+    },
+    {
+      "id": "J3-SR-0014",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\sqrt{18}-\\frac{4}{\\sqrt2}+\\sqrt{32}",
+      "answerLines": [
+        "\\sqrt{18}-\\frac{4}{\\sqrt2}+\\sqrt{32}",
+        "=3\\sqrt2-\\frac{4\\sqrt2}{2}+4\\sqrt2",
+        "=3\\sqrt2-2\\sqrt2+4\\sqrt2",
+        "=-3\\sqrt2"
+      ],
+      "errorLine": 3,
+      "errorType": "後ろのたし算の項までひいてしまった誤り",
+      "explanation": "$3\\sqrt2-2\\sqrt2+4\\sqrt2$ は、$(3-2+4)\\sqrt2=5\\sqrt2$ です。$3-(2+4)$ のように $+4\\sqrt2$ までひいて $-3\\sqrt2$ としたところが誤りです。根号の簡単化と有理化（$\\frac{4}{\\sqrt2}=2\\sqrt2$）は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{18}-\\frac{4}{\\sqrt2}+\\sqrt{32}",
+        "=3\\sqrt2-\\frac{4\\sqrt2}{2}+4\\sqrt2",
+        "=3\\sqrt2-2\\sqrt2+4\\sqrt2",
+        "=5\\sqrt2"
+      ],
+      "hint": "$+4\\sqrt2$ は、たす項とひく項のどちらですか？"
+    },
+    {
+      "id": "J3-SR-0015",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "\\sqrt{45}-\\frac{10}{\\sqrt5}+\\sqrt{20}-\\sqrt{80}",
+      "answerLines": [
+        "\\sqrt{45}-\\frac{10}{\\sqrt5}+\\sqrt{20}-\\sqrt{80}",
+        "=3\\sqrt5-\\frac{10}{\\sqrt5}+2\\sqrt5-4\\sqrt5",
+        "=3\\sqrt5-\\frac{10\\sqrt5}{5}+2\\sqrt5-4\\sqrt5",
+        "=3\\sqrt5-2\\sqrt5+2\\sqrt5-4\\sqrt5",
+        "=\\sqrt5"
+      ],
+      "errorLine": 4,
+      "errorType": "根号の項の係数の計算で符号を誤った",
+      "explanation": "$(3-2+2-4)\\sqrt5=-\\sqrt5$ です。符号を「$+$」にして $\\sqrt5$ としたところが誤りです。根号の簡単化（$\\sqrt{45}=3\\sqrt5$、$\\sqrt{20}=2\\sqrt5$、$\\sqrt{80}=4\\sqrt5$）と有理化（$\\frac{10}{\\sqrt5}=2\\sqrt5$）はどれも正しくできています。",
+      "correctSolution": [
+        "\\sqrt{45}-\\frac{10}{\\sqrt5}+\\sqrt{20}-\\sqrt{80}",
+        "=3\\sqrt5-\\frac{10}{\\sqrt5}+2\\sqrt5-4\\sqrt5",
+        "=3\\sqrt5-\\frac{10\\sqrt5}{5}+2\\sqrt5-4\\sqrt5",
+        "=3\\sqrt5-2\\sqrt5+2\\sqrt5-4\\sqrt5",
+        "=-\\sqrt5"
+      ],
+      "hint": "最後の係数の計算 $3-2+2-4$ を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0016",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "\\sqrt2(\\sqrt6+\\sqrt2)",
+      "answerLines": [
+        "\\sqrt2(\\sqrt6+\\sqrt2)",
+        "=\\sqrt{12}+\\sqrt2",
+        "=2\\sqrt3+\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則のかけ忘れ",
+      "explanation": "分配法則で、$\\sqrt2\\times\\sqrt6=\\sqrt{12}$、$\\sqrt2\\times\\sqrt2=2$ です。2つ目の項に $\\sqrt2$ をかけ忘れて $\\sqrt2$ のままにしたところが誤りです。正しくは $\\sqrt{12}+2=2\\sqrt3+2$ です。",
+      "correctSolution": [
+        "\\sqrt2(\\sqrt6+\\sqrt2)",
+        "=\\sqrt{12}+2",
+        "=2\\sqrt3+2"
+      ],
+      "hint": "かっこの外の $\\sqrt2$ は、$\\sqrt2$ の項にもかけましたか？"
+    },
+    {
+      "id": "J3-SR-0017",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "(\\sqrt3+1)^2",
+      "answerLines": [
+        "(\\sqrt3+1)^2",
+        "=(\\sqrt3)^2+2\\times\\sqrt3\\times1+1^2",
+        "=9+2\\sqrt3+1",
+        "=10+2\\sqrt3"
+      ],
+      "errorLine": 2,
+      "errorType": "(√a)² を a² とした誤り",
+      "explanation": "$(\\sqrt3)^2=3$ です。$9$ としたところが誤りです。$(a+b)^2=a^2+2ab+b^2$ の公式に当てはめたところは正しくできています。正しくは $3+2\\sqrt3+1=4+2\\sqrt3$ です。",
+      "correctSolution": [
+        "(\\sqrt3+1)^2",
+        "=(\\sqrt3)^2+2\\times\\sqrt3\\times1+1^2",
+        "=3+2\\sqrt3+1",
+        "=4+2\\sqrt3"
+      ],
+      "hint": "$(\\sqrt3)^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0018",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "question": "(\\sqrt5+\\sqrt3)(\\sqrt5-\\sqrt3)",
+      "answerLines": [
+        "(\\sqrt5+\\sqrt3)(\\sqrt5-\\sqrt3)",
+        "=(\\sqrt5)^2-(\\sqrt3)^2",
+        "=5-3",
+        "=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。和と差の積 $(a+b)(a-b)=a^2-b^2$ の公式を使っています。$(\\sqrt5)^2=5$、$(\\sqrt3)^2=3$ なので、答えは $2$ です。",
+      "correctSolution": [
+        "(\\sqrt5+\\sqrt3)(\\sqrt5-\\sqrt3)",
+        "=(\\sqrt5)^2-(\\sqrt3)^2",
+        "=5-3",
+        "=2"
+      ],
+      "hint": "どの乗法公式が使えるか、考えてみましょう。"
+    },
+    {
+      "id": "J3-SR-0019",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "question": "(2\\sqrt3-1)^2-\\frac{6}{\\sqrt3}",
+      "answerLines": [
+        "(2\\sqrt3-1)^2-\\frac{6}{\\sqrt3}",
+        "=12-4\\sqrt3+1-\\frac{6}{\\sqrt3}",
+        "=13-4\\sqrt3-2\\sqrt3",
+        "=13-2\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "根号の項をまとめるときの符号ミス",
+      "explanation": "$-4\\sqrt3-2\\sqrt3$ は、$(-4-2)\\sqrt3=-6\\sqrt3$ です。$-2\\sqrt3$ としたところが誤りです。乗法公式による展開（$(2\\sqrt3)^2=12$、$-2\\times2\\sqrt3\\times1=-4\\sqrt3$）と有理化（$\\frac{6}{\\sqrt3}=2\\sqrt3$）は正しくできています。正しくは $13-6\\sqrt3$ です。",
+      "correctSolution": [
+        "(2\\sqrt3-1)^2-\\frac{6}{\\sqrt3}",
+        "=12-4\\sqrt3+1-\\frac{6}{\\sqrt3}",
+        "=13-4\\sqrt3-2\\sqrt3",
+        "=13-6\\sqrt3"
+      ],
+      "hint": "$-4\\sqrt3-2\\sqrt3$ の係数の計算を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0020",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "question": "\\sqrt3(\\sqrt{12}-\\sqrt6)+\\frac{6\\sqrt2}{\\sqrt3}",
+      "answerLines": [
+        "\\sqrt3(\\sqrt{12}-\\sqrt6)+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=\\sqrt{36}-\\sqrt{18}+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=6-3\\sqrt2+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=6-3\\sqrt2+\\frac{6\\sqrt6}{3}",
+        "=6-3\\sqrt2+6\\sqrt6"
+      ],
+      "errorLine": 4,
+      "errorType": "有理化したあと、約分し忘れた誤り",
+      "explanation": "$\\frac{6\\sqrt6}{3}$ は約分して $2\\sqrt6$ です。分母の $3$ でわり忘れて $6\\sqrt6$ としたところが誤りです。分配法則（$\\sqrt3\\times\\sqrt{12}=6$、$\\sqrt3\\times\\sqrt6=3\\sqrt2$）と有理化（$\\frac{6\\sqrt2\\times\\sqrt3}{\\sqrt3\\times\\sqrt3}=\\frac{6\\sqrt6}{3}$）は正しくできています。正しくは $6-3\\sqrt2+2\\sqrt6$ です。",
+      "correctSolution": [
+        "\\sqrt3(\\sqrt{12}-\\sqrt6)+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=\\sqrt{36}-\\sqrt{18}+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=6-3\\sqrt2+\\frac{6\\sqrt2}{\\sqrt3}",
+        "=6-3\\sqrt2+\\frac{6\\sqrt6}{3}",
+        "=6-3\\sqrt2+2\\sqrt6"
+      ],
+      "hint": "$\\frac{6\\sqrt6}{3}$ は約分できますか？"
+    },
+    {
+      "id": "J3-SR-0021",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt2\\times\\sqrt7",
+      "answerLines": [
+        "\\sqrt2\\times\\sqrt7",
+        "=\\sqrt{14}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{a}\\times\\sqrt{b}=\\sqrt{ab}$ なので、$\\sqrt{2\\times7}=\\sqrt{14}$ です。$14$ には $1$ 以外の平方数の因数がないので、これ以上簡単にできません。",
+      "correctSolution": [
+        "\\sqrt2\\times\\sqrt7",
+        "=\\sqrt{14}"
+      ],
+      "hint": "根号どうしのかけ算は、中の数どうしをかけます。"
+    },
+    {
+      "id": "J3-SR-0022",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt{30}\\div\\sqrt6",
+      "answerLines": [
+        "\\sqrt{30}\\div\\sqrt6",
+        "=\\sqrt{24}"
+      ],
+      "errorLine": 1,
+      "errorType": "根号どうしのわり算で、中の数をひいた誤り",
+      "explanation": "$\\sqrt{a}\\div\\sqrt{b}=\\sqrt{\\frac{a}{b}}$ なので、$\\sqrt{30}\\div\\sqrt6=\\sqrt{\\frac{30}{6}}=\\sqrt5$ です。中の数をひいて $\\sqrt{30-6}=\\sqrt{24}$ としたところが誤りです。",
+      "correctSolution": [
+        "\\sqrt{30}\\div\\sqrt6",
+        "=\\sqrt{\\frac{30}{6}}",
+        "=\\sqrt5"
+      ],
+      "hint": "根号どうしのわり算では、中の数どうしをどうしますか？"
+    },
+    {
+      "id": "J3-SR-0023",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt3\\times\\sqrt{12}",
+      "answerLines": [
+        "\\sqrt3\\times\\sqrt{12}",
+        "=\\sqrt{36}",
+        "=6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt3\\times\\sqrt{12}=\\sqrt{36}$ で、$36=6^2$ なので $\\sqrt{36}=6$ です。",
+      "correctSolution": [
+        "\\sqrt3\\times\\sqrt{12}",
+        "=\\sqrt{36}",
+        "=6"
+      ],
+      "hint": "$\\sqrt{36}$ は、2乗すると $36$ になる正の数です。"
+    },
+    {
+      "id": "J3-SR-0024",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "-\\sqrt{49}",
+      "answerLines": [
+        "-\\sqrt{49}",
+        "=-7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{49}=7$ なので、$-\\sqrt{49}=-7$ です。根号の前の $-$ はそのまま残ります。",
+      "correctSolution": [
+        "-\\sqrt{49}",
+        "=-7"
+      ],
+      "hint": "まず $\\sqrt{49}$ を求めて、そのあと $-$ をつけましょう。"
+    },
+    {
+      "id": "J3-SR-0025",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 1,
+      "question": "\\sqrt2\\times\\sqrt8",
+      "answerLines": [
+        "\\sqrt2\\times\\sqrt8",
+        "=\\sqrt{16}",
+        "=8"
+      ],
+      "errorLine": 2,
+      "errorType": "平方根を求めるとき、2でわった誤り",
+      "explanation": "$\\sqrt{16}$ は、2乗すると $16$ になる正の数なので $4$ です。$16\\div2=8$ としたところが誤りです（$8^2=64$ です）。$\\sqrt2\\times\\sqrt8=\\sqrt{16}$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt2\\times\\sqrt8",
+        "=\\sqrt{16}",
+        "=4"
+      ],
+      "hint": "2乗すると $16$ になる正の数は何ですか？"
+    },
+    {
+      "id": "J3-SR-0026",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "\\sqrt{10}\\times\\sqrt{15}",
+      "answerLines": [
+        "\\sqrt{10}\\times\\sqrt{15}",
+        "=\\sqrt{150}",
+        "=\\sqrt{5^2\\times6}",
+        "=5\\sqrt6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{10}\\times\\sqrt{15}=\\sqrt{150}$ で、$150=5^2\\times6$ なので、$5$ を根号の外に出して $5\\sqrt6$ です。",
+      "correctSolution": [
+        "\\sqrt{10}\\times\\sqrt{15}",
+        "=\\sqrt{150}",
+        "=\\sqrt{5^2\\times6}",
+        "=5\\sqrt6"
+      ],
+      "hint": "$150$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。"
+    },
+    {
+      "id": "J3-SR-0027",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "\\sqrt2\\times3\\sqrt6",
+      "answerLines": [
+        "\\sqrt2\\times3\\sqrt6",
+        "=3\\sqrt{12}",
+        "=3\\times2\\sqrt3",
+        "=5\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "根号の外に出した数を、係数とたしてしまった誤り",
+      "explanation": "$3\\times2\\sqrt3$ は、$3$ と $2$ をかけて $6\\sqrt3$ です。$3+2=5$ としたところが誤りです。$3\\sqrt{12}$ と、$\\sqrt{12}=2\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt2\\times3\\sqrt6",
+        "=3\\sqrt{12}",
+        "=3\\times2\\sqrt3",
+        "=6\\sqrt3"
+      ],
+      "hint": "$3\\times2\\sqrt3$ の $3$ と $2$ は、たしますか、かけますか？"
+    },
+    {
+      "id": "J3-SR-0028",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "\\sqrt{48}\\div\\sqrt3",
+      "answerLines": [
+        "\\sqrt{48}\\div\\sqrt3",
+        "=\\sqrt{\\frac{3}{48}}",
+        "=\\sqrt{\\frac{1}{16}}",
+        "=\\frac{1}{4}"
+      ],
+      "errorLine": 1,
+      "errorType": "根号どうしのわり算で、分母と分子を逆にした誤り",
+      "explanation": "$\\sqrt{48}\\div\\sqrt3=\\sqrt{\\frac{48}{3}}$ で、わられる数 $48$ が分子です。$\\frac{3}{48}$ と分母と分子を逆にしたところが誤りです。正しくは $\\sqrt{\\frac{48}{3}}=\\sqrt{16}=4$ です。",
+      "correctSolution": [
+        "\\sqrt{48}\\div\\sqrt3",
+        "=\\sqrt{\\frac{48}{3}}",
+        "=\\sqrt{16}",
+        "=4"
+      ],
+      "hint": "$\\sqrt{48}\\div\\sqrt3$ で、分子になるのはどちらの数ですか？"
+    },
+    {
+      "id": "J3-SR-0029",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "(-\\sqrt5)^2",
+      "answerLines": [
+        "(-\\sqrt5)^2",
+        "=-5"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数の2乗の符号ミス",
+      "explanation": "$(-\\sqrt5)^2=(-\\sqrt5)\\times(-\\sqrt5)$ で、負の数どうしの積なので正になり、$5$ です。$-5$ としたところが誤りです。",
+      "correctSolution": [
+        "(-\\sqrt5)^2",
+        "=5"
+      ],
+      "hint": "$(-\\sqrt5)\\times(-\\sqrt5)$ の符号を考えましょう。"
+    },
+    {
+      "id": "J3-SR-0030",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 2,
+      "question": "2\\sqrt5\\times\\sqrt{10}",
+      "answerLines": [
+        "2\\sqrt5\\times\\sqrt{10}",
+        "=2\\sqrt{50}",
+        "=2\\times25\\sqrt2",
+        "=50\\sqrt2"
+      ],
+      "errorLine": 2,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt{50}=\\sqrt{5^2\\times2}=5\\sqrt2$ なので、外に出すのは $25$ ではなく $5$ です。$2\\times25\\sqrt2$ としたところが誤りです。$2\\sqrt{50}$ までは正しくできています。正しくは $2\\times5\\sqrt2=10\\sqrt2$ です。",
+      "correctSolution": [
+        "2\\sqrt5\\times\\sqrt{10}",
+        "=2\\sqrt{50}",
+        "=2\\times5\\sqrt2",
+        "=10\\sqrt2"
+      ],
+      "hint": "$\\sqrt{25}$ はいくつですか？ 根号の外に出すのはその数です。"
+    },
+    {
+      "id": "J3-SR-0031",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "3\\sqrt2\\times2\\sqrt{14}",
+      "answerLines": [
+        "3\\sqrt2\\times2\\sqrt{14}",
+        "=6\\sqrt{28}",
+        "=6\\times2\\sqrt7",
+        "=12\\sqrt7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。係数どうし、根号どうしをかけて $6\\sqrt{28}$ です。$\\sqrt{28}=\\sqrt{2^2\\times7}=2\\sqrt7$ なので、$6\\times2\\sqrt7=12\\sqrt7$ です。",
+      "correctSolution": [
+        "3\\sqrt2\\times2\\sqrt{14}",
+        "=6\\sqrt{28}",
+        "=6\\times2\\sqrt7",
+        "=12\\sqrt7"
+      ],
+      "hint": "$\\sqrt{28}$ を簡単にしてから、係数をかけましょう。"
+    },
+    {
+      "id": "J3-SR-0032",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "\\sqrt6\\times\\sqrt{21}",
+      "answerLines": [
+        "\\sqrt6\\times\\sqrt{21}",
+        "=\\sqrt{27}",
+        "=3\\sqrt3"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の積で中の数をたした誤り",
+      "explanation": "$\\sqrt6\\times\\sqrt{21}=\\sqrt{6\\times21}=\\sqrt{126}$ です。中の数をたして $\\sqrt{27}$ としたところが誤りです。$126=3^2\\times14$ なので、正しくは $3\\sqrt{14}$ です。",
+      "correctSolution": [
+        "\\sqrt6\\times\\sqrt{21}",
+        "=\\sqrt{126}",
+        "=\\sqrt{3^2\\times14}",
+        "=3\\sqrt{14}"
+      ],
+      "hint": "根号どうしのかけ算は、中の数どうしをかけます。"
+    },
+    {
+      "id": "J3-SR-0033",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "4\\sqrt6\\div2\\sqrt3",
+      "answerLines": [
+        "4\\sqrt6\\div2\\sqrt3",
+        "=\\frac{4\\sqrt6}{2\\sqrt3}",
+        "=\\sqrt2"
+      ],
+      "errorLine": 2,
+      "errorType": "係数どうしのわり算を忘れた誤り",
+      "explanation": "$\\frac{4\\sqrt6}{2\\sqrt3}$ は、係数 $4\\div2=2$ と、根号 $\\sqrt6\\div\\sqrt3=\\sqrt2$ に分けて計算するので $2\\sqrt2$ です。係数の $2$ を書き落として $\\sqrt2$ としたところが誤りです。分数の形にした2行目は正しくできています。",
+      "correctSolution": [
+        "4\\sqrt6\\div2\\sqrt3",
+        "=\\frac{4\\sqrt6}{2\\sqrt3}",
+        "=2\\sqrt2"
+      ],
+      "hint": "係数の $4$ と $2$ のわり算を忘れていませんか？"
+    },
+    {
+      "id": "J3-SR-0034",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "\\sqrt{12}\\times\\sqrt{18}",
+      "answerLines": [
+        "\\sqrt{12}\\times\\sqrt{18}",
+        "=2\\sqrt3\\times3\\sqrt2",
+        "=5\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "係数どうしをかけずにたした誤り",
+      "explanation": "$2\\sqrt3\\times3\\sqrt2$ は、係数どうし $2\\times3=6$、根号どうし $\\sqrt3\\times\\sqrt2=\\sqrt6$ をかけるので $6\\sqrt6$ です。係数を $2+3=5$ としたところが誤りです。$\\sqrt{12}=2\\sqrt3$、$\\sqrt{18}=3\\sqrt2$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{12}\\times\\sqrt{18}",
+        "=2\\sqrt3\\times3\\sqrt2",
+        "=6\\sqrt6"
+      ],
+      "hint": "かけ算の式なので、係数どうしもかけます。"
+    },
+    {
+      "id": "J3-SR-0035",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 3,
+      "question": "\\sqrt{75}\\div\\sqrt3\\times\\sqrt2",
+      "answerLines": [
+        "\\sqrt{75}\\div\\sqrt3\\times\\sqrt2",
+        "=\\sqrt{\\frac{75}{3}}\\times\\sqrt2",
+        "=\\sqrt{25}\\times\\sqrt2",
+        "=25\\sqrt2"
+      ],
+      "errorLine": 3,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt{25}=5$ なので、$\\sqrt{25}\\times\\sqrt2=5\\sqrt2$ です。$25\\sqrt2$ としたところが誤りです（$\\sqrt{25}$ を $25$ のままにしています）。$\\sqrt{\\frac{75}{3}}=\\sqrt{25}$ までは正しくできています。",
+      "correctSolution": [
+        "\\sqrt{75}\\div\\sqrt3\\times\\sqrt2",
+        "=\\sqrt{\\frac{75}{3}}\\times\\sqrt2",
+        "=\\sqrt{25}\\times\\sqrt2",
+        "=5\\sqrt2"
+      ],
+      "hint": "$\\sqrt{25}$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0036",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "\\sqrt{20}\\times\\sqrt{15}\\div\\sqrt6",
+      "answerLines": [
+        "\\sqrt{20}\\times\\sqrt{15}\\div\\sqrt6",
+        "=\\sqrt{\\frac{20\\times15}{6}}",
+        "=\\sqrt{50}",
+        "=5\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。かけ算とわり算をまとめて1つの根号にすると $\\sqrt{\\frac{20\\times15}{6}}=\\sqrt{50}$ です。$50=5^2\\times2$ なので $5\\sqrt2$ です。",
+      "correctSolution": [
+        "\\sqrt{20}\\times\\sqrt{15}\\div\\sqrt6",
+        "=\\sqrt{\\frac{20\\times15}{6}}",
+        "=\\sqrt{50}",
+        "=5\\sqrt2"
+      ],
+      "hint": "かける数は分子、わる数は分母にして、1つの根号にまとめましょう。"
+    },
+    {
+      "id": "J3-SR-0037",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "2\\sqrt3\\times(-\\sqrt6)\\div\\sqrt2",
+      "answerLines": [
+        "2\\sqrt3\\times(-\\sqrt6)\\div\\sqrt2",
+        "=-\\frac{2\\sqrt3\\times\\sqrt6}{\\sqrt2}",
+        "=-2\\sqrt{\\frac{3\\times6}{2}}",
+        "=-2\\sqrt9",
+        "=6"
+      ],
+      "errorLine": 4,
+      "errorType": "符号を書き落とした誤り",
+      "explanation": "$-2\\sqrt9=-2\\times3=-6$ です。$-$ を書き落として $6$ としたところが誤りです。符号を先に決め、1つの根号にまとめて $-2\\sqrt9$ としたところまでは正しくできています。",
+      "correctSolution": [
+        "2\\sqrt3\\times(-\\sqrt6)\\div\\sqrt2",
+        "=-\\frac{2\\sqrt3\\times\\sqrt6}{\\sqrt2}",
+        "=-2\\sqrt{\\frac{3\\times6}{2}}",
+        "=-2\\sqrt9",
+        "=-6"
+      ],
+      "hint": "4行目の $-2\\sqrt9$ の符号は、最後の答えにも残りますか？"
+    },
+    {
+      "id": "J3-SR-0038",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "\\sqrt{0.5}\\times\\sqrt8",
+      "answerLines": [
+        "\\sqrt{0.5}\\times\\sqrt8",
+        "=\\sqrt{0.5\\times8}",
+        "=\\sqrt{40}",
+        "=2\\sqrt{10}"
+      ],
+      "errorLine": 2,
+      "errorType": "小数のかけ算で位取りを誤った",
+      "explanation": "$0.5\\times8=4$ なので、$\\sqrt{0.5\\times8}=\\sqrt4=2$ です。$40$ としたところが誤りです（小数点の位置を忘れています）。中の数どうしをかけて1つの根号にしたところは正しくできています。",
+      "correctSolution": [
+        "\\sqrt{0.5}\\times\\sqrt8",
+        "=\\sqrt{0.5\\times8}",
+        "=\\sqrt4",
+        "=2"
+      ],
+      "hint": "$0.5\\times8$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0039",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "3\\sqrt{10}\\times\\sqrt6\\div\\sqrt{15}",
+      "answerLines": [
+        "3\\sqrt{10}\\times\\sqrt6\\div\\sqrt{15}",
+        "=\\frac{3\\sqrt{10}\\times\\sqrt6}{\\sqrt{15}}",
+        "=3\\sqrt{\\frac{10\\times6}{15}}",
+        "=3\\sqrt4",
+        "=12"
+      ],
+      "errorLine": 4,
+      "errorType": "平方根を求めずに、根号をはずしただけの誤り",
+      "explanation": "$\\sqrt4=2$ なので、$3\\sqrt4=3\\times2=6$ です。根号をはずしただけで $3\\times4=12$ としたところが誤りです。1つの根号にまとめて $3\\sqrt4$ としたところまでは正しくできています。",
+      "correctSolution": [
+        "3\\sqrt{10}\\times\\sqrt6\\div\\sqrt{15}",
+        "=\\frac{3\\sqrt{10}\\times\\sqrt6}{\\sqrt{15}}",
+        "=3\\sqrt{\\frac{10\\times6}{15}}",
+        "=3\\sqrt4",
+        "=6"
+      ],
+      "hint": "$\\sqrt4$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0040",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の基本計算",
+      "difficulty": 4,
+      "question": "(-\\sqrt3)^2\\times\\sqrt{12}\\div\\sqrt3",
+      "answerLines": [
+        "(-\\sqrt3)^2\\times\\sqrt{12}\\div\\sqrt3",
+        "=3\\times\\sqrt{12}\\div\\sqrt3",
+        "=3\\times\\sqrt9",
+        "=3\\times3",
+        "=9"
+      ],
+      "errorLine": 2,
+      "errorType": "根号どうしのわり算で、中の数をひいた誤り",
+      "explanation": "$\\sqrt{12}\\div\\sqrt3=\\sqrt{\\frac{12}{3}}=\\sqrt4$ です。中の数をひいて $\\sqrt9$ としたところが誤りです。$(-\\sqrt3)^2=3$ は正しくできています。正しくは $3\\times\\sqrt4=3\\times2=6$ です。",
+      "correctSolution": [
+        "(-\\sqrt3)^2\\times\\sqrt{12}\\div\\sqrt3",
+        "=3\\times\\sqrt{12}\\div\\sqrt3",
+        "=3\\times\\sqrt4",
+        "=3\\times2",
+        "=6"
+      ],
+      "hint": "$\\sqrt{12}\\div\\sqrt3$ は、中の数どうしをどう計算しますか？"
+    },
+    {
+      "id": "J3-SR-0041",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\sqrt{12}",
+      "answerLines": [
+        "\\sqrt{12}",
+        "=\\sqrt{2^2\\times3}",
+        "=2\\sqrt3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$12=2^2\\times3$ なので、$2$ を根号の外に出して $2\\sqrt3$ です。",
+      "correctSolution": [
+        "\\sqrt{12}",
+        "=\\sqrt{2^2\\times3}",
+        "=2\\sqrt3"
+      ],
+      "hint": "$12$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。"
+    },
+    {
+      "id": "J3-SR-0042",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\sqrt{45}",
+      "answerLines": [
+        "\\sqrt{45}",
+        "=5\\sqrt3"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の外と中の数を取り違えた誤り",
+      "explanation": "$45=3^2\\times5$ なので、根号の外に出るのは $3$、中に残るのは $5$ で、$3\\sqrt5$ です。$5\\sqrt3$ としたところが誤りです（$5\\sqrt3=\\sqrt{75}$ になります）。",
+      "correctSolution": [
+        "\\sqrt{45}",
+        "=\\sqrt{3^2\\times5}",
+        "=3\\sqrt5"
+      ],
+      "hint": "$45$ の中の平方数の因数は何ですか？"
+    },
+    {
+      "id": "J3-SR-0043",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\frac{1}{\\sqrt2}",
+      "answerLines": [
+        "\\frac{1}{\\sqrt2}",
+        "=\\frac{1\\times\\sqrt2}{\\sqrt2\\times\\sqrt2}",
+        "=\\frac{\\sqrt2}{2}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分母と分子に $\\sqrt2$ をかけて、分母を有理化します。$\\sqrt2\\times\\sqrt2=2$ なので $\\frac{\\sqrt2}{2}$ です。",
+      "correctSolution": [
+        "\\frac{1}{\\sqrt2}",
+        "=\\frac{1\\times\\sqrt2}{\\sqrt2\\times\\sqrt2}",
+        "=\\frac{\\sqrt2}{2}"
+      ],
+      "hint": "分母と分子に同じ数をかけて、分母から根号をなくしましょう。"
+    },
+    {
+      "id": "J3-SR-0044",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\frac{4}{\\sqrt2}",
+      "answerLines": [
+        "\\frac{4}{\\sqrt2}",
+        "=\\frac{4\\sqrt2}{2}",
+        "=4\\sqrt2"
+      ],
+      "errorLine": 2,
+      "errorType": "約分で分母だけを消した誤り",
+      "explanation": "$\\frac{4\\sqrt2}{2}$ は、分子の $4$ と分母の $2$ を約分して $2\\sqrt2$ です。分母の $2$ だけを消して $4\\sqrt2$ としたところが誤りです。有理化した $\\frac{4\\sqrt2}{2}$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{4}{\\sqrt2}",
+        "=\\frac{4\\sqrt2}{2}",
+        "=2\\sqrt2"
+      ],
+      "hint": "約分するときは、分子の数も分母と同じ数でわります。"
+    },
+    {
+      "id": "J3-SR-0045",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 1,
+      "question": "\\sqrt{72}",
+      "answerLines": [
+        "\\sqrt{72}",
+        "=2\\sqrt{18}"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の中をいちばん小さい自然数にしていない（簡単化が不完全）",
+      "explanation": "$2\\sqrt{18}$ はもとの数と等しい数ですが、$18=3^2\\times2$ なので、まだ根号の外に出せる数があります。$72=6^2\\times2$ なので、正しくは $6\\sqrt2$ です。$2\\sqrt{18}$ で終わったところが誤りです。",
+      "correctSolution": [
+        "\\sqrt{72}",
+        "=\\sqrt{6^2\\times2}",
+        "=6\\sqrt2"
+      ],
+      "hint": "$\\sqrt{18}$ は、もっと簡単にできませんか？"
+    },
+    {
+      "id": "J3-SR-0046",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\sqrt{\\frac{8}{9}}",
+      "answerLines": [
+        "\\sqrt{\\frac{8}{9}}",
+        "=\\frac{\\sqrt8}{\\sqrt9}",
+        "=\\frac{2\\sqrt2}{3}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{\\frac{8}{9}}=\\frac{\\sqrt8}{\\sqrt9}$ で、$\\sqrt8=2\\sqrt2$、$\\sqrt9=3$ なので $\\frac{2\\sqrt2}{3}$ です。分母に根号は残っていません。",
+      "correctSolution": [
+        "\\sqrt{\\frac{8}{9}}",
+        "=\\frac{\\sqrt8}{\\sqrt9}",
+        "=\\frac{2\\sqrt2}{3}"
+      ],
+      "hint": "分子と分母の、それぞれの平方根を考えましょう。"
+    },
+    {
+      "id": "J3-SR-0047",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\frac{\\sqrt3}{\\sqrt5}",
+      "answerLines": [
+        "\\frac{\\sqrt3}{\\sqrt5}",
+        "=\\frac{\\sqrt3\\times\\sqrt5}{\\sqrt5\\times\\sqrt5}",
+        "=\\frac{\\sqrt3}{5}"
+      ],
+      "errorLine": 2,
+      "errorType": "有理化で、分子に根号をかけ忘れた誤り",
+      "explanation": "分子も $\\sqrt3\\times\\sqrt5=\\sqrt{15}$ になるので、$\\frac{\\sqrt{15}}{5}$ です。分子を $\\sqrt3$ のままにしたところが誤りです。分母と分子に $\\sqrt5$ をかけた2行目は正しくできています。",
+      "correctSolution": [
+        "\\frac{\\sqrt3}{\\sqrt5}",
+        "=\\frac{\\sqrt3\\times\\sqrt5}{\\sqrt5\\times\\sqrt5}",
+        "=\\frac{\\sqrt{15}}{5}"
+      ],
+      "hint": "分子の $\\sqrt3\\times\\sqrt5$ を計算しましたか？"
+    },
+    {
+      "id": "J3-SR-0048",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\frac{9}{\\sqrt3}",
+      "answerLines": [
+        "\\frac{9}{\\sqrt3}",
+        "=\\frac{9\\sqrt3}{9}",
+        "=\\sqrt3"
+      ],
+      "errorLine": 1,
+      "errorType": "有理化で、√3×√3 を 9 とした誤り",
+      "explanation": "分母と分子に $\\sqrt3$ をかけると、分母は $\\sqrt3\\times\\sqrt3=3$ です。$9$ としたところが誤りです。正しくは $\\frac{9\\sqrt3}{3}=3\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{9}{\\sqrt3}",
+        "=\\frac{9\\sqrt3}{3}",
+        "=3\\sqrt3"
+      ],
+      "hint": "$\\sqrt3\\times\\sqrt3$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0049",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\frac{2}{3\\sqrt2}",
+      "answerLines": [
+        "\\frac{2}{3\\sqrt2}",
+        "=\\frac{2\\times\\sqrt2}{3\\sqrt2\\times\\sqrt2}",
+        "=\\frac{2\\sqrt2}{3\\times4}",
+        "=\\frac{\\sqrt2}{6}"
+      ],
+      "errorLine": 2,
+      "errorType": "√a×√a を a² とした誤り",
+      "explanation": "$\\sqrt2\\times\\sqrt2=2$ なので、分母は $3\\times2=6$ です。$3\\times4$ としたところが誤りです。分母と分子に $\\sqrt2$ をかけた2行目は正しくできています。正しくは $\\frac{2\\sqrt2}{6}=\\frac{\\sqrt2}{3}$ です。",
+      "correctSolution": [
+        "\\frac{2}{3\\sqrt2}",
+        "=\\frac{2\\times\\sqrt2}{3\\sqrt2\\times\\sqrt2}",
+        "=\\frac{2\\sqrt2}{3\\times2}",
+        "=\\frac{\\sqrt2}{3}"
+      ],
+      "hint": "$\\sqrt2\\times\\sqrt2$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0050",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 2,
+      "question": "\\sqrt{\\frac{3}{4}}",
+      "answerLines": [
+        "\\sqrt{\\frac{3}{4}}",
+        "=\\frac{\\sqrt3}{4}"
+      ],
+      "errorLine": 1,
+      "errorType": "分母の平方根をとり忘れた誤り",
+      "explanation": "$\\sqrt{\\frac{3}{4}}=\\frac{\\sqrt3}{\\sqrt4}$ で、$\\sqrt4=2$ なので $\\frac{\\sqrt3}{2}$ です。分母の $4$ の平方根をとらずに $\\frac{\\sqrt3}{4}$ としたところが誤りです。",
+      "correctSolution": [
+        "\\sqrt{\\frac{3}{4}}",
+        "=\\frac{\\sqrt3}{\\sqrt4}",
+        "=\\frac{\\sqrt3}{2}"
+      ],
+      "hint": "分母の $4$ も根号の中にあります。$\\sqrt4$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0051",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\frac{6}{\\sqrt{12}}",
+      "answerLines": [
+        "\\frac{6}{\\sqrt{12}}",
+        "=\\frac{6}{2\\sqrt3}",
+        "=\\frac{3}{\\sqrt3}",
+        "=\\frac{3\\sqrt3}{3}",
+        "=\\sqrt3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。先に $\\sqrt{12}=2\\sqrt3$ と簡単にして約分すると $\\frac{3}{\\sqrt3}$ です。分母と分子に $\\sqrt3$ をかけて $\\frac{3\\sqrt3}{3}=\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{6}{\\sqrt{12}}",
+        "=\\frac{6}{2\\sqrt3}",
+        "=\\frac{3}{\\sqrt3}",
+        "=\\frac{3\\sqrt3}{3}",
+        "=\\sqrt3"
+      ],
+      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。"
+    },
+    {
+      "id": "J3-SR-0052",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\frac{15}{\\sqrt{45}}",
+      "answerLines": [
+        "\\frac{15}{\\sqrt{45}}",
+        "=\\frac{15}{3\\sqrt5}",
+        "=\\frac{5}{\\sqrt5}",
+        "=\\frac{5\\sqrt5}{5}",
+        "=5\\sqrt5"
+      ],
+      "errorLine": 4,
+      "errorType": "有理化したあと、分母で約分し忘れた誤り",
+      "explanation": "$\\frac{5\\sqrt5}{5}$ は、分母と分子を $5$ で約分して $\\sqrt5$ です。分母の $5$ を書き落として $5\\sqrt5$ としたところが誤りです。$\\sqrt{45}=3\\sqrt5$、約分、有理化は正しくできています。",
+      "correctSolution": [
+        "\\frac{15}{\\sqrt{45}}",
+        "=\\frac{15}{3\\sqrt5}",
+        "=\\frac{5}{\\sqrt5}",
+        "=\\frac{5\\sqrt5}{5}",
+        "=\\sqrt5"
+      ],
+      "hint": "4行目の分母の $5$ は、どこへいきましたか？"
+    },
+    {
+      "id": "J3-SR-0053",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\sqrt{\\frac{5}{12}}",
+      "answerLines": [
+        "\\sqrt{\\frac{5}{12}}",
+        "=\\frac{\\sqrt5}{2\\sqrt3}",
+        "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{15}}{18}"
+      ],
+      "errorLine": 3,
+      "errorType": "√a×√a を a² とした誤り",
+      "explanation": "分母の $2\\sqrt3\\times\\sqrt3$ は、$\\sqrt3\\times\\sqrt3=3$ なので $2\\times3=6$ です。$\\sqrt3\\times\\sqrt3$ を $9$ として $18$ としたところが誤りです。$\\sqrt{12}=2\\sqrt3$ と、分母と分子に $\\sqrt3$ をかけたところは正しくできています。正しくは $\\frac{\\sqrt{15}}{6}$ です。",
+      "correctSolution": [
+        "\\sqrt{\\frac{5}{12}}",
+        "=\\frac{\\sqrt5}{2\\sqrt3}",
+        "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{15}}{6}"
+      ],
+      "hint": "$2\\sqrt3\\times\\sqrt3$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0054",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\frac{\\sqrt2}{\\sqrt{10}}",
+      "answerLines": [
+        "\\frac{\\sqrt2}{\\sqrt{10}}",
+        "=\\frac{1}{\\sqrt5}",
+        "=\\frac{\\sqrt5}{5}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{\\sqrt2}{\\sqrt{10}}=\\sqrt{\\frac{2}{10}}=\\sqrt{\\frac{1}{5}}=\\frac{1}{\\sqrt5}$ と先に約分してから、分母と分子に $\\sqrt5$ をかけて有理化します。",
+      "correctSolution": [
+        "\\frac{\\sqrt2}{\\sqrt{10}}",
+        "=\\frac{1}{\\sqrt5}",
+        "=\\frac{\\sqrt5}{5}"
+      ],
+      "hint": "有理化する前に、根号の中どうしで約分できないか考えましょう。"
+    },
+    {
+      "id": "J3-SR-0055",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 3,
+      "question": "\\frac{\\sqrt6}{2\\sqrt3}",
+      "answerLines": [
+        "\\frac{\\sqrt6}{2\\sqrt3}",
+        "=\\frac{\\sqrt6\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{18}}{6}",
+        "=\\frac{3\\sqrt2}{6}",
+        "=\\frac{\\sqrt2}{3}"
+      ],
+      "errorLine": 4,
+      "errorType": "約分で、分子と分母をちがう数でわった誤り",
+      "explanation": "$\\frac{3\\sqrt2}{6}$ は、分子と分母を $3$ でわって $\\frac{\\sqrt2}{2}$ です。分母を $6\\div2=3$ としたところが誤りです（分子は $3$ でわり、分母は $2$ でわっています）。有理化と $\\sqrt{18}=3\\sqrt2$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{\\sqrt6}{2\\sqrt3}",
+        "=\\frac{\\sqrt6\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+        "=\\frac{\\sqrt{18}}{6}",
+        "=\\frac{3\\sqrt2}{6}",
+        "=\\frac{\\sqrt2}{2}"
+      ],
+      "hint": "$\\frac{3\\sqrt2}{6}$ の分子と分母を、同じ数でわりましたか？"
+    },
+    {
+      "id": "J3-SR-0056",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt{27}}{\\sqrt8}",
+      "answerLines": [
+        "\\frac{\\sqrt{27}}{\\sqrt8}",
+        "=\\frac{3\\sqrt3}{2\\sqrt2}",
+        "=\\frac{3\\sqrt3\\times\\sqrt2}{2\\sqrt2\\times\\sqrt2}",
+        "=\\frac{3\\sqrt6}{4}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{27}=3\\sqrt3$、$\\sqrt8=2\\sqrt2$ と簡単にしてから、分母と分子に $\\sqrt2$ をかけます。分母は $2\\times2=4$、分子は $3\\sqrt6$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt{27}}{\\sqrt8}",
+        "=\\frac{3\\sqrt3}{2\\sqrt2}",
+        "=\\frac{3\\sqrt3\\times\\sqrt2}{2\\sqrt2\\times\\sqrt2}",
+        "=\\frac{3\\sqrt6}{4}"
+      ],
+      "hint": "分母の $2\\sqrt2$ を有理化するには、何をかければよいですか？"
+    },
+    {
+      "id": "J3-SR-0057",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\frac{6}{\\sqrt{24}}",
+      "answerLines": [
+        "\\frac{6}{\\sqrt{24}}",
+        "=\\frac{6}{2\\sqrt6}",
+        "=\\frac{6}{\\sqrt6}",
+        "=\\frac{6\\sqrt6}{6}",
+        "=\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "約分で分母だけをわった誤り",
+      "explanation": "$\\frac{6}{2\\sqrt6}$ を $2$ で約分するときは、分子の $6$ も $2$ でわって $\\frac{3}{\\sqrt6}$ です。分母の $2$ だけを消して $\\frac{6}{\\sqrt6}$ としたところが誤りです。$\\sqrt{24}=2\\sqrt6$ は正しくできています。正しくは $\\frac{3\\sqrt6}{6}=\\frac{\\sqrt6}{2}$ です。",
+      "correctSolution": [
+        "\\frac{6}{\\sqrt{24}}",
+        "=\\frac{6}{2\\sqrt6}",
+        "=\\frac{3}{\\sqrt6}",
+        "=\\frac{3\\sqrt6}{6}",
+        "=\\frac{\\sqrt6}{2}"
+      ],
+      "hint": "約分するとき、分子の $6$ も $2$ でわりましたか？"
+    },
+    {
+      "id": "J3-SR-0058",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt3}{\\sqrt2}\\div\\frac{\\sqrt6}{4}",
+      "answerLines": [
+        "\\frac{\\sqrt3}{\\sqrt2}\\div\\frac{\\sqrt6}{4}",
+        "=\\frac{\\sqrt3}{\\sqrt2}\\times\\frac{\\sqrt6}{4}",
+        "=\\frac{\\sqrt{18}}{4\\sqrt2}",
+        "=\\frac{3\\sqrt2}{4\\sqrt2}",
+        "=\\frac{3}{4}"
+      ],
+      "errorLine": 1,
+      "errorType": "わる数を逆数にしていない",
+      "explanation": "分数でわるときは、わる数の逆数をかけます。$\\frac{\\sqrt6}{4}$ の逆数は $\\frac{4}{\\sqrt6}$ なので、$\\frac{\\sqrt3}{\\sqrt2}\\times\\frac{4}{\\sqrt6}$ です。$\\frac{\\sqrt6}{4}$ のままかけたところが誤りです。正しく計算すると $\\frac{4\\sqrt3}{\\sqrt{12}}=\\frac{4\\sqrt3}{2\\sqrt3}=2$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt3}{\\sqrt2}\\div\\frac{\\sqrt6}{4}",
+        "=\\frac{\\sqrt3}{\\sqrt2}\\times\\frac{4}{\\sqrt6}",
+        "=\\frac{4\\sqrt3}{\\sqrt{12}}",
+        "=\\frac{4\\sqrt3}{2\\sqrt3}",
+        "=2"
+      ],
+      "hint": "$\\div\\frac{\\sqrt6}{4}$ は、何をかけることと同じですか？"
+    },
+    {
+      "id": "J3-SR-0059",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\sqrt3\\times\\frac{5}{\\sqrt{15}}",
+      "answerLines": [
+        "\\sqrt3\\times\\frac{5}{\\sqrt{15}}",
+        "=\\frac{5\\sqrt3}{\\sqrt{15}}",
+        "=5\\times\\frac{1}{5}",
+        "=1"
+      ],
+      "errorLine": 2,
+      "errorType": "根号どうしのわり算で、根号をつけ忘れた誤り",
+      "explanation": "$\\frac{\\sqrt3}{\\sqrt{15}}=\\sqrt{\\frac{3}{15}}=\\sqrt{\\frac{1}{5}}=\\frac{1}{\\sqrt5}$ です。根号をつけ忘れて $\\frac{1}{5}$ としたところが誤りです。正しくは $\\frac{5}{\\sqrt5}=\\frac{5\\sqrt5}{5}=\\sqrt5$ です。",
+      "correctSolution": [
+        "\\sqrt3\\times\\frac{5}{\\sqrt{15}}",
+        "=\\frac{5\\sqrt3}{\\sqrt{15}}",
+        "=\\frac{5}{\\sqrt5}",
+        "=\\frac{5\\sqrt5}{5}",
+        "=\\sqrt5"
+      ],
+      "hint": "$\\frac{\\sqrt3}{\\sqrt{15}}$ を約分したとき、根号は残りますか？"
+    },
+    {
+      "id": "J3-SR-0060",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号の簡単化・有理化",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt{50}}{\\sqrt3\\times\\sqrt6}",
+      "answerLines": [
+        "\\frac{\\sqrt{50}}{\\sqrt3\\times\\sqrt6}",
+        "=\\frac{\\sqrt{50}}{\\sqrt{18}}",
+        "=\\frac{5\\sqrt2}{\\sqrt{18}}",
+        "=\\frac{5\\sqrt2}{9\\sqrt2}",
+        "=\\frac{5}{9}"
+      ],
+      "errorLine": 3,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt{18}=\\sqrt{3^2\\times2}=3\\sqrt2$ なので、外に出すのは $9$ ではなく $3$ です。$9\\sqrt2$ としたところが誤りです。分母を $\\sqrt{18}$ にまとめ、$\\sqrt{50}=5\\sqrt2$ としたところまでは正しくできています。正しくは $\\frac{5\\sqrt2}{3\\sqrt2}=\\frac{5}{3}$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt{50}}{\\sqrt3\\times\\sqrt6}",
+        "=\\frac{\\sqrt{50}}{\\sqrt{18}}",
+        "=\\frac{5\\sqrt2}{\\sqrt{18}}",
+        "=\\frac{5\\sqrt2}{3\\sqrt2}",
+        "=\\frac{5}{3}"
+      ],
+      "hint": "$\\sqrt9$ はいくつですか？ 根号の外に出すのはその数です。"
+    },
+    {
+      "id": "J3-SR-0061",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "3\\sqrt2+5\\sqrt2",
+      "answerLines": [
+        "3\\sqrt2+5\\sqrt2",
+        "=8\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。根号の中が同じ数の項は、文字式の同類項と同じようにまとめられます。$3+5=8$ なので $8\\sqrt2$ です。",
+      "correctSolution": [
+        "3\\sqrt2+5\\sqrt2",
+        "=8\\sqrt2"
+      ],
+      "hint": "$\\sqrt2$ を文字のように考えてまとめましょう。"
+    },
+    {
+      "id": "J3-SR-0062",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "\\sqrt3+\\sqrt3",
+      "answerLines": [
+        "\\sqrt3+\\sqrt3",
+        "=\\sqrt6"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の加法で、根号の中の数をたした誤り",
+      "explanation": "$\\sqrt3+\\sqrt3$ は $\\sqrt3$ が2つなので $2\\sqrt3$ です。根号の中の数をたして $\\sqrt6$ としたところが誤りです（$\\sqrt6$ は約 $2.45$、$2\\sqrt3$ は約 $3.46$ で、ちがう数です）。",
+      "correctSolution": [
+        "\\sqrt3+\\sqrt3",
+        "=2\\sqrt3"
+      ],
+      "hint": "$x+x=2x$ と同じように考えてみましょう。"
+    },
+    {
+      "id": "J3-SR-0063",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "6\\sqrt7-\\sqrt7+2\\sqrt7",
+      "answerLines": [
+        "6\\sqrt7-\\sqrt7+2\\sqrt7",
+        "=7\\sqrt7"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。係数だけを計算すると $6-1+2=7$ なので $7\\sqrt7$ です。$\\sqrt7$ の係数は $1$ です。",
+      "correctSolution": [
+        "6\\sqrt7-\\sqrt7+2\\sqrt7",
+        "=7\\sqrt7"
+      ],
+      "hint": "$-\\sqrt7$ の係数はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0064",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "4\\sqrt2-7\\sqrt2",
+      "answerLines": [
+        "4\\sqrt2-7\\sqrt2",
+        "=3\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "小さい数から大きい数をひくときの符号ミス",
+      "explanation": "係数は $4-7=-3$ なので $-3\\sqrt2$ です。$3\\sqrt2$ としたところが誤りです（ひかれる数のほうが小さいので、答えは負になります）。",
+      "correctSolution": [
+        "4\\sqrt2-7\\sqrt2",
+        "=-3\\sqrt2"
+      ],
+      "hint": "$4-7$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0065",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 1,
+      "question": "\\sqrt8+\\sqrt2",
+      "answerLines": [
+        "\\sqrt8+\\sqrt2",
+        "=4\\sqrt2+\\sqrt2",
+        "=5\\sqrt2"
+      ],
+      "errorLine": 1,
+      "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+      "explanation": "$\\sqrt8=\\sqrt{2^2\\times2}=2\\sqrt2$ なので、外に出すのは $4$ ではなく $2$ です。$4\\sqrt2$ としたところが誤りです。正しくは $2\\sqrt2+\\sqrt2=3\\sqrt2$ です。",
+      "correctSolution": [
+        "\\sqrt8+\\sqrt2",
+        "=2\\sqrt2+\\sqrt2",
+        "=3\\sqrt2"
+      ],
+      "hint": "$\\sqrt4$ はいくつですか？ 根号の外に出すのはその数です。"
+    },
+    {
+      "id": "J3-SR-0066",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "\\sqrt{20}+\\sqrt{45}",
+      "answerLines": [
+        "\\sqrt{20}+\\sqrt{45}",
+        "=2\\sqrt5+3\\sqrt5",
+        "=5\\sqrt5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{20}=2\\sqrt5$、$\\sqrt{45}=3\\sqrt5$ と簡単にすると、根号の中が同じになるのでまとめられます。$2+3=5$ で $5\\sqrt5$ です。",
+      "correctSolution": [
+        "\\sqrt{20}+\\sqrt{45}",
+        "=2\\sqrt5+3\\sqrt5",
+        "=5\\sqrt5"
+      ],
+      "hint": "それぞれの根号を簡単にすると、根号の中は同じになりますか？"
+    },
+    {
+      "id": "J3-SR-0067",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "\\sqrt{50}-\\sqrt{18}",
+      "answerLines": [
+        "\\sqrt{50}-\\sqrt{18}",
+        "=5\\sqrt2-3\\sqrt2",
+        "=2"
+      ],
+      "errorLine": 2,
+      "errorType": "根号の項をひいたあと、根号を書き落とした誤り",
+      "explanation": "$5\\sqrt2-3\\sqrt2$ は $\\sqrt2$ が $5-3=2$ 個なので $2\\sqrt2$ です。$\\sqrt2$ を書き落として $2$ としたところが誤りです。$\\sqrt{50}=5\\sqrt2$、$\\sqrt{18}=3\\sqrt2$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{50}-\\sqrt{18}",
+        "=5\\sqrt2-3\\sqrt2",
+        "=2\\sqrt2"
+      ],
+      "hint": "まとめたあとも、$\\sqrt2$ は残りますか？"
+    },
+    {
+      "id": "J3-SR-0068",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "\\sqrt{27}-\\sqrt{12}+\\sqrt3",
+      "answerLines": [
+        "\\sqrt{27}-\\sqrt{12}+\\sqrt3",
+        "=3\\sqrt3-2\\sqrt3+\\sqrt3",
+        "=0"
+      ],
+      "errorLine": 2,
+      "errorType": "後ろのたし算の項までひいてしまった誤り",
+      "explanation": "係数は $3-2+1=2$ なので $2\\sqrt3$ です。$3-(2+1)=0$ のように、うしろの $+\\sqrt3$ までひいてしまったところが誤りです。$\\sqrt{27}=3\\sqrt3$、$\\sqrt{12}=2\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{27}-\\sqrt{12}+\\sqrt3",
+        "=3\\sqrt3-2\\sqrt3+\\sqrt3",
+        "=2\\sqrt3"
+      ],
+      "hint": "$3-2+1$ を左から順に計算してみましょう。"
+    },
+    {
+      "id": "J3-SR-0069",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "2\\sqrt3+\\sqrt{75}",
+      "answerLines": [
+        "2\\sqrt3+\\sqrt{75}",
+        "=2\\sqrt3+5\\sqrt3",
+        "=7\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "根号の加法で、根号の中の数もたした誤り",
+      "explanation": "$2\\sqrt3+5\\sqrt3$ は、係数だけをたして $7\\sqrt3$ です。根号の中の数もたして $\\sqrt6$ としたところが誤りです。$\\sqrt{75}=5\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "2\\sqrt3+\\sqrt{75}",
+        "=2\\sqrt3+5\\sqrt3",
+        "=7\\sqrt3"
+      ],
+      "hint": "同類項をまとめるとき、文字の部分（ここでは $\\sqrt3$）は変わりますか？"
+    },
+    {
+      "id": "J3-SR-0070",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 2,
+      "question": "\\sqrt{32}-\\sqrt8-\\sqrt2",
+      "answerLines": [
+        "\\sqrt{32}-\\sqrt8-\\sqrt2",
+        "=4\\sqrt2-2\\sqrt2-\\sqrt2",
+        "=\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{32}=4\\sqrt2$、$\\sqrt8=2\\sqrt2$ と簡単にします。係数は $4-2-1=1$ なので、答えは $\\sqrt2$ です。",
+      "correctSolution": [
+        "\\sqrt{32}-\\sqrt8-\\sqrt2",
+        "=4\\sqrt2-2\\sqrt2-\\sqrt2",
+        "=\\sqrt2"
+      ],
+      "hint": "係数 $4-2-1$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0071",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\sqrt{24}+\\sqrt{54}-\\sqrt6",
+      "answerLines": [
+        "\\sqrt{24}+\\sqrt{54}-\\sqrt6",
+        "=2\\sqrt6+3\\sqrt6-\\sqrt6",
+        "=5\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "根号の項をまとめるとき、係数1を見落とした誤り",
+      "explanation": "係数は $2+3-1=4$ なので $4\\sqrt6$ です。$-\\sqrt6$ の係数 $1$ を見落として $5\\sqrt6$ としたところが誤りです。$\\sqrt{24}=2\\sqrt6$、$\\sqrt{54}=3\\sqrt6$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{24}+\\sqrt{54}-\\sqrt6",
+        "=2\\sqrt6+3\\sqrt6-\\sqrt6",
+        "=4\\sqrt6"
+      ],
+      "hint": "$-\\sqrt6$ も計算に入れましたか？"
+    },
+    {
+      "id": "J3-SR-0072",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\frac{6}{\\sqrt3}+\\sqrt{12}",
+      "answerLines": [
+        "\\frac{6}{\\sqrt3}+\\sqrt{12}",
+        "=\\frac{6\\sqrt3}{3}+2\\sqrt3",
+        "=2\\sqrt3+2\\sqrt3",
+        "=4\\sqrt3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\frac{6}{\\sqrt3}$ を有理化すると $\\frac{6\\sqrt3}{3}=2\\sqrt3$、$\\sqrt{12}=2\\sqrt3$ なので、まとめて $4\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{6}{\\sqrt3}+\\sqrt{12}",
+        "=\\frac{6\\sqrt3}{3}+2\\sqrt3",
+        "=2\\sqrt3+2\\sqrt3",
+        "=4\\sqrt3"
+      ],
+      "hint": "分母に根号がある項は、有理化してからまとめましょう。"
+    },
+    {
+      "id": "J3-SR-0073",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\sqrt{18}+\\frac{4}{\\sqrt2}",
+      "answerLines": [
+        "\\sqrt{18}+\\frac{4}{\\sqrt2}",
+        "=3\\sqrt2+\\frac{4\\sqrt2}{2}",
+        "=3\\sqrt2+4\\sqrt2",
+        "=7\\sqrt2"
+      ],
+      "errorLine": 2,
+      "errorType": "有理化したあと、約分し忘れた誤り",
+      "explanation": "$\\frac{4\\sqrt2}{2}$ は約分して $2\\sqrt2$ です。分母の $2$ を消しただけで $4\\sqrt2$ としたところが誤りです。$\\sqrt{18}=3\\sqrt2$ と有理化は正しくできています。正しくは $3\\sqrt2+2\\sqrt2=5\\sqrt2$ です。",
+      "correctSolution": [
+        "\\sqrt{18}+\\frac{4}{\\sqrt2}",
+        "=3\\sqrt2+\\frac{4\\sqrt2}{2}",
+        "=3\\sqrt2+2\\sqrt2",
+        "=5\\sqrt2"
+      ],
+      "hint": "$\\frac{4\\sqrt2}{2}$ を約分すると、いくつになりますか？"
+    },
+    {
+      "id": "J3-SR-0074",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "2\\sqrt5-\\sqrt{20}+\\sqrt{80}",
+      "answerLines": [
+        "2\\sqrt5-\\sqrt{20}+\\sqrt{80}",
+        "=2\\sqrt5-2\\sqrt5+4\\sqrt5",
+        "=(2-2+4)\\sqrt5",
+        "=4"
+      ],
+      "errorLine": 3,
+      "errorType": "根号の項をまとめたあと、根号を書き落とした誤り",
+      "explanation": "$(2-2+4)\\sqrt5=4\\sqrt5$ です。$\\sqrt5$ を書き落として $4$ としたところが誤りです。$\\sqrt{20}=2\\sqrt5$、$\\sqrt{80}=4\\sqrt5$ と、係数のまとめ方は正しくできています。",
+      "correctSolution": [
+        "2\\sqrt5-\\sqrt{20}+\\sqrt{80}",
+        "=2\\sqrt5-2\\sqrt5+4\\sqrt5",
+        "=(2-2+4)\\sqrt5",
+        "=4\\sqrt5"
+      ],
+      "hint": "3行目の $\\sqrt5$ は、最後の答えにも残りますか？"
+    },
+    {
+      "id": "J3-SR-0075",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 3,
+      "question": "\\sqrt{28}-\\frac{14}{\\sqrt7}",
+      "answerLines": [
+        "\\sqrt{28}-\\frac{14}{\\sqrt7}",
+        "=2\\sqrt7-\\frac{14\\sqrt7}{7}",
+        "=2\\sqrt7-2\\sqrt7",
+        "=4\\sqrt7"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$2\\sqrt7-2\\sqrt7=0$ です。$4\\sqrt7$ としたところが誤りです（ひく項をたしています）。$\\sqrt{28}=2\\sqrt7$、有理化と約分 $\\frac{14\\sqrt7}{7}=2\\sqrt7$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{28}-\\frac{14}{\\sqrt7}",
+        "=2\\sqrt7-\\frac{14\\sqrt7}{7}",
+        "=2\\sqrt7-2\\sqrt7",
+        "=0"
+      ],
+      "hint": "同じ数どうしをひくと、いくつになりますか？"
+    },
+    {
+      "id": "J3-SR-0076",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "\\sqrt{48}-\\frac{9}{\\sqrt3}+\\sqrt{12}-\\sqrt{27}",
+      "answerLines": [
+        "\\sqrt{48}-\\frac{9}{\\sqrt3}+\\sqrt{12}-\\sqrt{27}",
+        "=4\\sqrt3-\\frac{9}{\\sqrt3}+2\\sqrt3-3\\sqrt3",
+        "=4\\sqrt3-\\frac{9\\sqrt3}{3}+2\\sqrt3-3\\sqrt3",
+        "=4\\sqrt3-3\\sqrt3+2\\sqrt3-3\\sqrt3",
+        "=3\\sqrt3"
+      ],
+      "errorLine": 4,
+      "errorType": "根号の項を1つ見落とした誤り",
+      "explanation": "係数は $4-3+2-3=0$ なので、答えは $0$ です。最後の $-3\\sqrt3$ を見落として $4-3+2=3$ としたところが誤りです。それぞれの根号の簡単化と有理化は正しくできています。",
+      "correctSolution": [
+        "\\sqrt{48}-\\frac{9}{\\sqrt3}+\\sqrt{12}-\\sqrt{27}",
+        "=4\\sqrt3-\\frac{9}{\\sqrt3}+2\\sqrt3-3\\sqrt3",
+        "=4\\sqrt3-\\frac{9\\sqrt3}{3}+2\\sqrt3-3\\sqrt3",
+        "=4\\sqrt3-3\\sqrt3+2\\sqrt3-3\\sqrt3",
+        "=0"
+      ],
+      "hint": "4行目の4つの項の係数を、すべて計算に入れましたか？"
+    },
+    {
+      "id": "J3-SR-0077",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt6}{\\sqrt2}+\\sqrt{27}-\\frac{6}{\\sqrt{12}}",
+      "answerLines": [
+        "\\frac{\\sqrt6}{\\sqrt2}+\\sqrt{27}-\\frac{6}{\\sqrt{12}}",
+        "=\\sqrt3+3\\sqrt3-\\frac{6}{2\\sqrt3}",
+        "=\\sqrt3+3\\sqrt3-\\frac{3}{\\sqrt3}",
+        "=\\sqrt3+3\\sqrt3-3\\sqrt3",
+        "=\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "有理化したあと、約分し忘れた誤り",
+      "explanation": "$\\frac{3}{\\sqrt3}$ を有理化すると $\\frac{3\\sqrt3}{3}=\\sqrt3$ です。分母の $3$ で約分せずに $3\\sqrt3$ としたところが誤りです。$\\frac{\\sqrt6}{\\sqrt2}=\\sqrt3$、$\\sqrt{27}=3\\sqrt3$、$\\frac{6}{2\\sqrt3}=\\frac{3}{\\sqrt3}$ は正しくできています。正しくは $\\sqrt3+3\\sqrt3-\\sqrt3=3\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt6}{\\sqrt2}+\\sqrt{27}-\\frac{6}{\\sqrt{12}}",
+        "=\\sqrt3+3\\sqrt3-\\frac{6}{2\\sqrt3}",
+        "=\\sqrt3+3\\sqrt3-\\frac{3}{\\sqrt3}",
+        "=\\sqrt3+3\\sqrt3-\\sqrt3",
+        "=3\\sqrt3"
+      ],
+      "hint": "$\\frac{3}{\\sqrt3}$ を有理化すると、いくつになりますか？"
+    },
+    {
+      "id": "J3-SR-0078",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "3\\sqrt2\\times\\sqrt3-\\sqrt{24}",
+      "answerLines": [
+        "3\\sqrt2\\times\\sqrt3-\\sqrt{24}",
+        "=3\\sqrt5-\\sqrt{24}",
+        "=3\\sqrt5-2\\sqrt6"
+      ],
+      "errorLine": 1,
+      "errorType": "根号の積で中の数をたした誤り",
+      "explanation": "$\\sqrt2\\times\\sqrt3=\\sqrt6$ なので、$3\\sqrt2\\times\\sqrt3=3\\sqrt6$ です。中の数をたして $3\\sqrt5$ としたところが誤りです。正しくは $3\\sqrt6-2\\sqrt6=\\sqrt6$ です。",
+      "correctSolution": [
+        "3\\sqrt2\\times\\sqrt3-\\sqrt{24}",
+        "=3\\sqrt6-2\\sqrt6",
+        "=\\sqrt6"
+      ],
+      "hint": "根号どうしのかけ算では、中の数をどうしますか？"
+    },
+    {
+      "id": "J3-SR-0079",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt{75}}{5}+\\frac{\\sqrt{12}}{2}-\\sqrt3",
+      "answerLines": [
+        "\\frac{\\sqrt{75}}{5}+\\frac{\\sqrt{12}}{2}-\\sqrt3",
+        "=\\frac{5\\sqrt3}{5}+\\frac{2\\sqrt3}{2}-\\sqrt3",
+        "=\\sqrt3+\\sqrt3-\\sqrt3",
+        "=\\sqrt3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt{75}=5\\sqrt3$、$\\sqrt{12}=2\\sqrt3$ と簡単にしてから約分すると、どの項も $\\sqrt3$ になります。$1+1-1=1$ で $\\sqrt3$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt{75}}{5}+\\frac{\\sqrt{12}}{2}-\\sqrt3",
+        "=\\frac{5\\sqrt3}{5}+\\frac{2\\sqrt3}{2}-\\sqrt3",
+        "=\\sqrt3+\\sqrt3-\\sqrt3",
+        "=\\sqrt3"
+      ],
+      "hint": "分子の根号を簡単にしてから、約分しましょう。"
+    },
+    {
+      "id": "J3-SR-0080",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "根号を含む加法・減法",
+      "difficulty": 4,
+      "question": "\\frac{\\sqrt3}{2}+\\frac{1}{\\sqrt3}-\\sqrt{12}",
+      "answerLines": [
+        "\\frac{\\sqrt3}{2}+\\frac{1}{\\sqrt3}-\\sqrt{12}",
+        "=\\frac{\\sqrt3}{2}+\\frac{\\sqrt3}{3}-2\\sqrt3",
+        "=\\frac{3\\sqrt3}{6}+\\frac{2\\sqrt3}{6}-\\frac{12\\sqrt3}{6}",
+        "=\\frac{3\\sqrt3+2\\sqrt3-12\\sqrt3}{6}",
+        "=\\frac{7\\sqrt3}{6}"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和の符号ミス",
+      "explanation": "分子の係数は $3+2-12=-7$ なので、$-\\frac{7\\sqrt3}{6}$ です。$-$ をつけ忘れたところが誤りです（絶対値の大きい $-12$ の符号が答えの符号になります）。有理化、$\\sqrt{12}=2\\sqrt3$、通分は正しくできています。",
+      "correctSolution": [
+        "\\frac{\\sqrt3}{2}+\\frac{1}{\\sqrt3}-\\sqrt{12}",
+        "=\\frac{\\sqrt3}{2}+\\frac{\\sqrt3}{3}-2\\sqrt3",
+        "=\\frac{3\\sqrt3}{6}+\\frac{2\\sqrt3}{6}-\\frac{12\\sqrt3}{6}",
+        "=\\frac{3\\sqrt3+2\\sqrt3-12\\sqrt3}{6}",
+        "=-\\frac{7\\sqrt3}{6}"
+      ],
+      "hint": "分子の係数 $3+2-12$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0081",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "\\sqrt3(\\sqrt3+2)",
+      "answerLines": [
+        "\\sqrt3(\\sqrt3+2)",
+        "=3+2\\sqrt3"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分配法則で、$\\sqrt3\\times\\sqrt3=3$、$\\sqrt3\\times2=2\\sqrt3$ です。$3$ と $2\\sqrt3$ は同類項ではないので、これ以上まとめられません。",
+      "correctSolution": [
+        "\\sqrt3(\\sqrt3+2)",
+        "=3+2\\sqrt3"
+      ],
+      "hint": "$\\sqrt3\\times\\sqrt3$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0082",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "\\sqrt5(2-\\sqrt5)",
+      "answerLines": [
+        "\\sqrt5(2-\\sqrt5)",
+        "=2\\sqrt5-\\sqrt{25}",
+        "=2\\sqrt5-25"
+      ],
+      "errorLine": 2,
+      "errorType": "平方根を求めずに、根号をはずしただけの誤り",
+      "explanation": "$\\sqrt{25}=5$ なので、$2\\sqrt5-5$ です。根号をはずしただけで $25$ としたところが誤りです。分配法則で $2\\sqrt5-\\sqrt{25}$ としたところは正しくできています。",
+      "correctSolution": [
+        "\\sqrt5(2-\\sqrt5)",
+        "=2\\sqrt5-\\sqrt{25}",
+        "=2\\sqrt5-5"
+      ],
+      "hint": "$\\sqrt{25}$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0083",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "(\\sqrt2+3)(\\sqrt2-1)",
+      "answerLines": [
+        "(\\sqrt2+3)(\\sqrt2-1)",
+        "=2-\\sqrt2+3\\sqrt2-3",
+        "=-1+2\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$\\sqrt2\\times\\sqrt2=2$、$\\sqrt2\\times(-1)=-\\sqrt2$、$3\\times\\sqrt2=3\\sqrt2$、$3\\times(-1)=-3$ です。数の項と $\\sqrt2$ の項をそれぞれまとめて $-1+2\\sqrt2$ です。",
+      "correctSolution": [
+        "(\\sqrt2+3)(\\sqrt2-1)",
+        "=2-\\sqrt2+3\\sqrt2-3",
+        "=-1+2\\sqrt2"
+      ],
+      "hint": "数の項どうし、$\\sqrt2$ の項どうしをまとめましょう。"
+    },
+    {
+      "id": "J3-SR-0084",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "(\\sqrt7-2)(\\sqrt7+2)",
+      "answerLines": [
+        "(\\sqrt7-2)(\\sqrt7+2)",
+        "=(\\sqrt7)^2-2^2",
+        "=7-2",
+        "=5"
+      ],
+      "errorLine": 2,
+      "errorType": "2乗し忘れた誤り",
+      "explanation": "$2^2=4$ なので、$7-4=3$ です。$2^2$ を $2$ としたところが誤りです。和と差の積の公式で $(\\sqrt7)^2-2^2$ としたところは正しくできています。",
+      "correctSolution": [
+        "(\\sqrt7-2)(\\sqrt7+2)",
+        "=(\\sqrt7)^2-2^2",
+        "=7-4",
+        "=3"
+      ],
+      "hint": "$2^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0085",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 1,
+      "question": "\\sqrt6(\\sqrt3-\\sqrt2)",
+      "answerLines": [
+        "\\sqrt6(\\sqrt3-\\sqrt2)",
+        "=\\sqrt{18}-\\sqrt{12}",
+        "=\\sqrt6"
+      ],
+      "errorLine": 2,
+      "errorType": "根号どうしのひき算で、中の数をひいた誤り",
+      "explanation": "$\\sqrt{18}-\\sqrt{12}$ は、それぞれを簡単にして $3\\sqrt2-2\\sqrt3$ です。根号の中が違うので、これ以上まとめられません。中の数をひいて $\\sqrt6$ としたところが誤りです。分配法則の2行目は正しくできています。",
+      "correctSolution": [
+        "\\sqrt6(\\sqrt3-\\sqrt2)",
+        "=\\sqrt{18}-\\sqrt{12}",
+        "=3\\sqrt2-2\\sqrt3"
+      ],
+      "hint": "$\\sqrt{18}-\\sqrt{12}$ は $\\sqrt{18-12}$ と等しいですか？"
+    },
+    {
+      "id": "J3-SR-0086",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "(\\sqrt5+2)^2",
+      "answerLines": [
+        "(\\sqrt5+2)^2",
+        "=(\\sqrt5)^2+2\\times2\\times\\sqrt5+2^2",
+        "=5+4\\sqrt5+4",
+        "=9+4\\sqrt5"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。和の平方の公式で、$(\\sqrt5)^2=5$、$2\\times2\\times\\sqrt5=4\\sqrt5$、$2^2=4$ です。数の項をまとめて $9+4\\sqrt5$ です。",
+      "correctSolution": [
+        "(\\sqrt5+2)^2",
+        "=(\\sqrt5)^2+2\\times2\\times\\sqrt5+2^2",
+        "=5+4\\sqrt5+4",
+        "=9+4\\sqrt5"
+      ],
+      "hint": "真ん中の項 $2\\times2\\times\\sqrt5$ を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0087",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "(\\sqrt3-\\sqrt2)^2",
+      "answerLines": [
+        "(\\sqrt3-\\sqrt2)^2",
+        "=(\\sqrt3)^2-2\\times\\sqrt3\\times\\sqrt2+(\\sqrt2)^2",
+        "=3-2\\sqrt6+2",
+        "=1-2\\sqrt6"
+      ],
+      "errorLine": 3,
+      "errorType": "たし算をひき算にした誤り",
+      "explanation": "数の項は $3+2=5$ なので、$5-2\\sqrt6$ です。$3-2=1$ としたところが誤りです（$+2$ をひいています）。差の平方の公式と、$3-2\\sqrt6+2$ は正しくできています。",
+      "correctSolution": [
+        "(\\sqrt3-\\sqrt2)^2",
+        "=(\\sqrt3)^2-2\\times\\sqrt3\\times\\sqrt2+(\\sqrt2)^2",
+        "=3-2\\sqrt6+2",
+        "=5-2\\sqrt6"
+      ],
+      "hint": "3行目の数の項 $3$ と $+2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0088",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "(2\\sqrt3+1)(\\sqrt3-2)",
+      "answerLines": [
+        "(2\\sqrt3+1)(\\sqrt3-2)",
+        "=6-4\\sqrt3+\\sqrt3-2",
+        "=4-5\\sqrt3"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$-4\\sqrt3+\\sqrt3$ は $(-4+1)\\sqrt3=-3\\sqrt3$ です。$-5\\sqrt3$ としたところが誤りです（$4$ と $1$ をたしています）。展開した2行目と、$6-2=4$ は正しくできています。正しくは $4-3\\sqrt3$ です。",
+      "correctSolution": [
+        "(2\\sqrt3+1)(\\sqrt3-2)",
+        "=6-4\\sqrt3+\\sqrt3-2",
+        "=4-3\\sqrt3"
+      ],
+      "hint": "$-4\\sqrt3+\\sqrt3$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0089",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "(3\\sqrt2+1)(3\\sqrt2-1)",
+      "answerLines": [
+        "(3\\sqrt2+1)(3\\sqrt2-1)",
+        "=(3\\sqrt2)^2-1^2",
+        "=18-1",
+        "=17"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$3\\sqrt2$ を1つのまとまりと見て、和と差の積の公式を使います。$(3\\sqrt2)^2=9\\times2=18$ なので、$18-1=17$ です。",
+      "correctSolution": [
+        "(3\\sqrt2+1)(3\\sqrt2-1)",
+        "=(3\\sqrt2)^2-1^2",
+        "=18-1",
+        "=17"
+      ],
+      "hint": "$(3\\sqrt2)^2$ は、係数の $3$ も2乗します。"
+    },
+    {
+      "id": "J3-SR-0090",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 2,
+      "question": "\\frac{\\sqrt{18}+\\sqrt{12}}{\\sqrt6}",
+      "answerLines": [
+        "\\frac{\\sqrt{18}+\\sqrt{12}}{\\sqrt6}",
+        "=\\frac{\\sqrt{18}}{\\sqrt6}+\\frac{\\sqrt{12}}{\\sqrt6}",
+        "=\\sqrt3+\\sqrt2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分子のそれぞれの項を $\\sqrt6$ でわります。$\\sqrt{18}\\div\\sqrt6=\\sqrt3$、$\\sqrt{12}\\div\\sqrt6=\\sqrt2$ です。",
+      "correctSolution": [
+        "\\frac{\\sqrt{18}+\\sqrt{12}}{\\sqrt6}",
+        "=\\frac{\\sqrt{18}}{\\sqrt6}+\\frac{\\sqrt{12}}{\\sqrt6}",
+        "=\\sqrt3+\\sqrt2"
+      ],
+      "hint": "分子の2つの項を、それぞれ分母でわってみましょう。"
+    },
+    {
+      "id": "J3-SR-0091",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "question": "(\\sqrt3+1)^2-2\\sqrt3",
+      "answerLines": [
+        "(\\sqrt3+1)^2-2\\sqrt3",
+        "=3+1-2\\sqrt3",
+        "=4-2\\sqrt3"
+      ],
+      "errorLine": 1,
+      "errorType": "和の平方で、2倍の積の項を忘れた誤り",
+      "explanation": "$(\\sqrt3+1)^2=(\\sqrt3)^2+2\\times\\sqrt3\\times1+1^2=3+2\\sqrt3+1$ です。真ん中の $2\\sqrt3$ を忘れたところが誤りです。正しく計算すると $3+2\\sqrt3+1-2\\sqrt3=4$ です。",
+      "correctSolution": [
+        "(\\sqrt3+1)^2-2\\sqrt3",
+        "=3+2\\sqrt3+1-2\\sqrt3",
+        "=4"
+      ],
+      "hint": "$(\\sqrt3+1)^2$ を展開すると、項はいくつになりますか？"
+    },
+    {
+      "id": "J3-SR-0092",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "instruction": "$x=\\sqrt2+1$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "\\sqrt2+1"
+      },
+      "question": "x^2-2x+1",
+      "answerLines": [
+        "x^2-2x+1",
+        "=(x-1)^2",
+        "=(\\sqrt2+1-1)^2",
+        "=(\\sqrt2)^2",
+        "=2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。そのまま代入するより、先に $(x-1)^2$ と因数分解してから代入すると計算が楽になります。$x-1=\\sqrt2$ なので、答えは $2$ です。",
+      "correctSolution": [
+        "x^2-2x+1",
+        "=(x-1)^2",
+        "=(\\sqrt2+1-1)^2",
+        "=(\\sqrt2)^2",
+        "=2"
+      ],
+      "hint": "式を因数分解してから代入すると、計算が簡単になります。"
+    },
+    {
+      "id": "J3-SR-0093",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "instruction": "$x=\\sqrt5-2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "\\sqrt5-2"
+      },
+      "question": "x^2+4x+4",
+      "answerLines": [
+        "x^2+4x+4",
+        "=(x+2)^2",
+        "=(\\sqrt5-2+2)^2",
+        "=(\\sqrt5-4)^2",
+        "=21-8\\sqrt5"
+      ],
+      "errorLine": 3,
+      "errorType": "代入した式の計算で符号を誤った",
+      "explanation": "$\\sqrt5-2+2$ は、$-2+2=0$ なので $\\sqrt5$ です。$\\sqrt5-4$ としたところが誤りです。$(x+2)^2$ と因数分解して代入したところまでは正しくできています。正しくは $(\\sqrt5)^2=5$ です。",
+      "correctSolution": [
+        "x^2+4x+4",
+        "=(x+2)^2",
+        "=(\\sqrt5-2+2)^2",
+        "=(\\sqrt5)^2",
+        "=5"
+      ],
+      "hint": "かっこの中の $-2+2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-SR-0094",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "question": "(\\sqrt2+\\sqrt3)^2-(\\sqrt2-\\sqrt3)^2",
+      "answerLines": [
+        "(\\sqrt2+\\sqrt3)^2-(\\sqrt2-\\sqrt3)^2",
+        "=(5+2\\sqrt6)-(5-2\\sqrt6)",
+        "=5+2\\sqrt6-5-2\\sqrt6",
+        "=0"
+      ],
+      "errorLine": 2,
+      "errorType": "ひく式のかっこをはずすとき、うしろの項の符号を変え忘れた誤り",
+      "explanation": "$-(5-2\\sqrt6)$ のかっこをはずすと、すべての項の符号が変わって $-5+2\\sqrt6$ です。$-2\\sqrt6$ としたところが誤りです。2つの平方の展開（$(\\sqrt2)^2+(\\sqrt3)^2=5$）は正しくできています。正しく計算すると $4\\sqrt6$ です。",
+      "correctSolution": [
+        "(\\sqrt2+\\sqrt3)^2-(\\sqrt2-\\sqrt3)^2",
+        "=(5+2\\sqrt6)-(5-2\\sqrt6)",
+        "=5+2\\sqrt6-5+2\\sqrt6",
+        "=4\\sqrt6"
+      ],
+      "hint": "$-(5-2\\sqrt6)$ の、$2\\sqrt6$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-SR-0095",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 3,
+      "question": "\\sqrt2(\\sqrt8-\\sqrt3)+\\sqrt6",
+      "answerLines": [
+        "\\sqrt2(\\sqrt8-\\sqrt3)+\\sqrt6",
+        "=\\sqrt{16}-\\sqrt6+\\sqrt6",
+        "=4-\\sqrt6+\\sqrt6",
+        "=4+2\\sqrt6"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$-\\sqrt6+\\sqrt6=0$ なので、答えは $4$ です。$-\\sqrt6$ を $+\\sqrt6$ として $2\\sqrt6$ としたところが誤りです。分配法則と $\\sqrt{16}=4$ は正しくできています。",
+      "correctSolution": [
+        "\\sqrt2(\\sqrt8-\\sqrt3)+\\sqrt6",
+        "=\\sqrt{16}-\\sqrt6+\\sqrt6",
+        "=4-\\sqrt6+\\sqrt6",
+        "=4"
+      ],
+      "hint": "$-\\sqrt6+\\sqrt6$ はいくつですか？"
+    },
+    {
+      "id": "J3-SR-0096",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "question": "(\\sqrt3+2)(\\sqrt3-2)-(\\sqrt3-1)^2",
+      "answerLines": [
+        "(\\sqrt3+2)(\\sqrt3-2)-(\\sqrt3-1)^2",
+        "=3-4-(3-2\\sqrt3+1)",
+        "=-1-(4-2\\sqrt3)",
+        "=-1-4-2\\sqrt3",
+        "=-5-2\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "$-(4-2\\sqrt3)$ のかっこをはずすと、すべての項の符号が変わって $-4+2\\sqrt3$ です。$-2\\sqrt3$ としたところが誤りです。2つの乗法公式による展開と、$-1-(4-2\\sqrt3)$ までは正しくできています。正しくは $-5+2\\sqrt3$ です。",
+      "correctSolution": [
+        "(\\sqrt3+2)(\\sqrt3-2)-(\\sqrt3-1)^2",
+        "=3-4-(3-2\\sqrt3+1)",
+        "=-1-(4-2\\sqrt3)",
+        "=-1-4+2\\sqrt3",
+        "=-5+2\\sqrt3"
+      ],
+      "hint": "$-(4-2\\sqrt3)$ の、$2\\sqrt3$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-SR-0097",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "instruction": "$x=\\sqrt3+\\sqrt2$、$y=\\sqrt3-\\sqrt2$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "\\sqrt3+\\sqrt2",
+        "y": "\\sqrt3-\\sqrt2"
+      },
+      "question": "x^2-y^2",
+      "answerLines": [
+        "x^2-y^2",
+        "=(x+y)(x-y)",
+        "=\\{(\\sqrt3+\\sqrt2)+(\\sqrt3-\\sqrt2)\\}\\{(\\sqrt3+\\sqrt2)-(\\sqrt3-\\sqrt2)\\}",
+        "=2\\sqrt3\\times2\\sqrt2",
+        "=2\\sqrt6"
+      ],
+      "errorLine": 4,
+      "errorType": "係数どうしのかけ算を忘れた誤り",
+      "explanation": "$2\\sqrt3\\times2\\sqrt2$ は、係数どうし $2\\times2=4$、根号どうし $\\sqrt3\\times\\sqrt2=\\sqrt6$ をかけて $4\\sqrt6$ です。係数を $2$ のままにしたところが誤りです。因数分解してから代入し、$x+y=2\\sqrt3$、$x-y=2\\sqrt2$ としたところまでは正しくできています。",
+      "correctSolution": [
+        "x^2-y^2",
+        "=(x+y)(x-y)",
+        "=\\{(\\sqrt3+\\sqrt2)+(\\sqrt3-\\sqrt2)\\}\\{(\\sqrt3+\\sqrt2)-(\\sqrt3-\\sqrt2)\\}",
+        "=2\\sqrt3\\times2\\sqrt2",
+        "=4\\sqrt6"
+      ],
+      "hint": "$2\\sqrt3\\times2\\sqrt2$ の係数は、いくつになりますか？"
+    },
+    {
+      "id": "J3-SR-0098",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "question": "\\frac{(\\sqrt6-\\sqrt2)^2}{2}",
+      "answerLines": [
+        "\\frac{(\\sqrt6-\\sqrt2)^2}{2}",
+        "=\\frac{6-2\\sqrt{12}+2}{2}",
+        "=\\frac{8-4\\sqrt3}{2}",
+        "=4-4\\sqrt3"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で分子の一部の項だけをわった誤り",
+      "explanation": "$\\frac{8-4\\sqrt3}{2}$ は、分子のすべての項を $2$ でわるので $4-2\\sqrt3$ です。$8$ だけを $2$ でわって $4-4\\sqrt3$ としたところが誤りです。展開と $2\\sqrt{12}=4\\sqrt3$ は正しくできています。",
+      "correctSolution": [
+        "\\frac{(\\sqrt6-\\sqrt2)^2}{2}",
+        "=\\frac{6-2\\sqrt{12}+2}{2}",
+        "=\\frac{8-4\\sqrt3}{2}",
+        "=4-2\\sqrt3"
+      ],
+      "hint": "分子の $-4\\sqrt3$ も $2$ でわりましたか？"
+    },
+    {
+      "id": "J3-SR-0099",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "question": "(2\\sqrt2-\\sqrt3)(\\sqrt2+2\\sqrt3)",
+      "answerLines": [
+        "(2\\sqrt2-\\sqrt3)(\\sqrt2+2\\sqrt3)",
+        "=4+4\\sqrt6-\\sqrt6+6",
+        "=10+3\\sqrt6"
+      ],
+      "errorLine": 1,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$(-\\sqrt3)\\times2\\sqrt3=-2\\times3=-6$ です。$+6$ としたところが誤りです。$2\\sqrt2\\times\\sqrt2=4$、$2\\sqrt2\\times2\\sqrt3=4\\sqrt6$、$(-\\sqrt3)\\times\\sqrt2=-\\sqrt6$ は正しくできています。正しく計算すると $-2+3\\sqrt6$ です。",
+      "correctSolution": [
+        "(2\\sqrt2-\\sqrt3)(\\sqrt2+2\\sqrt3)",
+        "=4+4\\sqrt6-\\sqrt6-6",
+        "=-2+3\\sqrt6"
+      ],
+      "hint": "$(-\\sqrt3)\\times2\\sqrt3$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-SR-0100",
+      "grade": 3,
+      "unit": "square-roots",
+      "category": "平方根の式の計算",
+      "difficulty": 4,
+      "instruction": "$x=2-\\sqrt3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "2-\\sqrt3"
+      },
+      "question": "x^2-4x+1",
+      "answerLines": [
+        "x^2-4x+1",
+        "=(x-2)^2-3",
+        "=(2-\\sqrt3-2)^2-3",
+        "=(-\\sqrt3)^2-3",
+        "=-6"
+      ],
+      "errorLine": 4,
+      "errorType": "負の数の2乗の符号ミス",
+      "explanation": "$(-\\sqrt3)^2=(-\\sqrt3)\\times(-\\sqrt3)=3$ なので、$3-3=0$ です。$(-\\sqrt3)^2$ を $-3$ として $-6$ としたところが誤りです。$x^2-4x+1=(x-2)^2-3$ と変形して代入したところまでは正しくできています。",
+      "correctSolution": [
+        "x^2-4x+1",
+        "=(x-2)^2-3",
+        "=(2-\\sqrt3-2)^2-3",
+        "=(-\\sqrt3)^2-3",
+        "=0"
+      ],
+      "hint": "$(-\\sqrt3)^2$ の符号を確かめましょう。"
+    }
+  ]
+}

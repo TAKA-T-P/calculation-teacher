@@ -21,7 +21,9 @@
   /** 数式の HTML 文字列を返す */
   function mathHtml(latex, displayMode) {
     try {
-      return global.katex.renderToString(latex, { displayMode: !!displayMode, throwOnError: true, strict: 'warn' });
+      // 連立方程式の中かっこ内も分数を通常の大きさで表示する（cases → dcases。データはそのまま）
+      const src = latex.replace(/\{cases\}/g, '{dcases}');
+      return global.katex.renderToString(src, { displayMode: !!displayMode, throwOnError: true, strict: 'warn' });
     } catch (e) {
       return `<span class="math-error" title="${escapeHtml(e.message)}">${escapeHtml(latex)}</span>`;
     }

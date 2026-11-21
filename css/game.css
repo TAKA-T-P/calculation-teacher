@@ -384,6 +384,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .setting__label small { font-weight: 400; color: var(--muted); }
 
 .unit-list { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+/* 学年の見出し（単元のボタンの並びを学年ごとに区切る） */
+.unit-grade-label { grid-column: 1 / -1; margin: 6px 0 -2px; font-size: .85rem; font-weight: 800; color: var(--muted); }
+.unit-grade-label:first-child { margin-top: 0; }
 .unit-card {
   display: grid;
   grid-template-columns: auto 1fr auto auto;

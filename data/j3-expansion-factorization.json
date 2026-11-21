@@ -1,0 +1,2359 @@
+{
+  "schemaVersion": 1,
+  "grade": 3,
+  "unit": "expansion-factorization",
+  "questions": [
+    {
+      "id": "J3-EF-0001",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "2a(3a-4b)",
+      "answerLines": [
+        "2a(3a-4b)",
+        "=6a^2-8b"
+      ],
+      "errorLine": 1,
+      "errorType": "分配法則で文字をかけ忘れた誤り",
+      "explanation": "$2a\\times(-4b)=-8ab$ です。数の $2$ だけをかけて、文字の $a$ をかけ忘れたところが誤りです。$2a\\times3a=6a^2$ は正しくできています。正しくは $6a^2-8ab$ です。",
+      "correctSolution": [
+        "2a(3a-4b)",
+        "=6a^2-8ab"
+      ],
+      "hint": "$2a$ は、かっこの中の $-4b$ にも数と文字の両方をかけますか？"
+    },
+    {
+      "id": "J3-EF-0002",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a+2)(b-3)",
+      "answerLines": [
+        "(a+2)(b-3)",
+        "=ab-3a+2b-6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(a+2)(b-3)$ は、$a\\times b$、$a\\times(-3)$、$2\\times b$、$2\\times(-3)$ の4つの積の和です。同類項はないので、これ以上まとめられません。",
+      "correctSolution": [
+        "(a+2)(b-3)",
+        "=ab-3a+2b-6"
+      ],
+      "hint": "かっこの中の項を、1つずつすべての組み合わせでかけていますか？"
+    },
+    {
+      "id": "J3-EF-0003",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x+3)(x-4)",
+      "answerLines": [
+        "(2x+3)(x-4)",
+        "=2x^2-8x+3x-12",
+        "=2x^2-11x-12"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項をまとめるときの符号ミス",
+      "explanation": "$-8x+3x$ は、$(-8+3)x=-5x$ です。$-11x$ としたところが誤りです（絶対値をたしています）。4つの積 $2x^2$、$-8x$、$3x$、$-12$ は正しくできています。正しくは $2x^2-5x-12$ です。",
+      "correctSolution": [
+        "(2x+3)(x-4)",
+        "=2x^2-8x+3x-12",
+        "=2x^2-5x-12"
+      ],
+      "hint": "$-8x+3x$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0004",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x-2y)(3x+y-1)",
+      "answerLines": [
+        "(x-2y)(3x+y-1)",
+        "=x(3x+y-1)-2y(3x+y-1)",
+        "=3x^2+xy-x-6xy-2y^2+2y",
+        "=3x^2-7xy-x-2y^2+2y"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるときの符号ミス",
+      "explanation": "$xy-6xy$ は、$(1-6)xy=-5xy$ です。$-7xy$ としたところが誤りです。分配法則で展開した各項（$-2y\\times(-1)=+2y$ など）は正しくできています。正しくは $3x^2-5xy-x-2y^2+2y$ です。",
+      "correctSolution": [
+        "(x-2y)(3x+y-1)",
+        "=x(3x+y-1)-2y(3x+y-1)",
+        "=3x^2+xy-x-6xy-2y^2+2y",
+        "=3x^2-5xy-x-2y^2+2y"
+      ],
+      "hint": "$xy$ の項どうしの計算 $xy-6xy$ を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0005",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(3a-2)(a+5)-(a-1)(3a+4)",
+      "answerLines": [
+        "(3a-2)(a+5)-(a-1)(3a+4)",
+        "=3a^2+13a-10-(3a^2+a-4)",
+        "=3a^2+13a-10-3a^2+a-4",
+        "=14a-14"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "$-(3a^2+a-4)$ のかっこをはずすときは、中のすべての項の符号を変えて $-3a^2-a+4$ にします。$+a-4$ のままにしたところが誤りです。2つの積の展開（$3a^2+13a-10$、$3a^2+a-4$）は正しくできています。正しくは $12a-6$ です。",
+      "correctSolution": [
+        "(3a-2)(a+5)-(a-1)(3a+4)",
+        "=3a^2+13a-10-(3a^2+a-4)",
+        "=3a^2+13a-10-3a^2-a+4",
+        "=12a-6"
+      ],
+      "hint": "ひく式のかっこをはずすとき、すべての項の符号を変えましたか？"
+    },
+    {
+      "id": "J3-EF-0006",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+5)^2",
+      "answerLines": [
+        "(x+5)^2",
+        "=x^2+25"
+      ],
+      "errorLine": 1,
+      "errorType": "和の平方で、2倍の積の項を忘れた誤り",
+      "explanation": "$(a+b)^2=a^2+2ab+b^2$ の公式を使います。$(x+5)^2=x^2+2\\times5\\times x+25=x^2+10x+25$ です。$2\\times5\\times x=10x$ の項を忘れたところが誤りです。",
+      "correctSolution": [
+        "(x+5)^2",
+        "=x^2+10x+25"
+      ],
+      "hint": "$(x+5)^2=(x+5)(x+5)$ を展開すると、何個の項ができますか？"
+    },
+    {
+      "id": "J3-EF-0007",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x-6)(x+2)",
+      "answerLines": [
+        "(x-6)(x+2)",
+        "=x^2+(-6+2)x+(-6)\\times2",
+        "=x^2-4x+12"
+      ],
+      "errorLine": 2,
+      "errorType": "定数項の符号ミス",
+      "explanation": "$(-6)\\times2=-12$ なので、定数項は $-12$ です。$+12$ としたところが誤りです。$(x+a)(x+b)=x^2+(a+b)x+ab$ の公式に当てはめた式と、$x$ の係数 $-4$ は正しくできています。正しくは $x^2-4x-12$ です。",
+      "correctSolution": [
+        "(x-6)(x+2)",
+        "=x^2+(-6+2)x+(-6)\\times2",
+        "=x^2-4x-12"
+      ],
+      "hint": "$(-6)\\times2$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0008",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(3a-4b)(3a+4b)",
+      "answerLines": [
+        "(3a-4b)(3a+4b)",
+        "=(3a)^2-(4b)^2",
+        "=9a^2-16b^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。和と差の積 $(A+B)(A-B)=A^2-B^2$ の公式で、$A=3a$、$B=4b$ としています。係数もいっしょに2乗して、$9a^2-16b^2$ です。",
+      "correctSolution": [
+        "(3a-4b)(3a+4b)",
+        "=(3a)^2-(4b)^2",
+        "=9a^2-16b^2"
+      ],
+      "hint": "$(3a)^2$ と $(4b)^2$ は、係数も2乗しますか？"
+    },
+    {
+      "id": "J3-EF-0009",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x-3y)^2",
+      "answerLines": [
+        "(2x-3y)^2",
+        "=(2x)^2-2\\times2x\\times3y+(3y)^2",
+        "=4x^2-12xy+(3y)^2",
+        "=4x^2-12xy+3y^2"
+      ],
+      "errorLine": 3,
+      "errorType": "係数を2乗し忘れた誤り",
+      "explanation": "$(3y)^2=3y\\times3y=9y^2$ です。係数の $3$ を2乗し忘れて $3y^2$ としたところが誤りです。$(a-b)^2=a^2-2ab+b^2$ の公式に当てはめた式と、$(2x)^2=4x^2$、$-12xy$ は正しくできています。正しくは $4x^2-12xy+9y^2$ です。",
+      "correctSolution": [
+        "(2x-3y)^2",
+        "=(2x)^2-2\\times2x\\times3y+(3y)^2",
+        "=4x^2-12xy+(3y)^2",
+        "=4x^2-12xy+9y^2"
+      ],
+      "hint": "$(3y)^2$ では、$3$ も2乗しますか？"
+    },
+    {
+      "id": "J3-EF-0010",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(x+3)^2-(x+4)(x-4)",
+      "answerLines": [
+        "(x+3)^2-(x+4)(x-4)",
+        "=x^2+6x+9-(x^2-16)",
+        "=x^2+6x+9-x^2+16",
+        "=x^2-x^2+6x+9+16",
+        "=2x^2+6x+25"
+      ],
+      "errorLine": 4,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$x^2-x^2=0$ なので、$x^2$ の項は消えます。$2x^2$ としたところが誤りです。乗法公式による展開（$x^2+6x+9$、$x^2-16$）、かっこのはずし方（$-(-16)=+16$）、並べかえは正しくできています。正しくは $6x+25$ です。",
+      "correctSolution": [
+        "(x+3)^2-(x+4)(x-4)",
+        "=x^2+6x+9-(x^2-16)",
+        "=x^2+6x+9-x^2+16",
+        "=x^2-x^2+6x+9+16",
+        "=6x+25"
+      ],
+      "hint": "$x^2-x^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-EF-0011",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "6x^2-9x",
+      "answerLines": [
+        "6x^2-9x",
+        "=3(2x^2-3x)"
+      ],
+      "errorLine": 1,
+      "errorType": "共通因数をすべてくくり出していない（因数分解が不完全）",
+      "explanation": "$6x^2$ と $-9x$ の共通因数は、数の $3$ だけでなく文字の $x$ もふくむ $3x$ です。かっこの中の $2x^2-3x$ にはまだ共通因数 $x$ が残っているので、因数分解は終わっていません。式の値は等しいのですが、因数分解の答えとしては誤りです。正しくは $3x(2x-3)$ です。",
+      "correctSolution": [
+        "6x^2-9x",
+        "=3x(2x-3)"
+      ],
+      "hint": "かっこの中の $2x^2-3x$ に、まだ共通な因数はありませんか？"
+    },
+    {
+      "id": "J3-EF-0012",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2+7x+12",
+      "answerLines": [
+        "x^2+7x+12",
+        "=x^2+(3+4)x+3\\times4",
+        "=(x+2)(x+6)"
+      ],
+      "errorLine": 2,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "$x^2+ax+b$ の因数分解では、積が $12$、和が $7$ になる2数を見つけます。$2$ と $6$ は積は $12$ ですが、和が $8$ なので条件に合いません。$3$ と $4$ を見つけたのに、$2$ と $6$ を使ったところが誤りです。正しくは $(x+3)(x+4)$ です。",
+      "correctSolution": [
+        "x^2+7x+12",
+        "=x^2+(3+4)x+3\\times4",
+        "=(x+3)(x+4)"
+      ],
+      "hint": "$(x+2)(x+6)$ を展開すると、もとの式にもどりますか？"
+    },
+    {
+      "id": "J3-EF-0013",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "a^2-25",
+      "answerLines": [
+        "a^2-25",
+        "=a^2-5^2",
+        "=(a+5)(a-5)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$25=5^2$ と見て、$A^2-B^2=(A+B)(A-B)$ の公式を使っています。",
+      "correctSolution": [
+        "a^2-25",
+        "=a^2-5^2",
+        "=(a+5)(a-5)"
+      ],
+      "hint": "$25$ を2乗の形で表すと、どの公式が使えますか？"
+    },
+    {
+      "id": "J3-EF-0014",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "3x^2-12",
+      "answerLines": [
+        "3x^2-12",
+        "=3(x^2-4)",
+        "=3(x^2-2^2)",
+        "=3(x-2)^2"
+      ],
+      "errorLine": 3,
+      "errorType": "a²−b² を (a−b)² と取り違えた誤り",
+      "explanation": "$x^2-2^2$ は「2乗の差」なので、$A^2-B^2=(A+B)(A-B)$ の公式で $(x+2)(x-2)$ です。$(x-2)^2$ は $x^2-4x+4$ なので、元の式と等しくありません。共通因数 $3$ をくくり出したところは正しくできています。正しくは $3(x+2)(x-2)$ です。",
+      "correctSolution": [
+        "3x^2-12",
+        "=3(x^2-4)",
+        "=3(x^2-2^2)",
+        "=3(x+2)(x-2)"
+      ],
+      "hint": "$(x-2)^2$ を展開すると、$x^2-4$ になりますか？"
+    },
+    {
+      "id": "J3-EF-0015",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "4a^2b-12ab^2+9b^3",
+      "answerLines": [
+        "4a^2b-12ab^2+9b^3",
+        "=b(4a^2-12ab+9b^2)",
+        "=b(2a+3b)^2"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の公式の符号ミス",
+      "explanation": "$4a^2-12ab+9b^2$ は、真ん中の項が $-12ab$ なので、$(A-B)^2=A^2-2AB+B^2$ の形で $(2a-3b)^2$ です。$(2a+3b)^2$ としたところが誤りです。共通因数 $b$ をくくり出したところは正しくできています。正しくは $b(2a-3b)^2$ です。",
+      "correctSolution": [
+        "4a^2b-12ab^2+9b^3",
+        "=b(4a^2-12ab+9b^2)",
+        "=b(2a-3b)^2"
+      ],
+      "hint": "かっこの中の真ん中の項 $-12ab$ の符号に注目しましょう。"
+    },
+    {
+      "id": "J3-EF-0016",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-6x+9",
+      "answerLines": [
+        "x^2-6x+9",
+        "=(x+3)^2"
+      ],
+      "errorLine": 1,
+      "errorType": "平方の公式の符号ミス",
+      "explanation": "$x^2-6x+9$ は、真ん中の項が $-6x$ なので $(x-3)^2$ です。$(x+3)^2$ は $x^2+6x+9$ なので誤りです。",
+      "correctSolution": [
+        "x^2-6x+9",
+        "=(x-3)^2"
+      ],
+      "hint": "$(x+3)^2$ を展開すると、真ん中の項の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0017",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2x^2-8x-24",
+      "answerLines": [
+        "2x^2-8x-24",
+        "=2(x^2-4x-12)",
+        "=2(x-6)(x+2)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。まず共通因数 $2$ をくくり出し、かっこの中は積が $-12$、和が $-4$ になる2数 $-6$ と $2$ を使って因数分解しています。",
+      "correctSolution": [
+        "2x^2-8x-24",
+        "=2(x^2-4x-12)",
+        "=2(x-6)(x+2)"
+      ],
+      "hint": "まず共通因数をくくり出してから、かっこの中を因数分解しましょう。"
+    },
+    {
+      "id": "J3-EF-0018",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x+1)^2-5(x+1)+6",
+      "answerLines": [
+        "(x+1)^2-5(x+1)+6",
+        "=\\{(x+1)-2\\}\\{(x+1)-3\\}",
+        "=(x+1-2)(x+1-3)",
+        "=(x-1)(x-4)"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこをはずしたあとの数の計算ミス",
+      "explanation": "$x+1-3$ は $x-2$ です。$x-4$ としたところが誤りです。$x+1$ をひとまとまりと見て、積が $6$、和が $-5$ になる $-2$ と $-3$ で因数分解したところは正しくできています。正しくは $(x-1)(x-2)$ です。",
+      "correctSolution": [
+        "(x+1)^2-5(x+1)+6",
+        "=\\{(x+1)-2\\}\\{(x+1)-3\\}",
+        "=(x+1-2)(x+1-3)",
+        "=(x-1)(x-2)"
+      ],
+      "hint": "$x+1-3$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0019",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "a^2-b^2+2b-1",
+      "answerLines": [
+        "a^2-b^2+2b-1",
+        "=a^2-(b^2-2b+1)",
+        "=a^2-(b-1)^2",
+        "=\\{a+(b-1)\\}\\{a-(b-1)\\}",
+        "=(a+b-1)(a-b-1)"
+      ],
+      "errorLine": 4,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "$a-(b-1)$ のかっこをはずすと、$b$ と $-1$ の両方の符号が変わって $a-b+1$ です。$a-b-1$ としたところが誤りです。$b$ をふくむ3つの項をまとめて $(b-1)^2$ とし、2乗の差の公式を使ったところは正しくできています。正しくは $(a+b-1)(a-b+1)$ です。",
+      "correctSolution": [
+        "a^2-b^2+2b-1",
+        "=a^2-(b^2-2b+1)",
+        "=a^2-(b-1)^2",
+        "=\\{a+(b-1)\\}\\{a-(b-1)\\}",
+        "=(a+b-1)(a-b+1)"
+      ],
+      "hint": "$a-(b-1)$ のかっこをはずすとき、$-1$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0020",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x-2)(x+5)-8",
+      "answerLines": [
+        "(x-2)(x+5)-8",
+        "=x^2+3x-10-8",
+        "=x^2+3x-18",
+        "=(x+6)(x-3)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。このままでは因数分解できないので、いったん展開して整理し、$x^2+3x-18$ としています。積が $-18$、和が $3$ になる2数 $6$ と $-3$ で $(x+6)(x-3)$ です。",
+      "correctSolution": [
+        "(x-2)(x+5)-8",
+        "=x^2+3x-10-8",
+        "=x^2+3x-18",
+        "=(x+6)(x-3)"
+      ],
+      "hint": "そのままでは共通因数も公式も使えません。いったん展開してみましょう。"
+    },
+    {
+      "id": "J3-EF-0021",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "3x(2x-5)",
+      "answerLines": [
+        "3x(2x-5)",
+        "=3x\\times2x-3x\\times5",
+        "=6x^2-15x"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。分配法則で、$3x$ をかっこの中の両方の項にかけます。$3x\\times2x=6x^2$、$3x\\times5=15x$ です。",
+      "correctSolution": [
+        "3x(2x-5)",
+        "=3x\\times2x-3x\\times5",
+        "=6x^2-15x"
+      ],
+      "hint": "$3x\\times2x$ の文字の部分を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0022",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "-4a(a+3b)",
+      "answerLines": [
+        "-4a(a+3b)",
+        "=-4a^2+12ab"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数をかけるときの符号ミス",
+      "explanation": "$-4a$ を $3b$ にもかけるので、$(-4a)\\times3b=-12ab$ です。$+12ab$ としたところが誤りです。$(-4a)\\times a=-4a^2$ は正しくできています。正しくは $-4a^2-12ab$ です。",
+      "correctSolution": [
+        "-4a(a+3b)",
+        "=-4a^2-12ab"
+      ],
+      "hint": "$(-4a)\\times3b$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0023",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+3)(y+2)",
+      "answerLines": [
+        "(x+3)(y+2)",
+        "=xy+2x+3y+6"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(a+b)(c+d)=ac+ad+bc+bd$ のように、それぞれの項どうしをかけます。$x\\times y$、$x\\times2$、$3\\times y$、$3\\times2$ で4つの項になります。",
+      "correctSolution": [
+        "(x+3)(y+2)",
+        "=xy+2x+3y+6"
+      ],
+      "hint": "かけ合わせる項の組が4つそろっているか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0024",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a-4)(b+5)",
+      "answerLines": [
+        "(a-4)(b+5)",
+        "=ab+5a-4b+20"
+      ],
+      "errorLine": 1,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$-4$ と $5$ をかけると $-20$ です。$+20$ としたところが誤りです。$ab$、$5a$、$-4b$ は正しくできています。正しくは $ab+5a-4b-20$ です。",
+      "correctSolution": [
+        "(a-4)(b+5)",
+        "=ab+5a-4b-20"
+      ],
+      "hint": "$(-4)\\times5$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0025",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 1,
+      "instruction": "次の計算をしなさい。",
+      "question": "(12a^2b-8ab^2)\\div4ab",
+      "answerLines": [
+        "(12a^2b-8ab^2)\\div4ab",
+        "=\\frac{12a^2b}{4ab}-\\frac{8ab^2}{4ab}",
+        "=3a-2ab"
+      ],
+      "errorLine": 2,
+      "errorType": "約分で文字を消し忘れた誤り",
+      "explanation": "$\\frac{8ab^2}{4ab}$ は、分母の $a$ と $b$ の両方で約分するので $2b$ です。$a$ を約分せず $2ab$ としたところが誤りです。2行目の式と、$\\frac{12a^2b}{4ab}=3a$ は正しくできています。正しくは $3a-2b$ です。",
+      "correctSolution": [
+        "(12a^2b-8ab^2)\\div4ab",
+        "=\\frac{12a^2b}{4ab}-\\frac{8ab^2}{4ab}",
+        "=3a-2b"
+      ],
+      "hint": "$\\frac{8ab^2}{4ab}$ で、$a$ も約分できていますか？"
+    },
+    {
+      "id": "J3-EF-0026",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+4)(2x-3)",
+      "answerLines": [
+        "(x+4)(2x-3)",
+        "=2x^2-3x+8x-12",
+        "=2x^2+5x-12"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x\\times2x=2x^2$、$x\\times(-3)=-3x$、$4\\times2x=8x$、$4\\times(-3)=-12$ です。同類項をまとめて $-3x+8x=5x$ です。",
+      "correctSolution": [
+        "(x+4)(2x-3)",
+        "=2x^2-3x+8x-12",
+        "=2x^2+5x-12"
+      ],
+      "hint": "$-3x+8x$ の計算を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0027",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(3a-2)(a-5)",
+      "answerLines": [
+        "(3a-2)(a-5)",
+        "=3a^2-15a-2a-10",
+        "=3a^2-17a-10"
+      ],
+      "errorLine": 1,
+      "errorType": "負の数どうしの積の符号ミス",
+      "explanation": "$-2$ と $-5$ をかけると、負の数どうしの積なので $+10$ です。$-10$ としたところが誤りです。$3a^2$、$-15a$、$-2a$ は正しくできています。正しくは $3a^2-17a+10$ です。",
+      "correctSolution": [
+        "(3a-2)(a-5)",
+        "=3a^2-15a-2a+10",
+        "=3a^2-17a+10"
+      ],
+      "hint": "$(-2)\\times(-5)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0028",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x-y)(x+3y)",
+      "answerLines": [
+        "(2x-y)(x+3y)",
+        "=2x^2+6xy-xy-3y^2",
+        "=2x^2+5xy-3y^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$2x\\times3y=6xy$、$(-y)\\times x=-xy$、$(-y)\\times3y=-3y^2$ です。$xy$ の項をまとめて $6xy-xy=5xy$ です。",
+      "correctSolution": [
+        "(2x-y)(x+3y)",
+        "=2x^2+6xy-xy-3y^2",
+        "=2x^2+5xy-3y^2"
+      ],
+      "hint": "$xy$ の項が2つあります。まとめ方を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0029",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(4x+1)(x-2)",
+      "answerLines": [
+        "(4x+1)(x-2)",
+        "=4x^2-8x+x-2",
+        "=4x^2-9x-2"
+      ],
+      "errorLine": 2,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$-8x+x$ は $(-8+1)x=-7x$ です。$-9x$ としたところが誤りです（$8$ と $1$ をたしています）。2行目の展開は正しくできています。正しくは $4x^2-7x-2$ です。",
+      "correctSolution": [
+        "(4x+1)(x-2)",
+        "=4x^2-8x+x-2",
+        "=4x^2-7x-2"
+      ],
+      "hint": "$-8x+x$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0030",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(5a-3b)(2a+b)",
+      "answerLines": [
+        "(5a-3b)(2a+b)",
+        "=10a^2+5ab-6ab+3b^2",
+        "=10a^2-ab+3b^2"
+      ],
+      "errorLine": 1,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$-3b$ と $b$ をかけると $-3b^2$ です。$+3b^2$ としたところが誤りです。$10a^2$、$5ab$、$-6ab$ は正しくできています。正しくは $10a^2-ab-3b^2$ です。",
+      "correctSolution": [
+        "(5a-3b)(2a+b)",
+        "=10a^2+5ab-6ab-3b^2",
+        "=10a^2-ab-3b^2"
+      ],
+      "hint": "$(-3b)\\times b$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0031",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+2)(x^2-3x+1)",
+      "answerLines": [
+        "(x+2)(x^2-3x+1)",
+        "=x^3-3x^2+x+2x^2-6x+2",
+        "=x^3-x^2-5x+2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$x$ と $2$ を、それぞれ $x^2-3x+1$ の3つの項にかけます。同類項をまとめて、$-3x^2+2x^2=-x^2$、$x-6x=-5x$ です。",
+      "correctSolution": [
+        "(x+2)(x^2-3x+1)",
+        "=x^3-3x^2+x+2x^2-6x+2",
+        "=x^3-x^2-5x+2"
+      ],
+      "hint": "6つの項が出そろっているか、同類項のまとめ方を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0032",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a-3)(a^2+2a-4)",
+      "answerLines": [
+        "(a-3)(a^2+2a-4)",
+        "=a^3+2a^2-4a-3a^2-6a+12",
+        "=a^3-a^2-2a+12"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数どうしの和を差で計算した誤り",
+      "explanation": "$-4a-6a$ は、負の数どうしの和なので $-10a$ です。$-2a$ としたところが誤りです（絶対値の差を計算しています）。2行目の展開と、$2a^2-3a^2=-a^2$ は正しくできています。正しくは $a^3-a^2-10a+12$ です。",
+      "correctSolution": [
+        "(a-3)(a^2+2a-4)",
+        "=a^3+2a^2-4a-3a^2-6a+12",
+        "=a^3-a^2-10a+12"
+      ],
+      "hint": "$-4a-6a$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0033",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x-y)(x+y-3)",
+      "answerLines": [
+        "(2x-y)(x+y-3)",
+        "=2x(x+y-3)-y(x+y-3)",
+        "=2x^2+2xy-6x-xy-y^2+3y",
+        "=2x^2+3xy-6x-y^2+3y"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$2xy-xy$ は $xy$ です。$3xy$ としたところが誤りです（$-xy$ をたしています）。3行目までの展開は正しくできています。正しくは $2x^2+xy-6x-y^2+3y$ です。",
+      "correctSolution": [
+        "(2x-y)(x+y-3)",
+        "=2x(x+y-3)-y(x+y-3)",
+        "=2x^2+2xy-6x-xy-y^2+3y",
+        "=2x^2+xy-6x-y^2+3y"
+      ],
+      "hint": "$xy$ の項 $2xy-xy$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0034",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の計算をしなさい。",
+      "question": "(2a+3)(a-1)+a(a+4)",
+      "answerLines": [
+        "(2a+3)(a-1)+a(a+4)",
+        "=2a^2-2a+3a-3+a^2+4a",
+        "=2a^2+a^2-2a+3a+4a-3",
+        "=3a^2+a-3"
+      ],
+      "errorLine": 3,
+      "errorType": "同類項をまとめるとき、項を1つ見落とした誤り",
+      "explanation": "$a$ の項は $-2a+3a+4a=5a$ です。$+4a$ を見落として $a$ としたところが誤りです。展開と並べかえは正しくできています。正しくは $3a^2+5a-3$ です。",
+      "correctSolution": [
+        "(2a+3)(a-1)+a(a+4)",
+        "=2a^2-2a+3a-3+a^2+4a",
+        "=2a^2+a^2-2a+3a+4a-3",
+        "=3a^2+5a-3"
+      ],
+      "hint": "3行目の $a$ の項は3つあります。すべてまとめましたか？"
+    },
+    {
+      "id": "J3-EF-0035",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 3,
+      "instruction": "次の計算をしなさい。",
+      "question": "(2x+1)(x-3)-(x-2)(2x+5)",
+      "answerLines": [
+        "(2x+1)(x-3)-(x-2)(2x+5)",
+        "=2x^2-5x-3-(2x^2+x-10)",
+        "=2x^2-5x-3-2x^2-x-10",
+        "=-6x-13"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこの前の負号の処理ミス",
+      "explanation": "$-(2x^2+x-10)$ のかっこをはずすと、すべての項の符号が変わるので $-2x^2-x+10$ です。$-10$ のままにしたところが誤りです。2つの積の展開は正しくできています。正しく計算すると $-6x+7$ です。",
+      "correctSolution": [
+        "(2x+1)(x-3)-(x-2)(2x+5)",
+        "=2x^2-5x-3-(2x^2+x-10)",
+        "=2x^2-5x-3-2x^2-x+10",
+        "=-6x+7"
+      ],
+      "hint": "$-(2x^2+x-10)$ の、$-10$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0036",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a+2b-1)(a-b)",
+      "answerLines": [
+        "(a+2b-1)(a-b)",
+        "=a^2-ab+2ab-2b^2-a+b",
+        "=a^2+ab-2b^2-a+b"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$a$、$2b$、$-1$ をそれぞれ $a-b$ にかけると6つの項になります。同類項は $-ab+2ab=ab$ だけです。",
+      "correctSolution": [
+        "(a+2b-1)(a-b)",
+        "=a^2-ab+2ab-2b^2-a+b",
+        "=a^2+ab-2b^2-a+b"
+      ],
+      "hint": "$(-1)\\times(a-b)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0037",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x^2-2x+3)(2x-1)",
+      "answerLines": [
+        "(x^2-2x+3)(2x-1)",
+        "=2x^3-x^2-4x^2+2x+6x-3",
+        "=2x^3-3x^2+8x-3"
+      ],
+      "errorLine": 2,
+      "errorType": "同類項の係数の計算で符号を誤った",
+      "explanation": "$-x^2-4x^2$ は $(-1-4)x^2=-5x^2$ です。$-3x^2$ としたところが誤りです。2行目の展開と、$2x+6x=8x$ は正しくできています。正しくは $2x^3-5x^2+8x-3$ です。",
+      "correctSolution": [
+        "(x^2-2x+3)(2x-1)",
+        "=2x^3-x^2-4x^2+2x+6x-3",
+        "=2x^3-5x^2+8x-3"
+      ],
+      "hint": "$x^2$ の項 $-x^2-4x^2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0038",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(3x-2y)(x+y)-2x(x-y)",
+      "answerLines": [
+        "(3x-2y)(x+y)-2x(x-y)",
+        "=3x^2+3xy-2xy-2y^2-(2x^2-2xy)",
+        "=3x^2+3xy-2xy-2y^2-2x^2+2xy",
+        "=x^2+3xy+2y^2"
+      ],
+      "errorLine": 3,
+      "errorType": "項を書き写すときの符号ミス",
+      "explanation": "3行目の $y^2$ の項は $-2y^2$ なので、まとめたあとも $-2y^2$ のままです。$+2y^2$ としたところが誤りです。展開とかっこのはずし方、$x^2$ と $xy$ の項のまとめ方（$3xy-2xy+2xy=3xy$）は正しくできています。正しくは $x^2+3xy-2y^2$ です。",
+      "correctSolution": [
+        "(3x-2y)(x+y)-2x(x-y)",
+        "=3x^2+3xy-2xy-2y^2-(2x^2-2xy)",
+        "=3x^2+3xy-2xy-2y^2-2x^2+2xy",
+        "=x^2+3xy-2y^2"
+      ],
+      "hint": "3行目と4行目で、$y^2$ の項の符号を比べてみましょう。"
+    },
+    {
+      "id": "J3-EF-0039",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(2a-b)(a+3b)-(a-2b)(a+b)",
+      "answerLines": [
+        "(2a-b)(a+3b)-(a-2b)(a+b)",
+        "=2a^2+5ab-3b^2-(a^2-ab-2b^2)",
+        "=2a^2+5ab-3b^2-a^2+ab+2b^2",
+        "=2a^2-a^2+5ab+ab-3b^2+2b^2",
+        "=a^2+6ab-5b^2"
+      ],
+      "errorLine": 4,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$b^2$ の項は $-3b^2+2b^2=-b^2$ です。$-5b^2$ としたところが誤りです（$3$ と $2$ をたしています）。2つの積の展開、かっこのはずし方、$a^2$ と $ab$ の項のまとめ方は正しくできています。正しくは $a^2+6ab-b^2$ です。",
+      "correctSolution": [
+        "(2a-b)(a+3b)-(a-2b)(a+b)",
+        "=2a^2+5ab-3b^2-(a^2-ab-2b^2)",
+        "=2a^2+5ab-3b^2-a^2+ab+2b^2",
+        "=2a^2-a^2+5ab+ab-3b^2+2b^2",
+        "=a^2+6ab-b^2"
+      ],
+      "hint": "$-3b^2+2b^2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0040",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "分配法則・多項式の積",
+      "difficulty": 4,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x^2+x-1)(x^2-x+1)",
+      "answerLines": [
+        "(x^2+x-1)(x^2-x+1)",
+        "=x^2(x^2-x+1)+x(x^2-x+1)-(x^2-x+1)",
+        "=x^4-x^3+x^2+x^3-x^2+x-x^2+x-1",
+        "=x^4+(-x^3+x^3)+(x^2-x^2-x^2)+(x+x)-1",
+        "=x^4+x^2+2x-1"
+      ],
+      "errorLine": 4,
+      "errorType": "3つ以上の同類項をまとめるときの符号ミス",
+      "explanation": "$x^2-x^2-x^2$ は $(1-1-1)x^2=-x^2$ です。$+x^2$ としたところが誤りです。展開と、同類項を集めた4行目は正しくできています。正しくは $x^4-x^2+2x-1$ です。",
+      "correctSolution": [
+        "(x^2+x-1)(x^2-x+1)",
+        "=x^2(x^2-x+1)+x(x^2-x+1)-(x^2-x+1)",
+        "=x^4-x^3+x^2+x^3-x^2+x-x^2+x-1",
+        "=x^4+(-x^3+x^3)+(x^2-x^2-x^2)+(x+x)-1",
+        "=x^4-x^2+2x-1"
+      ],
+      "hint": "4行目の $x^2-x^2-x^2$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0041",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+3)(x+5)",
+      "answerLines": [
+        "(x+3)(x+5)",
+        "=x^2+(3+5)x+3\\times5",
+        "=x^2+8x+15"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(x+a)(x+b)=x^2+(a+b)x+ab$ の公式で、$a=3$、$b=5$ です。和は $8$、積は $15$ です。",
+      "correctSolution": [
+        "(x+3)(x+5)",
+        "=x^2+(3+5)x+3\\times5",
+        "=x^2+8x+15"
+      ],
+      "hint": "2つの数の和と積を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0042",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x-4)^2",
+      "answerLines": [
+        "(x-4)^2",
+        "=x^2-16"
+      ],
+      "errorLine": 1,
+      "errorType": "差の平方で、2倍の積の項を忘れた誤り",
+      "explanation": "$(x-a)^2=x^2-2ax+a^2$ なので、$(x-4)^2=x^2-8x+16$ です。$-8x$ の項を忘れ、さらに $4^2$ の符号を $-$ にして $x^2-16$ としたところが誤りです（$(x+4)(x-4)$ の公式と混同しています）。",
+      "correctSolution": [
+        "(x-4)^2",
+        "=x^2-2\\times4\\times x+4^2",
+        "=x^2-8x+16"
+      ],
+      "hint": "$(x-4)^2=(x-4)(x-4)$ です。$x$ の項は出てきませんか？"
+    },
+    {
+      "id": "J3-EF-0043",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+7)(x-7)",
+      "answerLines": [
+        "(x+7)(x-7)",
+        "=x^2-7^2",
+        "=x^2-49"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$(x+a)(x-a)=x^2-a^2$ の公式で、$7^2=49$ です。$x$ の項は打ち消し合って出てきません。",
+      "correctSolution": [
+        "(x+7)(x-7)",
+        "=x^2-7^2",
+        "=x^2-49"
+      ],
+      "hint": "和と差の積の公式を思い出しましょう。"
+    },
+    {
+      "id": "J3-EF-0044",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a-2)(a+6)",
+      "answerLines": [
+        "(a-2)(a+6)",
+        "=a^2+(-2+6)a+(-2)\\times6",
+        "=a^2+4a-12"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$-2$ と $6$ の和は $4$、積は $-12$ です。$(x+a)(x+b)=x^2+(a+b)x+ab$ の公式にあてはめています。",
+      "correctSolution": [
+        "(a-2)(a+6)",
+        "=a^2+(-2+6)a+(-2)\\times6",
+        "=a^2+4a-12"
+      ],
+      "hint": "$-2$ と $6$ の和と積を、符号に気をつけて確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0045",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 1,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a+6)^2",
+      "answerLines": [
+        "(a+6)^2",
+        "=a^2+6a+36"
+      ],
+      "errorLine": 1,
+      "errorType": "和の平方で、2倍の積を2倍し忘れた誤り",
+      "explanation": "$(a+b)^2=a^2+2ab+b^2$ なので、$a$ の項は $2\\times6\\times a=12a$ です。$6a$ としたところが誤りです（$2$ 倍していません）。$a^2$ と $36$ は正しくできています。正しくは $a^2+12a+36$ です。",
+      "correctSolution": [
+        "(a+6)^2",
+        "=a^2+2\\times6\\times a+6^2",
+        "=a^2+12a+36"
+      ],
+      "hint": "和の平方の公式で、真ん中の項は何倍しますか？"
+    },
+    {
+      "id": "J3-EF-0046",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "\\left(x+\\frac{1}{2}\\right)^2",
+      "answerLines": [
+        "\\left(x+\\frac{1}{2}\\right)^2",
+        "=x^2+2\\times\\frac{1}{2}\\times x+\\left(\\frac{1}{2}\\right)^2",
+        "=x^2+x+\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "分数を2乗するとき、分母を2乗し忘れた誤り",
+      "explanation": "$\\left(\\frac{1}{2}\\right)^2$ は分子も分母も2乗するので $\\frac{1}{4}$ です。$\\frac{1}{2}$ としたところが誤りです。公式へのあてはめと、$2\\times\\frac{1}{2}\\times x=x$ は正しくできています。正しくは $x^2+x+\\frac{1}{4}$ です。",
+      "correctSolution": [
+        "\\left(x+\\frac{1}{2}\\right)^2",
+        "=x^2+2\\times\\frac{1}{2}\\times x+\\left(\\frac{1}{2}\\right)^2",
+        "=x^2+x+\\frac{1}{4}"
+      ],
+      "hint": "$\\left(\\frac{1}{2}\\right)^2=\\frac{1}{2}\\times\\frac{1}{2}$ を計算してみましょう。"
+    },
+    {
+      "id": "J3-EF-0047",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(y-8)(y-3)",
+      "answerLines": [
+        "(y-8)(y-3)",
+        "=y^2+(-8-3)y+(-8)\\times(-3)",
+        "=y^2-11y-24"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数どうしの積の符号ミス",
+      "explanation": "$(-8)\\times(-3)$ は、負の数どうしの積なので $+24$ です。$-24$ としたところが誤りです。公式へのあてはめと、和 $-8-3=-11$ は正しくできています。正しくは $y^2-11y+24$ です。",
+      "correctSolution": [
+        "(y-8)(y-3)",
+        "=y^2+(-8-3)y+(-8)\\times(-3)",
+        "=y^2-11y+24"
+      ],
+      "hint": "$(-8)\\times(-3)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0048",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x+1)(2x-1)",
+      "answerLines": [
+        "(2x+1)(2x-1)",
+        "=(2x)^2-1^2",
+        "=2x^2-1"
+      ],
+      "errorLine": 2,
+      "errorType": "係数を2乗し忘れた誤り",
+      "explanation": "$(2x)^2$ は係数の $2$ も2乗するので $4x^2$ です。$2x^2$ としたところが誤りです。和と差の積の公式で $(2x)^2-1^2$ としたところは正しくできています。正しくは $4x^2-1$ です。",
+      "correctSolution": [
+        "(2x+1)(2x-1)",
+        "=(2x)^2-1^2",
+        "=4x^2-1"
+      ],
+      "hint": "$(2x)^2=2x\\times2x$ です。係数はいくつになりますか？"
+    },
+    {
+      "id": "J3-EF-0049",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(3a+2)^2",
+      "answerLines": [
+        "(3a+2)^2",
+        "=(3a)^2+2\\times3a\\times2+2^2",
+        "=9a^2+12a+4"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。和の平方の公式で、$(3a)^2=9a^2$、$2\\times3a\\times2=12a$、$2^2=4$ です。",
+      "correctSolution": [
+        "(3a+2)^2",
+        "=(3a)^2+2\\times3a\\times2+2^2",
+        "=9a^2+12a+4"
+      ],
+      "hint": "$(3a)^2$ と、真ん中の項 $2\\times3a\\times2$ を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0050",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 2,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x+4)(x-9)",
+      "answerLines": [
+        "(x+4)(x-9)",
+        "=x^2+5x-36"
+      ],
+      "errorLine": 1,
+      "errorType": "2数の和の符号ミス",
+      "explanation": "$4$ と $-9$ の和は $4+(-9)=-5$ なので、$x$ の項は $-5x$ です。$+5x$ としたところが誤りです。積 $4\\times(-9)=-36$ は正しくできています。正しくは $x^2-5x-36$ です。",
+      "correctSolution": [
+        "(x+4)(x-9)",
+        "=x^2+(4-9)x+4\\times(-9)",
+        "=x^2-5x-36"
+      ],
+      "hint": "$4$ と $-9$ の和の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0051",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(2x-5y)^2",
+      "answerLines": [
+        "(2x-5y)^2",
+        "=(2x)^2-2\\times2x\\times5y+(5y)^2",
+        "=4x^2-20xy+25y^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。差の平方の公式で、$(2x)^2=4x^2$、$2\\times2x\\times5y=20xy$、$(5y)^2=25y^2$ です。",
+      "correctSolution": [
+        "(2x-5y)^2",
+        "=(2x)^2-2\\times2x\\times5y+(5y)^2",
+        "=4x^2-20xy+25y^2"
+      ],
+      "hint": "$(5y)^2$ の係数と、真ん中の項の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0052",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a+3b)(a-5b)",
+      "answerLines": [
+        "(a+3b)(a-5b)",
+        "=a^2+(3b-5b)a+3b\\times(-5b)",
+        "=a^2-2ab+15b^2"
+      ],
+      "errorLine": 2,
+      "errorType": "正の数と負の数の積の符号ミス",
+      "explanation": "$3b\\times(-5b)$ は $-15b^2$ です。$+15b^2$ としたところが誤りです。公式へのあてはめと、$(3b-5b)a=-2ab$ は正しくできています。正しくは $a^2-2ab-15b^2$ です。",
+      "correctSolution": [
+        "(a+3b)(a-5b)",
+        "=a^2+(3b-5b)a+3b\\times(-5b)",
+        "=a^2-2ab-15b^2"
+      ],
+      "hint": "$3b\\times(-5b)$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0053",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(-x+4)(-x-4)",
+      "answerLines": [
+        "(-x+4)(-x-4)",
+        "=(-x)^2-4^2",
+        "=-x^2-16"
+      ],
+      "errorLine": 2,
+      "errorType": "負の項の2乗の符号ミス",
+      "explanation": "$(-x)^2=(-x)\\times(-x)=x^2$ です。$-x^2$ としたところが誤りです。$-x$ を1つの項と見て、和と差の積の公式で $(-x)^2-4^2$ としたところは正しくできています。正しくは $x^2-16$ です。",
+      "correctSolution": [
+        "(-x+4)(-x-4)",
+        "=(-x)^2-4^2",
+        "=x^2-16"
+      ],
+      "hint": "$(-x)^2$ の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0054",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(3x+2y)(3x-5y)",
+      "answerLines": [
+        "(3x+2y)(3x-5y)",
+        "=(3x)^2+(2y-5y)\\times3x+2y\\times(-5y)",
+        "=9x^2-3y\\times3x-10y^2",
+        "=9x^2-6xy-10y^2"
+      ],
+      "errorLine": 3,
+      "errorType": "かけ算をたし算にした誤り",
+      "explanation": "$3y\\times3x$ は $9xy$ です。$6xy$ としたところが誤りです（$3+3$ を計算しています）。$3x$ を1つの文字と見て公式にあてはめた2行目と、3行目は正しくできています。正しくは $9x^2-9xy-10y^2$ です。",
+      "correctSolution": [
+        "(3x+2y)(3x-5y)",
+        "=(3x)^2+(2y-5y)\\times3x+2y\\times(-5y)",
+        "=9x^2-3y\\times3x-10y^2",
+        "=9x^2-9xy-10y^2"
+      ],
+      "hint": "$3y\\times3x$ の係数を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0055",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 3,
+      "instruction": "次の式を展開しなさい。",
+      "question": "\\left(\\frac{1}{2}a-4\\right)^2",
+      "answerLines": [
+        "\\left(\\frac{1}{2}a-4\\right)^2",
+        "=\\left(\\frac{1}{2}a\\right)^2-2\\times\\frac{1}{2}a\\times4+4^2",
+        "=\\frac{1}{2}a^2-4a+16"
+      ],
+      "errorLine": 2,
+      "errorType": "分数の係数を2乗し忘れた誤り",
+      "explanation": "$\\left(\\frac{1}{2}a\\right)^2$ は係数の $\\frac{1}{2}$ も2乗するので $\\frac{1}{4}a^2$ です。$\\frac{1}{2}a^2$ としたところが誤りです。公式へのあてはめと、$-4a$、$16$ は正しくできています。正しくは $\\frac{1}{4}a^2-4a+16$ です。",
+      "correctSolution": [
+        "\\left(\\frac{1}{2}a-4\\right)^2",
+        "=\\left(\\frac{1}{2}a\\right)^2-2\\times\\frac{1}{2}a\\times4+4^2",
+        "=\\frac{1}{4}a^2-4a+16"
+      ],
+      "hint": "$\\left(\\frac{1}{2}a\\right)^2$ の係数を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0056",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(x+2)^2-(x-3)(x+5)",
+      "answerLines": [
+        "(x+2)^2-(x-3)(x+5)",
+        "=x^2+4x+4-(x^2+2x-15)",
+        "=x^2+4x+4-x^2-2x+15",
+        "=x^2-x^2+4x-2x+4+15",
+        "=6x+19"
+      ],
+      "errorLine": 4,
+      "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+      "explanation": "$4x-2x$ は $2x$ です。$6x$ としたところが誤りです（$-2x$ をたしています）。2つの乗法公式による展開、かっこのはずし方、並べかえ、$4+15=19$ は正しくできています。正しくは $2x+19$ です。",
+      "correctSolution": [
+        "(x+2)^2-(x-3)(x+5)",
+        "=x^2+4x+4-(x^2+2x-15)",
+        "=x^2+4x+4-x^2-2x+15",
+        "=x^2-x^2+4x-2x+4+15",
+        "=2x+19"
+      ],
+      "hint": "$x$ の項 $4x-2x$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0057",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(2a-1)^2-(2a+3)(2a-3)",
+      "answerLines": [
+        "(2a-1)^2-(2a+3)(2a-3)",
+        "=4a^2-4a+1-(4a^2-3)",
+        "=4a^2-4a+1-4a^2+3",
+        "=-4a+4"
+      ],
+      "errorLine": 1,
+      "errorType": "和と差の積で、うしろの項を2乗し忘れた誤り",
+      "explanation": "$(2a+3)(2a-3)=(2a)^2-3^2=4a^2-9$ です。$3$ を2乗し忘れて $4a^2-3$ としたところが誤りです。$(2a-1)^2=4a^2-4a+1$ は正しくできています。正しく計算すると $-4a+10$ です。",
+      "correctSolution": [
+        "(2a-1)^2-(2a+3)(2a-3)",
+        "=4a^2-4a+1-(4a^2-9)",
+        "=4a^2-4a+1-4a^2+9",
+        "=-4a+10"
+      ],
+      "hint": "$(2a+3)(2a-3)$ の数の項は $3^2$ です。"
+    },
+    {
+      "id": "J3-EF-0058",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の計算をしなさい。",
+      "question": "(x+y)^2-(x-y)^2",
+      "answerLines": [
+        "(x+y)^2-(x-y)^2",
+        "=x^2+2xy+y^2-(x^2-2xy+y^2)",
+        "=x^2+2xy+y^2-x^2+2xy-y^2",
+        "=x^2-x^2+2xy+2xy+y^2-y^2",
+        "=4xy"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。和の平方と差の平方の公式で展開し、ひく式のかっこをはずすと符号が変わります。$x^2$ と $y^2$ は打ち消し合い、$2xy+2xy=4xy$ だけが残ります。",
+      "correctSolution": [
+        "(x+y)^2-(x-y)^2",
+        "=x^2+2xy+y^2-(x^2-2xy+y^2)",
+        "=x^2+2xy+y^2-x^2+2xy-y^2",
+        "=x^2-x^2+2xy+2xy+y^2-y^2",
+        "=4xy"
+      ],
+      "hint": "ひく式のかっこをはずしたとき、$-2xy$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0059",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(a+b+3)(a+b-3)",
+      "answerLines": [
+        "(a+b+3)(a+b-3)",
+        "=\\{(a+b)+3\\}\\{(a+b)-3\\}",
+        "=(a+b)^2-3^2",
+        "=a^2+b^2-9"
+      ],
+      "errorLine": 3,
+      "errorType": "和の平方で、2倍の積の項を忘れた誤り",
+      "explanation": "$(a+b)^2=a^2+2ab+b^2$ です。$2ab$ の項を忘れて $a^2+b^2$ としたところが誤りです。$a+b$ を1つのまとまりと見て、和と差の積の公式を使ったところまでは正しくできています。正しくは $a^2+2ab+b^2-9$ です。",
+      "correctSolution": [
+        "(a+b+3)(a+b-3)",
+        "=\\{(a+b)+3\\}\\{(a+b)-3\\}",
+        "=(a+b)^2-3^2",
+        "=a^2+2ab+b^2-9"
+      ],
+      "hint": "$(a+b)^2$ を展開すると、項はいくつになりますか？"
+    },
+    {
+      "id": "J3-EF-0060",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "乗法公式",
+      "difficulty": 4,
+      "instruction": "次の式を展開しなさい。",
+      "question": "(x-1)(x+1)(x^2+1)",
+      "answerLines": [
+        "(x-1)(x+1)(x^2+1)",
+        "=(x^2-1)(x^2+1)",
+        "=(x^2)^2-1^2",
+        "=x^4-2"
+      ],
+      "errorLine": 3,
+      "errorType": "1の2乗を2とした誤り",
+      "explanation": "$1^2=1\\times1=1$ です。$2$ としたところが誤りです。前の2つの式をかけて $x^2-1$ とし、もう一度和と差の積の公式を使ったところまでは正しくできています。正しくは $x^4-1$ です。",
+      "correctSolution": [
+        "(x-1)(x+1)(x^2+1)",
+        "=(x^2-1)(x^2+1)",
+        "=(x^2)^2-1^2",
+        "=x^4-1"
+      ],
+      "hint": "$1^2$ はいくつですか？"
+    },
+    {
+      "id": "J3-EF-0061",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "5a^2-10a",
+      "answerLines": [
+        "5a^2-10a",
+        "=5a(a-2)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。2つの項に共通な因数は $5a$ です。$5a^2\\div5a=a$、$10a\\div5a=2$ なので $5a(a-2)$ です。",
+      "correctSolution": [
+        "5a^2-10a",
+        "=5a(a-2)"
+      ],
+      "hint": "係数と文字の両方で、共通な因数を探しましょう。"
+    },
+    {
+      "id": "J3-EF-0062",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2+5x+6",
+      "answerLines": [
+        "x^2+5x+6",
+        "=(x+2)(x+3)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。積が $6$、和が $5$ になる2数は $2$ と $3$ なので、$(x+2)(x+3)$ です。",
+      "correctSolution": [
+        "x^2+5x+6",
+        "=(x+2)(x+3)"
+      ],
+      "hint": "積が $6$、和が $5$ になる2つの数を探しましょう。"
+    },
+    {
+      "id": "J3-EF-0063",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-9",
+      "answerLines": [
+        "x^2-9",
+        "=x^2-3^2",
+        "=(x-3)^2"
+      ],
+      "errorLine": 2,
+      "errorType": "a²−b² を (a−b)² と取り違えた誤り",
+      "explanation": "$a^2-b^2=(a+b)(a-b)$ なので、$x^2-3^2=(x+3)(x-3)$ です。$(x-3)^2$ としたところが誤りです（展開すると $x^2-6x+9$ になり、もとの式にもどりません）。$x^2-3^2$ と表したところは正しくできています。",
+      "correctSolution": [
+        "x^2-9",
+        "=x^2-3^2",
+        "=(x+3)(x-3)"
+      ],
+      "hint": "$(x-3)^2$ を展開すると、もとの式にもどりますか？"
+    },
+    {
+      "id": "J3-EF-0064",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-8x+16",
+      "answerLines": [
+        "x^2-8x+16",
+        "=x^2-2\\times4\\times x+4^2",
+        "=(x+4)^2"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の公式の符号ミス",
+      "explanation": "$x^2-2\\times4\\times x+4^2$ は、真ん中の項が $-$ なので $(x-4)^2$ です。$(x+4)^2$ としたところが誤りです。$x^2-2\\times4\\times x+4^2$ の形に表したところは正しくできています。",
+      "correctSolution": [
+        "x^2-8x+16",
+        "=x^2-2\\times4\\times x+4^2",
+        "=(x-4)^2"
+      ],
+      "hint": "$x$ の項の符号が $-$ のとき、かっこの中の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0065",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "3ab+6b",
+      "answerLines": [
+        "3ab+6b",
+        "=3(ab+2b)"
+      ],
+      "errorLine": 1,
+      "errorType": "共通因数をすべてくくり出していない（因数分解が不完全）",
+      "explanation": "$3(ab+2b)$ はもとの式と等しい式ですが、かっこの中の $ab$ と $2b$ にはまだ共通因数 $b$ があります。共通因数は $3b$ なので、正しくは $3b(a+2)$ です。$3$ だけをくくり出して終わったところが誤りです。",
+      "correctSolution": [
+        "3ab+6b",
+        "=3b(a+2)"
+      ],
+      "hint": "かっこの中の2つの項に、まだ共通な文字はありませんか？"
+    },
+    {
+      "id": "J3-EF-0066",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-x-12",
+      "answerLines": [
+        "x^2-x-12",
+        "=(x-3)(x+4)"
+      ],
+      "errorLine": 1,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "積が $-12$、和が $-1$ になる2数は $3$ と $-4$ なので、$(x+3)(x-4)$ です。$-3$ と $4$ では和が $+1$ になってしまいます。$(x-3)(x+4)$ としたところが誤りです。",
+      "correctSolution": [
+        "x^2-x-12",
+        "=(x+3)(x-4)"
+      ],
+      "hint": "$(x-3)(x+4)$ を展開して、$x$ の項がもとの式と同じになるか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0067",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "a^2+10a+25",
+      "answerLines": [
+        "a^2+10a+25",
+        "=a^2+2\\times5\\times a+5^2",
+        "=(a+5)^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$25=5^2$、$10a=2\\times5\\times a$ なので、和の平方の公式を逆に使って $(a+5)^2$ です。",
+      "correctSolution": [
+        "a^2+10a+25",
+        "=a^2+2\\times5\\times a+5^2",
+        "=(a+5)^2"
+      ],
+      "hint": "数の項が平方数で、真ん中の項がその2倍になっているか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0068",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "4x^2-9",
+      "answerLines": [
+        "4x^2-9",
+        "=(4x+3)(4x-3)"
+      ],
+      "errorLine": 1,
+      "errorType": "平方の差で、2乗する前の式を使わなかった誤り",
+      "explanation": "$4x^2=(2x)^2$、$9=3^2$ なので、$(2x)^2-3^2=(2x+3)(2x-3)$ です。$4x$ をそのまま使って $(4x+3)(4x-3)$ としたところが誤りです（展開すると $16x^2-9$ になります）。",
+      "correctSolution": [
+        "4x^2-9",
+        "=(2x)^2-3^2",
+        "=(2x+3)(2x-3)"
+      ],
+      "hint": "$4x^2$ は何の2乗ですか？"
+    },
+    {
+      "id": "J3-EF-0069",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2+2x-15",
+      "answerLines": [
+        "x^2+2x-15",
+        "=x^2+(5-3)x+5\\times(-3)",
+        "=(x-5)(x+3)"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこに書くときの符号ミス",
+      "explanation": "2行目で見つけた2数は $5$ と $-3$ なので、$(x+5)(x-3)$ です。符号を入れかえて $(x-5)(x+3)$ としたところが誤りです。積が $-15$、和が $2$ になる2数を見つけたところは正しくできています。",
+      "correctSolution": [
+        "x^2+2x-15",
+        "=x^2+(5-3)x+5\\times(-3)",
+        "=(x+5)(x-3)"
+      ],
+      "hint": "2行目の2数 $5$ と $-3$ を、そのままかっこに入れましたか？"
+    },
+    {
+      "id": "J3-EF-0070",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2x^2y-6xy^2",
+      "answerLines": [
+        "2x^2y-6xy^2",
+        "=2xy(x+3y)"
+      ],
+      "errorLine": 1,
+      "errorType": "くくり出したあとのかっこの中の符号ミス",
+      "explanation": "共通因数 $2xy$ でくくると、$-6xy^2\\div2xy=-3y$ なので、かっこの中は $x-3y$ です。$+3y$ としたところが誤りです。共通因数 $2xy$ は正しく見つけられています。正しくは $2xy(x-3y)$ です。",
+      "correctSolution": [
+        "2x^2y-6xy^2",
+        "=2xy(x-3y)"
+      ],
+      "hint": "$-6xy^2$ を $2xy$ でわると、符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0071",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2x^2-18",
+      "answerLines": [
+        "2x^2-18",
+        "=2(x^2-9)",
+        "=2(x+3)(x-3)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。まず共通因数 $2$ をくくり出すと $2(x^2-9)$ です。かっこの中は $x^2-3^2$ なので、さらに $(x+3)(x-3)$ と因数分解できます。",
+      "correctSolution": [
+        "2x^2-18",
+        "=2(x^2-9)",
+        "=2(x+3)(x-3)"
+      ],
+      "hint": "共通因数をくくり出したあと、かっこの中がまだ因数分解できないか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0072",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "3a^2-6a-24",
+      "answerLines": [
+        "3a^2-6a-24",
+        "=3(a^2-2a-8)",
+        "=3\\{a^2+(-4+2)a+(-4)\\times2\\}",
+        "=3(a+4)(a-2)"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこに書くときの符号ミス",
+      "explanation": "3行目で見つけた2数は $-4$ と $2$ なので、$3(a-4)(a+2)$ です。符号を入れかえて $3(a+4)(a-2)$ としたところが誤りです。共通因数 $3$ のくくり出しと、積が $-8$、和が $-2$ になる2数の見つけ方は正しくできています。",
+      "correctSolution": [
+        "3a^2-6a-24",
+        "=3(a^2-2a-8)",
+        "=3\\{a^2+(-4+2)a+(-4)\\times2\\}",
+        "=3(a-4)(a+2)"
+      ],
+      "hint": "3行目の2数 $-4$ と $2$ を、そのままかっこに入れましたか？"
+    },
+    {
+      "id": "J3-EF-0073",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-10xy+25y^2",
+      "answerLines": [
+        "x^2-10xy+25y^2",
+        "=x^2-2\\times5y\\times x+(5y)^2",
+        "=(x-5y)(x+5y)"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の公式と、和と差の積の公式を取り違えた誤り",
+      "explanation": "$x^2-2\\times5y\\times x+(5y)^2$ は差の平方の形なので、$(x-5y)^2$ です。$(x-5y)(x+5y)$ としたところが誤りです（展開すると $x^2-25y^2$ になります）。2行目の形に表したところは正しくできています。",
+      "correctSolution": [
+        "x^2-10xy+25y^2",
+        "=x^2-2\\times5y\\times x+(5y)^2",
+        "=(x-5y)^2"
+      ],
+      "hint": "2行目は、どの乗法公式の右辺の形になっていますか？"
+    },
+    {
+      "id": "J3-EF-0074",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "ax^2-4a",
+      "answerLines": [
+        "ax^2-4a",
+        "=a(x^2-4a)"
+      ],
+      "errorLine": 1,
+      "errorType": "くくり出すとき、項を共通因数でわり忘れた誤り",
+      "explanation": "共通因数 $a$ でくくり出すと、$4a\\div a=4$ なので、かっこの中は $x^2-4$ です。$4a$ のまま残したところが誤りです。正しくは $a(x^2-4)=a(x+2)(x-2)$ です。",
+      "correctSolution": [
+        "ax^2-4a",
+        "=a(x^2-4)",
+        "=a(x+2)(x-2)"
+      ],
+      "hint": "$a(x^2-4a)$ を展開すると、もとの式にもどりますか？"
+    },
+    {
+      "id": "J3-EF-0075",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^3-6x^2+9x",
+      "answerLines": [
+        "x^3-6x^2+9x",
+        "=x(x^2-6x+9)",
+        "=x(x-3)^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。共通因数 $x$ をくくり出すと $x(x^2-6x+9)$ です。かっこの中は $x^2-2\\times3\\times x+3^2$ なので $(x-3)^2$ です。",
+      "correctSolution": [
+        "x^3-6x^2+9x",
+        "=x(x^2-6x+9)",
+        "=x(x-3)^2"
+      ],
+      "hint": "共通因数をくくり出したあとのかっこの中を、もう一度見てみましょう。"
+    },
+    {
+      "id": "J3-EF-0076",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "4a^2-12ab+9b^2",
+      "answerLines": [
+        "4a^2-12ab+9b^2",
+        "=(2a)^2-2\\times2a\\times3b+(3b)^2",
+        "=(4a-9b)^2"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の公式で、2乗する前の式を使わなかった誤り",
+      "explanation": "2行目は $(2a)^2-2\\times2a\\times3b+(3b)^2$ なので、$(2a-3b)^2$ です。2乗したあとの $4a$、$9b$ を使って $(4a-9b)^2$ としたところが誤りです。2行目の形に表したところは正しくできています。",
+      "correctSolution": [
+        "4a^2-12ab+9b^2",
+        "=(2a)^2-2\\times2a\\times3b+(3b)^2",
+        "=(2a-3b)^2"
+      ],
+      "hint": "2行目で2乗されているのは、どんな式ですか？"
+    },
+    {
+      "id": "J3-EF-0077",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2x^3-8xy^2",
+      "answerLines": [
+        "2x^3-8xy^2",
+        "=2x(x^2-4y^2)",
+        "=2x\\{x^2-(2y)^2\\}",
+        "=2x(x-2y)^2"
+      ],
+      "errorLine": 3,
+      "errorType": "a²−b² を (a−b)² と取り違えた誤り",
+      "explanation": "$x^2-(2y)^2$ は平方の差なので、$(x+2y)(x-2y)$ です。$(x-2y)^2$ としたところが誤りです。共通因数 $2x$ のくくり出しと、$4y^2=(2y)^2$ は正しくできています。正しくは $2x(x+2y)(x-2y)$ です。",
+      "correctSolution": [
+        "2x^3-8xy^2",
+        "=2x(x^2-4y^2)",
+        "=2x\\{x^2-(2y)^2\\}",
+        "=2x(x+2y)(x-2y)"
+      ],
+      "hint": "$a^2-b^2$ はどのように因数分解できますか？"
+    },
+    {
+      "id": "J3-EF-0078",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "3x^2y-12xy+12y",
+      "answerLines": [
+        "3x^2y-12xy+12y",
+        "=3y(x^2-4x+4)",
+        "=3y(x^2-2\\times2\\times x+2^2)",
+        "=3y(x-2)(x+2)"
+      ],
+      "errorLine": 3,
+      "errorType": "平方の公式と、和と差の積の公式を取り違えた誤り",
+      "explanation": "$x^2-2\\times2\\times x+2^2$ は差の平方の形なので、$(x-2)^2$ です。$(x-2)(x+2)$ としたところが誤りです（展開すると $x^2-4$ になります）。共通因数 $3y$ のくくり出しと、3行目の形は正しくできています。正しくは $3y(x-2)^2$ です。",
+      "correctSolution": [
+        "3x^2y-12xy+12y",
+        "=3y(x^2-4x+4)",
+        "=3y(x^2-2\\times2\\times x+2^2)",
+        "=3y(x-2)^2"
+      ],
+      "hint": "3行目のかっこの中は、どの乗法公式の右辺の形ですか？"
+    },
+    {
+      "id": "J3-EF-0079",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2y-xy-12y",
+      "answerLines": [
+        "x^2y-xy-12y",
+        "=y(x^2-x-12)",
+        "=y(x-6)(x+2)"
+      ],
+      "errorLine": 2,
+      "errorType": "積だけを考えて、和を確かめなかった誤り",
+      "explanation": "$-6$ と $2$ は積が $-12$ ですが、和は $-4$ で $-1$ になりません。積が $-12$、和が $-1$ になる2数は $-4$ と $3$ なので、正しくは $y(x-4)(x+3)$ です。共通因数 $y$ のくくり出しは正しくできています。",
+      "correctSolution": [
+        "x^2y-xy-12y",
+        "=y(x^2-x-12)",
+        "=y(x-4)(x+3)"
+      ],
+      "hint": "見つけた2数の和が $-1$ になっているか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0080",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "共通因数・基本の因数分解",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "a^3b-ab^3",
+      "answerLines": [
+        "a^3b-ab^3",
+        "=ab(a^2-b^2)",
+        "=ab(a+b)(a-b)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。共通因数 $ab$ をくくり出すと $ab(a^2-b^2)$ です。かっこの中は平方の差なので、$(a+b)(a-b)$ と因数分解できます。",
+      "correctSolution": [
+        "a^3b-ab^3",
+        "=ab(a^2-b^2)",
+        "=ab(a+b)(a-b)"
+      ],
+      "hint": "共通因数をくくり出したあと、かっこの中がまだ因数分解できないか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0081",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2+4x-21",
+      "answerLines": [
+        "x^2+4x-21",
+        "=(x+7)(x-3)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。積が $-21$、和が $4$ になる2数は $7$ と $-3$ なので、$(x+7)(x-3)$ です。",
+      "correctSolution": [
+        "x^2+4x-21",
+        "=(x+7)(x-3)"
+      ],
+      "hint": "積が負の数のとき、2数の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0082",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-16x+64",
+      "answerLines": [
+        "x^2-16x+64",
+        "=x^2-2\\times8\\times x+8^2",
+        "=(x-8)^2"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$64=8^2$、$16x=2\\times8\\times x$ なので、差の平方の公式を逆に使って $(x-8)^2$ です。",
+      "correctSolution": [
+        "x^2-16x+64",
+        "=x^2-2\\times8\\times x+8^2",
+        "=(x-8)^2"
+      ],
+      "hint": "数の項が平方数かどうか、まず確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0083",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "3x^2-27",
+      "answerLines": [
+        "3x^2-27",
+        "=3(x^2-9)",
+        "=3(x+9)(x-9)"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の差で、2乗する前の数を使わなかった誤り",
+      "explanation": "$x^2-9=x^2-3^2$ なので、$(x+3)(x-3)$ です。$9$ をそのまま使って $(x+9)(x-9)$ としたところが誤りです（展開すると $x^2-81$ になります）。共通因数 $3$ のくくり出しは正しくできています。正しくは $3(x+3)(x-3)$ です。",
+      "correctSolution": [
+        "3x^2-27",
+        "=3(x^2-9)",
+        "=3(x+3)(x-3)"
+      ],
+      "hint": "$9$ は何の2乗ですか？"
+    },
+    {
+      "id": "J3-EF-0084",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2+x-20",
+      "answerLines": [
+        "x^2+x-20",
+        "=(x+4)(x-5)"
+      ],
+      "errorLine": 1,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "積が $-20$、和が $1$ になる2数は $5$ と $-4$ なので、$(x+5)(x-4)$ です。$4$ と $-5$ では和が $-1$ になってしまいます。$(x+4)(x-5)$ としたところが誤りです。",
+      "correctSolution": [
+        "x^2+x-20",
+        "=(x+5)(x-4)"
+      ],
+      "hint": "$(x+4)(x-5)$ を展開して、$x$ の項がもとの式と同じか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0085",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 1,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2a^2+4a+2",
+      "answerLines": [
+        "2a^2+4a+2",
+        "=2(a^2+2a+1)"
+      ],
+      "errorLine": 1,
+      "errorType": "因数分解が途中で終わっている（かっこの中がまだ因数分解できる）",
+      "explanation": "$2(a^2+2a+1)$ はもとの式と等しい式ですが、かっこの中の $a^2+2a+1$ は $(a+1)^2$ とさらに因数分解できます。正しくは $2(a+1)^2$ です。共通因数 $2$ をくくり出したところで終わったところが誤りです。",
+      "correctSolution": [
+        "2a^2+4a+2",
+        "=2(a^2+2a+1)",
+        "=2(a+1)^2"
+      ],
+      "hint": "かっこの中の $a^2+2a+1$ は、乗法公式の形になっていませんか？"
+    },
+    {
+      "id": "J3-EF-0086",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x+3)(x-3)+8x",
+      "answerLines": [
+        "(x+3)(x-3)+8x",
+        "=x^2-9+8x",
+        "=x^2+8x-9",
+        "=(x-9)(x+1)"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこに書くときの符号ミス",
+      "explanation": "積が $-9$、和が $8$ になる2数は $9$ と $-1$ なので、$(x+9)(x-1)$ です。符号を逆にして $(x-9)(x+1)$ としたところが誤りです（展開すると $x^2-8x-9$ になります）。展開して $x^2+8x-9$ と整理したところまでは正しくできています。",
+      "correctSolution": [
+        "(x+3)(x-3)+8x",
+        "=x^2-9+8x",
+        "=x^2+8x-9",
+        "=(x+9)(x-1)"
+      ],
+      "hint": "$(x-9)(x+1)$ を展開して、$x$ の項の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0087",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x(x+5)-14",
+      "answerLines": [
+        "x(x+5)-14",
+        "=x^2+5x-14",
+        "=(x+7)(x-2)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。まず展開して $x^2+5x-14$ とします。積が $-14$、和が $5$ になる2数は $7$ と $-2$ なので、$(x+7)(x-2)$ です。",
+      "correctSolution": [
+        "x(x+5)-14",
+        "=x^2+5x-14",
+        "=(x+7)(x-2)"
+      ],
+      "hint": "このままでは因数分解できないときは、まず展開して整理しましょう。"
+    },
+    {
+      "id": "J3-EF-0088",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x+2)^2-4(x+2)-12",
+      "answerLines": [
+        "(x+2)^2-4(x+2)-12",
+        "=\\{(x+2)-6\\}\\{(x+2)+2\\}",
+        "=(x+2-6)(x+2+2)",
+        "=(x-8)(x+4)"
+      ],
+      "errorLine": 3,
+      "errorType": "異符号の2数の和を、絶対値の和で計算した誤り",
+      "explanation": "$x+2-6$ は $x-4$ です。$x-8$ としたところが誤りです（$2$ と $6$ をたしています）。$x+2$ を1つのまとまりと見て因数分解した2行目と、かっこをはずした3行目は正しくできています。正しくは $(x-4)(x+4)$ です。",
+      "correctSolution": [
+        "(x+2)^2-4(x+2)-12",
+        "=\\{(x+2)-6\\}\\{(x+2)+2\\}",
+        "=(x+2-6)(x+2+2)",
+        "=(x-4)(x+4)"
+      ],
+      "hint": "$2-6$ を計算し直してみましょう。"
+    },
+    {
+      "id": "J3-EF-0089",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x-1)(x-5)+4",
+      "answerLines": [
+        "(x-1)(x-5)+4",
+        "=x^2-6x+5+4",
+        "=x^2-6x+9",
+        "=(x+3)^2"
+      ],
+      "errorLine": 3,
+      "errorType": "平方の公式の符号ミス",
+      "explanation": "$x^2-6x+9$ は、$x$ の項が $-$ なので $(x-3)^2$ です。$(x+3)^2$ としたところが誤りです（展開すると $x^2+6x+9$ になります）。展開して $x^2-6x+9$ と整理したところまでは正しくできています。",
+      "correctSolution": [
+        "(x-1)(x-5)+4",
+        "=x^2-6x+5+4",
+        "=x^2-6x+9",
+        "=(x-3)^2"
+      ],
+      "hint": "$x$ の項の符号が $-$ のとき、かっこの中の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0090",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 2,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "9a^2-25b^2",
+      "answerLines": [
+        "9a^2-25b^2",
+        "=(3a)^2-(5b)^2",
+        "=(3a+5b)(3a-5b)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。$9a^2=(3a)^2$、$25b^2=(5b)^2$ なので、平方の差の公式で $(3a+5b)(3a-5b)$ です。",
+      "correctSolution": [
+        "9a^2-25b^2",
+        "=(3a)^2-(5b)^2",
+        "=(3a+5b)(3a-5b)"
+      ],
+      "hint": "それぞれの項が、何の2乗になっているかを考えましょう。"
+    },
+    {
+      "id": "J3-EF-0091",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "2x^2+6x-36",
+      "answerLines": [
+        "2x^2+6x-36",
+        "=2(x^2+3x-18)",
+        "=2\\{x^2+(6-3)x+6\\times(-3)\\}",
+        "=2(x-6)(x+3)"
+      ],
+      "errorLine": 3,
+      "errorType": "かっこに書くときの符号ミス",
+      "explanation": "3行目で見つけた2数は $6$ と $-3$ なので、$2(x+6)(x-3)$ です。符号を入れかえて $2(x-6)(x+3)$ としたところが誤りです。共通因数 $2$ のくくり出しと、積が $-18$、和が $3$ になる2数の見つけ方は正しくできています。",
+      "correctSolution": [
+        "2x^2+6x-36",
+        "=2(x^2+3x-18)",
+        "=2\\{x^2+(6-3)x+6\\times(-3)\\}",
+        "=2(x+6)(x-3)"
+      ],
+      "hint": "3行目の2数 $6$ と $-3$ を、そのままかっこに入れましたか？"
+    },
+    {
+      "id": "J3-EF-0092",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(a+b)^2-c^2",
+      "answerLines": [
+        "(a+b)^2-c^2",
+        "=\\{(a+b)+c\\}\\{(a+b)-c\\}",
+        "=(a+b+c)(a-b-c)"
+      ],
+      "errorLine": 2,
+      "errorType": "かっこをはずすときの符号ミス",
+      "explanation": "$(a+b)-c$ のかっこをはずしても、$b$ の符号は変わらないので $a+b-c$ です。$a-b-c$ としたところが誤りです。$a+b$ を1つのまとまりと見て平方の差の公式を使ったところは正しくできています。正しくは $(a+b+c)(a+b-c)$ です。",
+      "correctSolution": [
+        "(a+b)^2-c^2",
+        "=\\{(a+b)+c\\}\\{(a+b)-c\\}",
+        "=(a+b+c)(a+b-c)"
+      ],
+      "hint": "$(a+b)-c$ のかっこの前は $+$ です。符号は変わりますか？"
+    },
+    {
+      "id": "J3-EF-0093",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-y^2+4x+4",
+      "answerLines": [
+        "x^2-y^2+4x+4",
+        "=x^2+4x+4-y^2",
+        "=(x+2)^2-y^2",
+        "=\\{(x+2)+y\\}\\{(x+2)-y\\}",
+        "=(x+y+2)(x-y-2)"
+      ],
+      "errorLine": 4,
+      "errorType": "かっこをはずすときの符号ミス",
+      "explanation": "$(x+2)-y$ のかっこをはずすと $x+2-y$ で、並べかえると $x-y+2$ です。$x-y-2$ としたところが誤りです（$2$ の符号を変えています）。$x^2+4x+4=(x+2)^2$ と見て平方の差の公式を使ったところまでは正しくできています。正しくは $(x+y+2)(x-y+2)$ です。",
+      "correctSolution": [
+        "x^2-y^2+4x+4",
+        "=x^2+4x+4-y^2",
+        "=(x+2)^2-y^2",
+        "=\\{(x+2)+y\\}\\{(x+2)-y\\}",
+        "=(x+y+2)(x-y+2)"
+      ],
+      "hint": "$\\{(x+2)-y\\}$ のかっこをはずすと、$2$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0094",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x-3)^2+2(x-3)-15",
+      "answerLines": [
+        "(x-3)^2+2(x-3)-15",
+        "=\\{(x-3)-5\\}\\{(x-3)+3\\}",
+        "=(x-3-5)(x-3+3)",
+        "=x(x-8)"
+      ],
+      "errorLine": 1,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "$x-3$ を1つのまとまりと見ると、積が $-15$、和が $2$ になる2数は $5$ と $-3$ です。$-5$ と $3$ では和が $-2$ になってしまいます。正しくは $\\{(x-3)+5\\}\\{(x-3)-3\\}=(x+2)(x-6)$ です。",
+      "correctSolution": [
+        "(x-3)^2+2(x-3)-15",
+        "=\\{(x-3)+5\\}\\{(x-3)-3\\}",
+        "=(x-3+5)(x-3-3)",
+        "=(x+2)(x-6)"
+      ],
+      "hint": "見つけた2数 $-5$ と $3$ の和は、$2$ になっていますか？"
+    },
+    {
+      "id": "J3-EF-0095",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 3,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-2xy+y^2-9",
+      "answerLines": [
+        "x^2-2xy+y^2-9",
+        "=(x-y)^2-3^2",
+        "=\\{(x-y)+3\\}\\{(x-y)-3\\}",
+        "=(x-y+3)(x-y-3)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。前の3つの項は $(x-y)^2$ と因数分解できます。$x-y$ を1つのまとまりと見ると平方の差になるので、$(x-y+3)(x-y-3)$ です。",
+      "correctSolution": [
+        "x^2-2xy+y^2-9",
+        "=(x-y)^2-3^2",
+        "=\\{(x-y)+3\\}\\{(x-y)-3\\}",
+        "=(x-y+3)(x-y-3)"
+      ],
+      "hint": "はじめの3つの項を、乗法公式の形と見てみましょう。"
+    },
+    {
+      "id": "J3-EF-0096",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x+1)(x-3)-5",
+      "answerLines": [
+        "(x+1)(x-3)-5",
+        "=x^2-3x+x-3-5",
+        "=x^2-2x-8",
+        "=x^2+(-4+2)x+(-4)\\times2",
+        "=(x+4)(x-2)"
+      ],
+      "errorLine": 4,
+      "errorType": "かっこに書くときの符号ミス",
+      "explanation": "4行目で見つけた2数は $-4$ と $2$ なので、$(x-4)(x+2)$ です。符号を入れかえて $(x+4)(x-2)$ としたところが誤りです。展開と整理、積が $-8$、和が $-2$ になる2数の見つけ方は正しくできています。",
+      "correctSolution": [
+        "(x+1)(x-3)-5",
+        "=x^2-3x+x-3-5",
+        "=x^2-2x-8",
+        "=x^2+(-4+2)x+(-4)\\times2",
+        "=(x-4)(x+2)"
+      ],
+      "hint": "4行目の2数 $-4$ と $2$ を、そのままかっこに入れましたか？"
+    },
+    {
+      "id": "J3-EF-0097",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "x^2-4y^2-x-2y",
+      "answerLines": [
+        "x^2-4y^2-x-2y",
+        "=(x^2-4y^2)-(x+2y)",
+        "=(x+2y)(x-2y)-(x+2y)",
+        "=(x+2y)\\{(x-2y)-1\\}",
+        "=(x+2y)(x-2y+1)"
+      ],
+      "errorLine": 4,
+      "errorType": "かっこをはずすときの符号ミス",
+      "explanation": "$\\{(x-2y)-1\\}$ のかっこをはずすと $x-2y-1$ です。$+1$ としたところが誤りです。$x^2-4y^2=(x+2y)(x-2y)$ と因数分解し、共通因数 $x+2y$ でくくったところまでは正しくできています。正しくは $(x+2y)(x-2y-1)$ です。",
+      "correctSolution": [
+        "x^2-4y^2-x-2y",
+        "=(x^2-4y^2)-(x+2y)",
+        "=(x+2y)(x-2y)-(x+2y)",
+        "=(x+2y)\\{(x-2y)-1\\}",
+        "=(x+2y)(x-2y-1)"
+      ],
+      "hint": "4行目の $\\{(x-2y)-1\\}$ のかっこをはずすと、$1$ の符号はどうなりますか？"
+    },
+    {
+      "id": "J3-EF-0098",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(a+b)^2-6(a+b)+9",
+      "answerLines": [
+        "(a+b)^2-6(a+b)+9",
+        "=(a+b)^2-2\\times3\\times(a+b)+3^2",
+        "=\\{(a+b)+3\\}^2",
+        "=(a+b+3)^2"
+      ],
+      "errorLine": 2,
+      "errorType": "平方の公式の符号ミス",
+      "explanation": "2行目は、真ん中の項が $-$ なので差の平方の形で、$\\{(a+b)-3\\}^2$ です。$\\{(a+b)+3\\}^2$ としたところが誤りです。$a+b$ を1つのまとまりと見て、2行目の形に表したところは正しくできています。正しくは $(a+b-3)^2$ です。",
+      "correctSolution": [
+        "(a+b)^2-6(a+b)+9",
+        "=(a+b)^2-2\\times3\\times(a+b)+3^2",
+        "=\\{(a+b)-3\\}^2",
+        "=(a+b-3)^2"
+      ],
+      "hint": "2行目の真ん中の項の符号を確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0099",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "(x^2+2x)^2-11(x^2+2x)+24",
+      "answerLines": [
+        "(x^2+2x)^2-11(x^2+2x)+24",
+        "=\\{(x^2+2x)-3\\}\\{(x^2+2x)-8\\}",
+        "=(x^2+2x-3)(x^2+2x-8)",
+        "=(x+3)(x-1)(x^2+2x-8)",
+        "=(x+3)(x-1)(x-4)(x+2)"
+      ],
+      "errorLine": 4,
+      "errorType": "和と積の両方を満たす2数を選んでいない",
+      "explanation": "$x^2+2x-8$ は、積が $-8$、和が $2$ になる2数 $4$ と $-2$ を使って $(x+4)(x-2)$ です。$(x-4)(x+2)$ では $x$ の項が $-2x$ になってしまいます。$x^2+2x$ を1つのまとまりと見た因数分解と、$x^2+2x-3=(x+3)(x-1)$ は正しくできています。",
+      "correctSolution": [
+        "(x^2+2x)^2-11(x^2+2x)+24",
+        "=\\{(x^2+2x)-3\\}\\{(x^2+2x)-8\\}",
+        "=(x^2+2x-3)(x^2+2x-8)",
+        "=(x+3)(x-1)(x^2+2x-8)",
+        "=(x+3)(x-1)(x+4)(x-2)"
+      ],
+      "hint": "$(x-4)(x+2)$ を展開して、$x^2+2x-8$ になるか確かめましょう。"
+    },
+    {
+      "id": "J3-EF-0100",
+      "grade": 3,
+      "unit": "expansion-factorization",
+      "category": "因数分解の総合",
+      "difficulty": 4,
+      "instruction": "次の式を因数分解しなさい。",
+      "question": "ab-2a+3b-6",
+      "answerLines": [
+        "ab-2a+3b-6",
+        "=a(b-2)+3(b-2)",
+        "=(a+3)(b-2)"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。前の2つの項から $a$、うしろの2つの項から $3$ をくくり出すと、どちらにも $b-2$ が出てきます。$b-2$ を共通因数としてくくり出して $(a+3)(b-2)$ です。",
+      "correctSolution": [
+        "ab-2a+3b-6",
+        "=a(b-2)+3(b-2)",
+        "=(a+3)(b-2)"
+      ],
+      "hint": "項を2つずつ組にして、共通因数をくくり出してみましょう。"
+    }
+  ]
+}
