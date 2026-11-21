@@ -33,7 +33,11 @@
   const $ = (sel) => d.querySelector(sel);
   const $$ = (sel) => [...d.querySelectorAll(sel)];
   const app = () => w.__calcTeacher.app;
-  const visible = (name) => !d.querySelector(`[data-screen="${name}"]`).hidden;
+  // 問題データから件数を数える（問題を追加しても、テストを書き直さずに済むように）
+  const cnt = (c) => app().questions.filter((q) => q.unit === c.unit && (!c.categories || c.categories.includes(q.category)) && (!c.difficulties || c.difficulties.includes(q.difficulty))).length;
+  // 画面の <section> の中だけを探す（同じ部品がほかの画面にもあるため）
+  const inScreen = (name, sel) => d.querySelector(`section[data-screen="${name}"] ${sel}`);
+  const visible = (name) => !d.querySelector(`section[data-screen="${name}"]`).hidden;
   async function click(sel) {
     const el = typeof sel === 'string' ? $(sel) : sel;
     if (!el) throw new Error(`要素がありません: ${sel}`);
@@ -133,6 +137,38 @@
       compare: async () => { await configure({ unit: 'equation', difficulties: [4], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       'compare-pn': async () => { await configure({ unit: 'positive-negative', difficulties: [3], count: 5 }); await click('#start-btn'); await answer(false); await click('[data-action="compare-open"]'); },
       options: async () => click('[data-action="go-options"]'),
+      // ---- 第3段階（スクリーンショット用）
+      'ta-menu': async () => click('[data-action="go-ta-menu"]'),
+      'ta-official': async () => { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); },
+      'ta-custom': async () => { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="custom"]'); await click(d.querySelectorAll('[data-action="ta-toggle-category"]')[3]); },
+      'ta-play': async () => {
+        await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); await click('#ta-start-btn');
+        await waitFor(() => app().ta.session.started, 'START', 6000);
+        for (let i = 0; i < 4; i++) {
+          const q = app().ta.session.current;
+          d.querySelector(`section[data-screen="ta-play"] [data-action="ta-answer"][data-index="${q.errorLine === null ? 'all' : q.errorLine}"]`).click();
+          await sleep(380);
+        }
+      },
+      'ta-result': async () => {
+        await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); await click('#ta-start-btn');
+        await waitFor(() => app().ta.session.started, 'START', 6000);
+        for (let i = 0; i < 12; i++) {
+          const q = app().ta.session.current;
+          const idx = i === 5 ? (q.errorLine === null ? 1 : 'all') : (q.errorLine === null ? 'all' : q.errorLine);
+          d.querySelector(`section[data-screen="ta-play"] [data-action="ta-answer"][data-index="${idx}"]`).click();
+          await sleep(380);
+        }
+        await waitFor(() => !d.querySelector('section[data-screen="ta-result"]').hidden, 'result', 70000);
+      },
+      'cert-units': async () => click('[data-action="go-cert-units"]'),
+      'cert-list': async () => { await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]'); },
+      'cert-pass': async () => {
+        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]');
+        await click('[data-action="cert-start"][data-exam="1"]');
+        for (let i = 0; i < 3; i++) { await answer(true); await click('[data-action="next"]'); }
+      },
+      records: async () => click('[data-action="go-records"]'),
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
     }[SHOT];
     await goto();
@@ -144,28 +180,31 @@
   }
 
   // ================================================================== テスト本体
-  try { localStorage.removeItem('calcTeacher.sound'); } catch (e) { /* 音声設定を初期状態に */ }
+  try { ['calcTeacher.sound', 'calcTeacher.records', 'calcTeacher.records.backup'].forEach((k) => localStorage.removeItem(k)); } catch (e) { /* 音声設定・記録を初期状態に */ }
   await openGame(1);
+  // プレビューの確認用に、問題数を先に数えておく（プレビューを開くとゲームの状態は参照できなくなるため）
+  const DATA = { total: app().questions.length, expressions: cnt({ unit: 'expressions' }) };
 
   await test('[1] タイトル画面が表示され、トレーニングから設定画面へ進める', async () => {
     check(visible('title'), 'タイトル画面が表示されていない');
     check($('.title-name').textContent.includes('計算ティーチャー！'), 'タイトル文字');
     check($('.title-sub').textContent.includes('キミは計算ミスを見抜けるか'), 'サブタイトル');
-    check($$('.coming-soon button').length === 0, '準備中のモードがボタンになっている');
-    check($$('.coming-soon__badge').every((b) => b.textContent === '準備中'), '準備中の表示');
+    // 第3段階：タイムアタック・認定試験・記録が選べる（「準備中」ではない）
+    ['go-ta-menu', 'go-cert-units', 'go-records'].forEach((a) => check(inScreen('title', `button[data-action="${a}"]`), `${a} のボタンがない`));
+    check(!$('.coming-soon'), '「準備中」の表示が残っている');
     await click('[data-action="go-settings"]');
     check(visible('settings'), '設定画面へ進めない');
   });
 
   await test('[2] 単元は manifest の3単元から選べ、変更すると対象問題が切り替わる', async () => {
-    check($$('.unit-card').length === 3, `単元の数 ${$$('.unit-card').length}`);
+    check($$('section[data-screen="settings"] .unit-card').length === 3, `単元の数 ${$$('section[data-screen="settings"] .unit-card').length}`);
     await click('[data-action="select-unit"][data-unit="equation"]');
     check($('[data-unit="equation"]').getAttribute('aria-checked') === 'true', '方程式が選択されていない');
     const eqStar1 = $('[data-difficulty="1"]').textContent;
-    check(eqStar1.includes('1問'), `方程式の★の問題数表示: ${eqStar1}`);
+    check(eqStar1.includes(`${cnt({ unit: 'equation', difficulties: [1] })}問`), `方程式の★の問題数表示: ${eqStar1}`);
     await click('[data-action="select-unit"][data-unit="positive-negative"]');
-    check($('[data-difficulty="1"]').textContent.includes('2問'), '正負の数の★の問題数表示');
-    check($('#setting-summary').textContent.includes('10問'), '出題できる問題数の表示');
+    check($('[data-difficulty="1"]').textContent.includes(`${cnt({ unit: 'positive-negative', difficulties: [1] })}問`), '正負の数の★の問題数表示');
+    check($('#setting-summary').textContent.includes(`出題できる問題：${cnt({ unit: 'positive-negative' })}問`), '出題できる問題数の表示');
   });
 
   await test('[3] 難易度を複数選択でき、「すべて選択」⇔「すべて解除」が切り替わる（おまかせはない）', async () => {
@@ -191,7 +230,7 @@
     await click('[data-difficulty="2"]');
     await click('[data-difficulty="3"]');
     check(pressed().join() === '2,3', `★★と★★★: ${pressed()}`);
-    check($('#setting-summary').textContent.includes('7問'), `★★+★★★ の問題数: ${$('#setting-summary').textContent}`);
+    check($('#setting-summary').textContent.includes(`出題できる問題：${cnt({ unit: 'positive-negative', difficulties: [2, 3] })}問`), `★★+★★★ の問題数: ${$('#setting-summary').textContent}`);
     // 最後の1つを選ぶと全部そろい、「すべて解除」に変わる
     await click('[data-difficulty="1"]');
     await click('[data-difficulty="4"]');
@@ -208,7 +247,7 @@
     const range = $('#count-range');
     check(range && range.type === 'range', 'スライダーがない');
     check(!$('[data-action="select-count"]'), '5問・10問・すべてのボタンが残っている');
-    check(range.min === '1' && range.max === '10', `範囲 ${range.min}〜${range.max}`);
+    check(range.min === '1' && range.max === String(cnt({ unit: 'positive-negative' })), `範囲 ${range.min}〜${range.max}`);
     check(range.value === '5' && $('#count-value').textContent === '5問', `初期値 ${range.value} / ${$('#count-value').textContent}`);
     await setCountTo(1);
     check($('#count-value').textContent === '1問' && $('#setting-summary').textContent.includes('今回は 1問'), '1問');
@@ -220,12 +259,13 @@
     await click('[data-action="count-minus"]');
     await click('[data-action="count-minus"]');
     check(range.value === '6', `− ${range.value}`);
-    await setCountTo(10);
+    await setCountTo('all');
     check($('[data-action="count-plus"]').disabled, '最大のとき ＋ が押せる');
-    // 最大数は選んだ難易度で変わる（★★★ だけ → 4問）
+    // 最大数は選んだ難易度で変わる（★★★ だけ → ★★★ の問題数）
     await click('[data-difficulty="all"]');
     await click('[data-difficulty="3"]');
-    check(range.max === '4' && range.value === '4' && $('#count-value').textContent === '4問', `★★★だけの最大 ${range.max} / ${range.value}`);
+    const n3 = String(cnt({ unit: 'positive-negative', difficulties: [3] }));
+    check(range.max === n3 && range.value === n3 && $('#count-value').textContent === `${n3}問`, `★★★だけの最大 ${range.max} / ${range.value}`);
     await click('[data-difficulty="all"]'); // すべて選択に戻す
     await setCountTo(5);
   });
@@ -281,14 +321,18 @@
     await configure({ unit: 'positive-negative', count: 5 });
     await click('[data-action="toggle-category-all"]'); // すべて解除
     await click(catChip('累乗'));
-    check($('#count-range').max === '2' && $('#count-value').textContent === '2問', `累乗だけの最大 ${$('#count-range').max} / ${$('#count-value').textContent}`);
-    check($('#setting-summary').textContent.includes('出題できる問題：2問'), $('#setting-summary').textContent);
+    const nPow = cnt({ unit: 'positive-negative', categories: ['累乗'] });
+    check(nPow < 5, 'このテストには累乗が5問未満である必要がある');
+    check($('#count-range').max === String(nPow) && $('#count-value').textContent === `${nPow}問`, `累乗だけの最大 ${$('#count-range').max} / ${$('#count-value').textContent}`);
+    check($('#setting-summary').textContent.includes(`出題できる問題：${nPow}問`), $('#setting-summary').textContent);
     await click(catChip('加法・減法'));
-    check($('#count-range').max === '5' && $('#count-value').textContent === '5問', `加法・減法を足したあと ${$('#count-range').max} / ${$('#count-value').textContent}`);
+    const nPA = cnt({ unit: 'positive-negative', categories: ['累乗', '加法・減法'] });
+    check($('#count-range').max === String(nPA) && $('#count-value').textContent === `${Math.min(5, nPA)}問`, `加法・減法を足したあと ${$('#count-range').max} / ${$('#count-value').textContent}`);
     await click('[data-action="toggle-category-all"]');
-    check($('#count-range').max === '10' && $('#count-value').textContent === '5問', '希望の5問に戻らない');
-    // 累乗 × ★★★★ は0問
-    await configure({ unit: 'positive-negative', categories: ['累乗'], difficulties: [4], count: 5 });
+    check($('#count-range').max === String(cnt({ unit: 'positive-negative' })) && $('#count-value').textContent === '5問', '希望の5問に戻らない');
+    // 文字式の「文字式の表し方」× ★★ は0問
+    check(cnt({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] }) === 0, 'テストの前提（0問の条件）が崩れている');
+    await configure({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2], count: 5 });
     check($('#start-btn').disabled && $('#count-range').disabled && $('#count-value').textContent === '0問', '0問なのに開始できる');
     check($('#setting-summary').textContent.includes('出題できる問題がありません'), `メッセージ: ${$('#setting-summary').textContent}`);
   });
@@ -328,12 +372,14 @@
 
   await test('[5] 条件に合う問題が少ないときは、スライダーの最大がその数になり、その数だけ出題する', async () => {
     await configure({ unit: 'equation', difficulties: [4], count: 10 });
-    check($('#count-range').max === '1' && $('#count-value').textContent === '1問', `最大 ${$('#count-range').max}`);
-    check($('#setting-summary').textContent.includes('出題できる問題：1問'), $('#setting-summary').textContent);
+    const n4 = cnt({ unit: 'equation', difficulties: [4] });
+    check(n4 < 10, 'このテストには10問未満の条件が必要');
+    check($('#count-range').max === String(n4) && $('#count-value').textContent === `${n4}問`, `最大 ${$('#count-range').max}`);
+    check($('#setting-summary').textContent.includes(`出題できる問題：${n4}問`), $('#setting-summary').textContent);
     await click('#start-btn');
     check(visible('play'), '問題画面へ進まない');
-    check(app().session.total === 1, `出題数 ${app().session.total}`);
-    check($('#hud-count').textContent.includes('1/1'), $('#hud-count').textContent);
+    check(app().session.total === n4, `出題数 ${app().session.total}`);
+    check($('#hud-count').textContent.includes(`1/${n4}`), $('#hud-count').textContent);
   });
 
   await test('やめるボタン：確認ダイアログで「つづける」と「やめる」が動く', async () => {
@@ -650,7 +696,7 @@
     await click('[data-action="quit-confirm"]');
   });
 
-  await test('[表示] 方程式は全10問で、答案・正しい計算過程とも「＝」の縦の位置がそろう（選択中・採点後も）', async () => {
+  await test('[表示] 方程式の全問題で、答案・正しい計算過程とも「＝」の縦の位置がそろう（選択中・採点後も）', async () => {
     const eqX = (group) => $$(`${group} .eq-op`).map((op) => op.getBoundingClientRect().left);
     const aligned = (xs) => xs.length >= 2 && Math.max(...xs) - Math.min(...xs) <= 1;
     await configure({ unit: 'equation', count: 'all' });
@@ -673,7 +719,7 @@
     }
   });
 
-  await test('[表示] 全30問で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
+  await test('[表示] 全問題で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
     const report = { questions: 0, scrollable: 0, minRow: 999 };
     for (const unit of ['positive-negative', 'expressions', 'equation']) {
       await configure({ unit, count: 'all' });
@@ -698,7 +744,7 @@
       }
       await click('.summary-actions [data-action="go-settings"]');
     }
-    check(report.questions === 30, `確認した問題数 ${report.questions}`);
+    check(report.questions === app().questions.length, `確認した問題数 ${report.questions}`);
     check(report.minRow >= 48, `行の高さの最小 ${report.minRow}px`);
     results.push({ name: `  情報: 横スクロールになった数式 ${report.scrollable} 個 / 行の高さの最小 ${Math.round(report.minRow)}px`, ok: true });
   });
@@ -718,6 +764,243 @@
     tap.click();
     await navigated;
     check(frame.contentWindow.location.pathname.endsWith('/preview.html'), `開いた画面: ${frame.contentWindow.location.pathname}`);
+  });
+
+  // ================================================================ 第3段階：タイムアタック
+  const recs = () => w.__calcTeacher.records;
+  const sndNow = () => w.Sound;
+  const ta = () => app().ta;
+  const taRow = (i) => inScreen('ta-play', `[data-action="ta-answer"][data-index="${i}"]`);
+  const taCorrectEl = () => { const q = ta().session.current; return q.errorLine === null ? taRow('all') : taRow(q.errorLine); };
+  const taWrongEl = () => {
+    const q = ta().session.current;
+    if (q.errorLine === null) return taRow(1);
+    return q.errorLine !== 1 ? taRow(1) : (q.answerLines.length > 2 ? taRow(2) : taRow('all'));
+  };
+  /** タイムアタックを最後まで遊ぶ（pattern(i) が true なら正解、false なら不正解、null なら回答しない） */
+  async function playTA(pattern) {
+    await waitFor(() => ta().session && ta().session.started, 'START!', 8000);
+    let i = 0;
+    while (!ta().session.ended) {
+      const want = pattern(i);
+      if (want === null) { await sleep(500); continue; }
+      const el = want ? taCorrectEl() : taWrongEl();
+      if (el && !el.disabled) { el.click(); i++; }
+      await sleep(TA_FEEDBACK + 60);
+    }
+    await waitFor(() => visible('ta-result'), '結果画面', 5000);
+  }
+  const TA_FEEDBACK = 300;
+
+  await test('[TA] 公式：カウントダウン中は時間が減らず、行のタップ・全部正しいで即時判定。二重回答できず、60秒でタイムアップして記録される', async () => {
+    await openGame(11);
+    await click('[data-action="go-ta-menu"]');
+    check(visible('ta-menu'), 'モード選択画面');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    check(visible('ta-settings') && inScreen('ta-settings', '#ta-custom-fields').hidden, '公式でカテゴリ・難易度が選べてしまう');
+    check($('#ta-official-info').textContent.includes('全カテゴリ・全難易度'), '公式ルールの表示');
+    await click('[data-action="ta-select-unit"][data-unit="equation"]');
+    sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
+    await click('#ta-start-btn');
+    check(visible('ta-play'), 'プレイ画面へ進まない');
+    const s = ta().session;
+    check(s.isOfficial && s.criteria.categories === null && s.criteria.difficulties.join() === '1,2,3,4', '公式の条件');
+    check(!s.started && $('#ta-overlay-text').textContent === '3', 'カウントダウンが出ない');
+    await sleep(1500);
+    check(!s.started && s.remaining() === 60000 && $('#ta-timer-num').textContent === '60', 'カウントダウン中に時間が減った');
+    await waitFor(() => s.started, 'START!', 5000);
+    // 即時判定（「添削する！」はない）
+    check(!inScreen('ta-play', '#submit-btn') && !inScreen('ta-play', '#hint-btn'), '添削ボタンやヒントがある');
+    const q1 = s.current;
+    const el = taCorrectEl();
+    el.click();
+    check(s.results.length === 1 && s.results[0].correct && s.score === 100, '即時判定されない');
+    el.click(); taRow('all').click(); // 演出中の連打
+    check(s.results.length === 1, '二重に回答された');
+    await sleep(TA_FEEDBACK + 80);
+    check(s.current !== q1 || s.pool.length === 1, '次の問題に進まない');
+    // 残りは全問正解で最後まで
+    await playTA(() => true);
+    check(s.ended && s.remaining() === 0, 'タイムアップしていない');
+    check(s.answer({ type: 'allCorrect' }) === null, 'タイムアップ後に回答できた');
+    const sum = s.summary();
+    check(sum.score === s.results.reduce((a, r) => a + r.points, 0) && sum.wrong === 0 && sum.maxStreak === sum.correct, '得点の集計');
+    check($('#ta-result-body').textContent.includes(`${sum.score}`) && $('#ta-result-body').textContent.includes('初めての公式記録'), '結果画面のスコア');
+    check($('#ta-result-body').textContent.includes(`称号：${w.TimeAttack.titleForScore(sum.score)}`), '称号の表示');
+    const rec = recs().officialFor('equation');
+    check(rec.bestScore === sum.score && rec.plays === 1 && rec.maxStreak === sum.maxStreak, `公式記録 ${JSON.stringify(rec)}`);
+    const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
+    ['countdown', 'go', 'quickCorrect', 'warning', 'timeup'].forEach((n) => check(names.includes(n), `効果音 ${n} が鳴っていない`));
+    check(names.filter((n) => n === 'countdown').length === 3, 'カウントダウン音の回数');
+    // 問題ごとの解説（スコアは変わらない）
+    check($$('#ta-result-body .review-item').length === sum.answered, '問題ごとの結果の数');
+    await click('#ta-result-body [data-action="ta-explain"][data-index="0"]');
+    check($('#explain-dialog').open && $('#explain-body').textContent.length > 20, '解説が開かない');
+    check(w.getComputedStyle($('#explain-dialog .compare')).transform === 'none', '解説のポップアップが回転している');
+    await click('[data-action="explain-close"]');
+    check(!$('#explain-dialog').open && recs().officialFor('equation').bestScore === sum.score, '解説を見たら記録が変わった');
+  });
+
+  await test('[TA] 不正解で連続が切れ、得点は連続数で変わる。自己ベストを下回った回は更新しない（プレイ回数は増える）', async () => {
+    const best = recs().officialFor('equation').bestScore;
+    await click('[data-action="ta-retry"]');
+    const s = ta().session;
+    await playTA((i) => (i < 4 ? [true, true, false, true][i] : null)); // 4問だけ回答して、あとは時間切れ
+    check(s.results.map((r) => r.points).join() === '100,100,0,100', `得点 ${s.results.map((r) => r.points)}`);
+    check(s.summary().maxStreak === 2, '最大連続');
+    const rec = recs().officialFor('equation');
+    check(rec.bestScore === best && rec.plays === 2, `自己ベストが変わった／回数 ${JSON.stringify(rec)}`);
+    check($('#ta-result-body').textContent.includes(`自己ベスト：${best}点`) && !$('#ta-result-body').textContent.includes('自己ベスト更新'), '自己ベストの表示');
+  });
+
+  await test('[TA] カスタム：カテゴリ・難易度をしぼれる。公式記録は変わらず、履歴に残る。履歴から同じ条件で再挑戦できる', async () => {
+    await click('[data-action="ta-back-settings"]');
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="custom"]');
+    check(!inScreen('ta-settings', '#ta-custom-fields').hidden, 'カスタムでカテゴリ・難易度が出ない');
+    await click('[data-action="ta-select-unit"][data-unit="positive-negative"]');
+    await click('[data-action="ta-toggle-category-all"]'); // すべて解除
+    check(inScreen('ta-settings', '#ta-start-btn').disabled, 'カテゴリ0個で開始できる');
+    const catBtn = $$('[data-action="ta-toggle-category"]').find((b) => b.textContent.includes('累乗'));
+    await click(catBtn);
+    await click('[data-action="ta-toggle-difficulty"][data-difficulty="all"]'); // すべて解除
+    await click('[data-action="ta-toggle-difficulty"][data-difficulty="1"]');
+    await click('[data-action="ta-toggle-difficulty"][data-difficulty="4"]');
+    const n = cnt({ unit: 'positive-negative', categories: ['累乗'], difficulties: [1, 4] });
+    check($('#ta-summary').textContent.includes(`出題できる問題：${n}問`), $('#ta-summary').textContent);
+    const officialBefore = JSON.stringify(recs().officialFor('positive-negative'));
+    await click('#ta-start-btn');
+    const s = ta().session;
+    check(!s.isOfficial && s.criteria.categories.join() === '累乗' && s.criteria.difficulties.join() === '1,4', '条件');
+    await playTA((i) => (i < 6 ? i % 2 === 0 : null));
+    check(s.results.every((r) => r.question.category === '累乗' && [1, 4].includes(r.question.difficulty)), '条件外の問題が出た');
+    // 一巡したら並べ直して続ける（同じ問題は続けて出ない）
+    const ids = s.results.map((r) => r.question.id);
+    for (let i = 1; i < ids.length; i++) check(n === 1 || ids[i] !== ids[i - 1], '同じ問題が続いた');
+    check(JSON.stringify(recs().officialFor('positive-negative')) === officialBefore, 'カスタムで公式記録が変わった');
+    const h = recs().customHistory();
+    check(h.length === 1 && h[0].categories.join() === '累乗' && h[0].score === s.score, `履歴 ${JSON.stringify(h[0])}`);
+    check($('#ta-result-body').textContent.includes('公式の記録・称号は変わりません'), 'カスタムの説明');
+    // 記録画面のカスタム履歴から同じ条件で再挑戦 → 途中でやめると記録しない
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-records"]');
+    await click('[data-action="records-tab"][data-tab="custom"]');
+    check($$('#records-panel .history-item').length === 1, '履歴の表示');
+    await click('#records-panel [data-action="ta-replay"][data-index="0"]');
+    check(visible('ta-play') && !ta().session.isOfficial && ta().session.criteria.categories.join() === '累乗', '同じ条件で再挑戦できない');
+    await waitFor(() => ta().session.started, 'START!', 5000);
+    taCorrectEl().click();
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+    check(visible('ta-settings') && recs().customHistory().length === 1, '途中でやめた回が記録された');
+  });
+
+  await test('[TA] カウントダウン中に「戻る」を押すと確認ダイアログが出て、やめると記録しない', async () => {
+    await click('#ta-start-btn');
+    w.history.back();
+    await waitFor(() => $('#quit-dialog').open, '戻る操作でダイアログ');
+    await click('[data-action="quit-confirm"]');
+    await sleep(3500); // カウントダウンが残っていても始まらない
+    check(visible('ta-settings') && ta().session === null, 'やめたのに続いている');
+  });
+
+  // ================================================================ 第3段階：認定試験
+  const examCard = (id) => $(`#exam-list [data-exam-id="${id}"]`);
+  async function answerExam(correct) {
+    await answer(correct);
+  }
+
+  await test('[認定] 最初は第1試験だけ挑戦できる。ヒントは使えない。3問正解で合格し、昇格・次の試験の解放が表示・保存される', async () => {
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-cert-units"]');
+    check($$('#cert-unit-list .cert-unit').length === 3 && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元の一覧');
+    await click('[data-action="cert-unit"][data-unit="equation"]');
+    check(visible('cert-list'), '試験一覧');
+    check(examCard(1).querySelector('[data-action="cert-start"]') && !examCard(1).querySelector('button').disabled, '第1試験が始められない');
+    [2, 3, 4, 5].forEach((id) => check(!examCard(id).querySelector('[data-action="cert-start"]') && examCard(id).textContent.includes('🔒'), `第${id}試験が解放されている`));
+    sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
+    await click(examCard(1).querySelector('[data-action="cert-start"]'));
+    check(visible('play') && app().mode === 'exam' && $('#play-actions').hidden, 'ヒントが使える');
+    check($('#hud-unit').textContent.includes('第1試験'), 'HUD に試験名がない');
+    check(sndNow().debug.log.some((e) => e.played && e.name === 'examStart'), '試験開始音');
+    const s = app().session;
+    check(s.questions.length === 5 && s.questions.every((q) => q.difficulty === 1 && q.unit === 'equation'), '第1試験の出題');
+    for (let i = 0; i < 3; i++) {
+      await answerExam(true);
+      const label = $('[data-action="next"]').textContent;
+      check(i < 2 ? label.includes('次の問題へ') : label.includes('試験結果を見る'), `${i + 1}問目のボタン: ${label}`);
+      check($('.feedback__text').textContent.length > 5, '解説が出ない');
+      sndNow().debug.resetThrottle();
+      if (i < 2) await click('[data-action="next"]');
+    }
+    sndNow().debug.clearLog();
+    await click('[data-action="next"]');
+    check(visible('cert-result') && s.results.length === 3, '3問で合格して終わらない');
+    const body = $('#cert-result-body').textContent;
+    check(body.includes('第1試験 合格！') && body.includes('新人ティーチャーに昇格') && body.includes('第2試験が解放されました'), `合格・昇格の表示: ${body.slice(0, 120)}`);
+    check(sndNow().debug.log.some((e) => e.played && e.name === 'rankup'), 'ランクアップの効果音');
+    check(recs().certFor('equation').highestCleared === 1 && recs().certFor('equation').exams['1'].attempts === 1, '認定記録');
+    check($$('#cert-result-body .review-item').length === 3, '問題ごとの結果');
+    await click('#cert-result-body [data-action="cert-explain"][data-index="0"]');
+    check($('#explain-dialog').open, '解説が開かない');
+    await click('[data-action="explain-close"]');
+    check($('#cert-result-actions').textContent.includes('次の試験へ'), '「次の試験へ」がない');
+    await click('[data-action="go-cert-list"]');
+    check(examCard(2).querySelector('[data-action="cert-start"]'), '第2試験が解放されていない');
+    check(examCard(1).textContent.includes('合格済み'), '合格済みの表示');
+  });
+
+  await test('[認定] 3問不正解で不合格（残りは出題しない）。不合格でもランクは下がらず、別の単元には影響しない', async () => {
+    await click(examCard(2).querySelector('[data-action="cert-start"]'));
+    const s = app().session;
+    check(s.questions.length === 6, '第2試験の問題数');
+    for (let i = 0; i < 3; i++) {
+      await answerExam(false);
+      if (i < 2) await click('[data-action="next"]');
+    }
+    check($('[data-action="next"]').textContent.includes('試験結果を見る'), '不合格が決まったのに次の問題へ');
+    sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
+    await click('[data-action="next"]');
+    check(visible('cert-result') && s.results.length === 3 && $('#cert-result-body').textContent.includes('第2試験 不合格'), '不合格の表示');
+    check($('#cert-result-body').textContent.includes('ランクは下がりません') && $('#cert-result-body').textContent.includes('新人ティーチャー'), 'ランクの表示');
+    check(sndNow().debug.log.some((e) => e.played && e.name === 'fail'), '不合格の効果音');
+    const c = recs().certFor('equation');
+    check(c.highestCleared === 1 && c.exams['2'].attempts === 1 && !c.exams['2'].cleared, `記録 ${JSON.stringify(c)}`);
+    check(recs().certFor('expressions').highestCleared === 0, '別の単元に影響した');
+  });
+
+  await test('[認定] 途中でやめた試験は記録しない（挑戦回数も増えない）。問題が足りない試験は始められない', async () => {
+    await click('[data-action="go-cert-list"]');
+    await click(examCard(2).querySelector('[data-action="cert-start"]'));
+    await answerExam(true);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+    check(visible('cert-list') && recs().certFor('equation').exams['2'].attempts === 1, '途中でやめた試験が記録された');
+    // 問題が足りない状態をつくる（★の方程式を一時的に減らす）
+    const all = app().questions;
+    const saved = all.slice();
+    const removeIdx = all.map((q, i) => (q.unit === 'equation' && q.difficulty === 1 ? i : -1)).filter((i) => i >= 0).slice(0, 3);
+    removeIdx.reverse().forEach((i) => all.splice(i, 1));
+    await click('[data-action="go-cert-list"]');
+    check(examCard(1).textContent.includes('★の問題が3問不足しているため、現在この試験には挑戦できません。'), `不足の表示: ${examCard(1).textContent.replace(/\s+/g, ' ')}`);
+    check(!examCard(1).querySelector('[data-action="cert-start"]'), '不足しているのに始められる');
+    all.length = 0; saved.forEach((q) => all.push(q)); // 元に戻す
+    await click('[data-action="go-cert-list"]');
+    check(examCard(1).querySelector('[data-action="cert-start"]'), '元に戻らない');
+  });
+
+  await test('[記録] 3つのタブで公式記録・カスタム履歴・認定状況が見られ、再読み込みしても残っている', async () => {
+    await openGame(2);
+    check(recs().officialFor('equation').plays === 2 && recs().customHistory().length === 1 && recs().certFor('equation').highestCleared === 1, '再読み込みで記録が消えた');
+    await click('[data-action="go-records"]');
+    check($('#tab-official').getAttribute('aria-selected') === 'true', '最初のタブ');
+    const official = $('#records-panel').textContent;
+    check(official.includes(`${recs().officialFor('equation').bestScore}`) && official.includes('まだ記録がありません'), '公式記録の表示');
+    await click('[data-action="records-tab"][data-tab="cert"]');
+    const cert = $('#records-panel').textContent;
+    check(cert.includes('新人ティーチャー') && cert.includes('第1試験') && cert.includes('ティーチャー見習い'), '認定の表示');
+    await click('[data-action="records-tab"][data-tab="custom"]');
+    check($$('#records-panel .history-item').length === 1, 'カスタム履歴の表示');
   });
 
   // ================================================================ 効果音
@@ -783,6 +1066,7 @@
     check(snd().getSettings().enabled === false, 'OFF になっていない');
     resetSnd();
     await click(rowBtn(1));
+    await click(rowBtn(1)); // 選択を外しておく（このあとの answer() が選び直すため）
     await click('#hint-btn');
     await answer(true);
     await click('[data-action="next"]');
@@ -865,7 +1149,7 @@
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {
     await load('../../preview.html?reveal=1#J1-EQ-0010');
     check(!w.Sound, 'プレビューに効果音が読み込まれている');
-    await waitFor(() => d.querySelectorAll('#question-index .chip').length === 30, 'プレビューの読み込み');
+    await waitFor(() => d.querySelectorAll('#question-index .chip').length === DATA.total, 'プレビューの読み込み');
     check(d.querySelector('.meta-id').textContent === 'J1-EQ-0010', 'URL ハッシュでの問題指定');
     check(d.querySelector('.answer-line--error'), '誤り行のハイライト');
     await waitFor(() => /レビュー済/.test(d.querySelector('#review-status').textContent), '手動レビュー状況');
@@ -873,7 +1157,7 @@
     d.querySelector('#unit-select').value = 'expressions';
     d.querySelector('#unit-select').dispatchEvent(new Event('change'));
     await sleep(50);
-    check(d.querySelectorAll('#question-index .chip').length === 10, '単元の絞り込み');
+    check(d.querySelectorAll('#question-index .chip').length === DATA.expressions, '単元の絞り込み');
     const before = d.querySelector('.meta-id').textContent;
     d.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     await sleep(50);

@@ -41,10 +41,19 @@ function chooseWrong(s) {
   else s.selectAllCorrect();
 }
 
+// 期待値を問題データから数える（filterPool を使わず独立に数えるので、実装をなぞるだけのテストにならない）。
+// 問題を追加しても、テストを書き直さずに済むようにする。
+function countOf({ unit, categories, difficulties }) {
+  return questions.filter((q) => q.unit === unit &&
+    (!categories || categories.includes(q.category)) &&
+    (!difficulties || difficulties.includes(q.difficulty))).length;
+}
+const unitSize = (unit) => countOf({ unit });
+
 console.log(`問題データ ${questions.length} 問でテストします\n`);
 
 // ---------------------------------------------------------------- データ
-test('全30問が出題可能（validateForPlay でエラーなし）', () => {
+test('全問題が出題可能（validateForPlay でエラーなし）', () => {
   const bad = questions.filter((q) => G.validateForPlay(q).length);
   eq(bad.length, 0, `出題できない問題: ${bad.map((q) => q.id).join(', ')}`);
 });
@@ -54,7 +63,7 @@ test('[2] 単元を変えると出題対象の単元が切り替わる', () => {
   for (const unit of ['positive-negative', 'expressions', 'equation']) {
     const s = session({ unit, difficulties: [1, 2, 3, 4], count: 'all' });
     assert(s.questions.every((q) => q.unit === unit), `${unit} 以外の問題が混ざっています`);
-    eq(s.total, 10, `${unit} の問題数`);
+    eq(s.total, unitSize(unit), `${unit} の問題数`);
   }
 });
 
@@ -66,11 +75,15 @@ test('[3] 難易度を複数選ぶと、その難易度の問題だけが出る'
   eq(s.total, expected, '問題数');
 });
 test('[3] 難易度ごとの問題数（設定画面の表示用）が正しい', () => {
-  const c = G.countByDifficulty(questions, 'positive-negative');
-  eq(JSON.stringify(c), JSON.stringify({ 1: 2, 2: 3, 3: 4, 4: 1 }), '正負の数の難易度別問題数');
+  for (const unit of ['positive-negative', 'expressions', 'equation']) {
+    const c = G.countByDifficulty(questions, unit);
+    const expected = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    [1, 2, 3, 4].forEach((d) => { expected[d] = countOf({ unit, difficulties: [d] }); });
+    eq(JSON.stringify(c), JSON.stringify(expected), `${unit} の難易度別問題数`);
+  }
 });
-test('[3] 難易度を空で渡すと「おまかせ」（全難易度）になる', () => {
-  eq(session({ unit: 'expressions', difficulties: [], count: 'all' }).total, 10);
+test('[3] 難易度を空で渡すとすべての難易度になる', () => {
+  eq(session({ unit: 'expressions', difficulties: [], count: 'all' }).total, unitSize('expressions'));
 });
 
 // ---------------------------------------------------------------- 4. 問題数
@@ -78,19 +91,23 @@ test('[4] 問題数 5問・10問・すべて が選べ、既定は5問', () => {
   eq(JSON.stringify(G.COUNT_OPTIONS), JSON.stringify([5, 10, 'all']));
   eq(G.DEFAULT_COUNT, 5);
   eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 5 }).total, 5);
-  eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 10 }).total, 10);
-  eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 'all' }).total, 10);
+  eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 10 }).total, Math.min(10, unitSize('equation')));
+  eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 'all' }).total, unitSize('equation'));
   eq(session({ unit: 'equation', difficulties: [1, 2, 3, 4] }).total, 5, '問題数を省略したとき');
 });
 
 // ---------------------------------------------------------------- 5. 問題数不足
 test('[5] 条件に合う問題が指定数より少ないときは、ある分だけ出題する（重複で埋めない）', () => {
-  const s = session({ unit: 'equation', difficulties: [4], count: 10 });
-  eq(s.total, 1, '★★★★の方程式は1問');
-  eq(s.available, 1);
-  const s2 = session({ unit: 'positive-negative', difficulties: [1], count: 5 });
-  eq(s2.total, 2);
-  eq(new Set(ids(s2)).size, 2, '重複');
+  const few = { unit: 'equation', difficulties: [4] };
+  const n = countOf(few);
+  assert(n > 0 && n < 10, `このテストには10問未満の条件が必要（${n}問）`);
+  const s = session({ ...few, count: 10 });
+  eq(s.total, n, '★★★★の方程式の問題数');
+  eq(s.available, n);
+  const tiny = { unit: 'positive-negative', categories: ['累乗'], difficulties: [1] };
+  const s2 = session({ ...tiny, count: 5 });
+  eq(s2.total, countOf(tiny));
+  eq(new Set(ids(s2)).size, s2.total, '重複');
 });
 test('[5] 条件に合う問題が0問なら開始できない', () => {
   throws(() => session({ unit: 'no-such-unit', difficulties: [1], count: 5 }), RangeError);
@@ -112,8 +129,8 @@ test('[6] 出題順はランダム（乱数によって順番が変わる）', (
 });
 test('[6] 5問の出題を何度もくり返すと、対象の全問題が出題される（かたよりがない）', () => {
   const seen = new Set();
-  for (let seed = 1; seed <= 100; seed++) ids(session({ unit: 'expressions', difficulties: [1, 2, 3, 4], count: 5 }, seed)).forEach((id) => seen.add(id));
-  eq(seen.size, 10);
+  for (let seed = 1; seed <= 300; seed++) ids(session({ unit: 'expressions', difficulties: [1, 2, 3, 4], count: 5 }, seed)).forEach((id) => seen.add(id));
+  eq(seen.size, unitSize('expressions'));
 });
 test('[6] errorLine を書き換えたり補正したりしない（出題後も元データと同じ）', () => {
   const s = session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 'all' });
@@ -157,7 +174,7 @@ test('[9] 何も選んでいないときは添削できない', () => {
 });
 
 // ---------------------------------------------------------------- 10〜13. 採点（全30問で確認）
-test('[10][11][12][13] 全30問で、正しい選択は正解・それ以外の選択はすべて不正解になる', () => {
+test('[10][11][12][13] 全問題で、正しい選択は正解・それ以外の選択はすべて不正解になる', () => {
   for (const q of questions) {
     const n = q.answerLines.length;
     const choices = [{ type: 'allCorrect' }];
@@ -238,9 +255,8 @@ test('[17][18] 指定数を解き終えると終了し、正解数・正解率�
   eq(JSON.stringify(sum), JSON.stringify({ total: 5, answered: 5, correct: 3, wrong: 2, rate: 60 }));
 });
 test('[18] 正解率は四捨五入した整数（例：3問中2問 → 67%）', () => {
-  const s = session({ unit: 'equation', difficulties: [4, 1], count: 'all' }); // 2問
-  const s3 = session({ unit: 'positive-negative', difficulties: [1, 4], count: 'all' }); // 3問
-  eq(s.total, 2);
+  // 3問だけを出題する（問題数を3にして）
+  const s3 = session({ unit: 'positive-negative', difficulties: [1, 2, 3, 4], count: 3 });
   eq(s3.total, 3);
   [true, true, false].forEach((ok) => {
     const q = s3.current;
@@ -272,10 +288,11 @@ test('[19] 再挑戦（同じ条件で新しいセッション）は状態がリ
 // ---------------------------------------------------------------- カテゴリ
 const S = require('../js/lib/question-schema.js');
 test('[カテゴリ 1] 単元ごとのカテゴリ一覧が、定義の順に正しく出る（問題数つき）', () => {
-  const names = (unit) => G.listCategories(questions, unit, S.UNITS[unit].categories).map((c) => `${c.name}:${c.count}`).join(',');
-  eq(names('positive-negative'), '加法・減法:3,乗法・除法:2,累乗:2,四則混合:3');
-  eq(names('expressions'), '文字式の表し方:1,式の値:2,同類項の計算:3,分配法則など:4');
-  eq(names('equation'), '移項:3,かっこを含む方程式:2,小数を含む方程式:2,分数を含む方程式:3');
+  for (const unit of ['positive-negative', 'expressions', 'equation']) {
+    const list = G.listCategories(questions, unit, S.UNITS[unit].categories);
+    eq(list.map((c) => c.name).join(), S.UNITS[unit].categories.join(), `${unit} のカテゴリと順番`);
+    list.forEach((c) => eq(c.count, countOf({ unit, categories: [c.name] }), `${unit} / ${c.name} の問題数`));
+  }
 });
 test('[カテゴリ] 定義にないカテゴリや、定義がまだ空の単元（中2・中3）でも、問題データから一覧になる', () => {
   const extra = [...questions, { ...questions[0], id: 'J1-PN-9998', category: '新しいカテゴリ' }];
@@ -292,17 +309,20 @@ test('[カテゴリ 8] 出題対象はカテゴリと難易度の両方に一致
   eq([...ids(s)].sort().join(), expected.map((q) => q.id).sort().join());
 });
 test('[カテゴリ] カテゴリ条件を渡さない・空のときは、すべてのカテゴリが対象（既存の呼び出しと互換）', () => {
-  eq(G.filterPool(questions, { unit: 'expressions', difficulties: [1, 2, 3, 4] }).length, 10);
-  eq(G.filterPool(questions, { unit: 'expressions', categories: [], difficulties: [1, 2, 3, 4] }).length, 10);
+  eq(G.filterPool(questions, { unit: 'expressions', difficulties: [1, 2, 3, 4] }).length, unitSize('expressions'));
+  eq(G.filterPool(questions, { unit: 'expressions', categories: [], difficulties: [1, 2, 3, 4] }).length, unitSize('expressions'));
   eq(session({ unit: 'expressions', count: 'all' }).config.categories, null, 'config.categories');
 });
-test('[カテゴリ 9] カテゴリでしぼると出題できる最大数が変わる（累乗だけ → 2問）', () => {
-  eq(G.filterPool(questions, { unit: 'positive-negative', categories: ['累乗'] }).length, 2);
-  eq(session({ unit: 'positive-negative', categories: ['累乗'], count: 10 }).total, 2, '10問を指定しても2問');
+test('[カテゴリ 9] カテゴリでしぼると出題できる最大数が変わる（累乗だけ → 累乗の問題数）', () => {
+  const n = countOf({ unit: 'positive-negative', categories: ['累乗'] });
+  assert(n < unitSize('positive-negative'), 'しぼっても数が変わらない');
+  eq(G.filterPool(questions, { unit: 'positive-negative', categories: ['累乗'] }).length, n);
+  eq(session({ unit: 'positive-negative', categories: ['累乗'], count: 10 }).total, Math.min(10, n), '10問を指定したとき');
 });
 test('[カテゴリ 10] 条件に合う問題が0問なら開始できない', () => {
-  // 正負の数の累乗には★★★★の問題がない
-  throws(() => session({ unit: 'positive-negative', categories: ['累乗'], difficulties: [4], count: 5 }), RangeError);
+  // 文字式の「文字式の表し方」には★★の問題がない
+  eq(countOf({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2] }), 0, 'テストの前提');
+  throws(() => session({ unit: 'expressions', categories: ['文字式の表し方'], difficulties: [2], count: 5 }), RangeError);
   throws(() => session({ unit: 'positive-negative', categories: ['ないカテゴリ'], count: 5 }), RangeError);
 });
 test('[カテゴリ 12・14] カテゴリでしぼっても重複しない。同じ seed なら同じ順番', () => {
@@ -310,7 +330,7 @@ test('[カテゴリ 12・14] カテゴリでしぼっても重複しない。同
   for (let seed = 1; seed <= 100; seed++) {
     const s = session(cfg, seed);
     eq(new Set(ids(s)).size, s.total, `seed=${seed}`);
-    eq(s.total, 6);
+    eq(s.total, countOf(cfg));
   }
   eq(ids(session(cfg, 7)).join(), ids(session(cfg, 7)).join());
 });
@@ -335,7 +355,7 @@ test('データに不整合がある問題は出題対象から除かれる', ()
   const broken = { ...questions[0], id: 'J1-PN-9999', errorLine: 0 };
   const pool = G.filterPool([...questions, broken], { unit: 'positive-negative', difficulties: [1, 2, 3, 4] });
   assert(!pool.includes(broken));
-  eq(pool.length, 10);
+  eq(pool.length, unitSize('positive-negative'));
 });
 test('同じ seed なら同じ出題順になる（不具合の再現用）', () => {
   const cfg = { unit: 'expressions', difficulties: [1, 2, 3, 4], count: 'all' };

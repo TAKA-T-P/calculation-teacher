@@ -47,10 +47,15 @@
         <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
           <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
         </button>
-        <ul class="coming-soon" aria-label="準備中のモード">
-          <li><span class="coming-soon__name">⏱ タイムアタック</span><span class="coming-soon__badge">準備中</span></li>
-          <li><span class="coming-soon__name">🎓 ティーチャー認定試験</span><span class="coming-soon__badge">準備中</span></li>
-        </ul>
+        <button type="button" class="btn btn--mode btn--lg" data-action="go-ta-menu">
+          <span class="btn__icon" aria-hidden="true">⏱</span>タイムアタック
+        </button>
+        <button type="button" class="btn btn--mode btn--lg" data-action="go-cert-units">
+          <span class="btn__icon" aria-hidden="true">🎓</span>ティーチャー認定試験
+        </button>
+        <button type="button" class="btn btn--ghost btn--lg" data-action="go-records">
+          <span class="btn__icon" aria-hidden="true">🏆</span>記録を見る
+        </button>
       </div>
       <p class="load-status" id="load-status" role="status"></p>
       <footer class="title-footer">
@@ -173,7 +178,7 @@
         <div class="hud__progress">
           <span class="hud__count" id="hud-count"></span>
           <span class="hud__score" id="hud-score"></span>
-          <button type="button" class="btn-icon hud__sound" id="hud-sound" data-action="toggle-sound" aria-pressed="true" aria-label="効果音：ON（押すとOFF）">🔊</button>
+          <button type="button" class="btn-icon hud__sound js-sound-toggle" id="hud-sound" data-action="toggle-sound" aria-pressed="true" aria-label="効果音：ON（押すとOFF）">🔊</button>
         </div>
       </header>
       <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
@@ -189,6 +194,126 @@
         <button type="button" class="btn btn--secondary btn--lg" data-action="go-settings">単元選択に戻る</button>
         <button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>
       </div>
+    </section>
+
+    <!-- ========== タイムアタック：公式／カスタムの選択 ========== -->
+    <section class="screen screen--ta-menu" data-screen="ta-menu" aria-labelledby="ta-menu-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="ta-menu-heading" class="screen-title" tabindex="-1">⏱ タイムアタック</h2>
+      </header>
+      <p class="screen-lead">60秒で、できるだけ多くの答案を添削しよう！ 行をタップした瞬間に判定されます。</p>
+      <div class="mode-cards">
+        <button type="button" class="mode-card mode-card--official" data-action="ta-mode" data-mode="official">
+          <span class="mode-card__icon" aria-hidden="true">🏅</span>
+          <span class="mode-card__name">公式タイムアタック</span>
+          <span class="mode-card__desc">単元を選ぶだけ。全カテゴリ・全難易度の共通ルールで、自己ベストと称号に挑戦！</span>
+        </button>
+        <button type="button" class="mode-card mode-card--custom" data-action="ta-mode" data-mode="custom">
+          <span class="mode-card__icon" aria-hidden="true">🎯</span>
+          <span class="mode-card__name">カスタムタイムアタック</span>
+          <span class="mode-card__desc">カテゴリと難易度をしぼって集中練習。公式記録・称号は変わりません（履歴は残ります）。</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- タイムアタック：設定 -->
+    <section class="screen screen--ta-settings" data-screen="ta-settings" aria-labelledby="ta-settings-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-ta-menu" aria-label="モード選択へ戻る">← もどる</button>
+        <h2 id="ta-settings-heading" class="screen-title" tabindex="-1"></h2>
+      </header>
+      <fieldset class="setting">
+        <legend class="setting__label">単元をえらぶ</legend>
+        <div class="unit-list" id="ta-unit-list" role="radiogroup" aria-label="単元"></div>
+      </fieldset>
+      <div id="ta-official-info" class="official-info"></div>
+      <div id="ta-custom-fields">
+        <fieldset class="setting">
+          <legend class="setting__label">カテゴリをえらぶ <small>（いくつでも）</small></legend>
+          <div class="category-list" id="ta-category-list"></div>
+          <div class="chip-list category-bulk" id="ta-category-bulk"></div>
+        </fieldset>
+        <fieldset class="setting">
+          <legend class="setting__label">難易度をえらぶ <small>（いくつでも）</small></legend>
+          <div class="chip-list" id="ta-difficulty-list"></div>
+        </fieldset>
+      </div>
+      <p class="setting-summary" id="ta-summary" role="status" aria-live="polite"></p>
+      <div class="screen-footer">
+        <button type="button" class="btn btn--primary btn--xl" id="ta-start-btn" data-action="ta-start">⏱ スタート！</button>
+      </div>
+    </section>
+
+    <!-- タイムアタック：プレイ -->
+    <section class="screen screen--ta-play" data-screen="ta-play" aria-labelledby="ta-play-heading" hidden>
+      <header class="hud hud--ta">
+        <button type="button" class="btn btn--ghost btn--quit" data-action="quit">やめる</button>
+        <div class="ta-timer" id="ta-timer" role="timer" aria-live="off">
+          <span class="ta-timer__num" id="ta-timer-num">60</span><small>秒</small>
+        </div>
+        <div class="hud__progress">
+          <span class="ta-score" id="ta-score">0<small>点</small></span>
+          <span class="ta-streak" id="ta-streak"></span>
+          <button type="button" class="btn-icon hud__sound js-sound-toggle" data-action="toggle-sound" aria-pressed="true" aria-label="効果音：ON（押すとOFF）">🔊</button>
+        </div>
+      </header>
+      <div class="ta-gauge" aria-hidden="true"><span id="ta-gauge-fill"></span></div>
+      <h2 id="ta-play-heading" class="visually-hidden" tabindex="-1">タイムアタック</h2>
+      <div id="ta-body"></div>
+      <div class="ta-overlay" id="ta-overlay" hidden><span id="ta-overlay-text"></span></div>
+    </section>
+
+    <!-- タイムアタック：結果 -->
+    <section class="screen screen--ta-result" data-screen="ta-result" aria-labelledby="ta-result-heading" hidden>
+      <div id="ta-result-body"></div>
+      <div class="summary-actions">
+        <button type="button" class="btn btn--primary btn--lg" data-action="ta-retry">もう一度チャレンジ</button>
+        <button type="button" class="btn btn--secondary btn--lg" data-action="ta-back-settings">設定に戻る</button>
+        <button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>
+      </div>
+    </section>
+
+    <!-- ========== 認定試験：単元の選択 ========== -->
+    <section class="screen screen--cert-units" data-screen="cert-units" aria-labelledby="cert-units-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="cert-units-heading" class="screen-title" tabindex="-1">🎓 ティーチャー認定試験</h2>
+      </header>
+      <p class="screen-lead">単元ごとに5つの試験があります。順番に合格して、マスターティーチャーをめざそう！</p>
+      <div class="cert-unit-list" id="cert-unit-list"></div>
+    </section>
+
+    <!-- 認定試験：試験一覧 -->
+    <section class="screen screen--cert-list" data-screen="cert-list" aria-labelledby="cert-list-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-cert-units" aria-label="単元の選択へ戻る">← 単元</button>
+        <h2 id="cert-list-heading" class="screen-title" tabindex="-1"></h2>
+      </header>
+      <div id="cert-rank" class="rank-card"></div>
+      <ol class="exam-list" id="exam-list"></ol>
+      <p class="screen-note">試験ではヒントは使えません。制限時間はありません。合格・不合格が決まった時点で試験は終わります。</p>
+    </section>
+
+    <!-- 認定試験：結果 -->
+    <section class="screen screen--cert-result" data-screen="cert-result" aria-labelledby="cert-result-heading" hidden>
+      <div id="cert-result-body"></div>
+      <div class="summary-actions" id="cert-result-actions"></div>
+    </section>
+
+    <!-- ========== 記録 ========== -->
+    <section class="screen screen--records" data-screen="records" aria-labelledby="records-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <h2 id="records-heading" class="screen-title" tabindex="-1">🏆 記録</h2>
+      </header>
+      <div class="tabs" role="tablist" aria-label="記録の種類">
+        <button type="button" class="tab" role="tab" id="tab-official" data-action="records-tab" data-tab="official" aria-controls="records-panel">公式タイムアタック</button>
+        <button type="button" class="tab" role="tab" id="tab-custom" data-action="records-tab" data-tab="custom" aria-controls="records-panel">カスタム履歴</button>
+        <button type="button" class="tab" role="tab" id="tab-cert" data-action="records-tab" data-tab="cert" aria-controls="records-panel">ティーチャー認定</button>
+      </div>
+      <div class="records-panel" id="records-panel" role="tabpanel"></div>
+      <p class="screen-note" id="records-note">記録はこの端末のブラウザに保存されます。</p>
     </section>
 
     <!-- エラー -->
@@ -222,6 +347,17 @@
     </div>
   </dialog>
 
+  <!-- 結果画面から1問の解説を見る（タイムアタック・認定試験） -->
+  <dialog class="compare-dialog explain-dialog" id="explain-dialog" aria-labelledby="explain-title">
+    <div class="compare">
+      <header class="compare__header">
+        <h2 id="explain-title" class="compare__title"></h2>
+        <button type="button" class="btn btn--secondary compare__close" data-action="explain-close">閉じる</button>
+      </header>
+      <div class="compare__body" id="explain-body"></div>
+    </div>
+  </dialog>
+
   <noscript><p class="noscript">このアプリを使うには JavaScript を有効にしてください。</p></noscript>
 
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -230,6 +366,9 @@
   <script src="js/math-render.js"></script>
   <script src="js/game.js"></script>
   <script src="js/sound.js"></script>
+  <script src="js/time-attack.js"></script>
+  <script src="js/certification.js"></script>
+  <script src="js/records.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

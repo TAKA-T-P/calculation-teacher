@@ -19,6 +19,12 @@
 
   const params = new URLSearchParams(location.search);
   const rng = G.createRng(params.get('seed'));
+  const TA = window.TimeAttack;
+  const C = window.Certification;
+  // 記録（公式・カスタム・認定）。localStorage が使えない環境でも、メモリ上で動く
+  const records = window.Records.createRecordStore({
+    storage: (() => { try { return window.localStorage; } catch (e) { return null; } })(),
+  });
 
   const app = {
     screen: 'title',
@@ -31,6 +37,10 @@
     retryBase: null,    // 結果画面から1問解き直しているときの、元のトレーニング
     retryIndex: null,
     retryResults: {},
+    mode: 'training',   // 添削画面（play）を使っているモード：'training'（トレーニング）／'exam'（認定試験）
+    // タイムアタック：mode は 'official'／'custom'。カテゴリ・難易度はカスタムだけで使う
+    ta: { mode: null, unit: null, categories: new Set(), difficulties: new Set(G.DIFFICULTIES), session: null, timers: [], tickId: null, warned: false, result: null },
+    cert: { unit: null, last: null },  // 認定試験：選んだ単元と、直前の試験の結果
     ready: false,
   };
 
@@ -42,6 +52,8 @@
   async function init() {
     document.addEventListener('click', onClick);
     initSound();
+    // タイムアタック中に画面が表に戻ったら、すぐに残り時間を更新する（裏にいた間も時間は減っている）
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tickTA(); });
     // 問題数のスライダー（ドラッグ中も数がすぐ変わる）
     $('#count-range').addEventListener('input', (e) => setCount(Number(e.target.value)));
     window.addEventListener('popstate', onPopState);
@@ -91,7 +103,7 @@
     stopSfx('long'); // 前の画面の長い効果音（正解音・結果発表など）を次の画面に残さない
     Object.entries(screens).forEach(([key, el]) => { el.hidden = key !== name; });
     app.screen = name;
-    document.body.dataset.screen = name;
+    document.body.dataset.currentScreen = name; // 画面の <section data-screen> と区別するため、別の名前にする
     if (historyMode === 'push') history.pushState({ screen: name }, '');
     else if (historyMode === 'replace') history.replaceState({ screen: name }, '');
     window.scrollTo(0, 0);
@@ -100,24 +112,33 @@
   }
 
   function inProgress() {
-    return app.screen === 'play' && app.session && !app.session.finished;
+    if (app.screen === 'play') return !!app.session && !app.session.finished;
+    if (app.screen === 'ta-play') return !!(app.ta.session && !app.ta.session.ended);
+    return false;
   }
 
   // ブラウザの「戻る」：プレイ中は確認してから終了する
   function onPopState(e) {
     const target = (e.state && e.state.screen) || 'title';
-    const compare = $('#compare-dialog');
-    if (compare.open && app.screen === 'play') {
-      // 並べて表示を開いているときの「戻る」は、それを閉じるだけにする
-      history.pushState({ screen: 'play' }, '');
-      compare.close();
+    // 並べて表示・解説のポップアップを開いているときの「戻る」は、それを閉じるだけにする
+    const popup = ['#compare-dialog', '#explain-dialog'].map((sel) => $(sel)).find((d) => d.open);
+    if (popup) {
+      history.pushState({ screen: app.screen }, '');
+      popup.close();
       return;
     }
     if (inProgress()) {
-      history.pushState({ screen: 'play' }, '');
+      history.pushState({ screen: app.screen }, '');
       openQuitDialog();
       return;
     }
+    // 進行中の状態がない画面（プレイ・結果）へは戻らない
+    if (['ta-play', 'ta-result'].includes(target)) { renderTASettings(); show(app.ta.mode ? 'ta-settings' : 'ta-menu', 'replace'); return; }
+    if (target === 'cert-result' || (target === 'play' && app.mode === 'exam')) { renderCertList(); show(app.cert.unit ? 'cert-list' : 'cert-units', 'replace'); return; }
+    if (target === 'cert-list') { if (!app.cert.unit) { renderCertUnits(); show('cert-units', 'replace'); return; } renderCertList(); }
+    if (target === 'cert-units') renderCertUnits();
+    if (target === 'records') renderRecords();
+    if (target === 'ta-settings') renderTASettings();
     if ((target === 'play' || target === 'summary') && !app.session) {
       show(app.ready ? 'settings' : 'title', 'replace');
       if (app.ready) renderSettings();
@@ -178,10 +199,35 @@
       case 'quit-confirm':
         sfx('tap');
         $('#quit-dialog').close();
+        if (app.screen === 'ta-play') { abortTA(); renderTASettings(); show('ta-settings', 'replace'); break; } // 記録しない
+        if (app.mode === 'exam') { app.session = null; app.mode = 'training'; renderCertList(); show('cert-list', 'replace'); break; } // 合格扱いにしない・記録しない
         if (app.retryBase) { backToSummary(); break; } // 解き直しをやめたときは結果画面へ戻る
         app.session = null;
         show('title', 'replace');
         break;
+      // ---------- タイムアタック
+      case 'go-ta-menu': sfx('tap'); show('ta-menu'); break;
+      case 'ta-mode': sfx('tap'); selectTAMode(el.dataset.mode); break;
+      case 'ta-select-unit': sfx('tap'); selectTAUnit(el.dataset.unit); break;
+      case 'ta-toggle-category': sfx('tap'); toggleTACategory(Number(el.dataset.index)); break;
+      case 'ta-toggle-category-all': sfx('tap'); toggleTACategoryAll(); break;
+      case 'ta-toggle-difficulty': sfx('tap'); toggleTADifficulty(el.dataset.difficulty); break;
+      case 'ta-start': startTA(); break;
+      case 'ta-answer': answerTA(el.dataset.index); break;
+      case 'ta-retry': startTA(); break;
+      case 'ta-back-settings': sfx('tap'); renderTASettings(); show('ta-settings'); break;
+      case 'ta-explain': sfx('tap'); openTAExplain(Number(el.dataset.index)); break;
+      case 'ta-replay': replayCustom(Number(el.dataset.index)); break;
+      // ---------- 認定試験
+      case 'go-cert-units': if (!app.ready) return; sfx('tap'); renderCertUnits(); show('cert-units'); break;
+      case 'cert-unit': sfx('tap'); app.cert.unit = el.dataset.unit; renderCertList(); show('cert-list'); break;
+      case 'go-cert-list': sfx('tap'); renderCertList(); show('cert-list'); break;
+      case 'cert-start': startExam(Number(el.dataset.exam)); break;
+      case 'cert-explain': sfx('tap'); openCertExplain(Number(el.dataset.index)); break;
+      // ---------- 記録・解説
+      case 'go-records': if (!app.ready) return; sfx('tap'); renderRecords('official'); show('records'); break;
+      case 'records-tab': sfx('tap'); renderRecords(el.dataset.tab); break;
+      case 'explain-close': sfx('tap'); $('#explain-dialog').close(); break;
       default: break;
     }
   }
@@ -234,11 +280,14 @@
     range.style.setProperty('--fill', `${s.volume}%`);
     range.disabled = !s.enabled;
     $('#volume-value').textContent = `${s.volume}%`;
-    const hud = $('#hud-sound');
-    hud.textContent = s.enabled ? '🔊' : '🔇';
-    hud.setAttribute('aria-pressed', String(s.enabled));
-    hud.setAttribute('aria-label', s.enabled ? '効果音：ON（押すとOFF）' : '効果音：OFF（押すとON）');
-    if (!window.Sound) { sw.disabled = true; hud.disabled = true; }
+    // 各プレイ画面（トレーニング・認定試験・タイムアタック）の上部にあるスピーカーボタン
+    document.querySelectorAll('.js-sound-toggle').forEach((hud) => {
+      hud.textContent = s.enabled ? '🔊' : '🔇';
+      hud.setAttribute('aria-pressed', String(s.enabled));
+      hud.setAttribute('aria-label', s.enabled ? '効果音：ON（押すとOFF）' : '効果音：OFF（押すとON）');
+      if (!window.Sound) hud.disabled = true;
+    });
+    if (!window.Sound) sw.disabled = true;
   }
 
   // ============================================================ 生徒の答案と正しい計算過程を並べて表示
@@ -332,6 +381,7 @@
       showError(e.message);
       return;
     }
+    app.mode = 'training';
     app.retryBase = base;
     app.retryIndex = index;
     renderQuestion();
@@ -484,46 +534,14 @@
     const cats = availableCategories();
     app.config.categories = new Set([...app.config.categories].filter((name) => cats.some((c) => c.name === name)));
 
-    // カテゴリ：タップで選択・解除。ボタンに出す問題数は単元全体での数
-    $('#category-list').innerHTML = cats.map((c, i) => {
-      const on = app.config.categories.has(c.name);
-      return `<button type="button" class="cat-chip${on ? ' is-selected' : ''}" aria-pressed="${on}"
-          data-action="toggle-category" data-index="${i}" aria-label="${esc(c.name)}（${c.count}問）">
-          <span class="cat-chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
-          <span class="cat-chip__name">${esc(c.name)}</span>
-          <span class="cat-chip__count">${c.count}問</span>
-        </button>`;
-    }).join('');
+    // カテゴリ・難易度・単元のボタンは、カスタムタイムアタックと共通の部品で作る。
+    // ボタンに出す問題数は単元全体での数。すべて選ばれているときだけ「すべて解除」、それ以外は「すべて選択」
+    $('#category-list').innerHTML = categoryChipsHtml(cats, app.config.categories, 'toggle-category');
     $('#category-bulk').innerHTML = `<button type="button" class="chip chip--bulk" data-action="toggle-category-all"
         ${cats.length ? '' : 'disabled'}>${allCategoriesSelected() ? 'すべて解除' : 'すべて選択'}</button>`;
-
-    $('#unit-list').innerHTML = app.units.map((u) => {
-      const on = u.unit === app.config.unit;
-      const n = G.filterPool(app.questions, { unit: u.unit, difficulties: G.DIFFICULTIES }).length;
-      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}"
-          data-action="select-unit" data-unit="${esc(u.unit)}">
-          <span class="unit-card__grade">中${u.grade}</span>
-          <span class="unit-card__name">${esc(u.label)}</span>
-          <span class="unit-card__count">${n}問</span>
-          <span class="unit-card__check" aria-hidden="true">${on ? '✔' : ''}</span>
-        </button>`;
-    }).join('');
-
-    const allOn = allDifficultiesSelected();
-    const chips = [];
-    G.DIFFICULTIES.forEach((d) => {
-      const on = app.config.difficulties.has(d);
-      const disabled = counts[d] === 0;
-      chips.push(`<button type="button" class="chip chip--star${on ? ' is-selected' : ''}" aria-pressed="${on}"
-          data-action="toggle-difficulty" data-difficulty="${d}" ${disabled ? 'disabled' : ''}
-          aria-label="難易度${d}（${counts[d]}問）${disabled ? '：この単元にはありません' : ''}">
-          <span class="chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
-          <span class="stars" aria-hidden="true">${'★'.repeat(d)}</span><small>${counts[d]}問</small></button>`);
-    });
-    // すべて選ばれているときだけ「すべて解除」、それ以外は「すべて選択」
-    chips.push(`<button type="button" class="chip chip--bulk" data-action="toggle-difficulty" data-difficulty="all"
-        ${list.length ? '' : 'disabled'}>${allOn ? 'すべて解除' : 'すべて選択'}</button>`);
-    $('#difficulty-list').innerHTML = chips.join('');
+    $('#unit-list').innerHTML = unitCardsHtml(app.config.unit, 'select-unit',
+      (u) => `${G.filterPool(app.questions, { unit: u.unit, difficulties: G.DIFFICULTIES }).length}問`);
+    $('#difficulty-list').innerHTML = difficultyChipsHtml(counts, app.config.difficulties, 'toggle-difficulty');
 
     updateCountPicker();
     updateSettingSummary();
@@ -549,6 +567,7 @@
   function startTraining() {
     const pool = selectedPool();
     if (!pool.length) return;
+    app.mode = 'training';
     try {
       app.session = new G.TrainingSession(app.questions, {
         ...selectedCriteria(),
@@ -574,10 +593,18 @@
     const s = app.session;
     const q = s.current;
     const unit = currentUnit();
-    $('#hud-unit').textContent = (unit ? unitLabel(unit) : '') + (app.retryBase ? `・${app.retryIndex + 1}問目をもう一度` : '');
+    if (app.mode === 'exam') {
+      // 認定試験：単元と試験名、正解数と合格に必要な数
+      $('#hud-unit').textContent = `${unitLabelById(s.unit)}・${s.exam.name}`;
+      $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> ${s.correctCount}<small>/${s.exam.requiredCorrect}</small>`;
+      $('#hud-score').setAttribute('aria-label', `正解 ${s.correctCount}問（合格に必要なのは${s.exam.requiredCorrect}問）`);
+    } else {
+      $('#hud-unit').textContent = (unit ? unitLabel(unit) : '') + (app.retryBase ? `・${app.retryIndex + 1}問目をもう一度` : '');
+      $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> 正解 ${s.correctCount}`;
+      $('#hud-score').removeAttribute('aria-label');
+    }
     $('#hud-stars').innerHTML = q ? stars(q.difficulty) : '';
     $('#hud-count').innerHTML = `<span class="visually-hidden">問題</span>${Math.min(s.number, s.total)}<small>/${s.total}</small>`;
-    $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> 正解 ${s.correctCount}`;
     const done = s.results.length;
     $('#progress-fill').style.width = `${(done / s.total) * 100}%`;
   }
@@ -650,6 +677,8 @@
 
       <div class="feedback" id="feedback" hidden></div>
     `;
+    // 認定試験ではヒントを使えない
+    $('#play-actions').hidden = app.mode === 'exam';
     renderHint();
     updateSelection();
     fitAllMath(); // 表示直後に調整（以後の大きさの変化は ResizeObserver が追従）
@@ -798,7 +827,10 @@
     nextBtn.dataset.action = 'next';
     nextBtn.classList.remove('btn--primary');
     nextBtn.classList.add('btn--go-next');
-    nextBtn.innerHTML = `${app.retryBase ? '結果にもどる' : s.isLast ? '結果を見る' : '次の問題へ'} <span aria-hidden="true">→</span>`;
+    const nextLabel = app.mode === 'exam'
+      ? (s.decided ? '試験結果を見る' : '次の問題へ') // 合否が決まったら残りは出題しない
+      : app.retryBase ? '結果にもどる' : s.isLast ? '結果を見る' : '次の問題へ';
+    nextBtn.innerHTML = `${nextLabel} <span aria-hidden="true">→</span>`;
     nextBtn.disabled = false;
 
     fitAllMath();
@@ -816,6 +848,11 @@
     const s = app.session;
     if (!s || !s.isGraded) return;
     if (app.retryBase) { sfx('next'); backToSummary(); return; }
+    if (app.mode === 'exam') {
+      if (s.next()) { stopSfx('long'); sfx('next'); renderQuestion(); window.scrollTo(0, 0); }
+      else finishExam();
+      return;
+    }
     const more = s.next();
     if (more) {
       stopSfx('long'); // 正解音などの余韻を次の問題に残さない
@@ -868,6 +905,703 @@
       </div>
       <p class="review-guide">問題をタップすると、もう一度解けます</p>
       <ol class="review-list" aria-label="問題ごとの結果（タップでもう一度解く）">${list}</ol>`;
+  }
+
+  // ============================================================ 共通の部品
+  function unitLabelById(unitId) {
+    const u = app.units.find((x) => x.unit === unitId);
+    return u ? unitLabel(u) : unitId;
+  }
+
+  function unitCardsHtml(selectedUnit, action, extra) {
+    return app.units.map((u) => {
+      const on = u.unit === selectedUnit;
+      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}"
+          data-action="${action}" data-unit="${esc(u.unit)}">
+          <span class="unit-card__grade">中${u.grade}</span>
+          <span class="unit-card__name">${esc(u.label)}</span>
+          <span class="unit-card__count">${extra ? extra(u) : ''}</span>
+          <span class="unit-card__check" aria-hidden="true">${on ? '✔' : ''}</span>
+        </button>`;
+    }).join('');
+  }
+
+  /** カテゴリのボタン（トレーニング・カスタムタイムアタック共通） */
+  function categoryChipsHtml(cats, selected, action) {
+    return cats.map((c, i) => {
+      const on = selected.has(c.name);
+      return `<button type="button" class="cat-chip${on ? ' is-selected' : ''}" aria-pressed="${on}"
+          data-action="${action}" data-index="${i}" aria-label="${esc(c.name)}（${c.count}問）">
+          <span class="cat-chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
+          <span class="cat-chip__name">${esc(c.name)}</span>
+          <span class="cat-chip__count">${c.count}問</span>
+        </button>`;
+    }).join('');
+  }
+
+  /** 難易度のボタンと「すべて選択／すべて解除」（トレーニング・カスタムタイムアタック共通） */
+  function difficultyChipsHtml(counts, selected, action) {
+    const list = G.DIFFICULTIES.filter((d) => counts[d] > 0);
+    const allOn = list.length > 0 && list.every((d) => selected.has(d));
+    const chips = G.DIFFICULTIES.map((d) => {
+      const on = selected.has(d);
+      const disabled = counts[d] === 0;
+      return `<button type="button" class="chip chip--star${on ? ' is-selected' : ''}" aria-pressed="${on}"
+          data-action="${action}" data-difficulty="${d}" ${disabled ? 'disabled' : ''}
+          aria-label="難易度${d}（${counts[d]}問）${disabled ? '：この単元にはありません' : ''}">
+          <span class="chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
+          <span class="stars" aria-hidden="true">${'★'.repeat(d)}</span><small>${counts[d]}問</small></button>`;
+    });
+    chips.push(`<button type="button" class="chip chip--bulk" data-action="${action}" data-difficulty="all"
+        ${list.length ? '' : 'disabled'}>${allOn ? 'すべて解除' : 'すべて選択'}</button>`);
+    return chips.join('');
+  }
+
+  function categoriesOf(unitId) {
+    const def = S.UNITS[unitId];
+    return G.listCategories(app.questions, unitId, def ? def.categories : []);
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return '';
+    return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  function difficultyText(list) {
+    const ds = (list || G.DIFFICULTIES).slice().sort();
+    return ds.length === 4 ? 'すべての難易度' : ds.map((d) => '★'.repeat(d)).join('・');
+  }
+
+  function saveWarningHtml() {
+    if (!records.status.lastError) return '';
+    const msg = records.status.readOnly
+      ? '新しい版のアプリで保存された記録があるため、記録を上書きしませんでした。'
+      : '記録を保存できませんでした（ブラウザの設定や空き容量を確かめてください）。ゲームはそのまま続けられます。';
+    return `<p class="save-warning" role="status">⚠ ${msg}</p>`;
+  }
+
+  /** 結果画面の、問題ごとの ✔／✖ カード（押すと解説のポップアップ） */
+  function resultCardsHtml(items, action) {
+    if (!items.length) return '<p class="screen-note">回答した問題はありません。</p>';
+    return `<p class="review-guide">問題をタップすると、解説が見られます</p>
+      <ol class="review-list" aria-label="問題ごとの結果（タップで解説）">${items.map((r, i) => `
+        <li>
+          <button type="button" class="review-item ${r.correct ? 'is-ok' : 'is-ng'}" data-action="${action}" data-index="${i}"
+            aria-label="${i + 1}問目（${r.correct ? '正解' : 'まちがい'}）の解説を見る">
+            <span class="review-item__mark" aria-hidden="true">${r.correct ? '✔' : '✖'}</span>
+            <span class="review-item__no">${i + 1}問目</span>
+            <span class="review-item__math">${R.mathHtml(r.question.question, false)}</span>
+            <span class="review-item__result">${r.correct ? (r.points ? `+${r.points}` : '正解') : 'まちがい'}</span>
+            <span class="review-item__retry" aria-hidden="true">📖</span>
+          </button>
+        </li>`).join('')}</ol>`;
+  }
+
+  /**
+   * 1問の解説をポップアップで見せる（タイムアタック・認定試験の結果画面から）。
+   * 生徒の答案（キミの答えと最初の誤り行の印つき）・解説・正しい計算過程を表示する。スコアや記録は変わらない。
+   */
+  function openExplain(no, r) {
+    const q = r.question;
+    const isEq = EQUATION_UNITS.has(q.unit);
+    const chosen = r.choice;
+    const lines = q.answerLines.map((latex, i) => {
+      const isError = q.errorLine === i;
+      const isChosen = chosen && chosen.type === 'line' && chosen.index === i;
+      const tags = [];
+      if (isChosen) tags.push(`<span class="tag ${r.correct ? 'tag--ok' : 'tag--chosen'}">${r.correct ? '✔' : '✖'} キミの答え</span>`);
+      if (isError && !r.correct) tags.push('<span class="tag tag--answer">✖ 最初のミス</span>');
+      return `<li class="solution__line${isError ? ' explain-line--error' : ''}${i === 0 && !isEq ? ' row--indent' : ''}">
+          <span class="row__no">${lineLabel(i)}</span>
+          <span class="row__math fit-math">${lineMathHtml(latex, isEq)}</span>
+          ${tags.length ? `<span class="explain-tags">${tags.join('')}</span>` : ''}
+        </li>`;
+    }).join('');
+    const allCorrectNote = q.errorLine === null
+      ? `<p class="explain-note">この答案は<strong>全部正しい</strong>答案です。${chosen && chosen.type === 'allCorrect' ? '（キミの答え：○ 全部正しい！）' : ''}</p>`
+      : (chosen && chosen.type === 'allCorrect' ? '<p class="explain-note">キミの答え：○ 全部正しい！</p>' : '');
+    const solution = q.correctSolution.map((latex, i) =>
+      `<li class="solution__line${i === 0 && !isEq ? ' row--indent' : ''}"><span class="row__no">${lineLabel(i)}</span><span class="row__math fit-math">${lineMathHtml(latex, isEq)}</span></li>`).join('');
+    $('#explain-title').textContent = `${no}問目　${r.correct ? '✔ 正解' : '✖ まちがい'}`;
+    $('#explain-body').innerHTML = `
+      <p class="paper__instruction">${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
+      <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
+      <h3 class="feedback__title">生徒の答案</h3>
+      <ol class="solution${isEq ? ' eq-group' : ''}">${lines}</ol>
+      ${allCorrectNote}
+      <h3 class="feedback__title">${q.errorLine === null ? '計算のポイント' : 'まちがいの理由'}${q.errorType ? `<span class="error-type">${esc(q.errorType)}</span>` : ''}</h3>
+      <p class="feedback__text">${R.richTextHtml(q.explanation)}</p>
+      <h3 class="feedback__title">正しい計算過程</h3>
+      <ol class="solution${isEq ? ' eq-group' : ''}">${solution}</ol>`;
+    const d = $('#explain-dialog');
+    if (!d.open) d.showModal();
+    $('#explain-body').scrollTop = 0;
+    fitAllMath();
+  }
+
+  // ============================================================ タイムアタック：設定
+  function selectTAMode(mode) {
+    app.ta.mode = mode === 'official' ? TA.MODES.OFFICIAL : TA.MODES.CUSTOM; // 公式は明示的に選んだときだけ
+    if (!app.ta.unit) app.ta.unit = app.config.unit;
+    if (!app.ta.categories.size) app.ta.categories = new Set(categoriesOf(app.ta.unit).map((c) => c.name));
+    renderTASettings();
+    show('ta-settings');
+  }
+
+  function selectTAUnit(unit) {
+    if (unit === app.ta.unit) { renderTASettings(); return; }
+    app.ta.unit = unit;
+    app.ta.categories = new Set(categoriesOf(unit).map((c) => c.name)); // 単元を変えたらカテゴリはすべて選択
+    const counts = G.countByDifficulty(app.questions, unit);
+    const list = G.DIFFICULTIES.filter((d) => counts[d] > 0);
+    const kept = [...app.ta.difficulties].filter((d) => list.includes(d));
+    app.ta.difficulties = new Set(kept.length ? kept : list);
+    renderTASettings();
+  }
+
+  function toggleTACategory(index) {
+    const cat = categoriesOf(app.ta.unit)[index];
+    if (!cat) return;
+    if (app.ta.categories.has(cat.name)) app.ta.categories.delete(cat.name);
+    else app.ta.categories.add(cat.name);
+    renderTASettings();
+  }
+
+  function toggleTACategoryAll() {
+    const names = categoriesOf(app.ta.unit).map((c) => c.name);
+    const allOn = names.length > 0 && names.every((n) => app.ta.categories.has(n));
+    app.ta.categories = allOn ? new Set() : new Set(names);
+    renderTASettings();
+  }
+
+  function toggleTADifficulty(value) {
+    const counts = G.countByDifficulty(app.questions, app.ta.unit);
+    const list = G.DIFFICULTIES.filter((d) => counts[d] > 0);
+    if (value === 'all') {
+      const allOn = list.length > 0 && list.every((d) => app.ta.difficulties.has(d));
+      app.ta.difficulties = allOn ? new Set() : new Set(list);
+    } else {
+      const d = Number(value);
+      if (!list.includes(d)) return;
+      if (app.ta.difficulties.has(d)) app.ta.difficulties.delete(d);
+      else app.ta.difficulties.add(d);
+    }
+    renderTASettings();
+  }
+
+  /** タイムアタックの出題条件（公式はすべてに固定。カスタムは選んだ条件） */
+  function taConfig() {
+    return {
+      mode: app.ta.mode,
+      unit: app.ta.unit,
+      categories: [...app.ta.categories],
+      difficulties: [...app.ta.difficulties],
+    };
+  }
+
+  function taPoolSize() {
+    if (!app.ta.unit) return 0;
+    if (app.ta.mode === TA.MODES.CUSTOM && (app.ta.categories.size === 0 || app.ta.difficulties.size === 0)) return 0;
+    return G.filterPool(app.questions, TA.criteriaFor(app.ta.mode, taConfig())).length;
+  }
+
+  function renderTASettings() {
+    if (!app.ta.mode) return;
+    const official = app.ta.mode === TA.MODES.OFFICIAL;
+    if (!app.ta.unit) app.ta.unit = app.config.unit;
+    $('#ta-settings-heading').textContent = official ? '🏅 公式タイムアタック' : '🎯 カスタムタイムアタック';
+    $('#ta-unit-list').innerHTML = unitCardsHtml(app.ta.unit, 'ta-select-unit', (u) => {
+      if (!official) return `${G.filterPool(app.questions, { unit: u.unit }).length}問`;
+      const best = records.officialFor(u.unit).bestScore;
+      return best === null ? '記録なし' : `ベスト ${best}点`;
+    });
+    $('#ta-custom-fields').hidden = official;
+    const info = $('#ta-official-info');
+    info.hidden = !official;
+    if (official) {
+      const rec = records.officialFor(app.ta.unit);
+      info.innerHTML = `
+        <p class="official-info__rule">ルール：<strong>全カテゴリ・全難易度（★〜★★★★）・60秒</strong>（変更できません）</p>
+        <p class="official-info__best">${rec.bestScore === null
+          ? 'この単元の記録はまだありません。最初の記録をつくろう！'
+          : `自己ベスト <strong>${rec.bestScore}点</strong>　称号「${esc(rec.title || TA.titleForScore(rec.bestScore))}」`}</p>`;
+    } else {
+      const cats = categoriesOf(app.ta.unit);
+      app.ta.categories = new Set([...app.ta.categories].filter((n) => cats.some((c) => c.name === n)));
+      $('#ta-category-list').innerHTML = categoryChipsHtml(cats, app.ta.categories, 'ta-toggle-category');
+      const allCats = cats.length > 0 && cats.every((c) => app.ta.categories.has(c.name));
+      $('#ta-category-bulk').innerHTML = `<button type="button" class="chip chip--bulk" data-action="ta-toggle-category-all"
+          ${cats.length ? '' : 'disabled'}>${allCats ? 'すべて解除' : 'すべて選択'}</button>`;
+      $('#ta-difficulty-list').innerHTML = difficultyChipsHtml(G.countByDifficulty(app.questions, app.ta.unit), app.ta.difficulties, 'ta-toggle-difficulty');
+    }
+    const n = taPoolSize();
+    let text;
+    if (!official && app.ta.categories.size === 0) text = 'カテゴリを1つ以上えらんでね。';
+    else if (!official && app.ta.difficulties.size === 0) text = '難易度を1つ以上えらんでね。';
+    else if (n === 0) text = 'この条件で出題できる問題がありません。';
+    else text = `出題できる問題：<strong>${n}問</strong>（60秒のあいだ、くり返し出題されます）${official ? '' : '<br><small>カスタムの結果は履歴に残ります。公式の記録・称号は変わりません。</small>'}`;
+    $('#ta-summary').innerHTML = text;
+    $('#ta-summary').classList.toggle('is-empty', n === 0);
+    $('#ta-start-btn').disabled = n === 0;
+  }
+
+  // ============================================================ タイムアタック：プレイ
+  function clearTATimers() {
+    app.ta.timers.forEach((t) => clearTimeout(t));
+    app.ta.timers = [];
+    if (app.ta.tickId) clearInterval(app.ta.tickId);
+    app.ta.tickId = null;
+  }
+
+  function later(fn, ms) {
+    app.ta.timers.push(setTimeout(fn, ms));
+  }
+
+  function startTA() {
+    if (!app.ta.mode || taPoolSize() === 0) return;
+    clearTATimers();
+    try {
+      app.ta.session = new TA.TimeAttackSession(app.questions, taConfig(), {
+        rng,
+        now: () => performance.now(), // 単調増加の時計（PCの時刻を変えても影響しない）
+      });
+    } catch (e) {
+      showError(e.message);
+      return;
+    }
+    app.ta.warned = false;
+    app.ta.result = null;
+    $('#ta-body').innerHTML = '';
+    updateTAHud();
+    show('ta-play', app.screen === 'ta-result' ? 'replace' : 'push');
+    // 3・2・1・START!（START! の瞬間から60秒を数える。カウントダウン中は時間が減らない）
+    const steps = ['3', '2', '1'];
+    steps.forEach((label, i) => later(() => { showTAOverlay(label, 'count'); sfx('countdown'); }, i * 800));
+    later(() => {
+      showTAOverlay('START!', 'go');
+      sfx('go');
+      app.ta.session.start();
+      renderTAQuestion();
+      app.ta.tickId = setInterval(tickTA, 100);
+      later(() => hideTAOverlay(), 450);
+    }, steps.length * 800);
+  }
+
+  function showTAOverlay(text, kind) {
+    const o = $('#ta-overlay');
+    o.hidden = false;
+    o.className = `ta-overlay ta-overlay--${kind}`;
+    $('#ta-overlay-text').textContent = text;
+  }
+
+  function hideTAOverlay() {
+    $('#ta-overlay').hidden = true;
+  }
+
+  function updateTAHud() {
+    const s = app.ta.session;
+    if (!s) return;
+    const rem = s.started ? s.remaining() : TA.CONFIG.durationMs;
+    $('#ta-timer-num').textContent = String(Math.ceil(rem / 1000));
+    $('#ta-gauge-fill').style.width = `${(rem / TA.CONFIG.durationMs) * 100}%`;
+    const timer = $('#ta-timer');
+    timer.classList.toggle('is-warning', s.started && rem <= TA.CONFIG.warningAtMs);
+    timer.classList.toggle('is-urgent', s.started && rem <= TA.CONFIG.urgentAtMs);
+    $('.screen--ta-play').classList.toggle('is-urgent', s.started && rem <= TA.CONFIG.urgentAtMs && rem > 0);
+    $('#ta-score').innerHTML = `${s.score}<small>点</small>`;
+    $('#ta-streak').textContent = s.streak >= 2 ? `🔥${s.streak}連続` : '';
+  }
+
+  function tickTA() {
+    const s = app.ta.session;
+    if (!s || s.ended) return;
+    updateTAHud();
+    if (!app.ta.warned && s.remaining() <= TA.CONFIG.warningAtMs) {
+      app.ta.warned = true;
+      sfx('warning'); // 残り10秒
+    }
+    // 演出中でなければ、時間切れでその場で終了（演出中なら、演出のあとで終了する）
+    if (s.isTimeUp() && !s.locked) endTA();
+  }
+
+  function renderTAQuestion() {
+    const s = app.ta.session;
+    const q = s.current;
+    if (mathObserver) mathObserver.disconnect();
+    const isEq = EQUATION_UNITS.has(q.unit);
+    const rows = q.answerLines.map((latex, i) => {
+      if (i === 0) {
+        return `<li class="row row--given${isEq ? '' : ' row--indent'}">
+            <span class="row__no">${lineLabel(i)}</span>
+            <span class="row__math fit-math">${lineMathHtml(latex, isEq)}</span>
+          </li>`;
+      }
+      return `<li class="row-item">
+          <button type="button" class="row row--selectable" data-action="ta-answer" data-index="${i}">
+            <span class="row__no">${lineLabel(i)}</span>
+            <span class="row__math fit-math">${lineMathHtml(latex, isEq)}</span>
+            <span class="row__mark" aria-hidden="true"></span>
+          </button>
+        </li>`;
+    }).join('');
+    $('#ta-body').innerHTML = `
+      <article class="paper paper--ta" aria-label="添削する答案">
+        <div class="paper__problem">
+          <p class="paper__instruction"><span class="label-badge">${s.results.length + 1}問目</span>${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
+          <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
+        </div>
+        <div class="paper__answer">
+          <p class="paper__guide"><span class="label-badge label-badge--student">生徒の答案</span>
+            <span>最初に間違えた行をタップ！（タップした瞬間に判定）</span></p>
+          <ol class="sheet${isEq ? ' eq-group' : ''}">${rows}</ol>
+          <div class="all-correct-wrap">
+            <button type="button" class="btn-all-correct btn-all-correct--wide" data-action="ta-answer" data-index="all">
+              <span class="btn-all-correct__mark" aria-hidden="true">○</span> 全部正しい！
+            </button>
+          </div>
+        </div>
+      </article>
+      <p class="ta-popup" id="ta-popup" aria-live="polite"></p>`;
+    fitAllMath();
+  }
+
+  /** 即時判定：行（または「全部正しい！」）をタップした瞬間に採点する。演出が終わるまで次の回答は受け付けない */
+  function answerTA(indexValue) {
+    const s = app.ta.session;
+    if (!s || s.ended || s.locked || !s.started) return;
+    const choice = indexValue === 'all' ? { type: 'allCorrect' } : { type: 'line', index: Number(indexValue) };
+    const r = s.answer(choice);
+    if (!r) { if (s.ended) endTA(); return; }
+    sfx(r.correct ? 'quickCorrect' : 'quickIncorrect');
+    const body = $('#ta-body');
+    body.classList.add('is-locked');
+    body.querySelectorAll('[data-action="ta-answer"]').forEach((b) => { b.disabled = true; });
+    const chosenEl = choice.type === 'allCorrect' ? body.querySelector('[data-index="all"]') : body.querySelector(`[data-index="${choice.index}"]`);
+    chosenEl.classList.add(r.correct ? 'ta-ok' : 'ta-ng');
+    const mark = chosenEl.querySelector('.row__mark');
+    if (mark) mark.textContent = r.correct ? '✔' : '✖';
+    if (!r.correct) {
+      // 正しい答え（最初の誤り行、または全部正しい）を一瞬見せる
+      const expectedEl = r.question.errorLine === null ? body.querySelector('[data-index="all"]') : body.querySelector(`[data-index="${r.question.errorLine}"]`);
+      if (expectedEl) expectedEl.classList.add('ta-answer');
+    }
+    const popup = $('#ta-popup');
+    popup.textContent = r.correct ? `✔ +${r.points}${r.streak >= 3 ? `　🔥${r.streak}連続` : ''}` : '✖ ざんねん';
+    popup.className = `ta-popup ${r.correct ? 'is-ok' : 'is-ng'}`;
+    updateTAHud();
+    later(() => {
+      if (!app.ta.session || app.ta.session !== s) return;
+      if (s.advance()) renderTAQuestion();
+      else endTA();
+    }, TA.CONFIG.feedbackMs);
+  }
+
+  /** 途中でやめた（記録しない） */
+  function abortTA() {
+    clearTATimers();
+    hideTAOverlay();
+    if (app.ta.session) app.ta.session.finish();
+    app.ta.session = null;
+  }
+
+  /** タイムアップ：回答を受け付けず、記録して結果画面へ */
+  function endTA() {
+    const s = app.ta.session;
+    if (!s || app.ta.result) return;
+    clearTATimers();
+    s.finish();
+    updateTAHud();
+    if ($('#quit-dialog').open) $('#quit-dialog').close();
+    $('#ta-body').querySelectorAll('[data-action="ta-answer"]').forEach((b) => { b.disabled = true; });
+    const sum = s.summary();
+    let rec;
+    if (s.isOfficial) rec = records.recordOfficial(s.criteria.unit, sum, TA.titleForScore);
+    else rec = records.addCustom({ unit: s.criteria.unit, categories: s.criteria.categories, difficulties: s.criteria.difficulties, ...sum });
+    app.ta.result = { session: s, summary: sum, record: rec };
+    showTAOverlay('タイムアップ！', 'timeup');
+    sfx('timeup');
+    later(() => {
+      hideTAOverlay();
+      renderTAResult();
+      show('ta-result', 'replace');
+      if (s.isOfficial && rec.isBest && !rec.firstPlay && sum.score > 0) sfx('best'); // 自己ベスト更新
+    }, 1100);
+  }
+
+  function renderTAResult() {
+    const { session: s, summary: sum, record: rec } = app.ta.result;
+    const unit = unitLabelById(s.criteria.unit);
+    let bestHtml = '';
+    let titleHtml = '';
+    if (s.isOfficial) {
+      const best = rec.record.bestScore;
+      if (rec.firstPlay) bestHtml = '<p class="best-badge">🎉 初めての公式記録！</p>';
+      else if (rec.isBest) bestHtml = `<p class="best-badge best-badge--new">🎉 自己ベスト更新！<small>（これまで ${rec.prevBest}点）</small></p>`;
+      else bestHtml = `<p class="best-line">自己ベスト：${best}点</p>`;
+      const changed = rec.prevTitle && rec.prevTitle !== rec.record.title;
+      titleHtml = `<p class="ta-title">称号：<strong>${esc(rec.record.title)}</strong>${changed ? '<span class="ta-title__up">称号アップ！</span>' : ''}</p>`;
+    } else {
+      const cats = s.criteria.categories ? s.criteria.categories.join('・') : 'すべてのカテゴリ';
+      bestHtml = `<p class="best-line">カスタム：${esc(cats)}／${difficultyText(s.criteria.difficulties)}</p>
+        <p class="screen-note">カスタムの結果は履歴に保存されました（公式の記録・称号は変わりません）。</p>`;
+    }
+    const items = s.results.map((r) => ({ ...r }));
+    $('#ta-result-body').innerHTML = `
+      <h2 id="ta-result-heading" class="screen-title" tabindex="-1">${s.isOfficial ? '🏅 公式' : '🎯 カスタム'}タイムアタック結果</h2>
+      <p class="summary-unit">${esc(unit)}</p>
+      <div class="score-card">
+        <p class="score-card__rate">スコア <span>${sum.score}</span>点</p>
+        ${bestHtml}
+        <dl class="score-card__stats">
+          <div><dt>正解</dt><dd>${sum.correct}問</dd></div>
+          <div><dt>不正解</dt><dd>${sum.wrong}問</dd></div>
+          <div><dt>正解率</dt><dd>${sum.rate}%</dd></div>
+          <div><dt>最大連続</dt><dd>${sum.maxStreak}問</dd></div>
+        </dl>
+        ${titleHtml}
+      </div>
+      ${saveWarningHtml()}
+      ${resultCardsHtml(items, 'ta-explain')}`;
+  }
+
+  function openTAExplain(index) {
+    const r = app.ta.result && app.ta.result.session.results[index];
+    if (r) openExplain(index + 1, r);
+  }
+
+  /** 記録画面のカスタム履歴から、同じ条件で再挑戦する */
+  function replayCustom(index) {
+    const e = records.customHistory()[index];
+    if (!e) return;
+    app.ta.mode = TA.MODES.CUSTOM;
+    app.ta.unit = e.unit;
+    app.ta.categories = new Set(e.categories || categoriesOf(e.unit).map((c) => c.name));
+    app.ta.difficulties = new Set(e.difficulties || G.DIFFICULTIES);
+    renderTASettings();
+    if (taPoolSize() === 0) { show('ta-settings'); return; } // 問題データが変わって出題できないときは設定画面へ
+    startTA();
+  }
+
+  // ============================================================ 認定試験
+  function rankBadgeHtml(rank, extraClass = '') {
+    return `<span class="rank-badge ${extraClass}" style="--rank-color:${rank.color}"><span class="rank-badge__icon" aria-hidden="true">${rank.icon}</span>${esc(rank.name)}</span>`;
+  }
+
+  function examRangeText(exam) {
+    const ds = G.DIFFICULTIES.filter((d) => exam.distribution[d] > 0);
+    const lo = '★'.repeat(ds[0]);
+    const hi = '★'.repeat(ds[ds.length - 1]);
+    return ds.length === 1 ? `${lo}のみ` : `${lo}〜${hi}`;
+  }
+
+  function examRuleText(exam) {
+    return `${exam.maxQuestions}問中${exam.requiredCorrect}問正解で合格（${C.failAt(exam)}問まちがえると不合格）`;
+  }
+
+  function renderCertUnits() {
+    $('#cert-unit-list').innerHTML = app.units.map((u) => {
+      const c = records.certFor(u.unit);
+      const rank = C.rankFor(c.highestCleared);
+      const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
+      return `<button type="button" class="cert-unit" data-action="cert-unit" data-unit="${esc(u.unit)}" style="--rank-color:${rank.color}">
+          <span class="cert-unit__icon" aria-hidden="true">${rank.icon}</span>
+          <span class="cert-unit__body">
+            <span class="cert-unit__name">中${u.grade}・${esc(u.label)}</span>
+            <span class="cert-unit__rank">${esc(rank.name)}</span>
+            <span class="cert-unit__next">${next ? `次は ${next.name}` : '🎉 すべての試験に合格！'}</span>
+          </span>
+          <span class="cert-unit__arrow" aria-hidden="true">›</span>
+        </button>`;
+    }).join('');
+  }
+
+  function renderCertList(message) {
+    const unit = app.cert.unit || app.config.unit;
+    app.cert.unit = unit;
+    const c = records.certFor(unit);
+    const rank = C.rankFor(c.highestCleared);
+    $('#cert-list-heading').textContent = `🎓 ${unitLabelById(unit)}`;
+    $('#cert-rank').innerHTML = `<p class="rank-card__label">現在のランク</p>${rankBadgeHtml(rank, 'rank-badge--lg')}
+      ${message ? `<p class="save-warning">${esc(message)}</p>` : ''}`;
+    $('#exam-list').innerHTML = C.EXAMS.map((exam) => {
+      const e = c.exams[String(exam.id)] || { cleared: false, attempts: 0 };
+      const unlocked = C.isUnlocked(c.highestCleared, exam.id);
+      const avail = C.checkAvailability(app.questions, unit, exam);
+      let status;
+      let button;
+      if (!unlocked) {
+        status = `<span class="exam__status exam__status--locked">🔒 ${C.EXAMS[exam.id - 2].name}に合格すると挑戦できます</span>`;
+        button = '<button type="button" class="btn btn--secondary" disabled>挑戦できません</button>';
+      } else if (!avail.ok) {
+        status = `<span class="exam__status exam__status--short">⚠ ${esc(C.shortageMessage(avail.shortages))}</span>`;
+        button = '<button type="button" class="btn btn--secondary" disabled>挑戦できません</button>';
+      } else {
+        status = e.cleared
+          ? `<span class="exam__status exam__status--cleared">✔ 合格済み${e.firstClearedAt ? `（${formatDate(e.firstClearedAt)}）` : ''}</span>`
+          : '<span class="exam__status exam__status--open">挑戦できます</span>';
+        button = `<button type="button" class="btn ${e.cleared ? 'btn--secondary' : 'btn--primary'}" data-action="cert-start" data-exam="${exam.id}">${e.cleared ? 'もう一度挑戦' : '挑戦する'}</button>`;
+      }
+      return `<li class="exam${e.cleared ? ' is-cleared' : ''}${unlocked ? '' : ' is-locked'}" data-exam-id="${exam.id}">
+          <div class="exam__head">
+            <span class="exam__name">${exam.name}</span>
+            <span class="exam__range">${examRangeText(exam)}</span>
+          </div>
+          <p class="exam__rule">${examRuleText(exam)}</p>
+          <p class="exam__reward">合格すると ${rankBadgeHtml(C.rankFor(exam.id))}</p>
+          <div class="exam__foot">${status}<span class="exam__attempts">挑戦 ${e.attempts}回</span>${button}</div>
+        </li>`;
+    }).join('');
+  }
+
+  function startExam(examId) {
+    const unit = app.cert.unit;
+    const c = records.certFor(unit);
+    if (!C.isUnlocked(c.highestCleared, examId)) return; // 解放されていない試験は始めない
+    let s;
+    try {
+      s = new C.CertificationSession(app.questions, { unit, examId }, rng);
+    } catch (e) {
+      // 問題が足りない：重複や難易度の変更で埋めずに、始めない
+      renderCertList(e.message);
+      if (app.screen !== 'cert-list') show('cert-list');
+      return;
+    }
+    clearRetry();
+    app.mode = 'exam';
+    app.session = s;
+    renderQuestion();
+    show('play', app.screen === 'cert-result' ? 'replace' : 'push');
+    sfx('examStart');
+    fitAllMath();
+    $('#play-heading').focus({ preventScroll: true });
+  }
+
+  /** 合否が決まった：記録して試験結果画面へ */
+  function finishExam() {
+    const s = app.session;
+    const sum = s.summary();
+    const passed = sum.outcome === C.OUTCOME.PASS;
+    const rec = records.recordExam(s.unit, s.exam.id, passed);
+    app.cert.last = { session: s, summary: sum, record: rec };
+    app.session = null;
+    app.mode = 'training';
+    renderCertResult();
+    show('cert-result', 'replace');
+    if (!passed) sfx('fail');
+    else if (rec.firstClear && s.exam.id === C.EXAMS[C.EXAMS.length - 1].id) sfx('master'); // 最終試験に初合格
+    else if (rec.rankUp) sfx('rankup');
+    else sfx('pass');
+  }
+
+  function renderCertResult() {
+    const { session: s, summary: sum, record: rec } = app.cert.last;
+    const passed = sum.outcome === C.OUTCOME.PASS;
+    const rank = C.rankFor(rec.highestCleared);
+    const nextExam = C.EXAMS.find((e) => e.id === s.exam.id + 1);
+    const isFinal = !nextExam;
+    let celebrate = '';
+    if (passed && rec.firstClear && rec.rankUp) {
+      celebrate = `<div class="promotion">
+          <p class="promotion__title">🎉 ${esc(rank.name)}に昇格！</p>
+          ${rankBadgeHtml(rank, 'rank-badge--lg rank-badge--pop')}
+          ${isFinal ? '<p class="promotion__sub">すべての試験に合格しました。マスターティーチャー認定です！</p>' : `<p class="promotion__sub">${nextExam.name}が解放されました！</p>`}
+        </div>`;
+    }
+    const remaining = s.exam.requiredCorrect - sum.correct;
+    const verdict = passed
+      ? `<div class="verdict verdict--ok"><span class="stamp" aria-hidden="true">合</span><div><p class="verdict__title">${s.exam.name} 合格！</p><p class="verdict__sub">${rec.firstClear ? 'はじめての合格です！' : 'もう一度合格しました！'}</p></div></div>`
+      : `<div class="verdict verdict--ng"><span class="stamp stamp--ng" aria-hidden="true">…</span><div><p class="verdict__title">${s.exam.name} 不合格</p><p class="verdict__sub">合格まで あと${Math.max(remaining, 1)}問 でした。まちがえた問題の解説を読んで、もう一度挑戦しよう！<br><small>いまのランクは下がりません。</small></p></div></div>`;
+    $('#cert-result-body').innerHTML = `
+      <h2 id="cert-result-heading" class="screen-title" tabindex="-1">試験結果</h2>
+      <p class="summary-unit">${esc(unitLabelById(s.unit))}・${s.exam.name}</p>
+      ${verdict}
+      ${celebrate}
+      <div class="score-card">
+        <dl class="score-card__stats">
+          <div><dt>回答</dt><dd>${sum.answered}問</dd></div>
+          <div><dt>正解</dt><dd>${sum.correct}問</dd></div>
+          <div><dt>不正解</dt><dd>${sum.wrong}問</dd></div>
+        </dl>
+        <p class="exam__rule">判定条件：${examRuleText(s.exam)}</p>
+        <p class="rank-card__label">現在のランク</p>
+        ${rankBadgeHtml(rank, 'rank-badge--lg')}
+      </div>
+      ${saveWarningHtml()}
+      ${resultCardsHtml(s.results.map((r, i) => ({ ...r, question: s.questions[i] })), 'cert-explain')}`;
+    // 合格して次の試験があるときは「次の試験へ」を主なボタンにし、「もう一度挑戦」は控えめにする
+    const retryClass = passed && nextExam ? 'btn--secondary' : 'btn--primary';
+    const actions = [`<button type="button" class="btn ${retryClass} btn--lg" data-action="cert-start" data-exam="${s.exam.id}">もう一度挑戦</button>`];
+    if (passed && nextExam) actions.unshift(`<button type="button" class="btn btn--primary btn--lg" data-action="cert-start" data-exam="${nextExam.id}">次の試験へ（${nextExam.name}）</button>`);
+    actions.push('<button type="button" class="btn btn--secondary btn--lg" data-action="go-cert-list">認定試験一覧に戻る</button>');
+    actions.push('<button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>');
+    $('#cert-result-actions').innerHTML = actions.join('');
+  }
+
+  function openCertExplain(index) {
+    const last = app.cert.last;
+    if (!last) return;
+    const r = last.session.results[index];
+    if (r) openExplain(index + 1, { ...r, question: last.session.questions[index] });
+  }
+
+  // ============================================================ 記録画面
+  function renderRecords(tab) {
+    app.recordsTab = tab || app.recordsTab || 'official';
+    document.querySelectorAll('[data-action="records-tab"]').forEach((b) => {
+      const on = b.dataset.tab === app.recordsTab;
+      b.setAttribute('aria-selected', String(on));
+      b.classList.toggle('is-selected', on);
+    });
+    const panel = $('#records-panel');
+    panel.setAttribute('aria-labelledby', `tab-${app.recordsTab}`);
+    if (app.recordsTab === 'official') {
+      panel.innerHTML = `<div class="record-cards">${app.units.map((u) => {
+        const r = records.officialFor(u.unit);
+        return `<div class="record-card">
+            <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
+            ${r.bestScore === null ? '<p class="record-card__empty">まだ記録がありません</p>' : `
+            <p class="record-card__score"><span>${r.bestScore}</span>点</p>
+            <p class="record-card__title">称号「${esc(r.title || TA.titleForScore(r.bestScore))}」</p>
+            <dl class="record-card__stats">
+              <div><dt>最大連続</dt><dd>${r.maxStreak}問</dd></div>
+              <div><dt>プレイ回数</dt><dd>${r.plays}回</dd></div>
+              <div><dt>達成日</dt><dd>${formatDate(r.bestDate)}</dd></div>
+            </dl>`}
+          </div>`;
+      }).join('')}</div>`;
+    } else if (app.recordsTab === 'custom') {
+      const list = records.customHistory();
+      panel.innerHTML = list.length ? `<ol class="history-list">${list.map((e, i) => `
+          <li class="history-item">
+            <div class="history-item__head"><span>${formatDate(e.playedAt)}</span><span class="history-item__score">${e.score}点</span></div>
+            <p class="history-item__cond">${esc(unitLabelById(e.unit))}｜${esc(e.categories ? e.categories.join('・') : 'すべてのカテゴリ')}｜${difficultyText(e.difficulties)}</p>
+            <p class="history-item__stats">正解 ${e.correct}問・不正解 ${e.wrong}問・最大連続 ${e.maxStreak}問</p>
+            <button type="button" class="btn btn--secondary" data-action="ta-replay" data-index="${i}">この条件で挑戦</button>
+          </li>`).join('')}</ol>` : '<p class="record-card__empty">カスタムタイムアタックの履歴はまだありません（直近20回まで残ります）。</p>';
+    } else {
+      panel.innerHTML = `<div class="record-cards">${app.units.map((u) => {
+        const c = records.certFor(u.unit);
+        const rank = C.rankFor(c.highestCleared);
+        const cleared = C.EXAMS.filter((e) => c.exams[String(e.id)] && c.exams[String(e.id)].cleared);
+        const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
+        return `<div class="record-card">
+            <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
+            ${rankBadgeHtml(rank, 'rank-badge--lg')}
+            <dl class="record-card__stats">
+              <div><dt>最高クリア</dt><dd>${c.highestCleared ? C.examById(c.highestCleared).name : 'なし'}</dd></div>
+              <div><dt>次に挑戦</dt><dd>${next ? next.name : '—'}</dd></div>
+            </dl>
+            <p class="record-card__cleared">合格済み：${cleared.length ? cleared.map((e) => `${e.name}（${c.exams[String(e.id)].attempts}回挑戦）`).join('、') : 'なし'}</p>
+          </div>`;
+      }).join('')}</div>`;
+    }
+    const note = $('#records-note');
+    note.textContent = records.status.lastError === 'corrupt'
+      ? '保存されていた記録が壊れていたため、新しく記録を始めました（もとのデータは別の場所に残しています）。'
+      : !records.status.available ? 'このブラウザでは記録を保存できません。記録はこの画面を閉じると消えます。'
+        : '記録はこの端末のブラウザに保存されます。';
   }
 
   // ============================================================ エラー
@@ -1001,7 +1735,7 @@
   }
 
   // テスト用に状態を参照できるようにする（読み取り専用の用途）
-  window.__calcTeacher = { get app() { return app; } };
+  window.__calcTeacher = { get app() { return app; }, get records() { return records; } };
 
   init();
 })();

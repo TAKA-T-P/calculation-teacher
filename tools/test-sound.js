@@ -84,6 +84,9 @@ function makeManager(extra = {}) {
 const SPEC = {
   select: [0.05, 0.12], tap: [0.03, 0.12], submit: [0.1, 0.2], correct: [0.3, 0.6], incorrect: [0.2, 0.4],
   hint: [0.2, 0.4], next: [0.1, 0.2], start: [0.4, 0.7], result: [0.6, 1.0], perfect: [1.0, 1.5],
+  // 第3段階（タイムアタックは約0.3秒ごとに次の問題が出るので、正誤の音は短く）
+  quickCorrect: [0.1, 0.25], quickIncorrect: [0.1, 0.25], countdown: [0.08, 0.2], go: [0.2, 0.45], warning: [0.15, 0.35],
+  timeup: [0.4, 0.8], best: [0.8, 1.3], examStart: [0.3, 0.7], pass: [0.5, 1.0], fail: [0.4, 0.8], rankup: [1.0, 1.5], master: [1.4, 2.0],
 };
 test('すべての効果音の長さが指示書の範囲内', () => {
   Object.entries(SPEC).forEach(([name, [lo, hi]]) => {

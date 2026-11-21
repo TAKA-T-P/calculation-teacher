@@ -149,6 +149,132 @@
     },
   };
 
+  // ------------------------------------------------------------ 第3段階：タイムアタック
+  // 正解・不正解は既存の音色を短くした版（約0.3秒ごとに次の問題が出るため、長い音が重ならないように）
+  Object.assign(RECIPES, {
+    quickCorrect: {
+      group: 'quick', gain: 0.42, minGap: 60,
+      notes: [
+        { f: N.A5, t: 0, d: 0.06, type: 'triangle', v: 0.9 },
+        { f: N.E6, t: 0.05, d: 0.12, type: 'triangle', v: 1 },
+      ],
+    },
+    quickIncorrect: {
+      group: 'quick', gain: 0.38, minGap: 60,
+      notes: [
+        { f: N.E4, t: 0, d: 0.07, type: 'triangle', v: 1 },
+        { f: N.B3, t: 0.07, d: 0.1, type: 'triangle', v: 1 },
+      ],
+    },
+    // 3・2・1 のカウントダウン：短い「ピッ」
+    countdown: {
+      group: 'ui', gain: 0.35, minGap: 300,
+      notes: [{ f: N.A5, t: 0, d: 0.12, type: 'sine', v: 1 }, { f: N.A5 * 2, t: 0, d: 0.08, type: 'sine', v: 0.2 }],
+    },
+    // START!：1オクターブ高い明るい音
+    go: {
+      group: 'ui', gain: 0.4, minGap: 300,
+      notes: [
+        { f: N.C6, t: 0, d: 0.32, type: 'triangle', v: 1 },
+        { f: N.E6, t: 0, d: 0.32, type: 'triangle', v: 0.7 },
+        { f: N.G6, t: 0, d: 0.28, type: 'sine', v: 0.4 },
+      ],
+    },
+    // 残り10秒：短い2回の警告音
+    warning: {
+      group: 'ui', gain: 0.3, minGap: 1000,
+      notes: [{ f: N.E6, t: 0, d: 0.09, type: 'square', v: 0.35 }, { f: N.E6, t: 0.16, d: 0.09, type: 'square', v: 0.35 }],
+    },
+    // タイムアップ：下がっていく3音
+    timeup: {
+      group: 'long', gain: 0.4, minGap: 1000,
+      notes: [
+        { f: N.G5, t: 0, d: 0.16, type: 'triangle', v: 1 },
+        { f: N.E5, t: 0.15, d: 0.16, type: 'triangle', v: 1 },
+        { f: N.C5, t: 0.3, d: 0.34, type: 'triangle', v: 1 },
+        { f: N.C4, t: 0.3, d: 0.34, type: 'sine', v: 0.5 },
+      ],
+    },
+    // 自己ベスト更新：キラキラした上昇音と和音
+    best: {
+      group: 'long', gain: 0.36, minGap: 1000,
+      notes: [
+        { f: N.C6, t: 0, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.E6, t: 0.09, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.G6, t: 0.18, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.C7, t: 0.27, d: 0.2, type: 'sine', v: 0.7 },
+        { f: N.C6, t: 0.45, d: 0.6, type: 'triangle', v: 0.7 },
+        { f: N.E6, t: 0.45, d: 0.6, type: 'triangle', v: 0.7 },
+        { f: N.G6, t: 0.45, d: 0.6, type: 'triangle', v: 0.6 },
+      ],
+    },
+
+    // ------------------------------------------------------------ 第3段階：認定試験
+    // 試験開始：落ち着いた鐘の音
+    examStart: {
+      group: 'long', gain: 0.36, minGap: 500,
+      notes: [
+        { f: N.G4, t: 0, d: 0.3, type: 'sine', v: 1 },
+        { f: N.C5, t: 0.18, d: 0.34, type: 'sine', v: 1 },
+        { f: N.G5, t: 0.18, d: 0.34, type: 'sine', v: 0.3 },
+      ],
+    },
+    // 合格：明るい上昇チャイム
+    pass: {
+      group: 'long', gain: 0.4, minGap: 800,
+      notes: [
+        { f: N.C5, t: 0, d: 0.14, type: 'triangle', v: 1 },
+        { f: N.E5, t: 0.11, d: 0.14, type: 'triangle', v: 1 },
+        { f: N.G5, t: 0.22, d: 0.14, type: 'triangle', v: 1 },
+        { f: N.C6, t: 0.33, d: 0.42, type: 'triangle', v: 1 },
+        { f: N.E6, t: 0.33, d: 0.42, type: 'sine', v: 0.35 },
+      ],
+    },
+    // 不合格：やわらかく下がる音（責めない、落ち着いた音）
+    fail: {
+      group: 'long', gain: 0.34, minGap: 800,
+      notes: [
+        { f: N.E4, t: 0, d: 0.2, type: 'sine', v: 1 },
+        { f: 293.66, t: 0.18, d: 0.2, type: 'sine', v: 1 },
+        { f: N.C4, t: 0.36, d: 0.32, type: 'sine', v: 1 },
+      ],
+    },
+    // ランクアップ：ファンファーレ
+    rankup: {
+      group: 'long', gain: 0.38, minGap: 1000,
+      notes: [
+        { f: N.C5, t: 0, d: 0.1, type: 'triangle', v: 1 },
+        { f: N.C5, t: 0.12, d: 0.1, type: 'triangle', v: 1 },
+        { f: N.C5, t: 0.24, d: 0.1, type: 'triangle', v: 1 },
+        { f: N.G5, t: 0.36, d: 0.3, type: 'triangle', v: 1 },
+        { f: N.E5, t: 0.66, d: 0.12, type: 'triangle', v: 0.9 },
+        { f: N.G5, t: 0.78, d: 0.12, type: 'triangle', v: 0.9 },
+        { f: N.C6, t: 0.9, d: 0.4, type: 'triangle', v: 0.85 },
+        { f: N.E5, t: 0.9, d: 0.4, type: 'triangle', v: 0.6 },
+        { f: N.G5, t: 0.9, d: 0.4, type: 'triangle', v: 0.6 },
+      ],
+    },
+    // 最終試験合格（マスター）：いちばん豪華なファンファーレ
+    master: {
+      group: 'long', gain: 0.38, minGap: 1500,
+      notes: [
+        { f: N.G4, t: 0, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.C5, t: 0.12, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.E5, t: 0.24, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.G5, t: 0.36, d: 0.12, type: 'triangle', v: 1 },
+        { f: N.C6, t: 0.48, d: 0.3, type: 'triangle', v: 1 },
+        { f: N.G5, t: 0.8, d: 0.1, type: 'triangle', v: 0.9 },
+        { f: N.C6, t: 0.92, d: 0.1, type: 'triangle', v: 0.9 },
+        { f: N.E6, t: 1.04, d: 0.12, type: 'triangle', v: 0.9 },
+        { f: N.C5, t: 1.18, d: 0.6, type: 'triangle', v: 0.7 },
+        { f: N.E5, t: 1.18, d: 0.6, type: 'triangle', v: 0.7 },
+        { f: N.G5, t: 1.18, d: 0.6, type: 'triangle', v: 0.7 },
+        { f: N.C6, t: 1.18, d: 0.6, type: 'triangle', v: 0.8 },
+        { f: N.C7, t: 1.18, d: 0.45, type: 'sine', v: 0.15 },
+      ],
+    },
+  });
+
   /** レシピ全体の長さ（秒） */
   function recipeDuration(name) {
     const r = RECIPES[name];

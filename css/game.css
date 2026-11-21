@@ -481,7 +481,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 }
 .setting-summary.is-empty { color: var(--red-pen); font-weight: 700; }
 .setting-summary .warn { color: var(--ng); }
-.screen--settings .btn--xl { width: min(420px, 100%); }
+.screen--settings .btn--xl, .screen--ta-settings .btn--xl { width: min(420px, 100%); }
 
 /* ============================================================ ③ 問題画面 */
 .hud {
@@ -958,6 +958,229 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .error-message { background: var(--red-weak); color: var(--red-pen); padding: 12px 16px; border-radius: 12px; font-weight: 700; }
 .noscript { text-align: center; padding: 24px; }
 
+/* ============================================================ 第3段階：共通 */
+.btn--mode { background: var(--surface); color: var(--text); border-color: var(--border); box-shadow: 0 3px 0 var(--border); }
+.btn--mode:hover { border-color: var(--primary); color: var(--primary); }
+.screen-lead { margin: 0 0 14px; color: var(--muted); }
+.screen-note { color: var(--muted); font-size: .85rem; }
+.save-warning { background: var(--ng-weak); color: var(--ng); border-radius: 10px; padding: 8px 12px; font-size: .88rem; font-weight: 700; }
+
+/* ---------- タイムアタック：モード選択 */
+.mode-cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.mode-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "icon name" "icon desc";
+  align-items: center;
+  gap: 2px 14px;
+  min-height: 96px;
+  padding: 16px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  touch-action: manipulation;
+}
+.mode-card:hover { border-color: var(--primary); }
+.mode-card__icon { grid-area: icon; font-size: 2.2rem; }
+.mode-card__name { grid-area: name; font-weight: 900; font-size: 1.15rem; }
+.mode-card__desc { grid-area: desc; color: var(--muted); font-size: .88rem; }
+.mode-card--official { border-color: var(--star); }
+
+.official-info {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.official-info p { margin: 2px 0; }
+.official-info__best strong { color: var(--red-pen); font-size: 1.2em; }
+
+/* ---------- タイムアタック：プレイ */
+.hud--ta { grid-template-columns: auto 1fr auto; }
+.ta-timer {
+  justify-self: center;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary-strong);
+}
+.ta-timer__num { font-size: 2rem; line-height: 1; min-width: 1.4em; text-align: right; }
+.ta-timer small { font-size: .8rem; color: var(--muted); }
+.ta-timer.is-warning { color: var(--red-pen); }
+.ta-timer.is-urgent .ta-timer__num { animation: urgent .5s ease-in-out infinite alternate; }
+.ta-score { font-weight: 900; font-size: 1.25rem; font-variant-numeric: tabular-nums; color: var(--red-pen); white-space: nowrap; }
+.ta-score small { font-size: .7em; color: var(--muted); margin-left: 1px; }
+.ta-streak { font-size: .8rem; font-weight: 800; color: var(--ng); white-space: nowrap; }
+.ta-gauge { height: 10px; background: var(--bg-accent); border-radius: 999px; margin: 6px 0 14px; overflow: hidden; }
+.ta-gauge span { display: block; height: 100%; width: 100%; background: var(--ok); transition: width .1s linear; }
+.screen--ta-play:has(.ta-timer.is-warning) .ta-gauge span { background: var(--red-pen); }
+.screen--ta-play.is-urgent .paper { box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-pen) 40%, transparent); }
+@keyframes urgent { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+.ta-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  pointer-events: none;
+}
+.ta-overlay span {
+  font-size: clamp(3rem, 18vw, 7rem);
+  font-weight: 900;
+  color: var(--primary-strong);
+  text-shadow: 0 4px 0 var(--bg-accent);
+  animation: count-pop .45s ease-out;
+}
+.ta-overlay--go span { color: var(--ok); }
+.ta-overlay--timeup span { color: var(--red-pen); font-size: clamp(2.4rem, 12vw, 5rem); }
+@keyframes count-pop { from { transform: scale(1.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.paper--ta .row--selectable { cursor: pointer; }
+.btn-all-correct--wide { width: 100%; }
+#ta-body.is-locked .row--selectable, #ta-body.is-locked .btn-all-correct { cursor: default; }
+.row--selectable.ta-ok, .btn-all-correct.ta-ok { border-color: var(--ok); background: var(--ok-weak); box-shadow: inset 0 0 0 1px var(--ok); }
+.row--selectable.ta-ng, .btn-all-correct.ta-ng { border-style: dashed; border-color: var(--muted); background: var(--bg-accent); }
+.row--selectable.ta-answer, .btn-all-correct.ta-answer { border-color: var(--red-pen); background: var(--highlight); box-shadow: inset 0 0 0 1px var(--red-pen); }
+.row--selectable.ta-ok .row__mark { color: var(--ok); font-size: 1.2rem; }
+.row--selectable.ta-ng .row__mark { color: var(--muted); font-size: 1.2rem; }
+.ta-popup { min-height: 1.6em; margin: 10px 0 0; text-align: center; font-weight: 900; font-size: 1.2rem; }
+.ta-popup.is-ok { color: var(--ok); animation: fade-in .15s ease-out; }
+.ta-popup.is-ng { color: var(--ng); animation: fade-in .15s ease-out; }
+
+/* ---------- タイムアタック：結果 */
+.best-badge { margin: 6px 0; font-weight: 900; color: var(--ng); font-size: 1.1rem; }
+.best-badge--new { color: var(--red-pen); animation: pop .5s ease-out 2; }
+.best-badge small { font-weight: 400; color: var(--muted); font-size: .8rem; }
+.best-line { margin: 6px 0; color: var(--muted); font-weight: 700; }
+.ta-title { margin: 10px 0 0; font-size: 1.05rem; }
+.ta-title strong { color: var(--primary-strong); }
+.ta-title__up { margin-left: 8px; font-size: .8rem; font-weight: 800; color: #fff; background: var(--red-pen); border-radius: 999px; padding: 1px 10px; }
+
+/* ---------- 認定試験 */
+.cert-unit-list { display: grid; gap: 10px; max-width: 640px; }
+.cert-unit {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-left: 8px solid var(--rank-color, var(--primary));
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.cert-unit:hover { border-color: var(--primary); border-left-color: var(--rank-color, var(--primary)); }
+.cert-unit__icon { font-size: 2.2rem; text-align: center; }
+.cert-unit__body { display: grid; }
+.cert-unit__name { font-weight: 900; font-size: 1.1rem; }
+.cert-unit__rank { font-weight: 800; color: var(--rank-color, var(--primary)); }
+.cert-unit__next { color: var(--muted); font-size: .85rem; }
+.cert-unit__arrow { font-size: 1.6rem; color: var(--muted); }
+
+.rank-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 16px; margin-bottom: 12px; }
+.rank-card__label { margin: 0 0 4px; font-size: .8rem; color: var(--muted); font-weight: 700; }
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  color: var(--rank-color, var(--primary));
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  padding: 0 12px;
+  background: var(--surface);
+  white-space: nowrap;
+}
+.rank-badge__icon { font-size: 1.1em; }
+.rank-badge--lg { font-size: 1.15rem; padding: 4px 16px; }
+.rank-badge--pop { animation: count-pop .6s ease-out both; }
+
+.exam-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 760px; }
+.exam {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  box-shadow: var(--shadow);
+}
+.exam.is-cleared { border-color: var(--ok); }
+.exam.is-locked { opacity: .7; background: var(--bg-accent); }
+.exam__head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.exam__name { font-weight: 900; font-size: 1.15rem; }
+.exam__range { color: var(--star); font-weight: 800; }
+.exam__rule { margin: 4px 0; font-size: .92rem; }
+.exam__reward { margin: 0 0 6px; font-size: .85rem; color: var(--muted); }
+.exam__foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.exam__foot .btn { margin-left: auto; min-height: 44px; }
+.exam__status { font-size: .85rem; font-weight: 800; }
+.exam__status--cleared { color: var(--ok); }
+.exam__status--open { color: var(--primary); }
+.exam__status--locked { color: var(--muted); }
+.exam__status--short { color: var(--ng); }
+.exam__attempts { font-size: .8rem; color: var(--muted); }
+
+.promotion {
+  margin: 12px 0;
+  text-align: center;
+  background: var(--highlight);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.promotion__title { margin: 0 0 8px; font-size: 1.4rem; font-weight: 900; color: var(--red-pen); animation: pop .5s ease-out 2; }
+.promotion__sub { margin: 8px 0 0; font-weight: 800; }
+.screen--cert-result .verdict { width: min(520px, 100%); }
+.screen--cert-result #cert-result-body { width: 100%; display: grid; justify-items: center; gap: 12px; }
+
+/* ---------- 記録 */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tab {
+  min-height: 44px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  font-weight: 800;
+  cursor: pointer;
+}
+.tab.is-selected { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.record-cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.record-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 16px; }
+.record-card__unit { margin: 0 0 4px; font-weight: 900; }
+.record-card__score { margin: 0; color: var(--muted); font-weight: 700; }
+.record-card__score span { font-size: 2rem; font-weight: 900; color: var(--red-pen); font-variant-numeric: tabular-nums; }
+.record-card__title { margin: 0 0 4px; font-weight: 800; color: var(--primary-strong); }
+.record-card__empty { color: var(--muted); }
+.record-card__stats { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0 0; }
+.record-card__stats div { display: grid; }
+.record-card__stats dt { font-size: .75rem; color: var(--muted); }
+.record-card__stats dd { margin: 0; font-weight: 800; }
+.record-card__cleared { margin: 8px 0 0; font-size: .85rem; color: var(--muted); }
+.history-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.history-item { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 10px 14px; display: grid; gap: 2px; }
+.history-item__head { display: flex; justify-content: space-between; color: var(--muted); font-size: .85rem; }
+.history-item__score { font-weight: 900; color: var(--red-pen); font-size: 1.1rem; }
+.history-item__cond { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.history-item__stats { margin: 0 0 6px; font-size: .85rem; color: var(--muted); }
+.history-item .btn { justify-self: start; min-height: 44px; }
+
+/* ---------- 解説ポップアップ */
+.explain-dialog .compare__body .paper__question { margin-bottom: 10px; }
+.explain-line--error { background: var(--highlight); }
+.explain-tags { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 4px; }
+.explain-note { margin: 6px 0; font-weight: 700; }
+.explain-dialog .solution__line { grid-template-columns: 3.6em minmax(0, 1fr); }
+
 /* ============================================================ レスポンシブ */
 /* スマートフォン */
 @media (max-width: 480px) {
@@ -996,4 +1219,20 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* 解説ポップアップは、スマホ縦画面でも回転しない（並べて表示のポップアップだけが回転する） */
+.compare-dialog.explain-dialog {
+  width: min(760px, calc(100vw - 24px));
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  border-radius: var(--radius);
+}
+.explain-dialog .compare {
+  position: static;
+  width: auto;
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  transform: none;
 }

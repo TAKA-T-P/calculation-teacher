@@ -54,10 +54,10 @@ function runBrowser(browser, url, w, h) {
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
     `--user-data-dir=${profile}`, `--window-size=${Math.max(w + 40, 600)},${h + 400}`,
     '--autoplay-policy=no-user-gesture-required', // 効果音の AudioContext を自動テストでも動かす
-    '--virtual-time-budget=120000', '--dump-dom', url,
+    '--virtual-time-budget=900000', '--dump-dom', url, // タイムアタック（60秒×数回）を仮想時間で進めるため長めに
   ];
   return new Promise((resolve) => {
-    execFile(browser, args, { maxBuffer: 64 * 1024 * 1024, timeout: 180000 }, (err, stdout) => {
+    execFile(browser, args, { maxBuffer: 64 * 1024 * 1024, timeout: 900000 }, (err, stdout) => {
       try { fs.rmSync(profile, { recursive: true, force: true }); } catch (e) { /* 一時フォルダの削除失敗は無視 */ }
       const m = /RESULTS:(\{.*\})/s.exec(stdout || '');
       if (!m) return resolve({ fatal: `結果を取得できませんでした${err ? `（${err.message}）` : ''}`, results: [] });

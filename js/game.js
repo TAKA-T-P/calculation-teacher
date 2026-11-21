@@ -139,8 +139,10 @@
      * @param {object[]} questions 全問題
      * @param {{unit:string, difficulties:number[], count:5|10|'all'}} config
      * @param {() => number} rng
+     * @param {{fixedQuestions?: object[]}} opts
+     *   fixedQuestions：出題する問題とその順番をあらかじめ決めて渡す（認定試験など。絞り込みとシャッフルはしない）
      */
-    constructor(questions, config, rng = Math.random) {
+    constructor(questions, config, rng = Math.random, opts = {}) {
       this.config = {
         unit: config.unit,
         // null = すべてのカテゴリ（カテゴリ条件を渡さない既存の呼び出しとの互換）
@@ -148,6 +150,22 @@
         difficulties: (config.difficulties && config.difficulties.length ? config.difficulties : DIFFICULTIES).slice().sort(),
         count: config.count === undefined ? DEFAULT_COUNT : config.count,
       };
+      if (opts.fixedQuestions) {
+        const fixed = opts.fixedQuestions;
+        const bad = fixed.filter((q) => validateForPlay(q).length);
+        if (bad.length) throw new GameDataError(`出題できない問題があります: ${bad.map((q) => q && q.id).join(', ')}`);
+        if (new Set(fixed.map((q) => q.id)).size !== fixed.length) throw new RangeError('同じ問題が重複しています');
+        if (fixed.length === 0) throw new RangeError('出題する問題がありません');
+        this.questions = fixed.slice();
+        this.questionIds = this.questions.map((q) => q.id);
+        this.available = fixed.length;
+        this.config.count = fixed.length;
+        this.index = 0;
+        this.correctCount = 0;
+        this.results = [];
+        this.resetQuestionState();
+        return;
+      }
       const pool = filterPool(questions, this.config);
       if (pool.length === 0) throw new RangeError('条件に合う問題がありません');
       const n = resolveCount(this.config.count, pool.length);

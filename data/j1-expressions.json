@@ -233,6 +233,134 @@
         "=-2"
       ],
       "hint": "答えに文字が残らないこともあります。かっこをはずしたときの各項の符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0011",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "同類項の計算",
+      "difficulty": 1,
+      "question": "3x+5-x-8",
+      "answerLines": [
+        "3x+5-x-8",
+        "=3x-x+5-8",
+        "=2x+3"
+      ],
+      "errorLine": 2,
+      "errorType": "数の項をまとめるときの符号ミス",
+      "explanation": "数の項は $5-8=-3$ です。ひく数のほうが大きいので、答えの符号は「$-$」になります。文字の項 $3x-x=2x$ と、項の並べかえは正しくできています。",
+      "correctSolution": [
+        "3x+5-x-8",
+        "=3x-x+5-8",
+        "=2x-3"
+      ],
+      "hint": "$5-8$ の答えの符号を確かめましょう。"
+    },
+    {
+      "id": "J1-EX-0012",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 1,
+      "instruction": "$x=-3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "x": "-3"
+      },
+      "question": "4-2x",
+      "answerLines": [
+        "4-2x",
+        "=4-2\\times(-3)",
+        "=4-6",
+        "=-2"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数を代入したときの符号ミス",
+      "explanation": "$-2\\times(-3)$ は負の数どうしの積なので $+6$ です。したがって $4-2\\times(-3)=4+6=10$ になります。かっこをつけて代入したところは正しくできています。",
+      "correctSolution": [
+        "4-2x",
+        "=4-2\\times(-3)",
+        "=4+6",
+        "=10"
+      ],
+      "hint": "$-2\\times(-3)$ の答えの符号はどうなりますか？"
+    },
+    {
+      "id": "J1-EX-0013",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "分配法則など",
+      "difficulty": 4,
+      "question": "\\frac{x+1}{2}+\\frac{x-5}{6}",
+      "answerLines": [
+        "\\frac{x+1}{2}+\\frac{x-5}{6}",
+        "=\\frac{3(x+1)+(x-5)}{6}",
+        "=\\frac{4x-2}{6}",
+        "=\\frac{2x-2}{3}"
+      ],
+      "errorLine": 3,
+      "errorType": "約分で分子の一部の項だけをわった誤り",
+      "explanation": "約分するときは、分子のすべての項と分母を同じ数でわります。$\\frac{4x-2}{6}$ の分子と分母を $2$ でわると $\\frac{2x-1}{3}$ です。$4x$ だけを $2$ でわり、$-2$ をわり忘れています。通分とかっこのはずし方は正しくできています。",
+      "correctSolution": [
+        "\\frac{x+1}{2}+\\frac{x-5}{6}",
+        "=\\frac{3(x+1)+(x-5)}{6}",
+        "=\\frac{4x-2}{6}",
+        "=\\frac{2x-1}{3}"
+      ],
+      "hint": "$\\frac{4x-2}{6}$ を約分するとき、分子のどの項も $2$ でわりましたか？"
+    },
+    {
+      "id": "J1-EX-0014",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "文字式の表し方",
+      "difficulty": 4,
+      "instruction": "次の式を、文字式の表し方にしたがって書きなさい。",
+      "question": "x\\div y\\times3-a\\div(-2)\\div b",
+      "answerLines": [
+        "x\\div y\\times3-a\\div(-2)\\div b",
+        "=x\\times\\frac{1}{y}\\times3-a\\times\\left(-\\frac{1}{2}\\right)\\times\\frac{1}{b}",
+        "=\\frac{3x}{y}+\\frac{a}{2b}"
+      ],
+      "errorLine": null,
+      "errorType": null,
+      "explanation": "すべての行が正しい計算です。わり算を逆数のかけ算に直してから、文字式の表し方で書いています。$x\\div y\\times3=\\frac{3x}{y}$ で、$3$ は分母ではなく分子にかかります。また $a\\div(-2)\\div b=-\\frac{a}{2b}$ なので、その前の「$-$」と合わせて $+\\frac{a}{2b}$ になります。",
+      "correctSolution": [
+        "x\\div y\\times3-a\\div(-2)\\div b",
+        "=x\\times\\frac{1}{y}\\times3-a\\times\\left(-\\frac{1}{2}\\right)\\times\\frac{1}{b}",
+        "=\\frac{3x}{y}+\\frac{a}{2b}"
+      ],
+      "hint": "$\\div y\\times3$ の $3$ は、分子と分母のどちらにかかりますか？ $-a\\div(-2)$ の符号にも注意しましょう。"
+    },
+    {
+      "id": "J1-EX-0015",
+      "grade": 1,
+      "unit": "expressions",
+      "category": "式の値",
+      "difficulty": 4,
+      "instruction": "$a=-\\frac{1}{2}$, $b=3$ のとき、次の式の値を求めなさい。",
+      "substitution": {
+        "a": "-\\frac{1}{2}",
+        "b": "3"
+      },
+      "question": "4a^2-ab",
+      "answerLines": [
+        "4a^2-ab",
+        "=4\\times\\left(-\\frac{1}{2}\\right)^2-\\left(-\\frac{1}{2}\\right)\\times3",
+        "=4\\times\\left(-\\frac{1}{4}\\right)+\\frac{3}{2}",
+        "=-1+\\frac{3}{2}",
+        "=\\frac{1}{2}"
+      ],
+      "errorLine": 2,
+      "errorType": "負の数の2乗の符号ミス",
+      "explanation": "$\\left(-\\frac{1}{2}\\right)^2$ は負の数を $2$ 回かけるので、符号は「$+$」になり $\\frac{1}{4}$ です。したがって $4\\times\\frac{1}{4}=1$ で、答えは $1+\\frac{3}{2}=\\frac{5}{2}$ です。代入した式と、$-\\left(-\\frac{1}{2}\\right)\\times3=+\\frac{3}{2}$ は正しくできています。",
+      "correctSolution": [
+        "4a^2-ab",
+        "=4\\times\\left(-\\frac{1}{2}\\right)^2-\\left(-\\frac{1}{2}\\right)\\times3",
+        "=4\\times\\frac{1}{4}+\\frac{3}{2}",
+        "=1+\\frac{3}{2}",
+        "=\\frac{5}{2}"
+      ],
+      "hint": "$\\left(-\\frac{1}{2}\\right)^2$ の符号は、$+$ と $-$ のどちらですか？"
     }
   ]
 }
