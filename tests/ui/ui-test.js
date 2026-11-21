@@ -45,6 +45,18 @@
     await sleep(40);
   }
   function check(cond, msg) { if (!cond) throw new Error(msg); }
+  async function pickUnit(selectSel, unit) {
+    const sel = $(selectSel);
+    if (!sel) throw new Error(`要素がありません: ${selectSel}`);
+    if (![...sel.options].some((o) => o.value === unit)) throw new Error(`単元の選択肢がありません: ${unit}`);
+    sel.value = unit;
+    sel.dispatchEvent(new w.Event('change', { bubbles: true }));
+    await sleep(40);
+  }
+  async function pickCertUnit(unit) {
+    await pickUnit('#cert-unit-select', unit);
+    await click(`#cert-unit-list [data-action="cert-unit"][data-unit="${unit}"]`);
+  }
   async function test(name, fn) {
     try {
       await fn();
@@ -60,7 +72,7 @@
   }
   async function configure({ unit, categories, difficulties, count }) {
     if (!visible('settings')) await click('[data-action="go-settings"]');
-    await click(`[data-action="select-unit"][data-unit="${unit}"]`);
+    await pickUnit('#unit-select', unit);
     // カテゴリ：まず全部選び、指定があればすべて解除してから指定のカテゴリだけ選ぶ
     const catBulk = () => $('[data-action="toggle-category-all"]');
     if (catBulk().textContent.includes('すべて選択')) await click(catBulk());
@@ -193,19 +205,19 @@
         await waitFor(() => !d.querySelector('section[data-screen="ta-result"]').hidden, 'result', 70000);
       },
       'cert-units': async () => click('[data-action="go-cert-units"]'),
-      'cert-list': async () => { await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]'); },
+      'cert-list': async () => { await click('[data-action="go-cert-units"]'); await pickCertUnit('equation'); },
       'cert-pass': async () => {
-        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]');
+        await click('[data-action="go-cert-units"]'); await pickCertUnit('equation');
         await click('[data-action="cert-start"][data-exam="1"]');
         for (let i = 0; i < 3; i++) { await answer(true); await click('[data-action="next"]'); }
       },
       'cert-play': async () => { // 試験中のヘッダー（1問正解して2問目）
-        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="positive-negative"]');
+        await click('[data-action="go-cert-units"]'); await pickCertUnit('positive-negative');
         await click('[data-action="cert-start"][data-exam="1"]');
         await answer(true); await click('[data-action="next"]');
       },
       'cert-list-cleared': async () => { // 第1試験に合格したあとの試験一覧
-        await click('[data-action="go-cert-units"]'); await click('[data-action="cert-unit"][data-unit="equation"]');
+        await click('[data-action="go-cert-units"]'); await pickCertUnit('equation');
         await click('[data-action="cert-start"][data-exam="1"]');
         for (let i = 0; i < 3; i++) { await answer(true); await click('[data-action="next"]'); }
         await click('[data-action="go-cert-list"]');
@@ -238,15 +250,18 @@
     check(visible('settings'), '設定画面へ進めない');
   });
 
-  await test('[2] 単元は manifest のすべての単元（学年ごとの見出しつき）から選べ、変更すると対象問題が切り替わる', async () => {
-    check($$('section[data-screen="settings"] .unit-card').length === app().units.length, `単元の数 ${$$('section[data-screen="settings"] .unit-card').length}`);
+  await test('[2] 単元は manifest のすべての単元をプルダウン（学年ごとのグループつき）から選べ、変更すると対象問題が切り替わる', async () => {
+    const sel = $('#unit-select');
+    check(sel && sel.tagName === 'SELECT' && sel.options.length === app().units.length, `単元の数 ${sel && sel.options.length}`);
+    check(!$('section[data-screen="settings"] [data-action="select-unit"]'), '単元のボタンが残っている');
     const grades = [...new Set(app().units.map((u) => u.grade))];
-    check(grades.every((g) => $('#unit-list').textContent.includes(`中学${g}年生`)), '学年の見出しがない');
-    await click('[data-action="select-unit"][data-unit="equation"]');
-    check($('[data-unit="equation"]').getAttribute('aria-checked') === 'true', '方程式が選択されていない');
+    check(grades.every((g) => [...sel.querySelectorAll('optgroup')].some((o) => o.label === `中学${g}年生`)), '学年のグループがない');
+    check(sel.getBoundingClientRect().height >= 48, 'プルダウンが押しにくい');
+    await pickUnit('#unit-select', 'equation');
+    check(app().config.unit === 'equation' && $('#unit-select').value === 'equation', '方程式が選択されていない');
     const eqStar1 = $('[data-difficulty="1"]').textContent;
     check(eqStar1.includes(`${cnt({ unit: 'equation', difficulties: [1] })}問`), `方程式の★の問題数表示: ${eqStar1}`);
-    await click('[data-action="select-unit"][data-unit="positive-negative"]');
+    await pickUnit('#unit-select', 'positive-negative');
     check($('[data-difficulty="1"]').textContent.includes(`${cnt({ unit: 'positive-negative', difficulties: [1] })}問`), '正負の数の★の問題数表示');
     check($('#setting-summary').textContent.includes(`出題できる問題：${cnt({ unit: 'positive-negative' })}問`), '出題できる問題数の表示');
   });
@@ -327,21 +342,21 @@
     const order = [...$('[data-screen="settings"]').querySelectorAll('.setting__label')].map((l) => l.textContent.trim().slice(0, 4));
     check(order.join() === '単元をえ,カテゴリ,難易度を,問題数', `項目の順番: ${order}`);
     for (const unit of ['positive-negative', 'expressions', 'equation']) {
-      await click(`[data-action="select-unit"][data-unit="${unit}"]`);
+      await pickUnit('#unit-select', unit);
       const names = $$('[data-action="toggle-category"] .cat-chip__name').map((n) => n.textContent);
       check(names.join() === EXPECTED_CATS[unit].join(), `${unit} のカテゴリ: ${names}`);
       check(catPressed().join() === EXPECTED_CATS[unit].join(), `${unit} の初期選択: ${catPressed()}`);
       check(catBulkText() === 'すべて解除', `${unit} のボタン表示: ${catBulkText()}`);
     }
     // 正負の数で一部を外してから単元を変えて戻ると、すべて選択に戻る（前の選択を引き継がない）
-    await click('[data-action="select-unit"][data-unit="positive-negative"]');
+    await pickUnit('#unit-select', 'positive-negative');
     await click(catChip('累乗'));
-    await click('[data-action="select-unit"][data-unit="equation"]');
+    await pickUnit('#unit-select', 'equation');
     check(catPressed().length === 4, `方程式に切り替えたあと: ${catPressed()}`);
     await click(catChip('移項'));
-    await click('[data-action="select-unit"][data-unit="equation"]'); // 同じ単元を押し直しても選択は保つ
+    await pickUnit('#unit-select', 'equation'); // 同じ単元を押し直しても選択は保つ
     check(catPressed().join() === 'かっこを含む方程式,小数を含む方程式,分数を含む方程式', `同じ単元を押し直したあと: ${catPressed()}`);
-    await click('[data-action="select-unit"][data-unit="positive-negative"]');
+    await pickUnit('#unit-select', 'positive-negative');
     check(catPressed().join() === EXPECTED_CATS['positive-negative'].join(), `正負の数に戻したあと: ${catPressed()}`);
   });
 
@@ -873,7 +888,7 @@
     await click('[data-action="ta-mode"][data-mode="official"]');
     check(visible('ta-settings') && inScreen('ta-settings', '#ta-custom-fields').hidden, '公式でカテゴリ・難易度が選べてしまう');
     check($('#ta-official-info').textContent.includes('全カテゴリ・全難易度'), '公式ルールの表示');
-    await click('[data-action="ta-select-unit"][data-unit="equation"]');
+    await pickUnit('#ta-unit-select', 'equation');
     sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
     await click('#ta-start-btn');
     check(visible('ta-play'), 'プレイ画面へ進まない');
@@ -974,6 +989,19 @@
     check(recs().officialFor('equation').plays === 3, 'ゲームオーバーの回が記録されない');
     const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
     check(names.includes('fail') && !names.includes('timeup'), `ゲームオーバーの効果音 ${names}`);
+    // 「称号アップ！」のバッジは途中で折り返さない（いちばん長い称号名でも、バッジは1行のまま）
+    const longest = [...w.TimeAttack.TITLES].sort((a, b) => b.name.length - a.name.length)[0];
+    const sample = d.createElement('div');
+    sample.className = 'score-card';
+    sample.innerHTML = `<p class="ta-title">称号：<strong>${longest.icon}${longest.name}</strong><span class="ta-title__up">称号アップ！</span></p>`;
+    $('#ta-result-body').prepend(sample);
+    const up = sample.querySelector('.ta-title__up');
+    check(up.getClientRects().length === 1 && up.getBoundingClientRect().height < 30, `「称号アップ！」が2行に分かれた（${up.getClientRects().length}）`);
+    const nameBox = sample.querySelector('strong').getBoundingClientRect();
+    check(Math.abs(up.getBoundingClientRect().top + up.getBoundingClientRect().height / 2 - (nameBox.top + nameBox.height / 2)) < 8,
+      '「称号：〇〇」と「称号アップ！」が同じ行にない');
+    check(pageOverflow() <= 0, '称号の行が横にはみ出す');
+    sample.remove();
   });
 
   await test('[TA] カスタム：カテゴリ・難易度をしぼれる。公式記録は変わらず、履歴に残る。履歴から同じ条件で再挑戦できる', async () => {
@@ -981,7 +1009,7 @@
     await click('[data-action="go-ta-menu"]');
     await click('[data-action="ta-mode"][data-mode="custom"]');
     check(!inScreen('ta-settings', '#ta-custom-fields').hidden, 'カスタムでカテゴリ・難易度が出ない');
-    await click('[data-action="ta-select-unit"][data-unit="positive-negative"]');
+    await pickUnit('#ta-unit-select', 'positive-negative');
     await click('[data-action="ta-toggle-category-all"]'); // すべて解除
     check(inScreen('ta-settings', '#ta-start-btn').disabled, 'カテゴリ0個で開始できる');
     const catBtn = $$('[data-action="ta-toggle-category"]').find((b) => b.textContent.includes('累乗'));
@@ -1058,8 +1086,8 @@
   await test('[認定] 最初は第1試験だけ挑戦できる。ヒントは使えない。3問正解で合格し、昇格・次の試験の解放が表示・保存される', async () => {
     await click('[data-action="go-title"]');
     await click('[data-action="go-cert-units"]');
-    check($$('#cert-unit-list .cert-unit').length === app().units.length && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元の一覧');
-    await click('[data-action="cert-unit"][data-unit="equation"]');
+    check($('#cert-unit-select').options.length === app().units.length && $$('#cert-unit-list .cert-unit').length === 1 && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元のプルダウンと選んだ単元のカード');
+    await pickCertUnit('equation');
     check(visible('cert-list'), '試験一覧');
     check(examCard(1).querySelector('[data-action="cert-start"]') && !examCard(1).querySelector('button').disabled, '第1試験が始められない');
     [2, 3, 4, 5].forEach((id) => check(!examCard(id).querySelector('[data-action="cert-start"]') && examCard(id).textContent.includes('🔒'), `第${id}試験が解放されている`));
@@ -1433,7 +1461,7 @@
     for (let id = 1; id <= 4; id++) recs().recordExam('expressions', id, true);
     await click('[data-action="go-title"]').catch(() => {});
     await click('[data-action="go-cert-units"]');
-    await click('[data-action="cert-unit"][data-unit="expressions"]');
+    await pickCertUnit('expressions');
     const plays = async () => {
       await click('[data-action="cert-start"][data-exam="5"]');
       const s = app().session;

@@ -383,36 +383,6 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .setting__label { font-weight: 800; font-size: 1.05rem; margin-bottom: 8px; padding: 0; }
 .setting__label small { font-weight: 400; color: var(--muted); }
 
-.unit-list { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-/* 学年の見出し（単元のボタンの並びを学年ごとに区切る） */
-.unit-grade-label { grid-column: 1 / -1; margin: 6px 0 -2px; font-size: .85rem; font-weight: 800; color: var(--muted); }
-.unit-grade-label:first-child { margin-top: 0; }
-.unit-card {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  align-items: center;
-  gap: 10px;
-  min-height: var(--tap);
-  padding: 10px 14px;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  text-align: left;
-  cursor: pointer;
-}
-.unit-card__grade {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--primary);
-  background: var(--primary-weak);
-  border-radius: 6px;
-  padding: 0 8px;
-}
-.unit-card__name { font-weight: 700; font-size: 1.05rem; }
-.unit-card__count { color: var(--muted); font-size: .85rem; }
-.unit-card__check { width: 1.2em; color: var(--primary); font-weight: 800; }
-.unit-card.is-selected { border-color: var(--primary); background: var(--primary-weak); box-shadow: 0 0 0 2px var(--primary) inset; }
-
 .chip-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .chip {
   display: inline-flex;
@@ -1185,12 +1155,29 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .best-badge--new { color: var(--red-pen); animation: pop .5s ease-out 2; }
 .best-badge small { font-weight: 400; color: var(--muted); font-size: .8rem; }
 .best-line { margin: 6px 0; color: var(--muted); font-weight: 700; }
-.ta-title { margin: 10px 0 0; font-size: 1.05rem; }
+/* スマホ縦でも「称号：〇〇　称号アップ！」が1行に収まるよう、狭い画面では少し小さくする */
+.ta-title { margin: 10px 0 0; font-size: clamp(.85rem, 4vw, 1.05rem); }
 .ta-title strong { color: var(--primary-strong); }
-.ta-title__up { margin-left: 8px; font-size: .8rem; font-weight: 800; color: #fff; background: var(--red-pen); border-radius: 999px; padding: 1px 10px; }
+/* 「称号アップ！」は途中で折り返さない（入りきらないときはバッジごと次の行へ） */
+.ta-title__up { display: inline-block; white-space: nowrap; margin-left: 6px; font-size: .72rem; font-weight: 800; color: #fff; background: var(--red-pen); border-radius: 999px; padding: 1px 8px; vertical-align: middle; }
 
 /* ---------- 認定試験 */
-.cert-unit-list { display: grid; gap: 10px; max-width: 640px; }
+.cert-unit-list { display: grid; gap: 12px; max-width: 640px; }
+
+/* 単元を選ぶプルダウン（トレーニング・タイムアタック・認定試験） */
+.unit-picker { max-width: 640px; }
+.unit-select { position: relative; }
+.unit-select::after {
+  content: ""; position: absolute; right: 18px; top: 50%; width: 10px; height: 10px; margin-top: -7px;
+  border-right: 3px solid var(--primary); border-bottom: 3px solid var(--primary); transform: rotate(45deg); pointer-events: none;
+}
+.unit-select__input {
+  width: 100%; min-height: 56px; padding: 10px 48px 10px 16px;
+  font: inherit; font-size: 1.1rem; font-weight: 700; color: var(--text);
+  background: var(--surface); border: 2px solid var(--primary); border-radius: 14px;
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+}
+.unit-select__input:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 .cert-unit {
   display: grid;
   grid-template-columns: 56px 1fr auto;

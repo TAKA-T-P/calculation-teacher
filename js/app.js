@@ -62,6 +62,7 @@
   // ============================================================ 初期化
   async function init() {
     document.addEventListener('click', onClick);
+    document.addEventListener('change', onChange);
     initSound();
     renderTitleTalk();
     // タイムアタック中に画面が表に戻ったら、すぐに残り時間を更新する（裏にいた間も時間は減っている）
@@ -208,7 +209,6 @@
         renderSettings();
         show('settings');
         break;
-      case 'select-unit': sfx('tap'); selectUnit(el.dataset.unit); break;
       case 'toggle-category': sfx('tap'); toggleCategory(Number(el.dataset.index)); break;
       case 'toggle-category-all': sfx('tap'); toggleAllCategories(); break;
       case 'toggle-difficulty': sfx('tap'); toggleDifficulty(el.dataset.difficulty); break;
@@ -251,7 +251,6 @@
       case 'go-ta-menu': sfx('tap'); show('ta-menu'); break;
       case 'go-ta-history': if (!app.ready) return; sfx('tap'); renderTAHistory(); show('ta-history'); break;
       case 'ta-mode': sfx('tap'); selectTAMode(el.dataset.mode); break;
-      case 'ta-select-unit': sfx('tap'); selectTAUnit(el.dataset.unit); break;
       case 'ta-toggle-category': sfx('tap'); toggleTACategory(Number(el.dataset.index)); break;
       case 'ta-toggle-category-all': sfx('tap'); toggleTACategoryAll(); break;
       case 'ta-toggle-difficulty': sfx('tap'); toggleTADifficulty(el.dataset.difficulty); break;
@@ -744,7 +743,7 @@
     $('#category-list').innerHTML = categoryChipsHtml(cats, app.config.categories, 'toggle-category');
     $('#category-bulk').innerHTML = `<button type="button" class="chip chip--bulk" data-action="toggle-category-all"
         ${cats.length ? '' : 'disabled'}>${allCategoriesSelected() ? 'すべて解除' : 'すべて選択'}</button>`;
-    $('#unit-list').innerHTML = unitCardsHtml(app.config.unit, 'select-unit',
+    $('#unit-list').innerHTML = unitSelectHtml('unit-select', app.config.unit,
       (u) => `${G.filterPool(app.questions, { unit: u.unit, difficulties: G.DIFFICULTIES }).length}問`);
     $('#difficulty-list').innerHTML = difficultyChipsHtml(counts, app.config.difficulties, 'toggle-difficulty');
 
@@ -1130,24 +1129,26 @@
     return u ? unitLabel(u) : unitId;
   }
 
-  /** 単元を学年ごとに分けて並べる（manifest に単元を足すと、その学年の見出しの下に自動で入る） */
-  function byGradeHtml(renderUnit) {
+  /**
+   * 単元を選ぶプルダウン（トレーニング・タイムアタック・認定試験で共通）。学年ごとに optgroup で分ける。
+   * extra(u) を渡すと、単元名のうしろに（100問）（ベスト 900点）のような補足をつける
+   */
+  function unitSelectHtml(id, selectedUnit, extra) {
     const grades = [...new Set(app.units.map((u) => u.grade))].sort((a, b) => a - b);
-    return grades.map((g) => `<p class="unit-grade-label" role="presentation">中学${g}年生</p>`
-      + app.units.filter((u) => u.grade === g).map(renderUnit).join('')).join('');
+    const groups = grades.map((g) => `<optgroup label="中学${g}年生">${app.units.filter((u) => u.grade === g).map((u) => {
+      const more = extra ? extra(u) : '';
+      return `<option value="${esc(u.unit)}"${u.unit === selectedUnit ? ' selected' : ''}>中${u.grade}・${esc(u.label)}${more ? `（${esc(more)}）` : ''}</option>`;
+    }).join('')}</optgroup>`).join('');
+    return `<div class="unit-select"><select id="${id}" class="unit-select__input" aria-label="単元">${groups}</select></div>`;
   }
 
-  function unitCardsHtml(selectedUnit, action, extra) {
-    return byGradeHtml((u) => {
-      const on = u.unit === selectedUnit;
-      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}"
-          data-action="${action}" data-unit="${esc(u.unit)}">
-          <span class="unit-card__grade">中${u.grade}</span>
-          <span class="unit-card__name">${esc(u.label)}</span>
-          <span class="unit-card__count">${extra ? extra(u) : ''}</span>
-          <span class="unit-card__check" aria-hidden="true">${on ? '✔' : ''}</span>
-        </button>`;
-    });
+  /** プルダウンで単元を選んだとき */
+  function onChange(e) {
+    const el = e.target;
+    if (!el || el.tagName !== 'SELECT') return;
+    if (el.id === 'unit-select') { sfx('tap'); selectUnit(el.value); }
+    else if (el.id === 'ta-unit-select') { sfx('tap'); selectTAUnit(el.value); }
+    else if (el.id === 'cert-unit-select') { sfx('tap'); app.cert.unit = el.value; renderCertUnits(); }
   }
 
   /** カテゴリのボタン（トレーニング・カスタムタイムアタック共通） */
@@ -1336,7 +1337,7 @@
     const official = app.ta.mode === TA.MODES.OFFICIAL;
     if (!app.ta.unit) app.ta.unit = app.config.unit;
     $('#ta-settings-heading').textContent = official ? '🏅 公式タイムアタック' : '🎯 カスタムタイムアタック';
-    $('#ta-unit-list').innerHTML = unitCardsHtml(app.ta.unit, 'ta-select-unit', (u) => {
+    $('#ta-unit-list').innerHTML = unitSelectHtml('ta-unit-select', app.ta.unit, (u) => {
       if (!official) return `${G.filterPool(app.questions, { unit: u.unit }).length}問`;
       const best = records.officialFor(u.unit).bestScore;
       return best === null ? '記録なし' : `ベスト ${best}点`;
@@ -1650,20 +1651,26 @@
   }
 
   function renderCertUnits() {
-    $('#cert-unit-list').innerHTML = byGradeHtml((u) => {
-      const c = records.certFor(u.unit);
-      const rank = C.rankFor(c.highestCleared);
-      const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
-      return `<button type="button" class="cert-unit" data-action="cert-unit" data-unit="${esc(u.unit)}" style="--rank-color:${rank.color}">
-          <span class="cert-unit__icon" aria-hidden="true">${rank.icon}</span>
-          <span class="cert-unit__body">
-            <span class="cert-unit__name">中${u.grade}・${esc(u.label)}</span>
-            <span class="cert-unit__rank">${esc(rank.name)}</span>
-            <span class="cert-unit__next">${next ? `次は ${next.name}` : '🎉 すべての試験に合格！'}</span>
-          </span>
-          <span class="cert-unit__arrow" aria-hidden="true">›</span>
-        </button>`;
-    });
+    if (!app.cert.unit || !app.units.some((u) => u.unit === app.cert.unit)) app.cert.unit = app.config.unit;
+    const u = app.units.find((x) => x.unit === app.cert.unit) || app.units[0];
+    $('#cert-unit-list').innerHTML = unitSelectHtml('cert-unit-select', u.unit, (x) => C.rankFor(records.certFor(x.unit).highestCleared).name)
+      + certUnitCardHtml(u);
+  }
+
+  /** 認定試験の単元カード（ランク・次の試験）。タップするとその単元の試験一覧へ */
+  function certUnitCardHtml(u) {
+    const c = records.certFor(u.unit);
+    const rank = C.rankFor(c.highestCleared);
+    const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
+    return `<button type="button" class="cert-unit" data-action="cert-unit" data-unit="${esc(u.unit)}" style="--rank-color:${rank.color}">
+        <span class="cert-unit__icon" aria-hidden="true">${rank.icon}</span>
+        <span class="cert-unit__body">
+          <span class="cert-unit__name">中${u.grade}・${esc(u.label)}</span>
+          <span class="cert-unit__rank">${esc(rank.name)}</span>
+          <span class="cert-unit__next">${next ? `次は ${next.name}` : '🎉 すべての試験に合格！'}</span>
+        </span>
+        <span class="cert-unit__arrow" aria-hidden="true">›</span>
+      </button>`;
   }
 
   function renderCertList(message) {
