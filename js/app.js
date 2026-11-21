@@ -249,6 +249,7 @@
         break;
       // ---------- タイムアタック
       case 'go-ta-menu': sfx('tap'); show('ta-menu'); break;
+      case 'go-ta-history': if (!app.ready) return; sfx('tap'); renderTAHistory(); show('ta-history'); break;
       case 'ta-mode': sfx('tap'); selectTAMode(el.dataset.mode); break;
       case 'ta-select-unit': sfx('tap'); selectTAUnit(el.dataset.unit); break;
       case 'ta-toggle-category': sfx('tap'); toggleTACategory(Number(el.dataset.index)); break;
@@ -809,11 +810,14 @@
       $('#hud-count').hidden = true;
     } else {
       $('#hud-unit').textContent = (unit ? unitLabel(unit) : '') + (app.retryBase ? `・${app.retryIndex + 1}問目をもう一度` : '');
-      $('#hud-score').innerHTML = `<span aria-hidden="true">✔</span> 正解 ${s.correctCount}`;
-      $('#hud-score').removeAttribute('aria-label');
-      $('#hud-score').hidden = false;
-      $('#hud-count').hidden = false;
-      $('#hud-exam-score').hidden = true;
+      // 正解数と全問題数は、認定試験と同じく★の右に出す。何問目かは問題のバッジ（第○問）で示す。
+      // 結果画面からの解き直し（1問だけ）では出さない
+      const es = $('#hud-exam-score');
+      es.innerHTML = `<span aria-hidden="true">✔</span> ${s.correctCount}<small>/${s.total}</small>`;
+      es.setAttribute('aria-label', `正解 ${s.correctCount}問（全${s.total}問）`);
+      es.hidden = !!app.retryBase;
+      $('#hud-score').hidden = true;
+      $('#hud-count').hidden = true;
     }
     $('#hud-stars').innerHTML = q ? stars(q.difficulty) : '';
     $('#hud-count').innerHTML = `<span class="visually-hidden">問題</span>${Math.min(s.number, s.total)}<small>/${s.total}</small>`;
@@ -856,7 +860,7 @@
     $('#play-body').innerHTML = `
       <article class="paper" aria-label="添削する答案">
         <div class="paper__problem">
-          <p class="paper__instruction"><span class="label-badge">${app.mode === 'exam' ? `第${s.number}問` : '問題'}</span>${R.richTextHtml(instruction)}</p>
+          <p class="paper__instruction"><span class="label-badge">第${app.retryBase ? app.retryIndex + 1 : s.number}問</span>${R.richTextHtml(instruction)}</p>
           <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
         </div>
         <div class="paper__answer">
@@ -1343,7 +1347,7 @@
     if (official) {
       const rec = records.officialFor(app.ta.unit);
       info.innerHTML = `
-        <p class="official-info__rule">ルール：<strong>全カテゴリ・全難易度（★〜★★★★）・60秒</strong>（変更できません）</p>
+        <p class="official-info__rule">ルール：<strong>全カテゴリ・全難易度（★〜★★★★）・${TA.CONFIG.durationMs / 1000}秒</strong>（変更できません）</p>
         <p class="official-info__best">${rec.bestScore === null
           ? 'この単元の記録はまだありません。最初の記録をつくろう！'
           : `自己ベスト <strong>${rec.bestScore}点</strong>　称号「${esc(TA.titleForScore(rec.bestScore))}」`}</p>`;
@@ -1361,7 +1365,7 @@
     if (!official && app.ta.categories.size === 0) text = 'カテゴリを1つ以上えらんでね。';
     else if (!official && app.ta.difficulties.size === 0) text = '難易度を1つ以上えらんでね。';
     else if (n === 0) text = 'この条件で出題できる問題がありません。';
-    else text = `出題できる問題：<strong>${n}問</strong>（60秒のあいだ、くり返し出題されます）${official ? '' : '<br><small>カスタムの結果は履歴に残ります。公式の記録・称号は変わりません。</small>'}`;
+    else text = `出題できる問題：<strong>${n}問</strong>（${TA.CONFIG.durationMs / 1000}秒のあいだ、くり返し出題されます）${official ? '' : '<br><small>カスタムの結果は履歴に残ります。公式の記録・称号は変わりません。</small>'}`;
     $('#ta-summary').innerHTML = text;
     $('#ta-summary').classList.toggle('is-empty', n === 0);
     $('#ta-start-btn').disabled = n === 0;
@@ -1396,7 +1400,7 @@
     $('#ta-body').innerHTML = '';
     updateTAHud();
     show('ta-play', app.screen === 'ta-result' ? 'replace' : 'push');
-    // 3・2・1・START!（START! の瞬間から60秒を数える。カウントダウン中は時間が減らない）
+    // 3・2・1・START!（START! の瞬間から制限時間を数える。カウントダウン中は時間が減らない）
     const steps = ['3', '2', '1'];
     steps.forEach((label, i) => later(() => { showTAOverlay(label, 'count'); sfx('countdown'); }, i * 800));
     later(() => {
@@ -1443,12 +1447,14 @@
     const s = app.ta.session;
     if (!s || s.ended) return;
     updateTAHud();
-    if (!app.ta.warned && s.remaining() <= TA.CONFIG.warningAtMs) {
+    if (!app.ta.warned && !s.isTimeUp() && s.remaining() <= TA.CONFIG.warningAtMs) {
       app.ta.warned = true;
       sfx('warning'); // 残り10秒
     }
-    // 演出中でなければ、時間切れでその場で終了（演出中なら、演出のあとで終了する）
-    if (s.isTimeUp() && !s.locked) endTA();
+    // 残り0秒になっても、そのとき表示している問題はロスタイム（5秒）のあいだ回答できる。
+    // ロスタイム中は残り時間「0秒」のまま、カウントダウンや警告の効果音は鳴らさない。
+    // 回答しないままロスタイムが終わったら終了（演出中なら、演出のあとで終了する）
+    if (s.isLossTimeOver() && !s.locked) endTA();
   }
 
   function renderTAQuestion() {
@@ -1474,7 +1480,7 @@
     $('#ta-body').innerHTML = `
       <article class="paper paper--ta" aria-label="添削する答案">
         <div class="paper__problem">
-          <p class="paper__instruction"><span class="label-badge">${s.results.length + 1}問目</span>${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
+          <p class="paper__instruction"><span class="label-badge">第${s.results.length + 1}問</span>${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
           <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
         </div>
         <div class="paper__answer">
@@ -1597,7 +1603,24 @@
     if (r) openExplain(index + 1, r);
   }
 
-  /** 記録画面のカスタム履歴から、同じ条件で再挑戦する */
+  /** カスタムタイムアタックの履歴（記録画面の「カスタム履歴」と、モード選択からの履歴画面で共通） */
+  function customHistoryHtml() {
+    const list = records.customHistory();
+    if (!list.length) return '<p class="record-card__empty">カスタムタイムアタックの履歴はまだありません（直近20回まで残ります）。</p>';
+    return `<ol class="history-list">${list.map((e, i) => `
+        <li class="history-item">
+          <div class="history-item__head"><span>${formatDate(e.playedAt)}</span><span class="history-item__score">${e.score}点</span></div>
+          <p class="history-item__cond">${esc(unitLabelById(e.unit))}｜${esc(e.categories ? e.categories.join('・') : 'すべてのカテゴリ')}｜${difficultyText(e.difficulties)}</p>
+          <p class="history-item__stats">正解 ${e.correct}問・不正解 ${e.wrong}問・最大連続 ${e.maxStreak}問</p>
+          <button type="button" class="btn btn--secondary" data-action="ta-replay" data-index="${i}">同じ設定で再挑戦</button>
+        </li>`).join('')}</ol>`;
+  }
+
+  function renderTAHistory() {
+    $('#ta-history-panel').innerHTML = customHistoryHtml();
+  }
+
+  /** カスタム履歴から、同じ条件で再挑戦する */
   function replayCustom(index) {
     const e = records.customHistory()[index];
     if (!e) return;
@@ -1797,14 +1820,7 @@
           </div>`;
       }).join('')}</div>`;
     } else if (app.recordsTab === 'custom') {
-      const list = records.customHistory();
-      panel.innerHTML = list.length ? `<ol class="history-list">${list.map((e, i) => `
-          <li class="history-item">
-            <div class="history-item__head"><span>${formatDate(e.playedAt)}</span><span class="history-item__score">${e.score}点</span></div>
-            <p class="history-item__cond">${esc(unitLabelById(e.unit))}｜${esc(e.categories ? e.categories.join('・') : 'すべてのカテゴリ')}｜${difficultyText(e.difficulties)}</p>
-            <p class="history-item__stats">正解 ${e.correct}問・不正解 ${e.wrong}問・最大連続 ${e.maxStreak}問</p>
-            <button type="button" class="btn btn--secondary" data-action="ta-replay" data-index="${i}">この条件で挑戦</button>
-          </li>`).join('')}</ol>` : '<p class="record-card__empty">カスタムタイムアタックの履歴はまだありません（直近20回まで残ります）。</p>';
+      panel.innerHTML = customHistoryHtml();
     } else {
       panel.innerHTML = `<div class="record-cards">${app.units.map((u) => {
         const c = records.certFor(u.unit);

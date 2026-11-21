@@ -496,7 +496,7 @@
     await answer(true);
     check($('.verdict--ok') && $('.verdict__title').textContent === '添削成功！', '添削成功の表示');
     check($('.tag--ok') && $('.tag--ok').textContent.includes('正解'), '正解の印（色以外の表示）');
-    check(s.correctCount === 1 && $('#hud-score').textContent.includes('1'), 'HUD の正解数');
+    check(s.correctCount === 1 && $('#hud-exam-score').textContent.replace(/\s+/g, '').includes(`✔1/${s.total}`), `HUD の正解数: ${$('#hud-exam-score').textContent}`);
     check($('.feedback__text').textContent.trim().length > 10, '解説');
     check($$('.solution__line').length === q.correctSolution.length, '正しい計算過程の行数');
     if (q.explanation.includes('$')) check($('.feedback__text .katex'), '解説の数式が KaTeX で表示されていない');
@@ -566,6 +566,8 @@
     check(visible('play'), '問題画面に進まない');
     check(s !== base && s.total === 1 && s.current.id === target.id, `タップした問題と違う（${s.current && s.current.id} / ${target.id}）`);
     check($('#hud-unit').textContent.includes('2問目をもう一度'), `解き直し中の表示: ${$('#hud-unit').textContent}`);
+    check($('#hud-exam-score').hidden && $('#hud-count').hidden && $('#hud-score').hidden, '解き直し中に「✔0/1」などが出ている');
+    check($('#play-body .paper__instruction .label-badge').textContent === '第2問', `解き直しのバッジ: ${$('#play-body .paper__instruction .label-badge').textContent}`);
     await answer(true);
     check($('.verdict--ok'), '解き直しで正解にならない');
     check($('[data-action="next"]').textContent.includes('結果にもどる'), 'ボタンの文言');
@@ -593,7 +595,7 @@
     check(s.index === 0 && s.correctCount === 0 && s.results.length === 0, '状態がリセットされていない');
     check(JSON.stringify(s.config) === cfgBefore, '条件が変わった');
     check(s.questionIds.join() !== before, '問題順が同じ');
-    check($('#hud-count').textContent.includes('1/5') && $('#hud-score').textContent.includes('0'), 'HUD');
+    check($('#hud-exam-score').textContent.replace(/\s+/g, '').includes('✔0/5') && $('#hud-count').hidden && $('#play-body .paper__instruction .label-badge').textContent === '第1問', 'HUD（✔0/5・第1問）');
   });
 
   await test('[12][13] 正しい答案：「全部正しい！」で正解、行を選ぶと不正解', async () => {
@@ -862,9 +864,9 @@
     }
     await waitFor(() => visible('ta-result'), '結果画面', 5000);
   }
-  const TA_FEEDBACK = 300;
+  const TA_FEEDBACK = 600;
 
-  await test('[TA] 公式：カウントダウン中は時間が減らず、行のタップ・全部正しいで即時判定。二重回答できず、60秒でタイムアップして記録される', async () => {
+  await test('[TA] 公式：カウントダウン中は時間が減らず、行のタップ・全部正しいで即時判定。二重回答できず、90秒（＋ロスタイム）でタイムアップして記録される', async () => {
     await openGame(11);
     await click('[data-action="go-ta-menu"]');
     check(visible('ta-menu'), 'モード選択画面');
@@ -880,13 +882,14 @@
     check(!s.started && $('#ta-overlay-text').textContent === '3', 'カウントダウンが出ない');
     check(!$('#ta-overlay-note').hidden && $('#ta-overlay-note').textContent === 'タップした瞬間に判定！3回ミスでゲームオーバー！', 'カウントダウン中に説明が出ない');
     await sleep(1500);
-    check(!s.started && s.remaining() === 60000 && $('#ta-timer-num').textContent === '60', 'カウントダウン中に時間が減った');
+    check(!s.started && s.remaining() === 90000 && $('#ta-timer-num').textContent === '90', 'カウントダウン中に時間が減った');
     await waitFor(() => s.started, 'START!', 5000);
     // 即時判定（「添削する！」はない）
     check(!inScreen('ta-play', '#submit-btn') && !inScreen('ta-play', '#hint-btn'), '添削ボタンやヒントがある');
     check(!inScreen('ta-play', '.paper__guide') && !$('#ta-body').textContent.includes('生徒の答案'), 'タイムアタックに「生徒の答案」の案内が出ている');
     check($('#ta-overlay').hidden || $('#ta-overlay-note').hidden, 'START! のあとも説明が残っている');
     const q1 = s.current;
+    check($('#ta-body .paper__instruction .label-badge').textContent === '第1問', `タイムアタックのバッジ: ${$('#ta-body .paper__instruction .label-badge').textContent}`);
     const el = taCorrectEl();
     el.click();
     check(s.results.length === 1 && s.results[0].correct && s.score === 200, '即時判定されない');
@@ -925,9 +928,26 @@
 
   await test('[TA] 不正解で連続が切れ、得点は連続数で変わる。自己ベストを下回った回は更新しない（プレイ回数は増える）', async () => {
     const best = recs().officialFor('equation').bestScore;
+    sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
     await click('[data-action="ta-retry"]');
     const s = ta().session;
-    await playTA((i) => (i < 4 ? [true, true, false, true][i] : null)); // 4問だけ回答して、あとは時間切れ
+    // 4問だけ回答して、あとは時間切れ。残り0秒のあとのロスタイム（5秒）は、表示中の問題に回答でき、表示は「0」のまま
+    let lossSeen = false;
+    let lossSoundOk = true;
+    await playTA((i) => {
+      if (s.inLossTime()) {
+        if (!lossSeen) {
+          lossSeen = true;
+          lossSoundOk = $('#ta-timer-num').textContent === '0' && !$$('#ta-body [data-action="ta-answer"]')[0].disabled;
+          sndNow().debug.clearLog();
+        }
+      }
+      return i < 4 ? [true, true, false, true][i] : null;
+    });
+    check(lossSeen && lossSoundOk, 'ロスタイム中に「0秒」のまま回答できる状態にならない');
+    const lossSounds = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
+    check(!lossSounds.includes('countdown') && !lossSounds.includes('warning'), `ロスタイム中にカウントダウンの音が鳴った: ${lossSounds}`);
+    check(lossSounds.includes('timeup'), 'ロスタイムのあとにタイムアップにならない');
     check(s.results.map((r) => r.points).join() === '200,210,0,200', `得点 ${s.results.map((r) => r.points)}`);
     check(s.summary().maxStreak === 2, '最大連続');
     checkTalk('#ta-result-body', 'ta-low', 'タイムアタック（1000点未満）');
@@ -996,6 +1016,28 @@
     await click('[data-action="quit"]');
     await click('[data-action="quit-confirm"]');
     check(visible('ta-settings') && recs().customHistory().length === 1, '途中でやめた回が記録された');
+    // モード選択画面の「カスタムタイムアタックの履歴」から確認し、「同じ設定で再挑戦」できる
+    await click('[data-action="go-ta-menu"]');
+    const histBtn = $('[data-screen="ta-menu"] [data-action="go-ta-history"]');
+    const customCard = $('[data-screen="ta-menu"] [data-mode="custom"]');
+    check(histBtn && histBtn.textContent.includes('カスタムタイムアタックの履歴'), '履歴ボタンがない');
+    check(histBtn.getBoundingClientRect().top >= customCard.getBoundingClientRect().bottom - 1
+      && Math.abs(histBtn.getBoundingClientRect().left - customCard.getBoundingClientRect().left) <= 1, '履歴ボタンがカスタムのカードの下にない');
+    await click('[data-action="go-ta-history"]');
+    check(visible('ta-history') && $$('#ta-history-panel .history-item').length === 1, '履歴画面が出ない');
+    const replay = $('#ta-history-panel [data-action="ta-replay"][data-index="0"]');
+    check(replay && replay.textContent.includes('同じ設定で再挑戦'), '「同じ設定で再挑戦」ボタンがない');
+    check(pageOverflow() <= 0, '履歴画面が横にはみ出す');
+    await click('#ta-history-panel [data-action="ta-replay"][data-index="0"]');
+    check(visible('ta-play') && !ta().session.isOfficial && ta().session.criteria.categories.join() === '累乗', '履歴画面から同じ設定で再挑戦できない');
+    await waitFor(() => ta().session.started, 'START!', 5000);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+    check(recs().customHistory().length === 1, '途中でやめた回が記録された（履歴画面から）');
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="go-ta-history"]');
+    await click('[data-screen="ta-history"] [data-action="go-ta-menu"]');
+    check(visible('ta-menu'), '履歴画面から戻れない');
   });
 
   await test('[TA] カウントダウン中に「戻る」を押すと確認ダイアログが出て、やめると記録しない', async () => {
@@ -1126,9 +1168,10 @@
     await click('[data-action="go-title"]');
     await configure({ unit: 'expressions', count: 5 });
     await click('#start-btn');
-    check(app().mode === 'training' && !$('#hud-count').hidden && $('#hud-count').textContent.includes('1/5'), 'トレーニングで「1/5」が出ない');
-    check(!$('#hud-score').hidden && $('#hud-exam-score').hidden, 'トレーニングで試験用の正解数が出ている');
-    check($('#play-body .paper__instruction .label-badge').textContent === '問題', 'トレーニングのバッジが「問題」でない');
+    const es = $('#hud-exam-score').textContent.replace(/\s+/g, '');
+    check(app().mode === 'training' && !$('#hud-exam-score').hidden && es.includes('✔0/5') && !es.includes('/3'), `トレーニングで「✔0/5」が出ない: ${es}`);
+    check($('#hud-count').hidden && $('#hud-score').hidden, 'トレーニングで「1/5」や「正解」の表示が残っている');
+    check($('#play-body .paper__instruction .label-badge').textContent === '第1問', 'トレーニングのバッジが「第1問」でない');
   });
 
   await test('[記録] 3つのタブで公式記録・カスタム履歴・認定状況が見られ、再読み込みしても残っている', async () => {

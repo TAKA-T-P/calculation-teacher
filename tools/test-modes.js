@@ -72,14 +72,16 @@ test('開始カウントダウン中（start 前）は時間が減らず、回�
   clock.advance(1000);
   eq(s.remaining(), TA.CONFIG.durationMs - 1000);
 });
-test('60秒で終了する（経過時間で判定。タイマーの回数には頼らない）', () => {
+test('90秒で制限時間が終わる（経過時間で判定。タイマーの回数には頼らない）。演出中に0秒になったら次の問題に進まない', () => {
+  eq(TA.CONFIG.durationMs, 90 * 1000);
   const { s, clock } = taSession({ mode: 'official', unit: 'equation' });
   s.start();
-  clock.advance(59999);
+  clock.advance(89999);
   eq(s.isTimeUp(), false);
   clock.advance(1);
   eq(s.isTimeUp(), true);
   eq(s.remaining(), 0);
+  s.answer(correctChoice(s.current)); // ロスタイム中の回答
   eq(s.advance(), false, 'タイムアップ後は次の問題に進まない');
   eq(s.ended, true);
   // バックグラウンドで長く止まっていても、戻ったときに時間切れになっている
@@ -147,20 +149,42 @@ test('対象が1問だけのカスタムでは、同じ問題を続けて出し�
   s.answer(correctChoice(s.current)); clock.advance(100); s.advance();
   eq(s.current.id, id);
 });
-test('タイムアップ後は回答できない。タイムアップ直前（60秒ちょうどまで）の回答は有効', () => {
-  const { s, clock } = taSession({ mode: 'official', unit: 'equation' });
-  s.start();
-  clock.advance(TA.CONFIG.durationMs); // ちょうど60秒
-  const r = s.answer(correctChoice(s.current));
-  assert(r && r.correct, '60秒ちょうどの回答が無効になった');
-  eq(s.advance(), false, '次の問題に進んだ');
+test('ロスタイム：0秒の時点で表示中の問題は、さらに5秒まで回答できる（正解・不正解とも記録され、そのあと終了）。表示は0秒のまま', () => {
+  eq(TA.CONFIG.lossTimeMs, 5 * 1000);
+  [true, false].forEach((ok) => {
+    const { s, clock } = taSession({ mode: 'official', unit: 'equation' });
+    s.start();
+    clock.advance(TA.CONFIG.durationMs + 3000); // 残り0秒から3秒後
+    eq(s.inLossTime(), true, 'ロスタイム中');
+    eq(s.isLossTimeOver(), false);
+    eq(s.remaining(), 0, '表示は0秒のまま');
+    const r = s.answer(ok ? correctChoice(s.current) : wrongChoice(s.current));
+    assert(r && r.correct === ok && r.lossTime, 'ロスタイム中の回答が無効になった');
+    eq(s.score, ok ? 200 : 0, 'ロスタイム中の正解にも得点がつく');
+    eq(s.advance(), false, 'ロスタイムの回答のあと次の問題に進んだ');
+    eq(s.ended, true);
+    eq(s.summary().gameOver, false, '時間切れとして終わる');
+  });
+  // 5秒ちょうどまでは有効、過ぎたら無効で終了
+  const e = taSession({ mode: 'official', unit: 'equation' });
+  e.s.start(); e.clock.advance(TA.CONFIG.durationMs + TA.CONFIG.lossTimeMs);
+  assert(e.s.answer(correctChoice(e.s.current)), 'ロスタイム5秒ちょうどの回答が無効になった');
   const t = taSession({ mode: 'official', unit: 'equation' });
   t.s.start();
-  t.clock.advance(TA.CONFIG.durationMs + 1);
-  eq(t.s.answer(correctChoice(t.s.current)), null, '60秒を過ぎた回答が有効になった');
+  t.clock.advance(TA.CONFIG.durationMs + TA.CONFIG.lossTimeMs + 1);
+  eq(t.s.isLossTimeOver(), true);
+  eq(t.s.answer(correctChoice(t.s.current)), null, 'ロスタイムを過ぎた回答が有効になった');
   eq(t.s.ended, true);
   eq(t.s.results.length, 0);
+  // 演出中に0秒になったときは、演出のあと次の問題を出さずに終わる（ロスタイムは表示中の問題だけ）
+  const f = taSession({ mode: 'official', unit: 'equation' });
+  f.s.start(); f.clock.advance(TA.CONFIG.durationMs - 100);
+  f.s.answer(correctChoice(f.s.current));
+  f.clock.advance(TA.CONFIG.feedbackMs);
+  eq(f.s.advance(), false);
+  eq(f.s.ended, true);
 });
+test('正誤の演出の時間は0.6秒（以前の2倍）', () => eq(TA.CONFIG.feedbackMs, 600));
 test('3回ミスした時点でゲームオーバー（時間が残っていても強制終了）。2回まではつづけられる', () => {
   eq(TA.CONFIG.maxMisses, 3);
   const { s, clock } = taSession({ mode: 'official', unit: 'expressions' }, 7);

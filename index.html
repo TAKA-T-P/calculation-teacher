@@ -224,19 +224,34 @@
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
         <h2 id="ta-menu-heading" class="screen-title" tabindex="-1">⏱ タイムアタック</h2>
       </header>
-      <p class="screen-lead">60秒で、できるだけ多くの答案を添削しよう！ 行をタップした瞬間に判定されます。3回ミスするとゲームオーバー！</p>
+      <p class="screen-lead">90秒で、できるだけ多くの答案を添削しよう！ 行をタップした瞬間に判定されます。3回ミスするとゲームオーバー！</p>
       <div class="mode-cards">
         <button type="button" class="mode-card mode-card--official" data-action="ta-mode" data-mode="official">
           <span class="mode-card__icon" aria-hidden="true">🏅</span>
           <span class="mode-card__name">公式タイムアタック</span>
           <span class="mode-card__desc">単元を選ぶだけ。全カテゴリ・全難易度の共通ルールで、自己ベストと称号に挑戦！</span>
         </button>
-        <button type="button" class="mode-card mode-card--custom" data-action="ta-mode" data-mode="custom">
-          <span class="mode-card__icon" aria-hidden="true">🎯</span>
-          <span class="mode-card__name">カスタムタイムアタック</span>
-          <span class="mode-card__desc">カテゴリと難易度をしぼって集中練習。公式記録・称号は変わりません（履歴は残ります）。</span>
-        </button>
+        <div class="mode-card-stack">
+          <button type="button" class="mode-card mode-card--custom" data-action="ta-mode" data-mode="custom">
+            <span class="mode-card__icon" aria-hidden="true">🎯</span>
+            <span class="mode-card__name">カスタムタイムアタック</span>
+            <span class="mode-card__desc">カテゴリと難易度をしぼって集中練習。公式記録・称号は変わりません（履歴は残ります）。</span>
+          </button>
+          <button type="button" class="btn btn--secondary btn--history" data-action="go-ta-history">
+            <span class="btn__icon" aria-hidden="true">📜</span>カスタムタイムアタックの履歴
+          </button>
+        </div>
       </div>
+    </section>
+
+    <!-- タイムアタック：カスタムの履歴 -->
+    <section class="screen screen--ta-history" data-screen="ta-history" aria-labelledby="ta-history-heading" hidden>
+      <header class="screen-header">
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-ta-menu" aria-label="モード選択へ戻る">← もどる</button>
+        <h2 id="ta-history-heading" class="screen-title" tabindex="-1">📜 カスタムタイムアタックの履歴</h2>
+      </header>
+      <p class="screen-lead">直近20回の結果です。「同じ設定で再挑戦」で、同じ単元・カテゴリ・難易度ですぐに始められます。</p>
+      <div class="records-panel" id="ta-history-panel"></div>
     </section>
 
     <!-- タイムアタック：設定 -->
@@ -272,7 +287,7 @@
       <header class="hud hud--ta">
         <button type="button" class="btn btn--ghost btn--quit" data-action="quit">やめる</button>
         <div class="ta-timer" id="ta-timer" role="timer" aria-live="off">
-          <span class="ta-timer__num" id="ta-timer-num">60</span><small>秒</small>
+          <span class="ta-timer__num" id="ta-timer-num">90</span><small>秒</small>
         </div>
         <div class="hud__progress">
           <span class="ta-score" id="ta-score">0<small>点</small></span>

@@ -1081,6 +1081,10 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 
 /* ---------- タイムアタック：モード選択 */
 .mode-cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+/* カスタムタイムアタックのカードと、その下の「履歴」ボタン（PC の2列表示でもカスタムの下にくる） */
+.mode-card-stack { display: grid; gap: 8px; align-content: start; }
+.mode-cards > .mode-card { align-self: start; }
+.btn--history { width: 100%; }
 .mode-card {
   display: grid;
   grid-template-columns: auto 1fr;

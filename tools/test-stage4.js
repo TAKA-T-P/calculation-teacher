@@ -189,9 +189,9 @@ test('[17] カスタムタイムアタックの出題は今までどおり（選
   eq(new Set(drawn.map((q) => q.id)).size, 100, '1巡で全問題が1回ずつ出る');
   [1, 2, 3, 4].forEach((d) => eq(drawn.filter((q) => q.difficulty === d).length, 25, `★${d}`));
 });
-test('[18] タイムアタックの得点計算は第3段階のまま（190+10n・上限300点）', () => {
+test('[18] タイムアタックの得点計算は第3段階のまま（190+10n・上限300点）。制限時間はご要望により90秒＋ロスタイム5秒', () => {
   eq([1, 2, 10, 11, 20].map(TA.pointsForStreak).join(), '200,210,290,300,300');
-  eq(TA.CONFIG.durationMs, 60000); eq(TA.CONFIG.maxMisses, 3);
+  eq(TA.CONFIG.durationMs, 90000); eq(TA.CONFIG.lossTimeMs, 5000); eq(TA.CONFIG.maxMisses, 3);
 });
 test('[20・21] 認定試験の配分は変わらず、挑戦ごとに異なる問題構成になる', () => {
   eq(C.EXAMS.map((e) => `${e.maxQuestions}/${e.requiredCorrect}`).join(), '5/3,6/4,7/5,8/6,10/10');

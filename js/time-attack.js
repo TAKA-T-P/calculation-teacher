@@ -1,6 +1,6 @@
 /*
  * time-attack.js
- * 60秒タイムアタックの進行ロジック（出題・即時判定・得点・連続正解・制限時間）。
+ * 90秒タイムアタックの進行ロジック（出題・即時判定・得点・連続正解・制限時間）。
  * DOM・Web Audio・localStorage には一切ふれない。時計は外から渡せる（テストでは偽の時計を使う）。
  *
  * 時間は「開始した時刻からの経過時間」で判定する（タイマーの呼び出し回数では数えない）。
@@ -19,9 +19,10 @@
 
   // ------------------------------------------------------------ 設定（暫定値。問題を増やしたあとに調整できるよう定数にまとめる）
   const CONFIG = {
-    durationMs: 60 * 1000,   // 制限時間
+    durationMs: 90 * 1000,   // 制限時間
+    lossTimeMs: 5 * 1000,    // ロスタイム：残り0秒の時点で表示中の問題だけ、さらにこの時間まで回答できる
     countdownFrom: 3,        // 開始前のカウントダウン（3・2・1・START!）
-    feedbackMs: 300,         // 正誤の演出を見せる時間（この間は入力を受け付けない）
+    feedbackMs: 600,         // 正誤の演出を見せる時間（この間は入力を受け付けない）
     warningAtMs: 10 * 1000,  // 残り10秒で警告
     urgentAtMs: 5 * 1000,    // 残り5秒から強調表示
     maxMisses: 3,            // この回数まちがえたらゲームオーバー（その時点で強制終了）
@@ -90,7 +91,7 @@
     /**
      * @param {object[]} questions 全問題
      * @param {{mode:'official'|'custom', unit:string, categories?:string[], difficulties?:number[]}} config
-     * @param {{rng?: () => number, now?: () => number, durationMs?: number, maxMisses?: number}} opts
+     * @param {{rng?: () => number, now?: () => number, durationMs?: number, lossTimeMs?: number, maxMisses?: number}} opts
      */
     constructor(questions, config, opts = {}) {
       if (config.mode !== MODES.OFFICIAL && config.mode !== MODES.CUSTOM) throw new TypeError(`モードの指定が不正です: ${config.mode}`);
@@ -101,6 +102,7 @@
       this.rng = opts.rng || Math.random;
       this.now = opts.now || (() => Date.now());
       this.durationMs = opts.durationMs || CONFIG.durationMs;
+      this.lossTimeMs = opts.lossTimeMs !== undefined ? opts.lossTimeMs : CONFIG.lossTimeMs;
       this.maxMisses = opts.maxMisses || CONFIG.maxMisses;
       this.misses = 0;              // 不正解の数（maxMisses に達したらゲームオーバー）
       this.endReason = null;        // 'timeup'（時間切れ）または 'gameover'（ミスの上限）
@@ -141,9 +143,19 @@
       return this.durationMs - this.elapsed(at);
     }
 
-    /** 制限時間を過ぎたか（時刻 at において） */
+    /** 制限時間（ロスタイムをふくまない）を過ぎたか（時刻 at において） */
     isTimeUp(at = this.now()) {
       return this.started && at - this.startedAt >= this.durationMs;
+    }
+
+    /** ロスタイム中か：制限時間は過ぎたが、そのとき表示していた問題にまだ回答できる */
+    inLossTime(at = this.now()) {
+      return this.isTimeUp(at) && !this.ended && !this.locked && at - this.startedAt < this.durationMs + this.lossTimeMs;
+    }
+
+    /** ロスタイムも過ぎたか（表示中の問題に回答しないまま終わる時刻） */
+    isLossTimeOver(at = this.now()) {
+      return this.started && at - this.startedAt >= this.durationMs + this.lossTimeMs;
     }
 
     /**
@@ -187,11 +199,12 @@
     /**
      * 回答する（タップした時点で即時判定）。
      * 受け付けないとき（カウントダウン中・演出中・時間切れ後・終了後）は null を返す。
-     * 回答した時刻が制限時間内なら有効、制限時間を過ぎていれば無効。
+     * 回答した時刻が制限時間内なら有効。制限時間を過ぎても、ロスタイム（そのとき表示していた問題）の間は有効。
+     * ロスタイムも過ぎていれば無効。ロスタイム中に回答したら、演出のあと（advance）で終了する。
      */
     answer(choice, at = this.now()) {
       if (!this.started || this.ended || this.locked || !this.current) return null;
-      if (at - this.startedAt > this.durationMs) { this.finish(); return null; }
+      if (at - this.startedAt > this.durationMs + this.lossTimeMs) { this.finish(); return null; }
       const q = this.current;
       if (choice && choice.type === 'line' && !(Number.isInteger(choice.index) && choice.index >= 1 && choice.index < q.answerLines.length)) return null;
       const r = G.grade(q, choice);
@@ -205,7 +218,7 @@
         this.streak = 0;
         this.misses++;
       }
-      const result = { question: q, choice: r.choice, expected: r.expected, correct: r.correct, points, streak: this.streak, misses: this.misses, at: at - this.startedAt };
+      const result = { question: q, choice: r.choice, expected: r.expected, correct: r.correct, points, streak: this.streak, misses: this.misses, at: at - this.startedAt, lossTime: at - this.startedAt > this.durationMs };
       this.results.push(result);
       this.locked = true;
       return result;
