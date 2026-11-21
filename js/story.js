@@ -164,7 +164,10 @@
       if (!idx) return;
       const frag = doc.createDocumentFragment();
       const head = el('div', 'story-head');
-      head.append(el('p', 'story-head__title', idx.title));
+      // 物語のタイトルは、裏ワザ（4秒以内に7回タップで全話解放）の場所。見た目は変えない
+      const titleEl = el('p', 'story-head__title', idx.title);
+      titleEl.dataset.action = 'story-secret';
+      head.append(titleEl);
       head.append(el('p', 'story-head__sub', fill(idx.subtitle)));
       const prog = el('div', 'story-progress');
       const total = el('p', 'story-progress__total');
@@ -495,6 +498,26 @@
       b.classList.toggle('is-off', !on);
     }
 
+    // ---------------------------------------------------------- 裏ワザ：全話の解放
+    // 一覧の物語のタイトルを、4秒以内に7回タップする。途中では何も表示しない（気づかれにくくする）
+    const SECRET_TAPS = 7;
+    const SECRET_WINDOW = 4000;
+    const secretTaps = [];
+    function onSecretTap() {
+      const t = Date.now();
+      secretTaps.push(t);
+      while (secretTaps.length && t - secretTaps[0] > SECRET_WINDOW) secretTaps.shift();
+      if (secretTaps.length < SECRET_TAPS) return;
+      secretTaps.length = 0;
+      if (store.unlockedCount() >= store.thresholds.length) return;
+      store.unlockAllEpisodes();
+      sfx('rankup');
+      renderList();
+      renderTitleBadge();
+      const next = $('.story-progress__next');
+      if (next) next.textContent = '✨ 全12話が解放されました！';
+    }
+
     /** app.js のクリック処理から呼ぶ（data-action が story- で始まるもの） */
     function handleAction(action, target) {
       switch (action) {
@@ -512,6 +535,7 @@
         case 'story-back': sfx('tap'); backToList(); return true;
         case 'story-ending-close': sfx('tap'); backToList(); return true;
         case 'story-bgm-toggle': bgm.setEnabled(!bgm.getSettings().enabled); renderBgmButton(); return true;
+        case 'story-secret': onSecretTap(); return true;
         case 'story-names': sfx('tap'); openNames(); return true;
         case 'story-names-close': sfx('tap'); $('#story-names-dialog').close(); renderList(); return true;
         case 'story-reset': sfx('tap'); if (!$('#story-reset-dialog').open) $('#story-reset-dialog').showModal(); return true;

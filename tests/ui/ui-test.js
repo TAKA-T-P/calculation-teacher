@@ -2111,6 +2111,21 @@
     await click('[data-action="story-reset-confirm"]');
     check(story().totalCorrect === 0 && !story().isRead(1) && story().names().teacher === '田中', 'リセットの内容');
     check($('.story-head').textContent.includes('累積正解数：0問') && storyCard(2).disabled, '一覧に反映されない');
+    // 裏ワザ：物語のタイトルを4秒以内に7回タップすると全話解放（6回では何も起きない。正解数は変えない）
+    const tapTitle = async (n) => { for (let i = 0; i < n; i++) { $('.story-head__title').click(); await sleep(60); } };
+    await tapTitle(6);
+    check(storyCard(12).disabled && !$('.story-head').textContent.includes('解放されました'), '6回で解放された・途中で何か表示された');
+    await sleep(4200);
+    await tapTitle(6);
+    check(storyCard(12).disabled, '時間をあけたタップも数えている');
+    await tapTitle(1);
+    check(!$$('.story-card').some((c) => c.disabled) && $('.story-head').textContent.includes('全12話が解放されました') && story().totalCorrect === 0, '7回で全話解放されない');
+    await openGame(7);
+    check(story().unlockedCount() === 12 && story().totalCorrect === 0, '再読み込みで裏ワザの解放が消えた');
+    await openStoryList();
+    await click('[data-action="story-reset"]');
+    await click('[data-action="story-reset-confirm"]');
+    check(story().unlockedCount() === 1 && storyCard(12).disabled, 'リセットで裏ワザの解放が戻らない');
   });
 
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {

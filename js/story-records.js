@@ -87,6 +87,7 @@
     data.teacherName = sanitizeName(raw.teacherName);
     data.boyName = sanitizeName(raw.boyName) || DEFAULT_NAMES.kei;
     data.girlName = sanitizeName(raw.girlName) || DEFAULT_NAMES.shiho;
+    if (raw.unlockAll === true) data.unlockAll = true;
     return data;
   }
 
@@ -144,7 +145,8 @@
       return ok;
     }
 
-    const unlocked = () => unlockedCount(data.totalCorrect, thresholds);
+    // 裏ワザで全話を解放したとき（unlockAll）は、累積正解数にかかわらず全話を読める（正解数は書きかえない）
+    const unlocked = () => (data.unlockAll ? thresholds.length : unlockedCount(data.totalCorrect, thresholds));
 
     /**
      * 正解を1つ数える。正解が確定した時点で呼ぶ（結果画面まで待たない）。
@@ -191,6 +193,7 @@
     }
 
     function remainingFor(no) {
+      if (data.unlockAll) return 0;
       return Math.max(0, thresholds[no - 1] - data.totalCorrect);
     }
 
@@ -220,6 +223,7 @@
     function resetProgress() {
       if (status.readOnly) return { ok: false, reason: 'newer-version' };
       data = { ...data, totalCorrect: 0, readEpisodes: [] };
+      delete data.unlockAll;
       if (!storage) { save(); return { ok: true }; }
       return save() ? { ok: true } : { ok: false, reason: 'save-failed' };
     }
@@ -233,6 +237,9 @@
       isUnlocked, isRead, markRead, unreadUnlocked, nextUnlock, remainingFor,
       setName, names, displayNames,
       resetProgress,
+      /** 裏ワザ：全話を解放する（累積正解数は変えない。ストーリーのリセットで元に戻る） */
+      unlockAllEpisodes: () => { data = { ...data, unlockAll: true }; return save(); },
+      get allUnlockedBySecret() { return !!data.unlockAll; },
       onChange: (fn) => { listeners.add(fn); return () => listeners.delete(fn); },
       /** 自動テスト・不具合調査用 */
       snapshot: () => JSON.parse(JSON.stringify(data)),

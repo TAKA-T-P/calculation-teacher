@@ -83,6 +83,8 @@
   text-align: center;
 }
 .story-head__title { margin: 0; font-size: clamp(1.15rem, 5vw, 1.5rem); font-weight: 800; color: var(--story-accent-strong); }
+/* 連続タップで拡大・文字選択されないように（裏ワザの場所であることは見た目に出さない） */
+.story-head__title { -webkit-user-select: none; user-select: none; touch-action: manipulation; }
 .story-head__sub { margin: 2px 0 10px; color: var(--muted); font-weight: 700; overflow-wrap: anywhere; }
 .story-progress { display: grid; gap: 2px; }
 .story-progress__total { margin: 0; font-size: 1.05rem; }

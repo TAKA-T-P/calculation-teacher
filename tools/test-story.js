@@ -138,6 +138,20 @@ const SPEC = [
     eq(Object.keys(JSON.parse(storage.getItem('calcTeacher.records'))).sort(), ['certification', 'timeAttack', 'version'], 'ゲームの記録の形式は変えていない');
   });
 
+  await test('裏ワザ：全話の解放は累積正解数を書きかえず、再読み込み後も残り、ストーリーのリセットで元に戻る', () => {
+    const storage = fakeStorage();
+    const st = SR.createStoryStore({ storage });
+    for (let i = 0; i < 30; i++) st.addCorrectAnswer({});
+    st.unlockAllEpisodes();
+    eq([st.unlockedCount(), st.totalCorrect, st.nextUnlock(), st.remainingFor(12), st.isUnlocked(12)], [12, 30, null, 0, true]);
+    eq(st.addCorrectAnswer({}).newlyUnlocked, [], '解放の知らせは出ない');
+    const again = SR.createStoryStore({ storage });
+    eq([again.unlockedCount(), again.totalCorrect, again.allUnlockedBySecret], [12, 31, true]);
+    again.resetProgress();
+    eq([again.unlockedCount(), again.allUnlockedBySecret], [1, false]);
+    eq(SR.createStoryStore({ storage }).unlockedCount(), 1);
+  });
+
   console.log('--- 名前');
   await test('[26] 初期状態は「先生」「ケイ」「シホ」。先生の名前には「先生」がつき、末尾に「先生」があれば重ねない', () => {
     const st = SR.createStoryStore({ storage: fakeStorage() });
