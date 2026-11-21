@@ -9,7 +9,7 @@
     "validate:strict": "node tools/validate-questions.js --require-review",
     "report:questions": "node tools/question-report.js",
     "report:questions:strict": "node tools/question-report.js --strict",
-    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/test-modes.js && node tools/test-dialogue.js && node tools/test-stage4.js && node tools/test-transfer.js && node tools/test-stage6.js && node tools/test-sound.js && node tools/validate-questions.js --require-review",
+    "test": "node tools/selftest-math-verify.js && node tools/test-validator.js && node tools/test-game.js && node tools/test-modes.js && node tools/test-dialogue.js && node tools/test-stage4.js && node tools/test-transfer.js && node tools/test-stage6.js && node tools/test-question-variants.js && node tools/test-sound.js && node tools/validate-questions.js --require-review",
     "test:ui": "node tools/test-ui.js",
     "review:stamp": "node tools/review-stamp.js",
     "review:list": "node tools/review-stamp.js --list",

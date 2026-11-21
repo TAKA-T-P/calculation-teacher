@@ -99,14 +99,24 @@ for (const { q, file } of targets) {
   const prev = store.reviews[q.id];
   // --all では、内容が変わっていない既存の記録（個別メモ付きなど）は上書きしない
   if (all && prev && prev.hash === V.questionHash(q)) continue;
+  const role = roleArg || (/claude|ai|ＡＩ/i.test(reviewer) ? 'ai' : 'teacher');
+  // 数学講師の確認の記録は消さない：新しく記録するときは、それまでの数学講師の記録を history に残す
+  // （AI の確認で、数学講師の確認済みを上書きしたことにならないようにする）
+  const history = prev ? (prev.history || []).slice() : [];
+  if (prev && (prev.reviewerRole || (/claude|ai|ＡＩ/i.test(prev.reviewer || '') ? 'ai' : 'teacher')) === 'teacher') {
+    const { history: _h, ...prevRecord } = prev;
+    history.push(prevRecord);
+    if (role === 'ai') console.log(`  ! ${q.id}: 数学講師の確認の記録（${prev.reviewedAt} ${prev.reviewer}）は history に残しました。内容が変わったため、数学講師の再確認が必要です`);
+  }
   store.reviews[q.id] = {
     hash: V.questionHash(q),
     reviewer,
-    reviewerRole: roleArg || (/claude|ai|ＡＩ/i.test(reviewer) ? 'ai' : 'teacher'),
+    reviewerRole: role,
     reviewedAt: today(),
     checks: CHECKS,
     manualItems: res.manual,
     note: note || (prev && prev.hash === V.questionHash(q) ? prev.note : '') || '',
+    ...(history.length ? { history } : {}),
   };
   stamped++;
   console.log(`✓ ${q.id} を記録しました${res.manual.length ? `（手動確認項目 ${res.manual.length} 件を確認済みとして記録）` : ''}`);

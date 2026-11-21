@@ -89,6 +89,8 @@
   //  substitution : 式の値の問題で代入する値（{"a": "-3"}）。LaTeX の数で書く。自動検証に使う。
   //  verification : {"mode": "manual", "reason": "..."} 自動検証を行わず手動確認とする場合に指定。
   const OPTIONAL_FIELDS = {
+    variants: 'array',            // 第7段階：正しい答案の問題に追加する誤答パターン（question-variants.js）
+    correctExplanation: 'string', // 第7段階：誤答の問題を正答版で出すときの「計算のポイント」（省略時は errorType から作る）
     instruction: 'string',
     substitution: 'object',
     verification: 'object',

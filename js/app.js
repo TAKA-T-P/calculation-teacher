@@ -24,6 +24,9 @@
 
   const params = new URLSearchParams(location.search);
   const rng = G.createRng(params.get('seed'));
+  // 答案パターン（正答・誤答）の抽選に使う乱数。出題順の乱数とは別の列にして、出題順を変えない（?seed= のときは再現できる）
+  const QV = window.QuestionVariants;
+  let variantRng = QV.createVariantRng(params.get('seed'), G.createRng);
   const TA = window.TimeAttack;
   const C = window.Certification;
   const D = window.CharacterDialogue;
@@ -580,7 +583,8 @@
     const q = base.questions[index];
     try {
       // 選んだ1問だけのトレーニングを作る（採点・ヒント・解説はふだんと同じ）
-      app.session = new G.TrainingSession([q], { unit: q.unit, difficulties: [q.difficulty], count: 1 }, rng);
+      // q は最初に出題した答案（答案パターンが決まっている）なので、抽選し直さずに同じ答案を出す
+      app.session = new G.TrainingSession([q], { unit: q.unit, difficulties: [q.difficulty], count: 1 }, rng, { variantRng });
     } catch (e) {
       showError(e.message);
       return;
@@ -776,7 +780,7 @@
       app.session = new G.TrainingSession(app.questions, {
         ...selectedCriteria(),
         count: effectiveCount(pool.length),
-      }, rng);
+      }, rng, { variantRng });
     } catch (e) {
       showError(e.message);
       return;
@@ -1390,6 +1394,7 @@
     try {
       app.ta.session = new TA.TimeAttackSession(app.questions, taConfig(), {
         rng,
+        variantRng,
         now: () => performance.now(), // 単調増加の時計（PCの時刻を変えても影響しない）
       });
     } catch (e) {
@@ -1716,7 +1721,7 @@
     if (!C.isUnlocked(c.highestCleared, examId)) return; // 解放されていない試験は始めない
     let s;
     try {
-      s = new C.CertificationSession(app.questions, { unit, examId }, rng);
+      s = new C.CertificationSession(app.questions, { unit, examId }, rng, { variantRng });
     } catch (e) {
       // 問題が足りない：重複や難易度の変更で埋めずに、始めない
       renderCertList(e.message);
@@ -2001,6 +2006,8 @@
     /** 自動テスト用：生徒キャラクターの抽選を固定する（出題順の乱数には影響しない） */
     setDialogueRng(fn) { dialogueRng = fn || Math.random; },
     rerenderTitleTalk: () => renderTitleTalk(),
+    /** 自動テスト用：答案パターン（正答・誤答）の抽選を固定する（出題順の乱数には影響しない。null でもとに戻す） */
+    setVariantRng(fn) { variantRng = fn || QV.createVariantRng(params.get('seed'), G.createRng); },
   };
 
   init();

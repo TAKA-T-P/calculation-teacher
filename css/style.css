@@ -357,3 +357,10 @@ code, kbd {
   .card { padding: 12px; }
   .app-title__sub { display: block; margin-left: 0; }
 }
+
+/* 第7段階：答案パターン（正答・誤答）の切り替え */
+.block--variant { display: grid; gap: 8px; }
+.variant-switch { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn--variant { min-height: 44px; }
+.btn--variant.is-active { background: #1f5fbf; color: #fff; border-color: #1f5fbf; }
+.variant-info { margin: 0; font-size: .9rem; }

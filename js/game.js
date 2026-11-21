@@ -6,11 +6,11 @@
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require('./question-variants.js'));
   } else {
-    root.Game = factory();
+    root.Game = factory(root.QuestionVariants);
   }
-})(typeof self !== 'undefined' ? self : this, function () {
+})(typeof self !== 'undefined' ? self : this, function (QV) {
   'use strict';
 
   const DIFFICULTIES = [1, 2, 3, 4];
@@ -139,8 +139,12 @@
      * @param {object[]} questions 全問題
      * @param {{unit:string, difficulties:number[], count:5|10|'all'}} config
      * @param {() => number} rng
-     * @param {{fixedQuestions?: object[]}} opts
+     * @param {{fixedQuestions?: object[], variantRng?: () => number}} opts
      *   fixedQuestions：出題する問題とその順番をあらかじめ決めて渡す（認定試験など。絞り込みとシャッフルはしない）
+     *   variantRng：答案パターン（正答・誤答）の抽選に使う乱数。出題順の乱数とは別にする（省略時は Math.random）
+     *
+     * 問題（ID）を選んだあとで、1問ずつ答案パターンを抽選して「出題する答案」に置きかえる（question-variants.js）。
+     * すでに答案パターンが決まっている問題（結果画面からの解き直し）は、そのまま使う。
      */
     constructor(questions, config, rng = Math.random, opts = {}) {
       this.config = {
@@ -156,7 +160,8 @@
         if (bad.length) throw new GameDataError(`出題できない問題があります: ${bad.map((q) => q && q.id).join(', ')}`);
         if (new Set(fixed.map((q) => q.id)).size !== fixed.length) throw new RangeError('同じ問題が重複しています');
         if (fixed.length === 0) throw new RangeError('出題する問題がありません');
-        this.questions = fixed.slice();
+        const vrng = opts.variantRng || Math.random;
+        this.questions = fixed.map((q) => QV.resolve(q, vrng));
         this.questionIds = this.questions.map((q) => q.id);
         this.available = fixed.length;
         this.config.count = fixed.length;
@@ -170,7 +175,8 @@
       if (pool.length === 0) throw new RangeError('条件に合う問題がありません');
       const n = resolveCount(this.config.count, pool.length);
       // 対象の問題をシャッフルして先頭から n 問。1回のプレイで同じ問題は出ない。
-      this.questions = shuffle(pool, rng).slice(0, n);
+      const vrng = opts.variantRng || Math.random;
+      this.questions = shuffle(pool, rng).slice(0, n).map((q) => QV.resolve(q, vrng));
       this.questionIds = this.questions.map((q) => q.id);
       this.available = pool.length;
       this.index = 0;
@@ -228,6 +234,7 @@
       if (!this.canSubmit) throw new Error('答案の行か「全部正しい！」を選んでから添削してください');
       const result = grade(this.current, this.selection);
       result.questionId = this.current.id;
+      result.variantId = this.current.variantId;
       this.graded = result;
       this.results.push(result);
       if (result.correct) this.correctCount++;

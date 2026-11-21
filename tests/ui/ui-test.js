@@ -639,6 +639,79 @@
     check(ok && ng, `正しい答案が2問以上必要（ok=${ok}, ng=${ng}）`);
   });
 
+  await test('[第7段階] 正答版・誤答版の答案が出て、表示した答案のとおりに採点・解説される。解き直しは同じ答案、もう一度チャレンジで抽選し直す', async () => {
+    const QVw = w.QuestionVariants;
+    const bases = new Map(app().questions.map((q) => [q.id, q]));
+    await click('#screen-summary [data-action="go-settings"], .summary-actions [data-action="go-settings"]');
+    await configure({ unit: 'simultaneous-equations', count: 'all' });
+    await click('#start-btn');
+    const s = app().session;
+    const seen = { modelOk: 0, modelNg: 0, addedOk: 0, addedNg: 0 };
+    let correctShown = 0;
+    while (!s.finished) {
+      const q = s.current;
+      const base = bases.get(q.id);
+      const v = QVw.variantsOf(base).find((x) => x.id === q.variantId);
+      check(v && JSON.stringify(v.answerLines) === JSON.stringify(q.answerLines) && v.errorLine === q.errorLine, `${q.id}: 登録した答案パターンと違う（${q.variantId}）`);
+      check($$('#play-body .row').length === q.answerLines.length, `${q.id}: 表示した答案の行数 ${$$('#play-body .row').length} / ${q.answerLines.length}`);
+      if (q.errorLine === null) correctShown++;
+      if (base.errorLine !== null && q.errorLine === null && seen.modelOk + seen.modelNg < 2) {
+        // 誤答の問題の正答版：「全部正しい！」で正解、元の誤り行を選ぶと不正解
+        if (!seen.modelOk) {
+          await answer(true);
+          check($('.verdict--ok') && $('.verdict__sub').textContent.includes('全部正しい'), `${q.id}: 正答版が「全部正しい！」で正解にならない`);
+          check($$('#feedback .feedback__title')[0].textContent.includes('計算のポイント') && !$('#feedback .error-type'), `${q.id}: 正答版に誤答の解説が出ている`);
+          seen.modelOk++;
+        } else {
+          await click(rowBtn(base.errorLine)); await click('#submit-btn'); await sleep(60);
+          check($('.verdict--ng'), `${q.id}: 正答版で元の誤り行を選んだのに正解になった`);
+          seen.modelNg++;
+        }
+      } else if (base.errorLine === null && q.errorLine !== null && seen.addedOk + seen.addedNg < 2) {
+        // 正答の問題に追加した誤答版：設定した行が正解、「全部正しい！」は不正解
+        if (!seen.addedOk) {
+          await answer(true);
+          check($('.verdict--ok') && $('#feedback .error-type') && $('#feedback .error-type').textContent === q.errorType, `${q.id}: 誤答版の採点・誤りの種類`);
+          seen.addedOk++;
+        } else {
+          await click('#all-correct-btn'); await click('#submit-btn'); await sleep(60);
+          check($('.verdict--ng') && $('.verdict__sub').textContent.includes(`${q.errorLine + 1}行目が最初のまちがい`), `${q.id}: 誤答版で「全部正しい！」が正解になった`);
+          seen.addedNg++;
+        }
+      } else {
+        await answer(true);
+        check($('.verdict--ok'), `${q.id}（${q.variantId}）: 表示した答案の正しい選択で正解にならない`);
+      }
+      await click('[data-action="next"]');
+    }
+    check(Object.values(seen).every((n) => n === 1), `正答版・誤答版の両方を確認できていない ${JSON.stringify(seen)}`);
+    check(correctShown >= 10 && correctShown <= 45, `100問中の正答版 ${correctShown}問（約25%のはず）`);
+    // 結果画面から解き直すと、同じ答案パターンが出る
+    const base = app().session;
+    const idx = base.questions.findIndex((q) => bases.get(q.id).errorLine !== q.errorLine);
+    const target = base.questions[idx];
+    await click(`[data-action="review-question"][data-index="${idx}"]`);
+    check(app().session.current.id === target.id && app().session.current.variantId === target.variantId
+      && JSON.stringify(app().session.current.answerLines) === JSON.stringify(target.answerLines), `解き直しの答案が違う（${app().session.current.variantId} / ${target.variantId}）`);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+    check(visible('summary') && app().session === base, '解き直しをやめて結果画面に戻らない');
+    // もう一度チャレンジ：答案パターンを抽選し直す
+    const before = new Map(base.questions.map((q) => [q.id, q.variantId]));
+    await click('[data-action="retry"]');
+    const again = app().session;
+    const diff = again.questions.filter((q) => before.get(q.id) !== q.variantId).length;
+    check(again !== base && diff >= 10, `もう一度チャレンジで答案パターンが抽選し直されていない（違う答案 ${diff}問）`);
+    await click('[data-action="quit"]');
+    await click('[data-action="quit-confirm"]');
+    // 次のテスト（[20]）のために、方程式で1問解いて結果画面にしておく
+    await configure({ unit: 'equation', difficulties: [1], count: 1 });
+    await click('#start-btn');
+    await answer(true);
+    await click('[data-action="next"]');
+    check(visible('summary'), '結果画面へ戻れない');
+  });
+
   await test('[20] 結果画面から単元選択・タイトルに戻れる', async () => {
     await click('#screen-summary [data-action="go-settings"], .summary-actions [data-action="go-settings"]');
     check(visible('settings'), '単元選択に戻れない');
@@ -768,8 +841,11 @@
   await test('[表示] 方程式の全問題で、答案・正しい計算過程とも「＝」の縦の位置がそろう（選択中・採点後も）', async () => {
     const eqX = (group) => $$(`${group} .eq-op`).map((op) => op.getBoundingClientRect().left);
     const aligned = (xs) => xs.length >= 2 && Math.max(...xs) - Math.min(...xs) <= 1;
+    // 誤答版の答案で確認する（正答版の答案＝正しい計算過程は、採点後の表示で確認する）
+    w.__calcTeacher.setVariantRng(() => 0.99);
     await configure({ unit: 'equation', count: 'all' });
     await click('#start-btn');
+    w.__calcTeacher.setVariantRng(null);
     const s = app().session;
     while (!s.finished) {
       const q = s.current;
@@ -789,7 +865,9 @@
   });
 
   await test('[表示] 全問題で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
-    const report = { questions: 0, scrollable: 0, minRow: 999 };
+    const report = { questions: 0, scrollable: 0, minRow: 999, added: 0 };
+    // 第7段階：誤答版を出題して確認する（追加した誤答の答案は、ここでしか画面に出ない。正答版の答案は、採点後の「正しい計算過程」と同じ）
+    w.__calcTeacher.setVariantRng(() => 0.99);
     for (const unit of app().units.map((u) => u.unit)) {
       await configure({ unit, count: 'all' });
       await click('#start-btn');
@@ -809,11 +887,14 @@
         check(m3.cut === 0, `${s.current.id}: 解説表示後に見切れている数式 ${m3.cut} ${m3.info}`);
         check(pageOverflow() <= 0, `${s.current.id}: 解説表示でページがはみ出す`);
         report.questions++;
+        if (s.current.variantId === 'wrong-1' && app().questions.find((x) => x.id === s.current.id).errorLine === null) report.added++;
         await click('[data-action="next"]');
       }
       await click('.summary-actions [data-action="go-settings"]');
     }
+    w.__calcTeacher.setVariantRng(null);
     check(report.questions === app().questions.length, `確認した問題数 ${report.questions}`);
+    check(report.added === 221, `確認した追加の誤答 ${report.added}`);
     check(report.minRow >= 48, `行の高さの最小 ${report.minRow}px`);
     results.push({ name: `  情報: 横スクロールになった数式 ${report.scrollable} 個 / 行の高さの最小 ${Math.round(report.minRow)}px`, ok: true });
   });
@@ -938,6 +1019,23 @@
     check(w.getComputedStyle($('#explain-dialog .compare')).transform === 'none', '解説のポップアップが回転している');
     await click('[data-action="explain-close"]');
     check(!$('#explain-dialog').open && recs().officialFor('equation').bestScore === sum.score, '解説を見たら記録が変わった');
+    // 第7段階：結果の解説は、実際に出題した答案パターン（正答版・誤答版）のもの
+    const types = new Set();
+    for (let i = 0; i < Math.min(12, s.results.length); i++) {
+      const r = s.results[i];
+      const v = w.QuestionVariants.variantsOf(app().questions.find((q) => q.id === r.question.id)).find((x) => x.id === r.question.variantId);
+      check(v && JSON.stringify(v.answerLines) === JSON.stringify(r.question.answerLines), `${r.question.id}: 結果の答案が出題した答案パターンと違う`);
+      types.add(v.type);
+      await click(`#ta-result-body [data-action="ta-explain"][data-index="${i}"]`);
+      const lines = $$('#explain-body .solution')[0].querySelectorAll('.solution__line');
+      check(lines.length === v.answerLines.length, `${r.question.id}: 解説の答案の行数`);
+      const head = $$('#explain-body .feedback__title')[1].textContent;
+      check(v.errorLine === null ? head.includes('計算のポイント') && $('#explain-body').textContent.includes('全部正しい')
+        : head.includes('まちがいの理由') && $('#explain-body .error-type').textContent === v.errorType
+          && lines[v.errorLine].classList.contains('explain-line--error'), `${r.question.id}（${v.id}）: 解説が出題した答案と合っていない`);
+      await click('[data-action="explain-close"]');
+    }
+    check(types.size === 2 || s.results.length < 6, `正答版・誤答版の両方の解説を確認できていない（${[...types]}）`);
     check(sameTalk(checkTalk('#ta-result-body', 'ta-best', '解説を閉じたあと'), taTalk), '解説を開閉したらセリフが変わった');
   });
 
@@ -1648,6 +1746,23 @@
     check(d.querySelector('.answer-line--error'), '誤り行のハイライト');
     await waitFor(() => /レビュー済/.test(d.querySelector('#review-status').textContent), '手動レビュー状況');
     check(d.querySelector('.dev-note--ok').textContent.includes('データと一致'), '数学的検証の結果');
+    // 第7段階：答案パターン（誤答・正答）をボタンで切り替えて確認できる（乱数は使わない）
+    const vbtn = (id) => d.querySelector(`[data-variant="${id}"]`);
+    check(vbtn('wrong-1') && vbtn('correct-1') && vbtn('wrong-1').getAttribute('aria-pressed') === 'true', '答案パターンの切替ボタン');
+    check(/wrong-1.*誤答.*出題確率 75%/.test(d.querySelector('.variant-info').textContent), `誤答パターンの情報: ${d.querySelector('.variant-info').textContent}`);
+    vbtn('correct-1').click();
+    await sleep(50);
+    check(/correct-1.*正答.*出題確率 25%/.test(d.querySelector('.variant-info').textContent), '正答パターンの情報');
+    check(!d.querySelector('.answer-line--error') && d.querySelector('.verdict--correct'), '正答パターンで誤り行が出ている');
+    check(d.querySelector('.dev-note--ok').textContent.includes('データと一致'), '正答パターンの数学的検証');
+    check(d.querySelector('.explanation').textContent.includes('すべての行が正しい計算です'), '正答パターンの解説');
+    await waitFor(() => /AI による確認/.test(d.querySelector('#review-status').textContent), 'レビュー状況（AI と数学講師の区別）');
+    vbtn('wrong-1').click();
+    await sleep(50);
+    check(d.querySelector('.answer-line--error'), '誤答パターンに戻らない');
+    w.location.hash = '#J1-EQ-0003'; // 別解の正答問題は切り替えない
+    await sleep(80);
+    check(d.querySelector('.meta-id').textContent === 'J1-EQ-0003' && !vbtn('wrong-1') && /別解の正答/.test(d.querySelector('.variant-info').textContent), '別解の正答問題の表示');
     d.querySelector('#unit-select').value = 'expressions';
     d.querySelector('#unit-select').dispatchEvent(new Event('change'));
     await sleep(50);

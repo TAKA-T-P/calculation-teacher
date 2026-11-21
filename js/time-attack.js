@@ -10,11 +10,11 @@
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory(require('./game.js'));
+    module.exports = factory(require('./game.js'), require('./question-variants.js'));
   } else {
-    root.TimeAttack = factory(root.Game);
+    root.TimeAttack = factory(root.Game, root.QuestionVariants);
   }
-})(typeof self !== 'undefined' ? self : this, function (G) {
+})(typeof self !== 'undefined' ? self : this, function (G, QV) {
   'use strict';
 
   // ------------------------------------------------------------ 設定（暫定値。問題を増やしたあとに調整できるよう定数にまとめる）
@@ -91,7 +91,8 @@
     /**
      * @param {object[]} questions 全問題
      * @param {{mode:'official'|'custom', unit:string, categories?:string[], difficulties?:number[]}} config
-     * @param {{rng?: () => number, now?: () => number, durationMs?: number, lossTimeMs?: number, maxMisses?: number}} opts
+     * @param {{rng?: () => number, variantRng?: () => number, now?: () => number, durationMs?: number, lossTimeMs?: number, maxMisses?: number}} opts
+     *   variantRng：答案パターン（正答・誤答）の抽選用。出題順の乱数とは別（省略時は Math.random）
      */
     constructor(questions, config, opts = {}) {
       if (config.mode !== MODES.OFFICIAL && config.mode !== MODES.CUSTOM) throw new TypeError(`モードの指定が不正です: ${config.mode}`);
@@ -100,6 +101,7 @@
       this.pool = G.filterPool(questions, this.criteria);
       if (this.pool.length === 0) throw new RangeError('条件に合う問題がありません');
       this.rng = opts.rng || Math.random;
+      this.variantRng = opts.variantRng || Math.random;
       this.now = opts.now || (() => Date.now());
       this.durationMs = opts.durationMs || CONFIG.durationMs;
       this.lossTimeMs = opts.lossTimeMs !== undefined ? opts.lossTimeMs : CONFIG.lossTimeMs;
@@ -131,7 +133,7 @@
     start() {
       if (this.started) return;
       this.startedAt = this.now();
-      this.current = this.drawNext();
+      this.current = this.nextPlayable();
     }
 
     elapsed(at = this.now()) {
@@ -156,6 +158,11 @@
     /** ロスタイムも過ぎたか（表示中の問題に回答しないまま終わる時刻） */
     isLossTimeOver(at = this.now()) {
       return this.started && at - this.startedAt >= this.durationMs + this.lossTimeMs;
+    }
+
+    /** 次の問題を選び、答案パターン（正答・誤答）を抽選して出題する答案にする（同じ問題がまた出たときも抽選し直す） */
+    nextPlayable() {
+      return QV.resolve(this.drawNext(), this.variantRng);
     }
 
     /**
@@ -230,7 +237,7 @@
       this.locked = false;
       if (this.isGameOver) { this.finish(at); return false; }
       if (this.isTimeUp(at)) { this.finish(at); return false; }
-      this.current = this.drawNext();
+      this.current = this.nextPlayable();
       return true;
     }
 

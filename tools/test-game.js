@@ -135,12 +135,18 @@ test('[6] 5問の出題を何度もくり返すと、対象の全問題が出題
   for (let seed = 1; seed <= 300; seed++) ids(session({ unit: 'expressions', difficulties: [1, 2, 3, 4], count: 5 }, seed)).forEach((id) => seen.add(id));
   eq(seen.size, unitSize('expressions'));
 });
-test('[6] errorLine を書き換えたり補正したりしない（出題後も元データと同じ）', () => {
+test('[6] errorLine を書き換えたり補正したりしない（出題した答案は、登録した答案パターンのどれかとまったく同じ。元データも変えない）', () => {
+  const QV = require('../js/question-variants.js');
+  const before = JSON.stringify(questions);
   const s = session({ unit: 'equation', difficulties: [1, 2, 3, 4], count: 'all' });
   s.questions.forEach((q) => {
     const orig = questions.find((o) => o.id === q.id);
-    assert(q === orig, `${q.id} が元データと別のオブジェクトです`);
+    const v = QV.variantsOf(orig).find((x) => x.id === q.variantId);
+    assert(v, `${q.id} の答案パターン ${q.variantId} が登録されていません`);
+    eq(JSON.stringify([q.answerLines, q.errorLine, q.errorType, q.explanation]), JSON.stringify([v.answerLines, v.errorLine, v.errorType, v.explanation]), `${q.id} の答案`);
+    eq(JSON.stringify(q.correctSolution), JSON.stringify(orig.correctSolution), `${q.id} の正しい計算過程`);
   });
+  eq(JSON.stringify(questions), before, '元の問題データが変わった');
 });
 
 // ---------------------------------------------------------------- 7〜9. 選択

@@ -9,6 +9,7 @@
   const S = window.QuestionSchema;
   const MV = window.MathVerify;
   const R = window.MathRender;
+  const QV = window.QuestionVariants;
 
   const state = {
     units: [],
@@ -18,6 +19,7 @@
     reveal: false,
     hint: false,
     reviews: {},
+    variantId: {},   // 問題ごとに表示している答案パターン（第7段階。乱数は使わず、ボタンで選ぶ）
   };
 
   const $ = (id) => document.getElementById(id);
@@ -141,7 +143,29 @@
     return '★'.repeat(n) + '<span class="stars__off">' + '★'.repeat(Math.max(0, 4 - n)) + '</span>';
   }
 
-  function renderCard(q) {
+  /** 答案パターンを選ぶボタン（正答・誤答の両方がある問題だけ）と、パターンの情報 */
+  function variantBarHtml(base, shown) {
+    const vs = QV.variantsOf(base);
+    const kind = QV.kindOf(base);
+    const rate = QV.CORRECT_VARIANT_RATE;
+    const prob = (v) => (kind !== QV.KINDS.SWITCHABLE ? 100 : Math.round((v.type === QV.TYPES.CORRECT ? rate / vs.filter((x) => x.type === v.type).length : (1 - rate) / vs.filter((x) => x.type === v.type).length) * 100));
+    const kindText = { switchable: '正答・誤答を切り替える', alternative: '別解の正答（いつも正答）', 'correct-pending': '誤答パターンの追加が必要（いつも正答）' }[kind];
+    const source = { data: '問題データの答案（answerLines）', model: '模範解答（correctSolution）から作った正答', variants: 'variants に登録した誤答' };
+    const v = vs.find((x) => x.id === shown.variantId);
+    const buttons = vs.length > 1 ? `<div class="variant-switch" role="group" aria-label="答案パターン">${vs.map((x) => `
+        <button type="button" class="btn btn--variant${x.id === shown.variantId ? ' is-active' : ''}" data-variant="${x.id}" aria-pressed="${x.id === shown.variantId}">
+          ${x.type === QV.TYPES.CORRECT ? '正答パターン' : '誤答パターン'}（${x.id}）</button>`).join('')}</div>` : '';
+    return `<section class="block block--variant">
+        ${buttons}
+        <p class="variant-info">答案パターン：<strong>${R.escapeHtml(v.id)}</strong>（${v.type === QV.TYPES.CORRECT ? '正答' : '誤答'}）／出題確率 ${prob(v)}%／${R.escapeHtml(source[v.source])}／この問題：${kindText}</p>
+      </section>`;
+  }
+
+  function renderCard(base) {
+    // 表示する答案パターン（初期値は問題データの答案）。採点・解説・検証は、表示している答案パターンで行う
+    const vs = QV.variantsOf(base);
+    const vid = vs.some((x) => x.id === state.variantId[base.id]) ? state.variantId[base.id] : vs[0].id;
+    const q = QV.resolveById(base, vid);
     const unitDef = S.UNITS[q.unit] || { label: q.unit };
     const analysis = analyze(q);
     const instruction = q.instruction || S.defaultInstruction(q.unit);
@@ -183,6 +207,8 @@
         <span class="stars" aria-label="難易度${q.difficulty}">${stars(q.difficulty)}</span>
       </header>
 
+      ${variantBarHtml(base, q)}
+
       <section class="block">
         <p class="instruction">${R.richTextHtml(instruction)}</p>
         <div class="problem">${R.mathHtml(q.question, true)}</div>
@@ -215,7 +241,8 @@
     `;
 
     $('hint-btn').addEventListener('click', () => { state.hint = !state.hint; render(); });
-    if (state.reveal) updateReviewStatus(q);
+    els.card.querySelectorAll('[data-variant]').forEach((b) => b.addEventListener('click', () => { state.variantId[base.id] = b.dataset.variant; render(); }));
+    if (state.reveal) updateReviewStatus(base);
   }
 
   // ------------------------------------------------------------ 自動検証（画面表示用）
@@ -276,7 +303,12 @@
     else {
       const hash = await window.DataLoader.questionHash(q);
       if (hash === null) { text = `手動レビュー：${rv.reviewedAt} ${rv.reviewer}（内容の一致は未確認）`; cls = ''; }
-      else if (hash === rv.hash) { text = `手動レビュー済：${rv.reviewedAt} ${rv.reviewer}`; cls = 'dev-note--ok'; }
+      else if (hash === rv.hash) {
+        const role = (rv.reviewerRole || (/claude|ai|ＡＩ/i.test(rv.reviewer || '') ? 'ai' : 'teacher')) === 'ai' ? 'AI による確認（数学講師は未確認）' : '数学講師による確認';
+        const teacherBefore = (rv.history || []).filter((h) => h.reviewerRole === 'teacher').length;
+        text = `手動レビュー済：${rv.reviewedAt} ${rv.reviewer}（${role}。正答・誤答の両方の答案パターンが対象）${teacherBefore ? `／以前の数学講師の確認 ${teacherBefore}件（内容変更前）` : ''}`;
+        cls = 'dev-note--ok';
+      }
       else { text = '手動レビュー後にデータが変更されています（要再レビュー）'; cls = 'dev-note--warn'; }
     }
     if (current() && current().id === q.id && $('review-status')) {

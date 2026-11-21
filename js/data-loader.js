@@ -44,7 +44,10 @@
   /** レビュー記録との照合に使うハッシュ（tools/validate-questions.js と同じ計算） */
   async function questionHash(q) {
     if (!global.crypto || !global.crypto.subtle) return null; // http://（localhost 以外）では使えない
-    const text = global.QuestionSchema.canonicalJson(q);
+    // tools/validate-questions.js の questionHash と同じ（答案パターンも含める。第7段階）
+    const QV = global.QuestionVariants;
+    const extra = QV ? QV.variantsOf(q).filter((v) => v.source !== 'data') : [];
+    const text = global.QuestionSchema.canonicalJson(extra.length ? { question: q, variants: extra } : q);
     const buf = await global.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
     return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
   }

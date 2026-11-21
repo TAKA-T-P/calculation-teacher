@@ -132,7 +132,8 @@
     constructor(questions, { unit, examId }, rng = Math.random, opts = {}) {
       const exam = examById(examId);
       const list = opts.fixedQuestions || buildExamQuestions(questions, unit, exam, rng);
-      super(questions, { unit, count: list.length }, rng, { fixedQuestions: list });
+      // 問題（ID）は難易度ごとの配分どおりに選び、そのあとで1問ずつ答案パターンを抽選する（配分は変わらない）
+      super(questions, { unit, count: list.length }, rng, { fixedQuestions: list, variantRng: opts.variantRng });
       this.exam = exam;
       this.unit = unit;
       this.outcome = null;

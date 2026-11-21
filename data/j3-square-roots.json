@@ -45,7 +45,20 @@
         "=\\sqrt9",
         "=3"
       ],
-      "hint": "$\\sqrt a\\div\\sqrt b$ は、根号の中をどのように計算しますか？"
+      "hint": "$\\sqrt a\\div\\sqrt b$ は、根号の中をどのように計算しますか？",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{18}\\div\\sqrt2",
+            "=\\sqrt{16}",
+            "=4"
+          ],
+          "errorLine": 1,
+          "errorType": "根号どうしのわり算で、中の数をひいた誤り",
+          "explanation": "$\\sqrt{a}\\div\\sqrt{b}=\\sqrt{\\frac{a}{b}}$ なので、$\\sqrt{18}\\div\\sqrt2=\\sqrt{\\frac{18}{2}}=\\sqrt9=3$ です。中の数をひいて $\\sqrt{18-2}=\\sqrt{16}$ としたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0003",
@@ -185,7 +198,21 @@
         "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
         "=\\frac{\\sqrt{15}}{6}"
       ],
-      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。分母の計算を確かめましょう。"
+      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。分母の計算を確かめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{\\sqrt5}{\\sqrt{12}}",
+            "=\\frac{\\sqrt5}{2\\sqrt3}",
+            "=\\frac{\\sqrt5\\times\\sqrt3}{2\\sqrt3\\times\\sqrt3}",
+            "=\\frac{\\sqrt{15}}{3}"
+          ],
+          "errorLine": 3,
+          "errorType": "有理化で、分母の係数をかけ忘れた誤り",
+          "explanation": "分母の $2\\sqrt3\\times\\sqrt3$ は、$\\sqrt3\\times\\sqrt3=3$ に係数の $2$ をかけて $6$ です。$2$ をかけ忘れて $3$ としたところが誤りです。$\\sqrt{12}=2\\sqrt3$ と、分母と分子に $\\sqrt3$ をかけたところは正しくできています。正しくは $\\frac{\\sqrt{15}}{6}$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0009",
@@ -300,7 +327,20 @@
         "=4\\sqrt3-5\\sqrt3+\\sqrt3",
         "=0"
       ],
-      "hint": "それぞれの根号を $a\\sqrt3$ の形にそろえてから計算しましょう。"
+      "hint": "それぞれの根号を $a\\sqrt3$ の形にそろえてから計算しましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{48}-\\sqrt{75}+\\sqrt3",
+            "=4\\sqrt3-5\\sqrt3+\\sqrt3",
+            "=-2\\sqrt3"
+          ],
+          "errorLine": 2,
+          "errorType": "後ろのたし算の項までひいてしまった誤り",
+          "explanation": "係数は $4-5+1=0$ なので、答えは $0$ です。$4-5-1=-2$ のように、うしろの $+\\sqrt3$ までひいてしまったところが誤りです。$\\sqrt{48}=4\\sqrt3$、$\\sqrt{75}=5\\sqrt3$ は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0014",
@@ -420,7 +460,21 @@
         "=5-3",
         "=2"
       ],
-      "hint": "どの乗法公式が使えるか、考えてみましょう。"
+      "hint": "どの乗法公式が使えるか、考えてみましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "(\\sqrt5+\\sqrt3)(\\sqrt5-\\sqrt3)",
+            "=(\\sqrt5)^2-(\\sqrt3)^2",
+            "=25-9",
+            "=16"
+          ],
+          "errorLine": 2,
+          "errorType": "(√a)² を a² とした誤り",
+          "explanation": "$(\\sqrt5)^2$ は $\\sqrt5\\times\\sqrt5=5$ です。$5^2=25$ としたところが誤りです（$(\\sqrt3)^2$ も同じく $3$ です）。和と差の積の公式で $(\\sqrt5)^2-(\\sqrt3)^2$ としたところは正しくできています。正しく計算すると $5-3=2$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0019",
@@ -490,7 +544,20 @@
         "\\sqrt2\\times\\sqrt7",
         "=\\sqrt{14}"
       ],
-      "hint": "根号どうしのかけ算は、中の数どうしをかけます。"
+      "hint": "根号どうしのかけ算は、中の数どうしをかけます。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt2\\times\\sqrt7",
+            "=\\sqrt9",
+            "=3"
+          ],
+          "errorLine": 1,
+          "errorType": "根号の積で中の数をたした誤り",
+          "explanation": "$\\sqrt{a}\\times\\sqrt{b}=\\sqrt{ab}$ なので、$\\sqrt2\\times\\sqrt7=\\sqrt{14}$ です。中の数をたして $\\sqrt{2+7}=\\sqrt9$ としたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0022",
@@ -533,7 +600,20 @@
         "=\\sqrt{36}",
         "=6"
       ],
-      "hint": "$\\sqrt{36}$ は、2乗すると $36$ になる正の数です。"
+      "hint": "$\\sqrt{36}$ は、2乗すると $36$ になる正の数です。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt3\\times\\sqrt{12}",
+            "=\\sqrt{36}",
+            "=18"
+          ],
+          "errorLine": 2,
+          "errorType": "平方根を求めるとき、2でわった誤り",
+          "explanation": "$\\sqrt{36}$ は、2乗すると $36$ になる正の数なので $6$ です。$36\\div2=18$ としたところが誤りです。$\\sqrt3\\times\\sqrt{12}=\\sqrt{36}$ は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0024",
@@ -553,7 +633,19 @@
         "-\\sqrt{49}",
         "=-7"
       ],
-      "hint": "まず $\\sqrt{49}$ を求めて、そのあと $-$ をつけましょう。"
+      "hint": "まず $\\sqrt{49}$ を求めて、そのあと $-$ をつけましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "-\\sqrt{49}",
+            "=7"
+          ],
+          "errorLine": 1,
+          "errorType": "根号の前の − を落とした誤り",
+          "explanation": "$\\sqrt{49}=7$ なので、$-\\sqrt{49}=-7$ です。根号の前の $-$ を落として $7$ としたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0025",
@@ -599,7 +691,21 @@
         "=\\sqrt{5^2\\times6}",
         "=5\\sqrt6"
       ],
-      "hint": "$150$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。"
+      "hint": "$150$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{10}\\times\\sqrt{15}",
+            "=\\sqrt{150}",
+            "=\\sqrt{5^2\\times6}",
+            "=6\\sqrt5"
+          ],
+          "errorLine": 3,
+          "errorType": "根号の外と中の数を取り違えた誤り",
+          "explanation": "$\\sqrt{5^2\\times6}$ は、$5$ を根号の外に出して $5\\sqrt6$ です。外と中の数を取り違えて $6\\sqrt5$ としたところが誤りです（$6\\sqrt5=\\sqrt{180}$ になります）。$\\sqrt{150}=\\sqrt{5^2\\times6}$ までは正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0027",
@@ -715,7 +821,21 @@
         "=6\\times2\\sqrt7",
         "=12\\sqrt7"
       ],
-      "hint": "$\\sqrt{28}$ を簡単にしてから、係数をかけましょう。"
+      "hint": "$\\sqrt{28}$ を簡単にしてから、係数をかけましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "3\\sqrt2\\times2\\sqrt{14}",
+            "=6\\sqrt{28}",
+            "=6\\times2\\sqrt7",
+            "=8\\sqrt7"
+          ],
+          "errorLine": 3,
+          "errorType": "根号の外に出した数を、係数とたしてしまった誤り",
+          "explanation": "$6\\times2\\sqrt7$ は、$6$ と $2$ をかけて $12\\sqrt7$ です。$6+2=8$ としたところが誤りです。$6\\sqrt{28}$ と、$\\sqrt{28}=2\\sqrt7$ は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0032",
@@ -760,7 +880,7 @@
         "=\\frac{4\\sqrt6}{2\\sqrt3}",
         "=2\\sqrt2"
       ],
-      "hint": "係数の $4$ と $2$ のわり算を忘れていませんか？"
+      "hint": "係数どうし、根号どうしをそれぞれ計算できているか確かめましょう。"
     },
     {
       "id": "J3-SR-0034",
@@ -830,7 +950,21 @@
         "=\\sqrt{50}",
         "=5\\sqrt2"
       ],
-      "hint": "かける数は分子、わる数は分母にして、1つの根号にまとめましょう。"
+      "hint": "かける数は分子、わる数は分母にして、1つの根号にまとめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{20}\\times\\sqrt{15}\\div\\sqrt6",
+            "=\\sqrt{\\frac{20\\times6}{15}}",
+            "=\\sqrt8",
+            "=2\\sqrt2"
+          ],
+          "errorLine": 1,
+          "errorType": "根号どうしのわり算で、わる数とかける数を取り違えた誤り",
+          "explanation": "$\\div\\sqrt6$ の $6$ は分母、$\\times\\sqrt{15}$ の $15$ は分子に入るので、$\\sqrt{\\frac{20\\times15}{6}}=\\sqrt{50}=5\\sqrt2$ です。$6$ と $15$ の位置を取り違えたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0037",
@@ -954,7 +1088,20 @@
         "=\\sqrt{2^2\\times3}",
         "=2\\sqrt3"
       ],
-      "hint": "$12$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。"
+      "hint": "$12$ を「平方数 $\\times$ ほかの数」の形に分けてみましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{12}",
+            "=\\sqrt{2^2\\times3}",
+            "=4\\sqrt3"
+          ],
+          "errorLine": 2,
+          "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+          "explanation": "$\\sqrt{2^2\\times3}$ は、$2^2$ の平方根の $2$ を根号の外に出して $2\\sqrt3$ です。$2^2=4$ をそのまま外に出したところが誤りです。$12=2^2\\times3$ と分けたところは正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0042",
@@ -997,7 +1144,20 @@
         "=\\frac{1\\times\\sqrt2}{\\sqrt2\\times\\sqrt2}",
         "=\\frac{\\sqrt2}{2}"
       ],
-      "hint": "分母と分子に同じ数をかけて、分母から根号をなくしましょう。"
+      "hint": "分母と分子に同じ数をかけて、分母から根号をなくしましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{1}{\\sqrt2}",
+            "=\\frac{1\\times\\sqrt2}{\\sqrt2\\times\\sqrt2}",
+            "=\\frac{\\sqrt2}{4}"
+          ],
+          "errorLine": 2,
+          "errorType": "√a×√a を a² とした誤り",
+          "explanation": "$\\sqrt2\\times\\sqrt2=2$ です。$4$ としたところが誤りです。分母と分子に $\\sqrt2$ をかけて有理化した2行目は正しくできています。正しくは $\\frac{\\sqrt2}{2}$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0044",
@@ -1040,7 +1200,7 @@
         "=\\sqrt{6^2\\times2}",
         "=6\\sqrt2"
       ],
-      "hint": "$\\sqrt{18}$ は、もっと簡単にできませんか？"
+      "hint": "根号の中の数に、平方数の因数が残っていないか確かめましょう。"
     },
     {
       "id": "J3-SR-0046",
@@ -1062,7 +1222,20 @@
         "=\\frac{\\sqrt8}{\\sqrt9}",
         "=\\frac{2\\sqrt2}{3}"
       ],
-      "hint": "分子と分母の、それぞれの平方根を考えましょう。"
+      "hint": "分子と分母の、それぞれの平方根を考えましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{\\frac{8}{9}}",
+            "=\\frac{\\sqrt8}{\\sqrt9}",
+            "=\\frac{2\\sqrt2}{9}"
+          ],
+          "errorLine": 2,
+          "errorType": "分母の平方根をとり忘れた誤り",
+          "explanation": "$\\sqrt9=3$ なので、分母は $3$ です。$9$ のままにしたところが誤りです。$\\sqrt8=2\\sqrt2$ と、分子と分母に分けた2行目は正しくできています。正しくは $\\frac{2\\sqrt2}{3}$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0047",
@@ -1177,7 +1350,22 @@
         "=\\frac{3\\sqrt3}{3}",
         "=\\sqrt3"
       ],
-      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。"
+      "hint": "分母の根号を簡単にしてから有理化すると、計算が楽になります。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{6}{\\sqrt{12}}",
+            "=\\frac{6}{2\\sqrt3}",
+            "=\\frac{3}{\\sqrt3}",
+            "=\\frac{3\\sqrt3}{3}",
+            "=3\\sqrt3"
+          ],
+          "errorLine": 4,
+          "errorType": "有理化したあと、分母で約分し忘れた誤り",
+          "explanation": "$\\frac{3\\sqrt3}{3}$ は、分母と分子を $3$ で約分して $\\sqrt3$ です。分母の $3$ を書き落として $3\\sqrt3$ としたところが誤りです。$\\sqrt{12}=2\\sqrt3$、約分、有理化は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0052",
@@ -1249,7 +1437,19 @@
         "=\\frac{1}{\\sqrt5}",
         "=\\frac{\\sqrt5}{5}"
       ],
-      "hint": "有理化する前に、根号の中どうしで約分できないか考えましょう。"
+      "hint": "有理化する前に、根号の中どうしで約分できないか考えましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{\\sqrt2}{\\sqrt{10}}",
+            "=\\sqrt5"
+          ],
+          "errorLine": 1,
+          "errorType": "根号どうしのわり算で、分母と分子を逆にした誤り",
+          "explanation": "$\\frac{\\sqrt2}{\\sqrt{10}}=\\sqrt{\\frac{2}{10}}=\\sqrt{\\frac{1}{5}}$ で、分子は $2$、分母は $10$ です。$\\sqrt{\\frac{10}{2}}=\\sqrt5$ と分母と分子を逆にしたところが誤りです。正しくは $\\frac{1}{\\sqrt5}=\\frac{\\sqrt5}{5}$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0055",
@@ -1299,7 +1499,21 @@
         "=\\frac{3\\sqrt3\\times\\sqrt2}{2\\sqrt2\\times\\sqrt2}",
         "=\\frac{3\\sqrt6}{4}"
       ],
-      "hint": "分母の $2\\sqrt2$ を有理化するには、何をかければよいですか？"
+      "hint": "分母の $2\\sqrt2$ を有理化するには、何をかければよいですか？",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{\\sqrt{27}}{\\sqrt8}",
+            "=\\frac{3\\sqrt3}{2\\sqrt2}",
+            "=\\frac{3\\sqrt3\\times\\sqrt2}{2\\sqrt2\\times\\sqrt2}",
+            "=\\frac{3\\sqrt6}{2}"
+          ],
+          "errorLine": 3,
+          "errorType": "有理化で、分母の計算を誤った誤り",
+          "explanation": "分母の $2\\sqrt2\\times\\sqrt2$ は $2\\times2=4$ です。$2$ としたところが誤りです（$\\sqrt2\\times\\sqrt2=2$ をかけていません）。$\\sqrt{27}=3\\sqrt3$、$\\sqrt8=2\\sqrt2$ と、分母と分子に $\\sqrt2$ をかけたところは正しくできています。正しくは $\\frac{3\\sqrt6}{4}$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0057",
@@ -1422,7 +1636,20 @@
         "3\\sqrt2+5\\sqrt2",
         "=8\\sqrt2"
       ],
-      "hint": "$\\sqrt2$ を文字のように考えてまとめましょう。"
+      "hint": "$\\sqrt2$ を文字のように考えてまとめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "3\\sqrt2+5\\sqrt2",
+            "=8\\sqrt4",
+            "=16"
+          ],
+          "errorLine": 1,
+          "errorType": "根号の加法で、根号の中の数もたした誤り",
+          "explanation": "$3\\sqrt2+5\\sqrt2$ は、$\\sqrt2$ を文字のように考えて係数だけをたし、$8\\sqrt2$ です。根号の中の数もたして $\\sqrt4$ としたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0062",
@@ -1462,7 +1689,19 @@
         "6\\sqrt7-\\sqrt7+2\\sqrt7",
         "=7\\sqrt7"
       ],
-      "hint": "$-\\sqrt7$ の係数はいくつですか？"
+      "hint": "$-\\sqrt7$ の係数はいくつですか？",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "6\\sqrt7-\\sqrt7+2\\sqrt7",
+            "=8\\sqrt7"
+          ],
+          "errorLine": 1,
+          "errorType": "根号の項をまとめるとき、係数1を見落とした誤り",
+          "explanation": "係数は $6-1+2=7$ なので $7\\sqrt7$ です。$-\\sqrt7$ の係数 $1$ を見落として $6+2=8$ としたところが誤りです。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0064",
@@ -1526,7 +1765,20 @@
         "=2\\sqrt5+3\\sqrt5",
         "=5\\sqrt5"
       ],
-      "hint": "それぞれの根号を簡単にすると、根号の中は同じになりますか？"
+      "hint": "それぞれの根号を簡単にすると、根号の中は同じになりますか？",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{20}+\\sqrt{45}",
+            "=2\\sqrt5+3\\sqrt5",
+            "=6\\sqrt5"
+          ],
+          "errorLine": 2,
+          "errorType": "係数どうしをたさずにかけた誤り",
+          "explanation": "$2\\sqrt5+3\\sqrt5$ はたし算なので、係数をたして $5\\sqrt5$ です。$2\\times3=6$ としたところが誤りです。$\\sqrt{20}=2\\sqrt5$、$\\sqrt{45}=3\\sqrt5$ は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0067",
@@ -1614,7 +1866,20 @@
         "=4\\sqrt2-2\\sqrt2-\\sqrt2",
         "=\\sqrt2"
       ],
-      "hint": "係数 $4-2-1$ の計算を確かめましょう。"
+      "hint": "係数 $4-2-1$ の計算を確かめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt{32}-\\sqrt8-\\sqrt2",
+            "=4\\sqrt2-2\\sqrt2-\\sqrt2",
+            "=3\\sqrt2"
+          ],
+          "errorLine": 2,
+          "errorType": "同類項をまとめるとき、ひく項をたした誤り",
+          "explanation": "係数は $4-2-1=1$ なので、答えは $\\sqrt2$ です。$-\\sqrt2$ をたして $4-2+1=3$ としたところが誤りです。$\\sqrt{32}=4\\sqrt2$、$\\sqrt8=2\\sqrt2$ は正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0071",
@@ -1660,7 +1925,21 @@
         "=2\\sqrt3+2\\sqrt3",
         "=4\\sqrt3"
       ],
-      "hint": "分母に根号がある項は、有理化してからまとめましょう。"
+      "hint": "分母に根号がある項は、有理化してからまとめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{6}{\\sqrt3}+\\sqrt{12}",
+            "=\\frac{6\\sqrt3}{3}+2\\sqrt3",
+            "=6\\sqrt3+2\\sqrt3",
+            "=8\\sqrt3"
+          ],
+          "errorLine": 2,
+          "errorType": "有理化したあと、約分し忘れた誤り",
+          "explanation": "$\\frac{6\\sqrt3}{3}$ は約分して $2\\sqrt3$ です。分母の $3$ を消しただけで $6\\sqrt3$ としたところが誤りです。有理化と $\\sqrt{12}=2\\sqrt3$ は正しくできています。正しく計算すると $4\\sqrt3$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0073",
@@ -1830,7 +2109,21 @@
         "=\\sqrt3+\\sqrt3-\\sqrt3",
         "=\\sqrt3"
       ],
-      "hint": "分子の根号を簡単にしてから、約分しましょう。"
+      "hint": "分子の根号を簡単にしてから、約分しましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{\\sqrt{75}}{5}+\\frac{\\sqrt{12}}{2}-\\sqrt3",
+            "=\\frac{25\\sqrt3}{5}+\\frac{2\\sqrt3}{2}-\\sqrt3",
+            "=5\\sqrt3+\\sqrt3-\\sqrt3",
+            "=5\\sqrt3"
+          ],
+          "errorLine": 1,
+          "errorType": "平方数を、その平方根にせずに根号の外に出した誤り",
+          "explanation": "$\\sqrt{75}=\\sqrt{5^2\\times3}=5\\sqrt3$ なので、外に出すのは $25$ ではなく $5$ です。$25\\sqrt3$ としたところが誤りです。$\\sqrt{12}=2\\sqrt3$ は正しくできています。正しく計算すると $\\sqrt3+\\sqrt3-\\sqrt3=\\sqrt3$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0080",
@@ -1876,7 +2169,19 @@
         "\\sqrt3(\\sqrt3+2)",
         "=3+2\\sqrt3"
       ],
-      "hint": "$\\sqrt3\\times\\sqrt3$ はいくつですか？"
+      "hint": "$\\sqrt3\\times\\sqrt3$ はいくつですか？",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\sqrt3(\\sqrt3+2)",
+            "=9+2\\sqrt3"
+          ],
+          "errorLine": 1,
+          "errorType": "√a×√a を a² とした誤り",
+          "explanation": "$\\sqrt3\\times\\sqrt3=3$ です。$9$ としたところが誤りです。$\\sqrt3\\times2=2\\sqrt3$ は正しくできています。正しくは $3+2\\sqrt3$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0082",
@@ -1920,7 +2225,20 @@
         "=2-\\sqrt2+3\\sqrt2-3",
         "=-1+2\\sqrt2"
       ],
-      "hint": "数の項どうし、$\\sqrt2$ の項どうしをまとめましょう。"
+      "hint": "数の項どうし、$\\sqrt2$ の項どうしをまとめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "(\\sqrt2+3)(\\sqrt2-1)",
+            "=2-\\sqrt2+3\\sqrt2+3",
+            "=5+2\\sqrt2"
+          ],
+          "errorLine": 1,
+          "errorType": "正の数と負の数の積の符号ミス",
+          "explanation": "$3\\times(-1)$ は $-3$ です。$+3$ としたところが誤りです。$2$、$-\\sqrt2$、$3\\sqrt2$ は正しくできています。正しく計算すると $-1+2\\sqrt2$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0084",
@@ -1990,7 +2308,21 @@
         "=5+4\\sqrt5+4",
         "=9+4\\sqrt5"
       ],
-      "hint": "真ん中の項 $2\\times2\\times\\sqrt5$ を確かめましょう。"
+      "hint": "真ん中の項 $2\\times2\\times\\sqrt5$ を確かめましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "(\\sqrt5+2)^2",
+            "=(\\sqrt5)^2+2\\times2\\times\\sqrt5+2^2",
+            "=5+2\\sqrt5+4",
+            "=9+2\\sqrt5"
+          ],
+          "errorLine": 2,
+          "errorType": "和の平方で、2倍の積を2倍し忘れた誤り",
+          "explanation": "真ん中の項は $2\\times2\\times\\sqrt5=4\\sqrt5$ です。$2$ 倍し忘れて $2\\sqrt5$ としたところが誤りです。公式へのあてはめと、$(\\sqrt5)^2=5$、$2^2=4$ は正しくできています。正しくは $9+4\\sqrt5$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0087",
@@ -2060,7 +2392,21 @@
         "=18-1",
         "=17"
       ],
-      "hint": "$(3\\sqrt2)^2$ は、係数の $3$ も2乗します。"
+      "hint": "$(3\\sqrt2)^2$ は、係数の $3$ も2乗します。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "(3\\sqrt2+1)(3\\sqrt2-1)",
+            "=(3\\sqrt2)^2-1^2",
+            "=6-1",
+            "=5"
+          ],
+          "errorLine": 2,
+          "errorType": "係数を2乗し忘れた誤り",
+          "explanation": "$(3\\sqrt2)^2$ は、係数も2乗して $9\\times2=18$ です。$3\\times2=6$ としたところが誤りです。和と差の積の公式で $(3\\sqrt2)^2-1^2$ としたところは正しくできています。正しく計算すると $17$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0090",
@@ -2082,7 +2428,21 @@
         "=\\frac{\\sqrt{18}}{\\sqrt6}+\\frac{\\sqrt{12}}{\\sqrt6}",
         "=\\sqrt3+\\sqrt2"
       ],
-      "hint": "分子の2つの項を、それぞれ分母でわってみましょう。"
+      "hint": "分子の2つの項を、それぞれ分母でわってみましょう。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "\\frac{\\sqrt{18}+\\sqrt{12}}{\\sqrt6}",
+            "=\\frac{\\sqrt{18}}{\\sqrt6}+\\sqrt{12}",
+            "=\\sqrt3+2\\sqrt3",
+            "=3\\sqrt3"
+          ],
+          "errorLine": 1,
+          "errorType": "分子の一部の項だけを分母でわった誤り",
+          "explanation": "分子の2つの項は、どちらも $\\sqrt6$ でわります。$\\sqrt{12}$ をわり忘れたところが誤りです。正しくは $\\frac{\\sqrt{18}}{\\sqrt6}+\\frac{\\sqrt{12}}{\\sqrt6}=\\sqrt3+\\sqrt2$ です。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0091",
@@ -2134,7 +2494,22 @@
         "=(\\sqrt2)^2",
         "=2"
       ],
-      "hint": "式を因数分解してから代入すると、計算が簡単になります。"
+      "hint": "式を因数分解してから代入すると、計算が簡単になります。",
+      "variants": [
+        {
+          "id": "wrong-1",
+          "answerLines": [
+            "x^2-2x+1",
+            "=(x-1)^2",
+            "=(\\sqrt2+1-1)^2",
+            "=(\\sqrt2)^2",
+            "=4"
+          ],
+          "errorLine": 4,
+          "errorType": "(√a)² を a² とした誤り",
+          "explanation": "$(\\sqrt2)^2=\\sqrt2\\times\\sqrt2=2$ です。$2^2=4$ としたところが誤りです。$(x-1)^2$ と因数分解してから代入したところまでは正しくできています。"
+        }
+      ]
     },
     {
       "id": "J3-SR-0093",

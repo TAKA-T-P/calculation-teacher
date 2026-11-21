@@ -20,6 +20,7 @@ const crypto = require('crypto');
 const katex = require('katex');
 const M = require('../js/lib/math-verify.js');
 const S = require('../js/lib/question-schema.js');
+const QV = require('../js/question-variants.js');
 
 const ROOT = path.join(__dirname, '..');
 const args = process.argv.slice(2);
@@ -40,8 +41,15 @@ function sha256(text) {
   return crypto.createHash('sha256').update(text, 'utf8').digest('hex');
 }
 
+/**
+ * レビュー記録のハッシュ。問題データに加えて、答案パターン（correctSolution から作る正答版の解説など）も含める。
+ * 既存の項目しかない問題（別解の正答・誤答パターンの追加待ち）は、第6段階までと同じハッシュになる。
+ */
 function questionHash(q) {
-  return sha256(S.canonicalJson(q));
+  if (!q || typeof q !== 'object' || !Array.isArray(q.answerLines) || !Array.isArray(q.correctSolution)) return sha256(S.canonicalJson(q));
+  const extra = QV.variantsOf(q).filter((v) => v.source !== 'data');
+  if (!extra.length) return sha256(S.canonicalJson(q));
+  return sha256(S.canonicalJson({ question: q, variants: extra }));
 }
 
 function katexCheck(latex) {
@@ -152,11 +160,71 @@ function validateQuestion(q, ctx) {
   }
   if (q.substitution && !q.instruction) warn('substitution があるのに instruction（「a=-3 のとき…」）がありません');
 
+  // ---- 答案パターン（第7段階）
+  checkVariantStructure(q, r);
   if (r.errors.length) return r;
 
   // ---- 数学的な検証
   mathCheck(q, r);
+  if (!ctx.variantOf) validateVariants(q, r, ctx);
   return r;
+}
+
+const VARIANT_KEYS = { id: 'string', answerLines: 'array', errorLine: 'number', errorType: 'string', explanation: 'string' };
+
+/** variants（正答の問題に追加した誤答パターン）の形の確認 */
+function checkVariantStructure(q, r) {
+  if (!('variants' in q)) return;
+  const err = (m) => r.errors.push(m);
+  if (q.errorLine !== null) { err('variants（追加の誤答パターン）は、正しい答案の問題（errorLine=null）だけに登録できます'); return; }
+  if (!q.variants.length) { err('variants が空です'); return; }
+  const ids = new Set(['correct-1']);
+  q.variants.forEach((v, i) => {
+    const at = `variants[${i}]`;
+    if (!v || typeof v !== 'object' || Array.isArray(v)) { err(`${at} がオブジェクトではありません`); return; }
+    for (const [k, t] of Object.entries(VARIANT_KEYS)) {
+      if (!(k in v)) err(`${at} に "${k}" がありません`);
+      else if (S.typeOf(v[k]) !== t) err(`${at}.${k} の型が不正です（期待: ${t}）`);
+    }
+    Object.keys(v).filter((k) => !(k in VARIANT_KEYS)).forEach((k) => r.warnings.push(`${at} に未定義の項目 "${k}" があります`));
+    if (typeof v.id === 'string') {
+      if (!/^wrong-\d+$/.test(v.id)) err(`${at}.id "${v.id}" は wrong-1 のような形にしてください`);
+      if (ids.has(v.id)) err(`答案パターンの id "${v.id}" が重複しています`);
+      ids.add(v.id);
+    }
+  });
+}
+
+/** 答案パターンの1つを、ふつうの問題と同じ検証にかける（検証処理は validateQuestion・mathCheck を共通で使う） */
+function validateVariants(q, r, ctx) {
+  r.variants = [{ id: QV.variantsOf(q)[0].id, type: QV.variantsOf(q)[0].type, source: 'data', status: r.errors.length ? 'ERROR' : r.manual.length ? 'MANUAL' : 'AUTO' }];
+  const kind = QV.kindOf(q);
+  r.variantKind = kind;
+  if (kind === QV.KINDS.CORRECT_PENDING) r.warnings.push('模範解答と同じ正しい答案ですが、誤答パターン（variants）がまだありません');
+  QV.variantsOf(q).filter((v) => v.source !== 'data').forEach((v) => {
+    const pq = QV.toPlayable(q, v);
+    delete pq.variantId;
+    delete pq.variantType;
+    const label = `［答案パターン ${v.id}（${v.type === QV.TYPES.CORRECT ? '正答' : '誤答'}）］`;
+    const vr = validateQuestion(pq, { ...ctx, variantOf: q.id });
+    vr.errors.forEach((m) => r.errors.push(`${label} ${m}`));
+    vr.warnings.forEach((m) => r.warnings.push(`${label} ${m}`));
+    vr.manual.filter((m) => !r.manual.includes(m)).forEach((m) => r.manual.push(`${label} ${m}`));
+    vr.info.forEach((m) => r.info.push(`${label} ${m}`));
+    r.variants.push({ id: v.id, type: v.type, source: v.source, status: vr.errors.length ? 'ERROR' : vr.manual.length ? 'MANUAL' : 'AUTO', errorLine: v.errorLine });
+  });
+  // ヒントは正答版・誤答版の両方で出す。誤答の行にしかない式を示していないか（示していると、正答版で不自然・誤答の目印になる）
+  const nrm = (s) => s.replace(/\s+/g, '').replace(/\\left|\\right/g, '');
+  const vs = QV.variantsOf(q);
+  if (vs.length > 1 && typeof q.hint === 'string') {
+    const correctText = [q.question, ...q.correctSolution, ...vs.filter((v) => v.type === QV.TYPES.CORRECT).flatMap((v) => v.answerLines)].map(nrm).join('\n');
+    const wrongText = vs.filter((v) => v.type === QV.TYPES.INCORRECT).flatMap((v) => v.answerLines).map(nrm).join('\n');
+    S.splitInlineMath(q.hint).filter((p) => p.type === 'math').map((p) => nrm(p.value)).forEach((m) => {
+      if (m.length >= 3 && wrongText.includes(m) && !correctText.includes(m)) {
+        r.warnings.push(`ヒントの $${m}$ は誤答パターンの答案にしかない式です（正答版では不自然。正答・誤答のどちらでも使えるヒントにしてください）`);
+      }
+    });
+  }
 }
 
 function mathCheck(q, r) {
@@ -454,17 +522,20 @@ function main() {
   // ---- 集計
   console.log('\n=== 集計');
   const units = [...new Set(allQuestions.filter(Boolean).map((q) => q.unit))];
+  // 理論上の「全部正しい！」の出題率（答案パターンを抽選したあと。js/question-variants.js と同じ計算）
+  const pct = (qs) => (qs.length ? ((qs.reduce((a, q) => a + QV.correctProbability(q), 0) / qs.length) * 100).toFixed(1) : '0.0');
   for (const u of units) {
     const qs = allQuestions.filter((q) => q && q.unit === u);
     const correct = qs.filter((q) => q.errorLine === null).length;
     const diff = [1, 2, 3, 4].map((d) => `★${d}:${qs.filter((q) => q.difficulty === d).length}`).join(' ');
     const cats = {};
     qs.forEach((q) => { cats[q.category] = (cats[q.category] || 0) + 1; });
-    console.log(`${(S.UNITS[u] || {}).label || u}: ${qs.length}問（全部正しい ${correct}問 / ${Math.round((correct / qs.length) * 100)}%）  ${diff}`);
+    console.log(`${(S.UNITS[u] || {}).label || u}: ${qs.length}問（登録データの全部正しい ${correct}問 / ${Math.round((correct / qs.length) * 100)}%・理論上の出題率 ${pct(qs)}%）  ${diff}`);
     console.log(`    カテゴリ: ${Object.entries(cats).map(([k, v]) => `${k} ${v}`).join(' / ')}`);
   }
   const totalCorrect = allQuestions.filter((q) => q && q.errorLine === null).length;
-  console.log(`全体: ${allQuestions.length}問（全部正しい ${totalCorrect}問 / ${allQuestions.length ? Math.round((totalCorrect / allQuestions.length) * 100) : 0}%）`);
+  console.log(`全体: ${allQuestions.length}問（登録データの全部正しい ${totalCorrect}問 / ${allQuestions.length ? Math.round((totalCorrect / allQuestions.length) * 100) : 0}%・理論上の出題率 ${pct(allQuestions.filter(Boolean))}%）`);
+  console.log(`  ※ 正答・誤答を切り替える問題は、出題のたびに ${QV.CORRECT_VARIANT_RATE * 100}% で正答版、残りで誤答版を出します（第7段階）。理論上の出題率は「全部正しい！」が正解になる割合です。`);
   // errorType の偏り・カテゴリ×難易度・誤り行の分布など「出題バランス」は、数学的な検証とは分けて
   // tools/question-report.js（npm run report:questions）で集計・警告する
   console.log('出題バランス（カテゴリ×難易度・誤り行の分布・errorType の偏りなど）は npm run report:questions で確認できます。');
