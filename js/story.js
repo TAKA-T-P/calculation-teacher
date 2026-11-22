@@ -74,7 +74,7 @@
       if (!badge) return;
       const n = store.unreadUnlocked().length;
       badge.hidden = n === 0;
-      const btn = badge.closest('button');
+      const btn = badge.parentElement && badge.parentElement.querySelector('[data-action="story-go"]');
       if (btn) btn.setAttribute('aria-label', `ストーリー${n ? `（まだ読んでいない話が${n}話あります）` : ''}`);
     }
 

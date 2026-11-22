@@ -1266,10 +1266,9 @@
     return cats.map((c, i) => {
       const on = selected.has(c.name);
       return `<button type="button" class="cat-chip${on ? ' is-selected' : ''}" aria-pressed="${on}"
-          data-action="${action}" data-index="${i}" aria-label="${esc(c.name)}（${c.count}問）">
+          data-action="${action}" data-index="${i}" aria-label="${esc(c.name)}">
           <span class="cat-chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
           <span class="cat-chip__name">${esc(c.name)}</span>
-          <span class="cat-chip__count">${c.count}問</span>
         </button>`;
     }).join('');
   }
@@ -1283,9 +1282,9 @@
       const disabled = counts[d] === 0;
       return `<button type="button" class="chip chip--star${on ? ' is-selected' : ''}" aria-pressed="${on}"
           data-action="${action}" data-difficulty="${d}" ${disabled ? 'disabled' : ''}
-          aria-label="難易度${d}（${counts[d]}問）${disabled ? '：この単元にはありません' : ''}">
+          aria-label="難易度${d}${disabled ? '：この単元にはありません' : ''}">
           <span class="chip__check" aria-hidden="true">${on ? '✔' : ''}</span>
-          <span class="stars" aria-hidden="true">${'★'.repeat(d)}</span><small>${counts[d]}問</small></button>`;
+          <span class="stars" aria-hidden="true">${'★'.repeat(d)}</span></button>`;
     });
     chips.push(`<button type="button" class="chip chip--bulk" data-action="${action}" data-difficulty="all"
         ${list.length ? '' : 'disabled'}>${allOn ? 'すべて解除' : 'すべて選択'}</button>`);
@@ -1455,10 +1454,9 @@
     if (official) {
       const rec = records.officialFor(app.ta.unit);
       info.innerHTML = `
-        <p class="official-info__rule">ルール：<strong>全カテゴリ・全難易度（★〜★★★★）・${TA.CONFIG.durationMs / 1000}秒</strong>（変更できません）</p>
         <p class="official-info__best">${rec.bestScore === null
           ? 'この単元の記録はまだありません。最初の記録をつくろう！'
-          : `自己ベスト <strong>${rec.bestScore}点</strong>　称号「${esc(TA.titleForScore(rec.bestScore))}」`}</p>`;
+          : `自己ベスト <strong>${rec.bestScore}点</strong><br>称号「${esc(TA.titleForScore(rec.bestScore))}」`}</p>`; // 点数と称号は2行に
     } else {
       const cats = categoriesOf(app.ta.unit);
       app.ta.categories = new Set([...app.ta.categories].filter((n) => cats.some((c) => c.name === n)));
@@ -1694,7 +1692,11 @@
       else bestHtml = `<p class="best-line">自己ベスト：${best}点</p>`;
       // 称号アップ：前回までの最高スコアの称号より、ランクが上がったとき（以前の版で保存した称号名には依存しない）
       const changed = rec.prevBest !== null && TA.titleInfoForScore(best).rank > TA.titleInfoForScore(rec.prevBest).rank;
-      titleHtml = `<p class="ta-title">称号：<strong>${esc(TA.titleForScore(best))}</strong>${changed ? '<span class="ta-title__up">称号アップ！</span>' : ''}</p>`;
+      // 称号は「今回の結果」（今回のスコア）と「最高記録」（自己ベスト）の2つを表示する。称号アップは最高記録の行に
+      titleHtml = `<div class="ta-titles">
+          <p class="ta-title ta-title--now"><span class="ta-title__label">今回の結果</span><strong>${esc(TA.titleForScore(sum.score))}</strong></p>
+          <p class="ta-title ta-title--best"><span class="ta-title__label">最高記録</span><strong>${esc(TA.titleForScore(best))}</strong>${changed ? '<span class="ta-title__up">称号アップ！</span>' : ''}</p>
+        </div>`;
     } else {
       const cats = s.criteria.categories ? s.criteria.categories.join('・') : 'すべてのカテゴリ';
       bestHtml = `<p class="best-line">カスタム：${esc(cats)}／${difficultyText(s.criteria.difficulties)}</p>

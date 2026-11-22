@@ -33,6 +33,20 @@
 .records-nav > .tabs { display: contents; }
 .records-nav__story { min-height: 44px; padding: 6px 12px; gap: .25em; white-space: nowrap; flex: 0 0 auto; }
 .records-nav__story .btn__icon { font-size: 1em; }
+/* 「NEW」はボタンの右上に小さく重ねる（バッジがあってもボタンの大きさは変えない） */
+.records-nav__story-wrap { position: relative; display: inline-flex; flex: 0 0 auto; }
+.records-nav__story-wrap .story-new-badge {
+  position: absolute;
+  top: -7px;
+  right: -6px;
+  z-index: 1;
+  margin: 0;
+  padding: 0 .45em;
+  font-size: .62rem;
+  line-height: 1.55;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+  pointer-events: none;
+}
 .btn--story {
   background: #ffe3ec;
   color: #8a2f4e;

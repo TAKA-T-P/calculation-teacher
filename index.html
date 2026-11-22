@@ -380,9 +380,11 @@
           <button type="button" class="tab" role="tab" id="tab-custom" data-action="records-tab" data-tab="custom" aria-controls="records-panel">カスタム履歴</button>
           <button type="button" class="tab" role="tab" id="tab-cert" data-action="records-tab" data-tab="cert" aria-controls="records-panel">ティーチャー認定</button>
         </div>
-        <button type="button" class="btn btn--story records-nav__story" data-action="story-go" aria-label="ストーリー">
-          <span class="btn__icon" aria-hidden="true">📖</span>ストーリー<span class="story-new-badge" id="story-new-badge" hidden>NEW</span>
-        </button>
+        <!-- 「NEW」はボタンの外に置き、右上に重ねる（ボタンの大きさを変えない） -->
+        <span class="records-nav__story-wrap">
+          <button type="button" class="btn btn--story records-nav__story" data-action="story-go" aria-label="ストーリー"><span class="btn__icon" aria-hidden="true">📖</span>ストーリー</button>
+          <span class="story-new-badge" id="story-new-badge" aria-hidden="true" hidden>NEW</span>
+        </span>
       </div>
       <div class="records-panel" id="records-panel" role="tabpanel"></div>
       <p class="screen-note" id="records-note">記録はこの端末のブラウザに保存されます。</p>

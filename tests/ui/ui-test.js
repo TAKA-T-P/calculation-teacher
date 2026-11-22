@@ -221,6 +221,8 @@
         await sleep(100); app().ta.timers.forEach((t) => w.clearTimeout(t));
       },
       'ta-result': async () => {
+        // ?best=3200 で、先に自己ベストを入れておく（今回の結果と最高記録の称号がちがう表示を見るため）
+        if (params.get('best')) w.__calcTeacher.records.recordOfficial(app().config.unit, { score: Number(params.get('best')), maxStreak: 10 }, w.TimeAttack.titleForScore);
         await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); await click('#ta-start-btn');
         await waitFor(() => app().ta.session.started, 'START', 6000);
         for (let i = 0; i < 12; i++) {
@@ -310,10 +312,11 @@
     check([...sel.options].every((o, i) => o.textContent === `中${app().units[i].grade}・${app().units[i].label}`), `選択肢の文字: ${[...sel.options].map((o) => o.textContent).join('/')}`);
     await pickUnit('#unit-select', 'equation');
     check(app().config.unit === 'equation' && $('#unit-select').value === 'equation', '方程式が選択されていない');
-    const eqStar1 = $('[data-difficulty="1"]').textContent;
-    check(eqStar1.includes(`${cnt({ unit: 'equation', difficulties: [1] })}問`), `方程式の★の問題数表示: ${eqStar1}`);
+    // カテゴリ・難易度のボタンには問題数を書かない（「✓ 加法・減法」「✓ ★」だけ）
+    const noCount = () => $$('#category-list .cat-chip, #difficulty-list .chip--star').every((b) => !/\d+問/.test(b.textContent) && !/問/.test(b.getAttribute('aria-label') || ''));
+    check(noCount(), `ボタンに問題数が残っている: ${$$('#category-list .cat-chip, #difficulty-list .chip--star').map((b) => b.textContent.replace(/\s+/g, '')).join('/')}`);
     await pickUnit('#unit-select', 'positive-negative');
-    check($('[data-difficulty="1"]').textContent.includes(`${cnt({ unit: 'positive-negative', difficulties: [1] })}問`), '正負の数の★の問題数表示');
+    check(noCount() && $$('#category-list .cat-chip__name').map((n) => n.textContent).join() === '加法・減法,乗法・除法,累乗,四則混合', '正負の数のカテゴリのボタン');
     check($('#setting-summary').textContent.includes(`出題できる問題：${cnt({ unit: 'positive-negative' })}問`), '出題できる問題数の表示');
   });
 
@@ -1021,7 +1024,7 @@
     check(visible('ta-menu'), 'モード選択画面');
     await click('[data-action="ta-mode"][data-mode="official"]');
     check(visible('ta-settings') && inScreen('ta-settings', '#ta-custom-fields').hidden, '公式でカテゴリ・難易度が選べてしまう');
-    check($('#ta-official-info').textContent.includes('全カテゴリ・全難易度'), '公式ルールの表示');
+    check(!$('#ta-official-info').textContent.includes('ルール') && !$('#ta-official-info').textContent.includes('全カテゴリ・全難易度') && $('#ta-official-info').textContent.includes('この単元の記録はまだありません'), `公式の説明: ${$('#ta-official-info').textContent}`);
     // 単元はプルダウンではなく、8単元のカードから選ぶ。「出題できる問題：○問」のカードは出さない
     const unitCards = $$('#ta-unit-list .unit-card');
     check(!$('#ta-unit-select') && unitCards.length === app().units.length && unitCards.length === 8, `公式の単元カード ${unitCards.length}`);
@@ -1031,6 +1034,13 @@
     const sel = $('#ta-unit-list .unit-card.is-selected');
     check(sel && sel.dataset.unit === 'equation' && sel.getAttribute('aria-checked') === 'true' && $$('#ta-unit-list .unit-card.is-selected').length === 1, '選んだカードが選択表示にならない');
     check($('#ta-summary').hidden && !$('#ta-start-btn').disabled, '公式で「出題できる問題」が出る・スタートできない');
+    // 単元名は改行せず1行に収まり、見切れない（「中3・展開・因数分解」もスマホ縦で1行）
+    $$('#ta-unit-list .unit-card__name').forEach((nm) => {
+      const lh = parseFloat(w.getComputedStyle(nm).lineHeight);
+      const card = nm.closest('.unit-card').getBoundingClientRect();
+      const nr = nm.getBoundingClientRect();
+      check(nr.height <= lh * 1.2 && nr.right <= card.right - 2, `単元名が1行に収まらない: ${nm.textContent}（高さ ${Math.round(nr.height)}・右端 ${Math.round(nr.right)} / カード ${Math.round(card.right)}）`);
+    });
     $$('#ta-unit-list .unit-card').forEach((c) => { const r = c.getBoundingClientRect(); check(r.height >= 48 && r.right <= w.innerWidth, `単元カードの大きさ・はみ出し ${c.textContent}`); });
     check(pageOverflow() <= 0, '公式の設定画面が横にはみ出す');
     sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
@@ -1063,8 +1073,12 @@
     const sum = s.summary();
     check(sum.score === s.results.reduce((a, r) => a + r.points, 0) && sum.wrong === 0 && sum.maxStreak === sum.correct, '得点の集計');
     check($('#ta-result-body').textContent.includes(`${sum.score}`) && $('#ta-result-body').textContent.includes('初めての公式記録'), '結果画面のスコア');
-    check($('#ta-result-body').textContent.includes(`称号：${w.TimeAttack.titleForScore(sum.score)}`), '称号の表示');
-    check(/称号：(🔰|✏️|🔍|📘|⚡|🏅|💥|🎯|🌟|👑)/u.test($('#ta-result-body').textContent), '称号にアイコンがない');
+    // 称号は「今回の結果」と「最高記録」の2つ（初めての記録では同じ称号）
+    const nowT = $('#ta-result-body .ta-title--now');
+    const bestT = $('#ta-result-body .ta-title--best');
+    check(nowT && bestT && nowT.querySelector('.ta-title__label').textContent === '今回の結果' && bestT.querySelector('.ta-title__label').textContent === '最高記録', '称号の2行（今回の結果・最高記録）');
+    check(nowT.querySelector('strong').textContent === w.TimeAttack.titleForScore(sum.score) && bestT.querySelector('strong').textContent === w.TimeAttack.titleForScore(sum.score), '称号の表示');
+    check(/^(🔰|✏️|🔍|📘|⚡|🏅|💥|🎯|🌟|👑)/u.test(nowT.querySelector('strong').textContent), '称号にアイコンがない');
     // 公式は決められた難易度の順に出題する（1→2→1→2→3→1→2→3→4→2→3→4、以降3→4）
     const diffs = s.results.map((r) => r.question.difficulty);
     check(diffs.length >= 5 && diffs.every((d, i) => d === w.TimeAttack.officialDifficultyAt(i)), `公式の難易度の順: ${diffs.join(',')}`);
@@ -1130,6 +1144,11 @@
     const rec = recs().officialFor('equation');
     check(rec.bestScore === best && rec.plays === 2, `自己ベストが変わった／回数 ${JSON.stringify(rec)}`);
     check($('#ta-result-body').textContent.includes(`自己ベスト：${best}点`) && !$('#ta-result-body').textContent.includes('自己ベスト更新'), '自己ベストの表示');
+    // 自己ベストを下回った回：「今回の結果」は今回のスコアの称号、「最高記録」は自己ベストの称号（称号アップは出ない）
+    const nowTitle = $('#ta-result-body .ta-title--now strong').textContent;
+    const bestTitle = $('#ta-result-body .ta-title--best strong').textContent;
+    check(nowTitle === w.TimeAttack.titleForScore(s.summary().score) && bestTitle === w.TimeAttack.titleForScore(best) && nowTitle !== bestTitle, `今回の結果と最高記録の称号: ${nowTitle} / ${bestTitle}`);
+    check(!$('#ta-result-body .ta-title__up'), '下回った回に称号アップが出た');
   });
 
   await test('[TA] 3回ミスでゲームオーバー：時間が残っていても強制終了し、ハートが減り、結果画面に表示・記録される', async () => {
@@ -1154,23 +1173,30 @@
     const longest = [...w.TimeAttack.TITLES].sort((a, b) => b.name.length - a.name.length)[0];
     const sample = d.createElement('div');
     sample.className = 'score-card';
-    sample.innerHTML = `<p class="ta-title">称号：<strong>${longest.icon}${longest.name}</strong><span class="ta-title__up">称号アップ！</span></p>`;
+    sample.innerHTML = `<div class="ta-titles"><p class="ta-title ta-title--best"><span class="ta-title__label">最高記録</span><strong>${longest.icon}${longest.name}</strong><span class="ta-title__up">称号アップ！</span></p></div>`;
     $('#ta-result-body').prepend(sample);
     const up = sample.querySelector('.ta-title__up');
     check(up.getClientRects().length === 1 && up.getBoundingClientRect().height < 30, `「称号アップ！」が2行に分かれた（${up.getClientRects().length}）`);
     const nameBox = sample.querySelector('strong').getBoundingClientRect();
     check(Math.abs(up.getBoundingClientRect().top + up.getBoundingClientRect().height / 2 - (nameBox.top + nameBox.height / 2)) < 8,
-      '「称号：〇〇」と「称号アップ！」が同じ行にない');
+      '「最高記録 〇〇」と「称号アップ！」が同じ行にない');
+    const lab = sample.querySelector('.ta-title__label').getBoundingClientRect();
+    check(Math.abs(lab.top + lab.height / 2 - (nameBox.top + nameBox.height / 2)) < 8, '「最高記録」のラベルと称号が同じ行にない');
     check(pageOverflow() <= 0, '称号の行が横にはみ出す');
     sample.remove();
   });
 
   await test('[TA] カスタム：カテゴリ・難易度をしぼれる。公式記録は変わらず、履歴に残る。履歴から同じ条件で再挑戦できる', async () => {
     await click('[data-action="ta-back-settings"]');
+    // 公式の設定画面：記録がある単元は「自己ベスト ○点」と「称号「…」」を2行で表示（ルールの文は出さない）
+    const bestEl = $('#ta-official-info .official-info__best');
+    const best = recs().officialFor(ta().unit).bestScore;
+    check(best !== null && bestEl.querySelector('br') && bestEl.textContent === `自己ベスト ${best}点称号「${w.TimeAttack.titleForScore(best)}」` && !$('#ta-official-info').textContent.includes('ルール'), `自己ベストと称号: ${bestEl.innerHTML}`);
     await click('[data-action="go-ta-menu"]');
     await click('[data-action="ta-mode"][data-mode="custom"]');
     check(!inScreen('ta-settings', '#ta-custom-fields').hidden, 'カスタムでカテゴリ・難易度が出ない');
     await pickUnit('#ta-unit-select', 'positive-negative');
+    check($$('#ta-category-list .cat-chip, #ta-difficulty-list .chip--star').every((b) => !/\d+問/.test(b.textContent)), 'カスタムのカテゴリ・難易度のボタンに問題数が残っている');
     await click('[data-action="ta-toggle-category-all"]'); // すべて解除
     check(inScreen('ta-settings', '#ta-start-btn').disabled, 'カテゴリ0個で開始できる');
     const catBtn = $$('[data-action="ta-toggle-category"]').find((b) => b.textContent.includes('累乗'));
@@ -1953,7 +1979,7 @@
     check(!inScreen('title', '[data-action="story-go"]'), 'タイトル画面にストーリーのボタンが残っている');
     await click('[data-action="go-records"]');
     const btn = inScreen('records', '[data-action="story-go"]');
-    check(btn && btn.textContent.replace(/\s+/g, '') === '📖ストーリーNEW', `記録画面のボタン: ${btn && btn.textContent}`);
+    check(btn && btn.textContent.replace(/\s+/g, '') === '📖ストーリー' && btn.getAttribute('aria-label').includes('まだ読んでいない話'), `記録画面のボタン: ${btn && btn.textContent}`);
     const bg = w.getComputedStyle(btn).backgroundColor.match(/\d+/g).map(Number);
     check(w.matchMedia('(prefers-color-scheme: dark)').matches || (bg[0] >= 240 && bg[0] > bg[1] + 15 && bg[2] > bg[1]), `薄い桃色ではない: ${bg}`);
     check(!$('#story-new-badge').hidden, '記録画面のボタンの NEW');
@@ -1964,6 +1990,13 @@
     check(Math.abs((br.top + br.bottom) / 2 - (cr.top + cr.bottom) / 2) < 4 && br.left >= cr.right, `「ティーチャー認定」の右にない（タブ ${Math.round(cr.right)},${Math.round(cr.top)}・ボタン ${Math.round(br.left)},${Math.round(br.top)}）`);
     check(br.height <= Math.max(cr.height, lh * 1.6) + 4 && br.height >= 44, `ボタンが1行に収まらない（高さ ${Math.round(br.height)}）`);
     check(br.right <= w.innerWidth && pageOverflow() <= 0, '記録画面のボタンがはみ出す');
+    // 「NEW」はボタンの右上に小さく重なる。バッジがあってもなくても、ボタンの大きさは同じ
+    const nb = $('#story-new-badge').getBoundingClientRect();
+    check(nb.top < br.top && nb.right > br.right - 4 && nb.height < br.height / 2 && nb.right <= w.innerWidth, `NEW が右上に重なっていない（NEW ${Math.round(nb.left)},${Math.round(nb.top)}〜${Math.round(nb.right)}・ボタン ${Math.round(br.left)},${Math.round(br.top)}〜${Math.round(br.right)}）`);
+    $('#story-new-badge').hidden = true;
+    const br2 = btn.getBoundingClientRect();
+    check(Math.abs(br2.width - br.width) < 0.5 && Math.abs(br2.height - br.height) < 0.5, `NEW の有無でボタンの大きさが変わる（${Math.round(br.width)}×${Math.round(br.height)} → ${Math.round(br2.width)}×${Math.round(br2.height)}）`);
+    $('#story-new-badge').hidden = false;
     await openStoryList();
     const head = $('.story-head').textContent;
     check(head.includes('あの日の赤ペンが、未来を変えた。') && head.includes('ケイくん、シホさんと歩む1年間の物語'), 'タイトル');

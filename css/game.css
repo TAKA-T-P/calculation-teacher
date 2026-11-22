@@ -415,7 +415,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 }
 .cat-chip {
   display: grid;
-  grid-template-columns: 1.1em minmax(0, 1fr) auto;
+  grid-template-columns: 1.1em minmax(0, 1fr);
   align-items: center;
   gap: 6px;
   min-height: 52px;
@@ -431,7 +431,6 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .cat-chip:hover { border-color: var(--primary); }
 .cat-chip__check { color: var(--primary); }
 .cat-chip__name { overflow-wrap: anywhere; line-height: 1.35; } /* 長い名前も見切れず折り返す */
-.cat-chip__count { font-weight: 400; color: var(--muted); font-size: .78rem; white-space: nowrap; }
 .cat-chip.is-selected { border-color: var(--primary); background: var(--primary-weak); box-shadow: 0 0 0 1px var(--primary) inset; }
 .category-bulk { margin-top: 8px; }
 @media (max-width: 480px) {
@@ -1160,6 +1159,12 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .best-line { margin: 6px 0; color: var(--muted); font-weight: 700; }
 /* スマホ縦でも「称号：〇〇　称号アップ！」が1行に収まるよう、狭い画面では少し小さくする */
 .ta-title { margin: 10px 0 0; font-size: clamp(.85rem, 4vw, 1.05rem); }
+/* 称号：「今回の結果」と「最高記録」の2行 */
+.ta-titles { margin-top: 10px; display: grid; gap: 4px; justify-items: center; }
+.ta-titles .ta-title { margin: 0; font-size: clamp(.8rem, 3.6vw, 1.05rem); white-space: nowrap; }
+.ta-title__label { display: inline-block; margin-right: 5px; padding: 0 6px; border-radius: 999px; background: var(--bg-accent); color: var(--muted); font-size: .68rem; font-weight: 800; vertical-align: middle; white-space: nowrap; }
+.ta-titles .ta-title__up { margin-left: 4px; font-size: .68rem; padding: 1px 6px; }
+.ta-title--best .ta-title__label { background: var(--primary-weak); color: var(--primary-strong); }
 .ta-title strong { color: var(--primary-strong); }
 /* 「称号アップ！」は途中で折り返さない（入りきらないときはバッジごと次の行へ） */
 .ta-title__up { display: inline-block; white-space: nowrap; margin-left: 6px; font-size: .72rem; font-weight: 800; color: #fff; background: var(--red-pen); border-radius: 999px; padding: 1px 8px; vertical-align: middle; }
@@ -1181,7 +1186,7 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   align-content: center;
   gap: 0;
   min-height: 60px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border: 2px solid var(--border);
   border-radius: 14px;
   background: var(--surface);
@@ -1192,8 +1197,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 }
 .unit-card:hover { border-color: var(--primary); }
 .unit-card.is-selected { border-color: var(--primary); background: var(--primary-weak); box-shadow: 0 3px 0 var(--primary); }
-.unit-card.is-selected::after { content: "✔"; position: absolute; top: 4px; right: 8px; color: var(--primary); font-weight: 900; }
-.unit-card__name { font-weight: 900; font-size: 1rem; line-height: 1.35; padding-right: 14px; }
+.unit-card.is-selected::after { content: "✔"; position: absolute; bottom: 6px; right: 8px; color: var(--primary); font-weight: 900; font-size: .85rem; line-height: 1; }
+/* 単元名は改行しない（「中3・展開・因数分解」もスマホ縦で1行。画面の幅に合わせて文字を少し小さくする） */
+.unit-card__name { font-weight: 900; font-size: clamp(.78rem, 3.5vw, 1rem); line-height: 1.35; white-space: nowrap; }
 .unit-card__sub { font-size: .8rem; font-weight: 700; color: var(--muted); }
 .unit-card.is-selected .unit-card__sub { color: var(--primary-strong); }
 
