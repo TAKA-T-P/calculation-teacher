@@ -254,6 +254,20 @@
       'story-title': async () => storyShot('title'),
       'story-list': async () => storyShot('list'),
       'story-records': async () => storyShot('records'),
+      // 指定した問題を出すまで進める（?shot=question&id=J2-PO-0035&v=wrong|correct&graded=1）。横スクロールの式を結果に出す
+      question: async () => {
+        const id = params.get('id');
+        const q0 = app().questions.find((x) => x.id === id);
+        w.__calcTeacher.setVariantRng(params.get('v') === 'correct' ? () => 0 : () => 0.99);
+        await configure({ unit: q0.unit, categories: [q0.category], difficulties: [q0.difficulty], count: 'all' });
+        await click('#start-btn');
+        const s = app().session;
+        while (s.current.id !== id) { await answer(true); await click('[data-action="next"]'); }
+        if (params.get('graded')) await answer(true);
+        await d.fonts.ready; await sleep(300);
+        const sc = $$('.fit-math').filter((el) => el.offsetParent && el.classList.contains('is-scrollable')).map((el) => `${el.closest('[class]').className}:${el.textContent.slice(0, 40)}`);
+        w.__scrollInfo = sc;
+      },
       'story-read': async () => storyShot('read'),
       'story-end': async () => storyShot('end'),
       'story-names': async () => storyShot('names'),
@@ -264,6 +278,7 @@
     if (!SHOT.startsWith('play-correct') && !SHOT.startsWith('play-wrong') && !SHOT.startsWith('play-allcorrect') && !SHOT.startsWith('long-math')) w.scrollTo(0, 0);
     const eqPos = $$('#sheet .eq-op').map((op) => Math.round(op.getBoundingClientRect().left));
     out.textContent = 'shot ready' + (eqPos.length ? ` / 「＝」の位置 ${eqPos.join(',')}` : '');
+    if (w.__scrollInfo) out.textContent += ` / 横スクロール: ${w.__scrollInfo.join(' | ') || 'なし'}`;
     return;
   }
 
@@ -901,7 +916,7 @@
   });
 
   await test('[表示] 全問題で数式が見切れず、ページが横にはみ出さない。行のタップ領域は48px以上', async () => {
-    const report = { questions: 0, scrollable: 0, minRow: 999, added: 0 };
+    const report = { questions: 0, scrollable: 0, minRow: 999, added: 0, ids: new Set(), afterIds: new Set() };
     // 第7段階：誤答版を出題して確認する（追加した誤答の答案は、ここでしか画面に出ない。正答版の答案は、採点後の「正しい計算過程」と同じ）
     w.__calcTeacher.setVariantRng(() => 0.99);
     for (const unit of app().units.map((u) => u.unit)) {
@@ -915,6 +930,7 @@
         check(m.cut === 0, `${s.current.id}: 見切れている数式 ${m.cut} ${m.info}`);
         check(pageOverflow() <= 0, `${s.current.id}: ページが横に ${pageOverflow()}px はみ出す`);
         report.scrollable += m.scrollable;
+        if (m.scrollable) report.ids.add(s.current.id);
         $$('.row--selectable').forEach((b) => { report.minRow = Math.min(report.minRow, b.getBoundingClientRect().height); });
         await answer(s.results.length % 3 !== 0);
         await d.fonts.ready;
@@ -922,6 +938,7 @@
         const m3 = mathOverflowReport();
         check(m3.cut === 0, `${s.current.id}: 解説表示後に見切れている数式 ${m3.cut} ${m3.info}`);
         check(pageOverflow() <= 0, `${s.current.id}: 解説表示でページがはみ出す`);
+        if (m3.scrollable > m.scrollable && !report.ids.has(s.current.id)) report.afterIds.add(s.current.id); // 採点後だけ（誤り行の印・正しい計算過程）
         report.questions++;
         if (s.current.variantId === 'wrong-1' && app().questions.find((x) => x.id === s.current.id).errorLine === null) report.added++;
         await click('[data-action="next"]');
@@ -932,7 +949,7 @@
     check(report.questions === app().questions.length, `確認した問題数 ${report.questions}`);
     check(report.added === 221, `確認した追加の誤答 ${report.added}`);
     check(report.minRow >= 48, `行の高さの最小 ${report.minRow}px`);
-    results.push({ name: `  情報: 横スクロールになった数式 ${report.scrollable} 個 / 行の高さの最小 ${Math.round(report.minRow)}px`, ok: true });
+    results.push({ name: `  情報: 横スクロールになった数式 ${report.scrollable} 個（プレイ中の答案: ${[...report.ids].join(', ') || 'なし'}／採点後だけ: ${[...report.afterIds].join(', ') || 'なし'}） / 行の高さの最小 ${Math.round(report.minRow)}px`, ok: true });
   });
 
   await test('タイトル画面の最下部にクレジット表記があり、「T.TAKEMOTO」を5回連打すると開発者用画面が開く', async () => {
