@@ -27,24 +27,20 @@
   }
 }
 
-/* ============================================================ タイトルの「📖 ストーリー」 */
+/* ============================================================ 「記録を見る」画面の「📖 ストーリー」（薄い桃色） */
+.records-story { margin: 0 0 14px; display: flex; justify-content: center; }
+.records-story .btn--story { width: min(360px, 100%); }
 .btn--story {
-  flex-direction: column;
-  gap: 0;
-  line-height: 1.3;
-  background: linear-gradient(135deg, #fff4e6, #ffe3ec);
-  color: #7a3412;
-  border-color: #f3b58c;
-  box-shadow: 0 3px 0 #f0b28a;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  background: #ffe3ec;
+  color: #8a2f4e;
+  border-color: #f5b5c8;
+  box-shadow: 0 3px 0 #f0a9bf;
 }
-.btn--story:hover { border-color: var(--story-accent); }
+.btn--story:hover { background: #ffd6e3; border-color: #ec95b1; }
 @media (prefers-color-scheme: dark) {
-  .btn--story { background: linear-gradient(135deg, #3a2a20, #3a2230); color: #ffd7bd; border-color: #8a5a3c; box-shadow: 0 3px 0 #6c4630; }
+  .btn--story { background: #4a2a36; color: #ffd0de; border-color: #8a4a60; box-shadow: 0 3px 0 #6c3a4b; }
+  .btn--story:hover { background: #57313f; }
 }
-.btn-story__main { display: inline-flex; align-items: center; gap: .4em; }
-.btn-story__sub { font-size: .78rem; font-weight: 700; opacity: .85; }
 .story-new-badge {
   display: inline-block;
   margin-left: .2em;
@@ -91,7 +87,6 @@
 .story-progress__total strong { font-size: 1.4rem; color: var(--primary); margin-left: .2em; }
 .story-progress__next { margin: 0; font-weight: 800; color: var(--story-accent-strong); }
 .story-progress__next.is-complete { color: var(--ok); }
-.story-progress__help { margin: 4px 0 0; font-size: .82rem; color: var(--muted); }
 .story-tools { margin-top: 12px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 
 .story-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -100,7 +95,7 @@
   width: 100%;
   min-height: 76px;
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr) auto;
+  grid-template-columns: 96px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   padding: 8px 12px 8px 8px;
@@ -130,9 +125,9 @@
 .story-card__info { display: grid; min-width: 0; }
 .story-card__no { font-size: .8rem; font-weight: 800; color: var(--story-accent-strong); }
 .story-card__title { font-weight: 800; font-size: 1.02rem; line-height: 1.35; overflow-wrap: anywhere; }
-.story-card__need { font-size: .75rem; color: var(--muted); }
 .story-badge {
-  justify-self: end;
+  justify-self: start;
+  margin-top: 2px;
   padding: 2px 10px;
   border-radius: 999px;
   font-size: .78rem;

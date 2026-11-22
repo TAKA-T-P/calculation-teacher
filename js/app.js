@@ -343,7 +343,7 @@
         const ep = idx && idx.episodes.find((e) => e.no === no);
         return ep ? `📖 第${no}話『${ep.title}』が解放されました！` : `📖 ストーリーの第${no}話が解放されました！`;
       });
-      container.insertAdjacentHTML(where, `<div class="story-unlock" role="status">${text.map((t) => `<p class="story-unlock__text">${esc(t)}</p>`).join('')}<p class="story-unlock__help">タイトル画面の「📖 ストーリー」から読めます。</p></div>`);
+      container.insertAdjacentHTML(where, `<div class="story-unlock" role="status">${text.map((t) => `<p class="story-unlock__text">${esc(t)}</p>`).join('')}<p class="story-unlock__help">「🏆 記録を見る」の「📖 ストーリー」から読めます。</p></div>`);
       story.renderTitleBadge();
     } catch (e) { /* 無視 */ }
   }
@@ -830,8 +830,7 @@
     $('#category-list').innerHTML = categoryChipsHtml(cats, app.config.categories, 'toggle-category');
     $('#category-bulk').innerHTML = `<button type="button" class="chip chip--bulk" data-action="toggle-category-all"
         ${cats.length ? '' : 'disabled'}>${allCategoriesSelected() ? 'すべて解除' : 'すべて選択'}</button>`;
-    $('#unit-list').innerHTML = unitSelectHtml('unit-select', app.config.unit,
-      (u) => `${G.filterPool(app.questions, { unit: u.unit, difficulties: G.DIFFICULTIES }).length}問`);
+    $('#unit-list').innerHTML = unitSelectHtml('unit-select', app.config.unit); // 単元名だけ（問題数は出さない）
     $('#difficulty-list').innerHTML = difficultyChipsHtml(counts, app.config.difficulties, 'toggle-difficulty');
 
     updateCountPicker();
@@ -1428,7 +1427,7 @@
     if (!app.ta.unit) app.ta.unit = app.config.unit;
     $('#ta-settings-heading').textContent = official ? '🏅 公式タイムアタック' : '🎯 カスタムタイムアタック';
     $('#ta-unit-list').innerHTML = unitSelectHtml('ta-unit-select', app.ta.unit, (u) => {
-      if (!official) return `${G.filterPool(app.questions, { unit: u.unit }).length}問`;
+      if (!official) return ''; // カスタム：単元名だけ（問題数は出さない）
       const best = records.officialFor(u.unit).bestScore;
       return best === null ? '記録なし' : `ベスト ${best}点`;
     });

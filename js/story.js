@@ -68,7 +68,7 @@
     const names = () => store.displayNames();
     const fill = (t) => SD.fillText(t, names());
 
-    // ---------------------------------------------------------- タイトルの「NEW」
+    // ---------------------------------------------------------- 「記録を見る」画面の「📖 ストーリー」の NEW
     function renderTitleBadge() {
       const badge = $('#story-new-badge');
       if (!badge) return;
@@ -176,7 +176,6 @@
       const nu = store.nextUnlock();
       const nextText = nu ? `次の話まで：あと${nu.remaining}問` : `全${idx.episodes.length}話が解放されています！`;
       prog.append(el('p', `story-progress__next${nu ? '' : ' is-complete'}`, nextText));
-      prog.append(el('p', 'story-progress__help', 'トレーニング・タイムアタック・認定試験で正解すると、正解数がふえて新しい話が読めるようになります。'));
       head.append(prog);
       const tools = el('div', 'story-tools');
       const nameBtn = el('button', 'btn btn--secondary', '✏️ 名前を変える');
@@ -211,11 +210,11 @@
         const info = el('span', 'story-card__info');
         info.append(el('span', 'story-card__no', `${MONTH_LABEL(ep.month)}・第${ep.no}話`));
         info.append(el('span', 'story-card__title', unlocked ? ep.title : ep.title));
-        info.append(el('span', 'story-card__need', ep.required === 0 ? '最初から読めます' : `解放条件：累積${ep.required}問正解`));
         const badge = unlocked
           ? (read ? el('span', 'story-badge story-badge--read', '既読') : el('span', 'story-badge story-badge--new', 'NEW'))
           : el('span', 'story-badge story-badge--lock', `あと${store.remainingFor(ep.no)}問`);
-        card.append(thumb, info, badge);
+        info.append(badge); // バッジ（NEW・既読・あと○問）はタイトルの下
+        card.append(thumb, info);
         const status = unlocked ? (read ? '既読' : '未読（NEW）') : `未解放（あと${store.remainingFor(ep.no)}問）`;
         card.setAttribute('aria-label', `${MONTH_LABEL(ep.month)}・第${ep.no}話「${ep.title}」${status}`);
         li.append(card);
@@ -586,7 +585,7 @@
         if (state.reader) state.reader = null;
         try { bgm.stop(); } catch (e) { /* 無視 */ }
       }
-      if (name === 'title') renderTitleBadge();
+      if (name === 'title' || name === 'records') renderTitleBadge();
     }
 
     return {

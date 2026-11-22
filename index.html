@@ -54,10 +54,6 @@
         <button type="button" class="btn btn--mode btn--lg" data-action="go-cert-units">
           <span class="btn__icon" aria-hidden="true">🎓</span>ティーチャー認定試験
         </button>
-        <button type="button" class="btn btn--story btn--lg" data-action="story-go" aria-label="ストーリー">
-          <span class="btn-story__main"><span class="btn__icon" aria-hidden="true">📖</span>ストーリー<span class="story-new-badge" id="story-new-badge" hidden>NEW</span></span>
-          <span class="btn-story__sub">2人の生徒と歩む、1年間の物語</span>
-        </button>
         <div class="title-menu__pair">
           <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
             <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
@@ -377,6 +373,11 @@
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
         <h2 id="records-heading" class="screen-title" tabindex="-1">🏆 記録</h2>
       </header>
+      <div class="records-story">
+        <button type="button" class="btn btn--story btn--lg" data-action="story-go" aria-label="ストーリー">
+          <span class="btn__icon" aria-hidden="true">📖</span>ストーリー<span class="story-new-badge" id="story-new-badge" hidden>NEW</span>
+        </button>
+      </div>
       <div class="tabs" role="tablist" aria-label="記録の種類">
         <button type="button" class="tab" role="tab" id="tab-official" data-action="records-tab" data-tab="official" aria-controls="records-panel">公式タイムアタック</button>
         <button type="button" class="tab" role="tab" id="tab-custom" data-action="records-tab" data-tab="custom" aria-controls="records-panel">カスタム履歴</button>
@@ -390,7 +391,7 @@
     <!-- 📖 ストーリー一覧 -->
     <section class="screen screen--story-list" data-screen="story-list" aria-labelledby="story-list-heading" hidden>
       <header class="screen-header">
-        <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
+        <button type="button" class="btn btn--ghost btn--back" data-action="go-records" aria-label="記録の画面へ戻る">← 記録</button>
         <h2 id="story-list-heading" class="screen-title" tabindex="-1">📖 ストーリー</h2>
       </header>
       <div id="story-list-body" class="story-list-body"></div>

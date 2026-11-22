@@ -135,6 +135,8 @@
     }));
     await openGame(3);
     if (kind === 'title') return;
+    await click('[data-action="go-records"]');
+    if (kind === 'records') return;
     await click('[data-action="story-go"]');
     await waitFor(() => $('.story-card'), 'ストーリー一覧');
     if (kind === 'list') return;
@@ -248,6 +250,7 @@
       // ストーリー（?shot=story-list / story-read-9 / story-end-12 など。?total= で累積正解数、?names=1 で長い名前）
       'story-title': async () => storyShot('title'),
       'story-list': async () => storyShot('list'),
+      'story-records': async () => storyShot('records'),
       'story-read': async () => storyShot('read'),
       'story-end': async () => storyShot('end'),
       'story-names': async () => storyShot('names'),
@@ -285,6 +288,8 @@
     const grades = [...new Set(app().units.map((u) => u.grade))];
     check(grades.every((g) => [...sel.querySelectorAll('optgroup')].some((o) => o.label === `中学${g}年生`)), '学年のグループがない');
     check(sel.getBoundingClientRect().height >= 48, 'プルダウンが押しにくい');
+    // 選択肢は「中1・正負の数」のように単元名だけ（「（100問）」などの問題数は出さない）
+    check([...sel.options].every((o, i) => o.textContent === `中${app().units[i].grade}・${app().units[i].label}`), `選択肢の文字: ${[...sel.options].map((o) => o.textContent).join('/')}`);
     await pickUnit('#unit-select', 'equation');
     check(app().config.unit === 'equation' && $('#unit-select').value === 'equation', '方程式が選択されていない');
     const eqStar1 = $('[data-difficulty="1"]').textContent;
@@ -1774,7 +1779,10 @@
     await openGame(7);
   }
   async function openStoryList() {
-    if (!visible('title')) await click('[data-action="go-title"]');
+    if (!visible('records')) {
+      if (!visible('title')) await click('[data-action="go-title"]');
+      await click('[data-action="go-records"]');
+    }
     await click('[data-action="story-go"]');
     await waitFor(() => visible('story-list') && $$('.story-card').length === 12, 'ストーリー一覧');
   }
@@ -1850,7 +1858,7 @@
     await click('#story-log [data-action="story-back"]');
   });
 
-  await test('[ストーリー 22] 解放の知らせ：トレーニングは判定のあと、タイムアタック・認定試験は結果画面で出す（プレイ中には出さない）。タイトルに NEW', async () => {
+  await test('[ストーリー 22] 解放の知らせ：トレーニングは判定のあと、タイムアタック・認定試験は結果画面で出す（プレイ中には出さない）。ストーリーのボタンに NEW', async () => {
     await setStory({ totalCorrect: 19, readEpisodes: [1] });
     check($('#story-new-badge').hidden, '読める話を全部読んだのに NEW が出ている');
     await configure({ unit: 'equation', difficulties: [1], count: 2 });
@@ -1861,7 +1869,7 @@
     await click('[data-action="next"]');
     check(!$('#feedback .story-unlock') || $('#feedback').hidden, '同じ知らせがくり返し出た');
     await click('[data-action="quit"]'); await click('[data-action="quit-confirm"]');
-    check(!$('#story-new-badge').hidden, 'タイトルに NEW が出ない');
+    check(!$('#story-new-badge').hidden, 'ストーリーのボタンに NEW が出ない');
     // タイムアタック：正解で解放 → プレイ中は出さず、ゲームオーバーの結果画面で出す
     await setStory({ totalCorrect: 49, readEpisodes: [1, 2] });
     await click('[data-action="go-ta-menu"]');
@@ -1887,22 +1895,31 @@
 
   await test('[ストーリー 8] 一覧：タイトル・累積正解数・次の話まで。全12話の月・話数・タイトル・解放条件と、NEW／既読／未解放（鍵・あと○問・開けない）', async () => {
     await setStory({ totalCorrect: 120, readEpisodes: [1, 2, 3] });
-    check(!$('#story-new-badge').hidden, 'タイトルの NEW');
-    const btn = $('[data-action="story-go"]');
-    check(btn.textContent.includes('ストーリー') && btn.textContent.includes('2人の生徒と歩む、1年間の物語'), 'タイトルのボタン');
-    // タイトル画面：ボタンが押しやすく、横にはみ出さない
-    check(btn.getBoundingClientRect().height >= 56 && pageOverflow() <= 0, 'タイトル画面のボタン');
+    // 「ストーリー」のボタンはタイトル画面にはなく、「記録を見る」画面にある（薄い桃色・サブタイトルなし）
+    check(!inScreen('title', '[data-action="story-go"]'), 'タイトル画面にストーリーのボタンが残っている');
+    await click('[data-action="go-records"]');
+    const btn = inScreen('records', '[data-action="story-go"]');
+    check(btn && btn.textContent.replace(/\s+/g, '') === '📖ストーリーNEW', `記録画面のボタン: ${btn && btn.textContent}`);
+    const bg = w.getComputedStyle(btn).backgroundColor.match(/\d+/g).map(Number);
+    check(w.matchMedia('(prefers-color-scheme: dark)').matches || (bg[0] >= 240 && bg[0] > bg[1] + 15 && bg[2] > bg[1]), `薄い桃色ではない: ${bg}`);
+    check(!$('#story-new-badge').hidden, '記録画面のボタンの NEW');
+    const br = btn.getBoundingClientRect();
+    check(br.height >= 48 && br.right <= w.innerWidth && pageOverflow() <= 0, '記録画面のボタンの大きさ・はみ出し');
     await openStoryList();
     const head = $('.story-head').textContent;
     check(head.includes('あの日の赤ペンが、未来を変えた。') && head.includes('ケイくん、シホさんと歩む1年間の物語'), 'タイトル');
     check(head.includes('累積正解数：120問') && head.includes('次の話まで：あと30問'), `進行状況: ${head}`);
+    check(!head.includes('正解すると、正解数がふえて'), '説明の文が残っている');
     const SPEC = [['4月', 1, 'はじめまして、先生', 0], ['5月', 2, '赤ペンの本当の役目', 20], ['6月', 3, '間違いノートの秘密', 50], ['7月', 4, '夏の作戦会議', 100],
       ['8月', 5, 'あきらめない夏', 150], ['9月', 6, '小さな成長、大きな壁', 200], ['10月', 7, 'E判定からの挑戦', 250], ['11月', 8, 'もう一度、前を向いて', 300],
       ['12月', 9, 'リアル入試、開幕！', 350], ['1月', 10, '自分を信じる練習', 400], ['2月', 11, '最後の一問まで', 450], ['3月', 12, '桜の咲く教室で', 500]];
     $$('.story-card').forEach((c, i) => {
       const [m, no, title, need] = SPEC[i];
       check(c.dataset.no === String(no) && c.querySelector('.story-card__no').textContent === `${m}・第${no}話` && c.querySelector('.story-card__title').textContent === title, `第${no}話の表示`);
-      check(need === 0 ? c.textContent.includes('最初から読めます') : c.textContent.includes(`累積${need}問正解`), `第${no}話の解放条件`);
+      check(!c.textContent.includes('解放条件') && !c.textContent.includes('最初から読めます'), `第${no}話に解放条件の文が残っている`);
+      // バッジ（NEW・既読・あと○問）はタイトルの下（情報の中）にあり、カードの右側には置かない
+      const badge = c.querySelector('.story-card__info > .story-badge');
+      check(badge && badge.getBoundingClientRect().top >= c.querySelector('.story-card__title').getBoundingClientRect().bottom - 1, `第${no}話のバッジの位置`);
     });
     check(storyCard(1).querySelector('.story-badge--read') && storyCard(3).querySelector('.story-badge--read'), '既読');
     check(storyCard(4).querySelector('.story-badge--new') && !storyCard(4).disabled, '解放済み・未読は NEW');
@@ -1977,8 +1994,8 @@
     w.history.back();
     await waitFor(() => visible('story-list'), '戻る操作で一覧へ');
     check(bgmNow().debug.desired === null, '戻る操作で BGM が止まらない');
-    await click('[data-action="go-title"]');
-    check($('#story-new-badge').hidden, '全部読んだのに NEW が残る');
+    await click('section[data-screen="story-list"] [data-action="go-records"]');
+    check(visible('records') && $('#story-new-badge').hidden, '「← 記録」で記録画面に戻らない・全部読んだのに NEW が残る');
   });
 
   await test('[ストーリー 15・18・19] 第9話：合宿会場→試験室（静寂）→漢太鼓→合宿会場。第12話：エンディングのメッセージと THE END、一覧へ戻れる', async () => {
