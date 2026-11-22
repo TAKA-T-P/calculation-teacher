@@ -1961,9 +1961,9 @@
         return `<div class="record-card${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''} data-unit="${esc(u.unit)}">
             <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
             ${r.bestScore === null ? '<p class="record-card__empty">まだ記録がありません</p>' : `
-            <p class="record-card__score"><span>${r.bestScore}</span>点</p>
             <p class="record-card__title">称号「${esc(TA.titleForScore(r.bestScore))}」</p>
             <dl class="record-card__stats">
+              <div class="record-card__best"><dt>ベストスコア</dt><dd>${r.bestScore}点</dd></div>
               <div><dt>最大連続</dt><dd>${r.maxStreak}問</dd></div>
               <div><dt>プレイ回数</dt><dd>${r.plays}回</dd></div>
             </dl>`}

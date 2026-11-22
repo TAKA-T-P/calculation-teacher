@@ -29,25 +29,25 @@
   };
 
   // 得点：正解1問ごとに「単元ごとの基礎点 + 連続正解ボーナス」。
-  //   連続正解ボーナス：連続 n 問目の正解で step × (n − 1) 点（0, 10, 20, … 。上限 maxBonus 点＝11問目以降は100点）
-  //   例：方程式（基礎点200）は 1問目 200点、2問目 210点 … 11問目以降 300点。連立方程式（基礎点400）は 400点〜500点。
+  //   連続正解ボーナス：連続 n 問目の正解で step × (n − 1) 点（0, 10, 20, … 。上限 maxBonus 点＝6問目以降は50点）
+  //   例：方程式（基礎点250）は 1問目 250点、2問目 260点 … 6問目以降 300点。連立方程式（基礎点400）は 400点〜450点。
   //   不正解は missPenalty 点（100点）の減点で、連続正解数を0に戻す（次の正解のボーナスは0から）。
   //   スコアは0点より下にはしない（0点のときの不正解は0点のまま。減点した点数を結果に残す）。
   //   基礎点表にない単元（新しく追加した単元）は defaultBase 点。
   const SCORE_RULES = {
     step: 10,
-    maxBonus: 100,
+    maxBonus: 50,
     missPenalty: 100,
     defaultBase: 200,
     baseByUnit: {
-      'positive-negative': 200,       // 正負の数
-      expressions: 200,                 // 文字式
-      equation: 200,                    // 方程式
-      polynomials: 250,                 // 式の計算
+      'positive-negative': 250,       // 正負の数
+      expressions: 250,                 // 文字式
+      equation: 250,                    // 方程式
+      polynomials: 300,                 // 式の計算
       'simultaneous-equations': 400,  // 連立方程式
       'expansion-factorization': 250, // 展開・因数分解
-      'square-roots': 150,            // 平方根
-      'quadratic-equations': 300,     // 2次方程式
+      'square-roots': 200,            // 平方根
+      'quadratic-equations': 250,     // 2次方程式
     },
   };
 

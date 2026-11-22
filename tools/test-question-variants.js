@@ -209,7 +209,7 @@ test('全モード共通：抽選の結果は「出題した答案」として�
 console.log('--- タイムアタック');
 test('[27] 正答・誤答を正しく判定し、90秒＋ロスタイム5秒・3回ミス・得点は変わらない', () => {
   eq(TA.CONFIG.durationMs, 90000); eq(TA.CONFIG.lossTimeMs, 5000); eq(TA.CONFIG.maxMisses, 3);
-  eq([1, 2, 11].map(TA.pointsForStreak).join(), '200,210,300');
+  eq([1, 2, 6].map((n) => TA.pointsForStreak(n, 'quadratic-equations')).join(), '250,260,300');
   let t = 0;
   const s = new TA.TimeAttackSession(questions, { mode: 'official', unit: 'quadratic-equations' }, { rng: G.createRng(2), variantRng: G.createRng(3), now: () => t, maxMisses: 999 });
   s.start();

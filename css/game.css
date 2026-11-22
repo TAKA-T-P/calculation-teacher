@@ -1307,8 +1307,6 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .record-cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .record-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 16px; }
 .record-card__unit { margin: 0 0 4px; font-weight: 900; }
-.record-card__score { margin: 0; color: var(--muted); font-weight: 700; }
-.record-card__score span { font-size: 2rem; font-weight: 900; color: var(--red-pen); font-variant-numeric: tabular-nums; }
 .record-card__title { margin: 0 0 4px; font-weight: 800; color: var(--primary-strong); }
 .record-card__empty { color: var(--muted); }
 .record-card__stats { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0 0; }
@@ -1446,6 +1444,6 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .score-card.tier-gold::before { width: 30%; animation-duration: 4s; z-index: 0; }
 /* 記録画面の金・銀・銅のカード：グレーの文字は濃く、光は文字のうしろを流れる */
 .record-card[data-tier] > * { position: relative; z-index: 1; }
-.record-card[data-tier] .record-card__score, .record-card[data-tier] .record-card__stats dt { color: rgba(40, 28, 0, .8); }
+.record-card[data-tier] .record-card__stats dt { color: rgba(40, 28, 0, .8); }
 .record-card[data-tier] .record-card__stats dd { color: #2a1d00; }
 .record-card.tier-gold::before { z-index: 0; }

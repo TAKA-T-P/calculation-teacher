@@ -1091,7 +1091,7 @@
     check($('#ta-body .paper__instruction .label-badge').textContent === '第1問', `タイムアタックのバッジ: ${$('#ta-body .paper__instruction .label-badge').textContent}`);
     const el = taCorrectEl();
     el.click();
-    check(s.results.length === 1 && s.results[0].correct && s.score === 200, '即時判定されない');
+    check(s.results.length === 1 && s.results[0].correct && s.score === w.TimeAttack.basePointsFor('equation') && s.score === 250, '即時判定されない（方程式の基礎点250点）');
     el.click(); taRow('all').click(); // 演出中の連打
     check(s.results.length === 1, '二重に回答された');
     await sleep(TA_FEEDBACK + 80);
@@ -1168,7 +1168,7 @@
     const lossSounds = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
     check(!lossSounds.includes('countdown') && !lossSounds.includes('warning'), `ロスタイム中にカウントダウンの音が鳴った: ${lossSounds}`);
     check(lossSounds.includes('timeup'), 'ロスタイムのあとにタイムアップにならない');
-    check(s.results.map((r) => r.points).join() === '200,210,-100,200', `得点 ${s.results.map((r) => r.points)}`);
+    check(s.results.map((r) => r.points).join() === '250,260,-100,250', `得点 ${s.results.map((r) => r.points)}`);
     check(s.summary().maxStreak === 2, '最大連続');
     checkTalk('#ta-result-body', 'ta-low', 'タイムアタック（1000点未満）');
     const rec = recs().officialFor('equation');
@@ -1430,6 +1430,16 @@
     const official = $('#records-panel').textContent;
     check(official.includes(`${recs().officialFor('equation').bestScore}`) && official.includes('まだ記録がありません'), '公式記録の表示');
     check(!official.includes('達成日') && official.includes('最大連続') && official.includes('プレイ回数'), '公式記録に「達成日」が残っている');
+    // ベストスコアは「最大連続」「プレイ回数」の左に、同じ文字の大きさで並ぶ
+    const eqCard = $('#records-panel .record-card[data-unit="equation"]');
+    const items = [...eqCard.querySelectorAll('.record-card__stats > div')];
+    const labels = items.map((x) => x.querySelector('dt').textContent);
+    check(labels.join() === 'ベストスコア,最大連続,プレイ回数' && items[0].querySelector('dd').textContent === `${recs().officialFor('equation').bestScore}点`, `記録カードの並び: ${labels}`);
+    const fs0 = items.map((x) => w.getComputedStyle(x.querySelector('dd')).fontSize);
+    check(new Set(fs0).size === 1, `文字の大きさがそろっていない: ${fs0}`);
+    const rs = items.map((x) => x.getBoundingClientRect());
+    check(Math.abs(rs[0].top - rs[1].top) < 2 && rs[0].right <= rs[1].left, 'ベストスコアが「最大連続」の左にない');
+    check(!eqCard.querySelector('.record-card__score'), '大きなスコアの表示が残っている');
     await click('[data-action="records-tab"][data-tab="cert"]');
     const cert = $('#records-panel').textContent;
     check(cert.includes('新人ティーチャー') && cert.includes('第1試験') && cert.includes('ティーチャー見習い'), '認定の表示');
