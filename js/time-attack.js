@@ -28,9 +28,26 @@
     maxMisses: 3,            // この回数まちがえたらゲームオーバー（その時点で強制終了）
   };
 
-  // 得点：連続 n 問目の正解で base + step × n 点（上限 max 点）。
-  // 1問目 200点、2問目 210点 … 11問目以降は 300点で固定。不正解は0点で、連続正解数を0に戻す（次の正解は200点から）
-  const SCORE_RULES = { base: 190, step: 10, max: 300 };
+  // 得点：正解1問ごとに「単元ごとの基礎点 + 連続正解ボーナス」。
+  //   連続正解ボーナス：連続 n 問目の正解で step × (n − 1) 点（0, 10, 20, … 。上限 maxBonus 点＝11問目以降は100点）
+  //   例：方程式（基礎点200）は 1問目 200点、2問目 210点 … 11問目以降 300点。連立方程式（基礎点400）は 400点〜500点。
+  //   不正解は0点で、連続正解数を0に戻す（次の正解のボーナスは0から）。
+  //   基礎点表にない単元（新しく追加した単元）は defaultBase 点。
+  const SCORE_RULES = {
+    step: 10,
+    maxBonus: 100,
+    defaultBase: 200,
+    baseByUnit: {
+      'positive-negative': 200,       // 正負の数
+      expressions: 200,                 // 文字式
+      equation: 200,                    // 方程式
+      polynomials: 250,                 // 式の計算
+      'simultaneous-equations': 400,  // 連立方程式
+      'expansion-factorization': 250, // 展開・因数分解
+      'square-roots': 150,            // 平方根
+      'quadratic-equations': 300,     // 2次方程式
+    },
+  };
 
   // 公式タイムアタックの称号（単元ごとの最高スコアで決まる。10段階。高い順に並べる）
   const TITLES = [
@@ -52,9 +69,22 @@
 
   const MODES = { OFFICIAL: 'official', CUSTOM: 'custom' };
 
-  function pointsForStreak(streak) {
+  /** 単元の基礎点（正解1問あたりの点。連続正解ボーナスは別） */
+  function basePointsFor(unit) {
+    const b = SCORE_RULES.baseByUnit[unit];
+    return Number.isFinite(b) ? b : SCORE_RULES.defaultBase;
+  }
+
+  /** 連続 streak 問目の正解のボーナス（0, 10, 20, … 最大 maxBonus） */
+  function streakBonus(streak) {
     if (streak <= 0) return 0;
-    return Math.min(SCORE_RULES.max, SCORE_RULES.base + SCORE_RULES.step * streak);
+    return Math.min(SCORE_RULES.maxBonus, SCORE_RULES.step * (streak - 1));
+  }
+
+  /** 連続 streak 問目の正解で加算される点（単元ごとの基礎点 + 連続正解ボーナス）。unit を省略すると基礎点 defaultBase */
+  function pointsForStreak(streak, unit) {
+    if (streak <= 0) return 0;
+    return basePointsFor(unit) + streakBonus(streak);
   }
 
   /** 最高スコアに対応する称号の情報 { rank, minScore, icon, name } */
@@ -218,7 +248,7 @@
       let points = 0;
       if (r.correct) {
         this.streak++;
-        points = pointsForStreak(this.streak);
+        points = pointsForStreak(this.streak, this.criteria.unit);
         this.score += points;
         this.maxStreak = Math.max(this.maxStreak, this.streak);
       } else {
@@ -270,6 +300,6 @@
 
   return {
     CONFIG, SCORE_RULES, TITLES, MODES, OFFICIAL_DIFFICULTY_ORDER, OFFICIAL_DIFFICULTY_REPEAT,
-    pointsForStreak, titleForScore, titleInfoForScore, officialDifficultyAt, criteriaFor, TimeAttackSession,
+    pointsForStreak, basePointsFor, streakBonus, titleForScore, titleInfoForScore, officialDifficultyAt, criteriaFor, TimeAttackSession,
   };
 });

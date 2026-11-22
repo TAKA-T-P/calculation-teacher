@@ -110,7 +110,7 @@ test('二重回答できない（演出中・次の問題を出すまでは受�
   clock.advance(300); s.advance();
   assert(s.answer(correctChoice(s.current)), '次の問題に回答できない');
 });
-test('得点：連続n問目の正解で 190+10n 点（上限300点＝11問目以降）。不正解は0点で連続が切れ、次は200点から', () => {
+test('得点（基礎点200の単元）：1問目200点・2問目210点 … 11問目以降300点。不正解は0点で連続が切れ、次は200点から', () => {
   eq([0, 1, 2, 3, 9, 10, 11, 12, 50].map(TA.pointsForStreak).join(), '0,200,210,220,280,290,300,300,300');
   const { s, clock } = taSession({ mode: 'official', unit: 'expressions' }, 5);
   s.start();
@@ -125,6 +125,34 @@ test('得点：連続n問目の正解で 190+10n 点（上限300点＝11問目�
   eq(s.score, 1980);
   const sum = s.summary();
   eq(sum.correct, 9); eq(sum.wrong, 1); eq(sum.maxStreak, 6); eq(sum.rate, 90); eq(sum.answered, 10);
+});
+test('得点：単元ごとの基礎点＋連続正解ボーナス（0,10,…,100。11問目以降は+100）。公式・カスタムとも同じ', () => {
+  const BASE = {
+    'positive-negative': 200, expressions: 200, equation: 200, polynomials: 250,
+    'simultaneous-equations': 400, 'expansion-factorization': 250, 'square-roots': 150, 'quadratic-equations': 300,
+  };
+  eq(JSON.stringify(TA.SCORE_RULES.baseByUnit), JSON.stringify(BASE), '基礎点の表');
+  eq(Object.keys(BASE).sort().join(), manifest.files.map((f) => f.unit).sort().join(), '全単元に基礎点がある');
+  eq([0, 1, 2, 3, 10, 11, 12, 50].map(TA.streakBonus).join(), '0,0,10,20,90,100,100,100', 'ボーナス');
+  Object.entries(BASE).forEach(([u, b]) => {
+    eq([1, 2, 11, 12].map((n) => TA.pointsForStreak(n, u)).join(), [b, b + 10, b + 100, b + 100].join(), u);
+    eq(TA.pointsForStreak(0, u), 0, `${u} 不正解`);
+  });
+  eq(TA.pointsForStreak(1, 'new-unit'), 200, '基礎点表にない単元は200点');
+  // プレイ：連立方程式（基礎点400）と平方根（基礎点150）。不正解で連続が切れ、次はボーナス0から
+  for (const [mode, unit, b] of [['official', 'simultaneous-equations', 400], ['custom', 'square-roots', 150]]) {
+    const { s, clock } = taSession({ mode, unit }, 3);
+    s.start();
+    const pts = [];
+    [...Array(13).fill(true), false, true].forEach((ok) => {
+      const r = s.answer(ok ? correctChoice(s.current) : wrongChoice(s.current));
+      pts.push(r.points);
+      clock.advance(500); s.advance();
+    });
+    const expected = [...Array.from({ length: 13 }, (_, i) => b + Math.min(100, i * 10)), 0, b];
+    eq(pts.join(), expected.join(), `${unit} の得点`);
+    eq(s.score, expected.reduce((a, x) => a + x, 0), `${unit} の合計`);
+  }
 });
 test('全問題を出し終えたら並べ直して続ける。1巡の中では重複せず、巡の切れ目でも同じ問題が続かない', () => {
   for (let seed = 1; seed <= 60; seed++) {
