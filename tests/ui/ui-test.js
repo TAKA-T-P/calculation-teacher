@@ -252,6 +252,7 @@
         await click('[data-action="go-cert-list"]');
       },
       records: async () => click('[data-action="go-records"]'),
+      'records-cert': async () => { await click('[data-action="go-records"]'); await click('[data-action="records-tab"][data-tab="cert"]'); },
       // ストーリー（?shot=story-list / story-read-9 / story-end-12 など。?total= で累積正解数、?names=1 で長い名前）
       'story-title': async () => storyShot('title'),
       'story-list': async () => storyShot('list'),
@@ -1428,9 +1429,11 @@
     check($('#tab-official').getAttribute('aria-selected') === 'true', '最初のタブ');
     const official = $('#records-panel').textContent;
     check(official.includes(`${recs().officialFor('equation').bestScore}`) && official.includes('まだ記録がありません'), '公式記録の表示');
+    check(!official.includes('達成日') && official.includes('最大連続') && official.includes('プレイ回数'), '公式記録に「達成日」が残っている');
     await click('[data-action="records-tab"][data-tab="cert"]');
     const cert = $('#records-panel').textContent;
     check(cert.includes('新人ティーチャー') && cert.includes('第1試験') && cert.includes('ティーチャー見習い'), '認定の表示');
+    check(!cert.includes('合格済み') && !cert.includes('回挑戦'), '認定に「合格済み：…」が残っている');
     await click('[data-action="records-tab"][data-tab="custom"]');
     check($$('#records-panel .history-item').length === 1, 'カスタム履歴の表示');
   });
@@ -1934,6 +1937,19 @@
       if (t === 'gold') check(w.getComputedStyle(card, '::before').animationName === 'tier-shine', '結果画面の金色のカードが光らない');
       check(pageOverflow() <= 0, '結果画面が横にはみ出す');
     }
+    // 記録画面：公式タイムアタックのタブ（最高記録）と、ティーチャー認定のタブ（クリアした試験）のカードも金・銀・銅
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-records"]');
+    await click('[data-action="records-tab"][data-tab="official"]');
+    const recTier = (u) => $(`#records-panel .record-card[data-unit="${u}"]`).dataset.tier || 'none';
+    Object.entries(expectTA).forEach(([u, t]) => check(recTier(u) === t, `記録画面（公式） ${u}: ${recTier(u)}（期待 ${t}）`));
+    check(w.getComputedStyle($('#records-panel .record-card.tier-gold'), '::before').animationName === 'tier-shine', '記録画面（公式）の金色のカードが光らない');
+    check(!$('#records-panel').textContent.includes('達成日'), '達成日が残っている');
+    await click('[data-action="records-tab"][data-tab="cert"]');
+    Object.entries(expectCert).forEach(([u, t]) => check(recTier(u) === t, `記録画面（認定） ${u}: ${recTier(u)}（期待 ${t}）`));
+    check(w.getComputedStyle($('#records-panel .record-card.tier-gold'), '::before').animationName === 'tier-shine', '記録画面（認定）の金色のカードが光らない');
+    check(!$('#records-panel').textContent.includes('合格済み'), '「合格済み：…」が残っている');
+    check(pageOverflow() <= 0, '記録画面が横にはみ出す');
     recs().clearAll();
     await click('[data-action="go-title"]');
   });

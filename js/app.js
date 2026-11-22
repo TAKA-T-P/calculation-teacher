@@ -1957,7 +1957,8 @@
     if (app.recordsTab === 'official') {
       panel.innerHTML = `<div class="record-cards">${app.units.map((u) => {
         const r = records.officialFor(u.unit);
-        return `<div class="record-card">
+        const tier = tierForScore(r.bestScore); // 最高記録で金・銀・銅
+        return `<div class="record-card${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''} data-unit="${esc(u.unit)}">
             <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
             ${r.bestScore === null ? '<p class="record-card__empty">まだ記録がありません</p>' : `
             <p class="record-card__score"><span>${r.bestScore}</span>点</p>
@@ -1965,7 +1966,6 @@
             <dl class="record-card__stats">
               <div><dt>最大連続</dt><dd>${r.maxStreak}問</dd></div>
               <div><dt>プレイ回数</dt><dd>${r.plays}回</dd></div>
-              <div><dt>達成日</dt><dd>${formatDate(r.bestDate)}</dd></div>
             </dl>`}
           </div>`;
       }).join('')}</div>`;
@@ -1975,16 +1975,15 @@
       panel.innerHTML = `<div class="record-cards">${app.units.map((u) => {
         const c = records.certFor(u.unit);
         const rank = C.rankFor(c.highestCleared);
-        const cleared = C.EXAMS.filter((e) => c.exams[String(e.id)] && c.exams[String(e.id)].cleared);
         const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
-        return `<div class="record-card">
+        const tier = tierForExam(c.highestCleared); // 最終試験で金・第4試験で銀・第3試験で銅
+        return `<div class="record-card${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''} data-unit="${esc(u.unit)}">
             <p class="record-card__unit">中${u.grade}・${esc(u.label)}</p>
             ${rankBadgeHtml(rank, 'rank-badge--lg')}
             <dl class="record-card__stats">
               <div><dt>最高クリア</dt><dd>${c.highestCleared ? C.examById(c.highestCleared).name : 'なし'}</dd></div>
               <div><dt>次に挑戦</dt><dd>${next ? next.name : '—'}</dd></div>
             </dl>
-            <p class="record-card__cleared">合格済み：${cleared.length ? cleared.map((e) => `${e.name}（${c.exams[String(e.id)].attempts}回挑戦）`).join('、') : 'なし'}</p>
           </div>`;
       }).join('')}</div>`;
     }
