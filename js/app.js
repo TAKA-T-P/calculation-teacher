@@ -442,8 +442,10 @@
     for (let i = 0; i < n; i++) {
       rows += `<div class="cmp-no">${lineLabel(i)}</div>${cell(q.answerLines, i, 'student')}${cell(q.correctSolution, i, 'solution')}`;
     }
+    // 「（正しい計算過程は別の解き方の例です）」は、生徒の答案と正しい計算過程の式がちがうとき（別解）だけ出す
+    const isAlternative = S.canonicalJson(q.correctSolution) !== S.canonicalJson(q.answerLines);
     const verdict = q.errorLine === null
-      ? '<p class="compare__note"><span aria-hidden="true">◎</span> この答案は全部正しい答案です（正しい計算過程は別の解き方の例です）</p>'
+      ? `<p class="compare__note"><span aria-hidden="true">◎</span> この答案は全部正しい答案です${isAlternative ? '（正しい計算過程は別の解き方の例です）' : ''}</p>`
       : `<p class="compare__note"><span aria-hidden="true">✖</span> 生徒の答案は ${lineLabel(q.errorLine)} で最初にまちがえています</p>`;
     $('#compare-body').innerHTML = `
       ${verdict}
@@ -1327,7 +1329,7 @@
             <span class="review-item__mark" aria-hidden="true">${r.correct ? '✔' : '✖'}</span>
             <span class="review-item__no">${i + 1}問目</span>
             <span class="review-item__math">${R.mathHtml(r.question.question, false)}</span>
-            <span class="review-item__result">${r.correct ? (r.points ? `+${r.points}` : '正解') : 'まちがい'}</span>
+            <span class="review-item__result">${r.correct ? (r.points ? `+${r.points}` : '正解') : (r.points < 0 ? `−${-r.points}` : 'まちがい')}</span>
             <span class="review-item__retry" aria-hidden="true">📖</span>
           </button>
         </li>`).join('')}</ol>`;
@@ -1478,12 +1480,26 @@
     $('#ta-start-btn').disabled = n === 0;
   }
 
+  // 単元カードの色（金・銀・銅）。公式タイムアタックは自己ベスト、認定試験はクリアした試験で決める
+  const TIER_SCORES = [[3000, 'gold'], [2200, 'silver'], [1500, 'bronze']];
+  const TIER_EXAMS = [[5, 'gold'], [4, 'silver'], [3, 'bronze']];
+  function tierForScore(best) {
+    if (best === null || best === undefined) return null;
+    const t = TIER_SCORES.find(([min]) => best >= min);
+    return t ? t[1] : null;
+  }
+  function tierForExam(highestCleared) {
+    const t = TIER_EXAMS.find(([min]) => highestCleared >= min);
+    return t ? t[1] : null;
+  }
+
   /** 公式タイムアタックの単元カード（中1〜中3の8単元。自己ベストつき）。押すとその単元を選ぶ */
   function taUnitCardsHtml(selected) {
     return `<div class="unit-cards" role="radiogroup" aria-label="単元">${app.units.map((u) => {
       const best = records.officialFor(u.unit).bestScore;
       const on = u.unit === selected;
-      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}" data-action="ta-unit" data-unit="${esc(u.unit)}">
+      const tier = tierForScore(best);
+      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''} role="radio" aria-checked="${on}" data-action="ta-unit" data-unit="${esc(u.unit)}">
           <span class="unit-card__name">中${u.grade}・${esc(u.label)}</span>
           <span class="unit-card__sub">${best === null ? '記録なし' : `ベスト ${best.toLocaleString('ja-JP')}点`}</span>
         </button>`;
@@ -1638,7 +1654,7 @@
       if (expectedEl) expectedEl.classList.add('ta-answer');
     }
     const popup = $('#ta-popup');
-    popup.textContent = r.correct ? `✔ +${r.points}${r.streak >= 3 ? `　🔥${r.streak}連続` : ''}` : `✖ ミス ${r.misses}/${s.maxMisses}`;
+    popup.textContent = r.correct ? `✔ +${r.points}${r.streak >= 3 ? `　🔥${r.streak}連続` : ''}` : `✖ ミス ${r.misses}/${s.maxMisses}${r.points < 0 ? `　−${-r.points}` : ''}`;
     popup.className = `ta-popup ${r.correct ? 'is-ok' : 'is-ng'}`;
     updateTAHud();
     later(() => {
@@ -1786,7 +1802,8 @@
     const c = records.certFor(u.unit);
     const rank = C.rankFor(c.highestCleared);
     const next = C.EXAMS.find((e) => e.id === c.highestCleared + 1);
-    return `<button type="button" class="cert-unit" data-action="cert-unit" data-unit="${esc(u.unit)}" style="--rank-color:${rank.color}">
+    const tier = tierForExam(c.highestCleared);
+    return `<button type="button" class="cert-unit${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''} data-action="cert-unit" data-unit="${esc(u.unit)}" style="--rank-color:${rank.color}">
         <span class="cert-unit__icon" aria-hidden="true">${rank.icon}</span>
         <span class="cert-unit__body">
           <span class="cert-unit__name">中${u.grade}・${esc(u.label)}</span>

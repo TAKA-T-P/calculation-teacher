@@ -110,7 +110,7 @@ test('二重回答できない（演出中・次の問題を出すまでは受�
   clock.advance(300); s.advance();
   assert(s.answer(correctChoice(s.current)), '次の問題に回答できない');
 });
-test('得点（基礎点200の単元）：1問目200点・2問目210点 … 11問目以降300点。不正解は0点で連続が切れ、次は200点から', () => {
+test('得点（基礎点200の単元）：1問目200点・2問目210点 … 11問目以降300点。不正解は100点減点で連続が切れ、次は200点から', () => {
   eq([0, 1, 2, 3, 9, 10, 11, 12, 50].map(TA.pointsForStreak).join(), '0,200,210,220,280,290,300,300,300');
   const { s, clock } = taSession({ mode: 'official', unit: 'expressions' }, 5);
   s.start();
@@ -121,8 +121,8 @@ test('得点（基礎点200の単元）：1問目200点・2問目210点 … 11�
     pts.push(r.points);
     clock.advance(1000); s.advance();
   });
-  eq(pts.join(), '200,210,220,230,240,250,0,200,210,220');
-  eq(s.score, 1980);
+  eq(pts.join(), '200,210,220,230,240,250,-100,200,210,220');
+  eq(s.score, 1880);
   const sum = s.summary();
   eq(sum.correct, 9); eq(sum.wrong, 1); eq(sum.maxStreak, 6); eq(sum.rate, 90); eq(sum.answered, 10);
 });
@@ -149,10 +149,26 @@ test('得点：単元ごとの基礎点＋連続正解ボーナス（0,10,…,10
       pts.push(r.points);
       clock.advance(500); s.advance();
     });
-    const expected = [...Array.from({ length: 13 }, (_, i) => b + Math.min(100, i * 10)), 0, b];
+    const expected = [...Array.from({ length: 13 }, (_, i) => b + Math.min(100, i * 10)), -100, b];
     eq(pts.join(), expected.join(), `${unit} の得点`);
     eq(s.score, expected.reduce((a, x) => a + x, 0), `${unit} の合計`);
   }
+});
+test('不正解は100点の減点。スコアは0点より下にならない（0点のときは0点のまま、100点未満なら0点まで）', () => {
+  eq(TA.SCORE_RULES.missPenalty, 100);
+  const { s, clock } = taSession({ mode: 'custom', unit: 'square-roots' }, 2);
+  s.maxMisses = 99;
+  s.start();
+  const step = (ok) => { const r = s.answer(ok ? correctChoice(s.current) : wrongChoice(s.current)); clock.advance(300); s.advance(); return r; };
+  const r0 = step(false);
+  eq(JSON.stringify([r0.points, s.score]), JSON.stringify([0, 0]), '0点のときの不正解');
+  step(true); // 150点
+  const r1 = step(false);
+  eq(JSON.stringify([r1.points, s.score]), JSON.stringify([-100, 50]), '150点から100点減点');
+  const r2 = step(false);
+  eq(JSON.stringify([r2.points, s.score]), JSON.stringify([-50, 0]), '50点から（0点より下にしない）');
+  eq(s.results.reduce((a, r) => a + r.points, 0), s.score, '結果の点数の合計とスコアが一致');
+  eq(s.summary().score, 0);
 });
 test('全問題を出し終えたら並べ直して続ける。1巡の中では重複せず、巡の切れ目でも同じ問題が続かない', () => {
   for (let seed = 1; seed <= 60; seed++) {
@@ -229,7 +245,8 @@ test('3回ミスした時点でゲームオーバー（時間が残っていて�
   eq(s.answer(correctChoice(s.current)), null, 'ゲームオーバー後に回答できた');
   const sum = s.summary();
   eq(sum.gameOver, true); eq(sum.misses, 3); eq(sum.wrong, 3); eq(sum.correct, 3);
-  eq(s.score, 200 + 210 + 200, 'ゲームオーバーまでの得点はそのまま残る');
+  // 1問目の不正解は0点のとき（減点なし）、そのあとの不正解は100点ずつ減点
+  eq(s.score, 0 + 200 + 210 - 100 + 200 - 100, 'ゲームオーバーまでの得点はそのまま残る');
 });
 test('時間切れで終わったときは endReason が timeup（ゲームオーバーではない）', () => {
   const { s, clock } = taSession({ mode: 'official', unit: 'equation' });

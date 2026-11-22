@@ -31,11 +31,13 @@
   // 得点：正解1問ごとに「単元ごとの基礎点 + 連続正解ボーナス」。
   //   連続正解ボーナス：連続 n 問目の正解で step × (n − 1) 点（0, 10, 20, … 。上限 maxBonus 点＝11問目以降は100点）
   //   例：方程式（基礎点200）は 1問目 200点、2問目 210点 … 11問目以降 300点。連立方程式（基礎点400）は 400点〜500点。
-  //   不正解は0点で、連続正解数を0に戻す（次の正解のボーナスは0から）。
+  //   不正解は missPenalty 点（100点）の減点で、連続正解数を0に戻す（次の正解のボーナスは0から）。
+  //   スコアは0点より下にはしない（0点のときの不正解は0点のまま。減点した点数を結果に残す）。
   //   基礎点表にない単元（新しく追加した単元）は defaultBase 点。
   const SCORE_RULES = {
     step: 10,
     maxBonus: 100,
+    missPenalty: 100,
     defaultBase: 200,
     baseByUnit: {
       'positive-negative': 200,       // 正負の数
@@ -252,6 +254,10 @@
         this.score += points;
         this.maxStreak = Math.max(this.maxStreak, this.streak);
       } else {
+        // 不正解：減点（スコアは0点より下にしない）。points はマイナスの値（減点した点数）
+        const penalty = Math.min(SCORE_RULES.missPenalty, this.score);
+        points = penalty > 0 ? -penalty : 0;
+        this.score -= penalty;
         this.streak = 0;
         this.misses++;
       }

@@ -16,9 +16,15 @@
 
     <!-- ① タイトル画面 -->
     <section class="screen screen--title" data-screen="title" aria-labelledby="title-heading">
-      <button type="button" class="btn-icon title-options" data-action="go-options" aria-label="設定">
-        <span aria-hidden="true">⚙</span><span class="btn-icon__label">設定</span>
-      </button>
+      <!-- 右上：遊び方・設定 -->
+      <div class="title-actions">
+        <button type="button" class="btn-icon title-howto" data-action="go-howto" aria-label="遊び方">
+          <span aria-hidden="true">？</span><span class="btn-icon__label">遊び方</span>
+        </button>
+        <button type="button" class="btn-icon title-options" data-action="go-options" aria-label="設定">
+          <span aria-hidden="true">⚙</span><span class="btn-icon__label">設定</span>
+        </button>
+      </div>
       <div class="title-hero">
         <div class="title-hero__top">
         <svg class="title-logo" viewBox="0 0 160 140" role="img" aria-label="答案用紙に赤ペンで丸をつける先生のイラスト">
@@ -54,14 +60,9 @@
         <button type="button" class="btn btn--mode btn--lg" data-action="go-cert-units">
           <span class="btn__icon" aria-hidden="true">🎓</span>ティーチャー認定試験
         </button>
-        <div class="title-menu__pair">
-          <button type="button" class="btn btn--secondary btn--lg" data-action="go-howto">
-            <span class="btn__icon" aria-hidden="true">📖</span>あそびかた
-          </button>
-          <button type="button" class="btn btn--ghost btn--lg" data-action="go-records">
-            <span class="btn__icon" aria-hidden="true">🏆</span>記録を見る
-          </button>
-        </div>
+        <button type="button" class="btn btn--mode btn--lg" data-action="go-records">
+          <span class="btn__icon" aria-hidden="true">🏆</span>記録を見る
+        </button>
       </div>
       <p class="load-status" id="load-status" role="status"></p>
       <footer class="title-footer">

@@ -275,6 +275,12 @@
       'story-names': async () => storyShot('names'),
       dialog: async () => { await configure({ unit: 'equation', count: 5 }); await click('#start-btn'); await click('[data-action="quit"]'); },
     }[SHOT];
+    if (params.get('tiers')) {
+      // ?tiers=1：金・銀・銅のカードを見るための記録を入れておく
+      const R = w.__calcTeacher.records;
+      [['positive-negative', 3200], ['expressions', 2400], ['equation', 1600], ['polynomials', 900]].forEach(([u, sc]) => R.recordOfficial(u, { score: sc, maxStreak: 5 }, w.TimeAttack.titleForScore));
+      [['positive-negative', 5], ['expressions', 4], ['equation', 3], ['polynomials', 2]].forEach(([u, h]) => { for (let id = 1; id <= h; id++) R.recordExam(u, id, true); });
+    }
     await goto();
     await sleep(600); // アニメーション終了待ち
     if (!SHOT.startsWith('play-correct') && !SHOT.startsWith('play-wrong') && !SHOT.startsWith('play-allcorrect') && !SHOT.startsWith('long-math')) w.scrollTo(0, 0);
@@ -803,6 +809,29 @@
     }
   });
 
+  await test('並べて表示：全部正しい答案の「（正しい計算過程は別の解き方の例です）」は、生徒の答案と正しい計算過程がちがう（別解の）ときだけ出す', async () => {
+    w.__calcTeacher.setVariantRng(() => 0); // 正答版を出す
+    await configure({ unit: 'equation', count: 'all' });
+    await click('#start-btn');
+    w.__calcTeacher.setVariantRng(null);
+    const s = app().session;
+    const seen = { same: 0, alt: [] };
+    const noteText = async () => { await click('[data-action="compare-open"]'); const t = $('#compare-body .compare__note').textContent; await click('[data-action="compare-close"]'); return t; };
+    while (!s.finished) {
+      const q = s.current;
+      const alt = JSON.stringify(q.answerLines) !== JSON.stringify(q.correctSolution);
+      await answer(true);
+      if (q.errorLine === null && (alt || seen.same < 2)) {
+        const t = await noteText();
+        check(t.includes('この答案は全部正しい答案です'), `${q.id}: ${t}`);
+        check(t.includes('別の解き方の例です') === alt, `${q.id}（${alt ? '別解' : '模範解答と同じ'}）: ${t}`);
+        if (alt) seen.alt.push(q.id); else seen.same++;
+      }
+      await click('[data-action="next"]');
+    }
+    check(seen.same === 2 && seen.alt.sort().join() === 'J1-EQ-0003,J1-EQ-0016', `確認した問題（同じ ${seen.same}・別解 ${seen.alt}）`);
+  });
+
   await test('並べて表示：生徒の答案と正しい計算過程が同じ行どうし横に並び、「閉じる」で閉じる（スマホ縦は90°回転）', async () => {
     const phonePortrait = W <= 600 && H > W;
     for (const unit of ['positive-negative', 'equation']) {
@@ -1138,7 +1167,7 @@
     const lossSounds = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
     check(!lossSounds.includes('countdown') && !lossSounds.includes('warning'), `ロスタイム中にカウントダウンの音が鳴った: ${lossSounds}`);
     check(lossSounds.includes('timeup'), 'ロスタイムのあとにタイムアップにならない');
-    check(s.results.map((r) => r.points).join() === '200,210,0,200', `得点 ${s.results.map((r) => r.points)}`);
+    check(s.results.map((r) => r.points).join() === '200,210,-100,200', `得点 ${s.results.map((r) => r.points)}`);
     check(s.summary().maxStreak === 2, '最大連続');
     checkTalk('#ta-result-body', 'ta-low', 'タイムアタック（1000点未満）');
     const rec = recs().officialFor('equation');
@@ -1406,15 +1435,25 @@
     check($$('#records-panel .history-item').length === 1, 'カスタム履歴の表示');
   });
 
-  await test('[設定] タイトルの「あそびかた」「記録を見る」は横並び。設定画面の下に「KEC数学科ラボへ」と「記録を消す」（確認してから消す）', async () => {
+  await test('[設定] タイトル：右上に「？ 遊び方」と「⚙ 設定」が横並び。「記録を見る」は上の3つと同じ大きさ。設定画面の下に「KEC数学科ラボへ」と「記録を消す」（確認してから消す）', async () => {
     await click('[data-action="go-title"]');
-    const how = $('[data-screen="title"] [data-action="go-howto"]').getBoundingClientRect();
-    const rec = $('[data-screen="title"] [data-action="go-records"]').getBoundingClientRect();
-    const last = $$('[data-screen="title"] .title-menu > .btn').pop().getBoundingClientRect();
+    const btnR = (a) => $(`[data-screen="title"] [data-action="${a}"]`).getBoundingClientRect();
+    const how = btnR('go-howto');
+    const opt = btnR('go-options');
+    const howBtn = $('[data-screen="title"] [data-action="go-howto"]');
+    // 「？ 遊び方」は小さいボタンで、「設定」の左に同じ高さで並ぶ
+    check(howBtn.classList.contains('btn-icon') && howBtn.textContent.replace(/\s+/g, '') === '？遊び方', `遊び方のボタン: ${howBtn.textContent}`);
+    check(Math.abs(how.top - opt.top) < 2 && how.right <= opt.left && opt.left - how.right < 16 && Math.abs(how.height - opt.height) < 2 && opt.right <= w.innerWidth, `「遊び方」が「設定」の左にない（遊び方 ${Math.round(how.left)}〜${Math.round(how.right)}／設定 ${Math.round(opt.left)}〜${Math.round(opt.right)}）`);
+    check(!$('[data-screen="title"] .title-menu [data-action="go-howto"]'), 'メニューに「あそびかた」が残っている');
+    // 「記録を見る」は「タイムアタック」「ティーチャー認定試験」と同じ幅・高さで、いちばん下
+    const ta = btnR('go-ta-menu');
+    const cert = btnR('go-cert-units');
+    const rec = btnR('go-records');
+    check(Math.abs(rec.width - ta.width) < 1 && Math.abs(rec.width - cert.width) < 1 && Math.abs(rec.height - cert.height) < 1 && Math.abs(rec.left - ta.left) < 1 && rec.top > cert.bottom, `「記録を見る」の大きさ・位置（記録 ${Math.round(rec.width)}×${Math.round(rec.height)}／認定 ${Math.round(cert.width)}×${Math.round(cert.height)}）`);
     // タイトルのボタンは縦を少し短め（トレーニング 56px・ほかは 50px）。押しやすさのため 48px 以上
-    const hs = ['go-settings', 'go-ta-menu', 'go-cert-units', 'go-howto', 'go-records'].map((x) => Math.round($(`[data-screen="title"] [data-action="${x}"]`).getBoundingClientRect().height));
+    const hs = ['go-settings', 'go-ta-menu', 'go-cert-units', 'go-records'].map((x) => Math.round(btnR(x).height));
     check(hs[0] >= 52 && hs[0] <= 60 && hs.slice(1).every((h) => h >= 48 && h <= 54), `タイトルのボタンの高さ ${hs}`);
-    check(Math.abs(how.top - rec.top) < 2 && how.right <= rec.left && how.top > last.bottom, `横並び・一番下になっていない（あそびかた ${Math.round(how.left)},${Math.round(how.top)}／記録 ${Math.round(rec.left)},${Math.round(rec.top)}）`);
+    check(pageOverflow() <= 0, 'タイトル画面が横にはみ出す');
     await click('[data-action="go-options"]');
     const link = $('#lab-link');
     check(visible('options') && link && link.getAttribute('href') === 'https://taka-t-p.github.io/math-app-portal/' && link.textContent.includes('KEC数学科ラボへ'), 'ラボへのリンク');
@@ -1607,7 +1646,7 @@
       const talkR = $('#title-talk .student-talk').getBoundingClientRect();
       const logoR = $('.title-logo').getBoundingClientRect();
       const nameR = $('#title-heading').getBoundingClientRect();
-      const optR = $('.title-options').getBoundingClientRect();
+      const optR = $('.title-actions').getBoundingClientRect();
       const ov = (a, b) => a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
       check(!ov(talkR, logoR) && !ov(talkR, nameR) && !ov(talkR, optR), `${id}: タイトルの表示と重なる`);
       check(pageOverflow() <= 0, `${id}: 横スクロールが出る`);
@@ -1627,7 +1666,7 @@
         const t = checkTalk('#title-talk', 'title', `タイトル「${text}」`);
         // どのセリフでも（2行になっても）右上の「設定」ボタンと重ならない
         const tr = $('#title-talk .student-talk').getBoundingClientRect();
-        const or = $('.title-options').getBoundingClientRect();
+        const or = $('.title-actions').getBoundingClientRect();
         check(tr.top >= or.bottom + 2 || tr.right <= or.left - 2, `「${text}」が設定ボタンと重なる（吹き出しの上 ${Math.round(tr.top)}・ボタンの下 ${Math.round(or.bottom)}）`);
         check(t.id === id && t.text === text, `${id}「${text}」にならない`);
       }
@@ -1849,6 +1888,41 @@
     } finally {
       snd().debug.simulateFailure(false);
     }
+  });
+
+  await test('[単元カード] 公式タイムアタックは自己ベスト3000点以上で金・2200点以上で銀・1500点以上で銅。認定試験は最終試験で金・第4試験で銀・第3試験で銅（金は光る）', async () => {
+    await openGame(4);
+    recs().clearAll();
+    const titleFor = w.TimeAttack.titleForScore;
+    const scores = { 'positive-negative': 3000, expressions: 2999, equation: 2200, polynomials: 2199, 'simultaneous-equations': 1500, 'expansion-factorization': 1499 };
+    Object.entries(scores).forEach(([u, sc]) => recs().recordOfficial(u, { score: sc, maxStreak: 5 }, titleFor));
+    const cleared = { 'positive-negative': 5, expressions: 4, equation: 3, polynomials: 2, 'square-roots': 1 };
+    Object.entries(cleared).forEach(([u, h]) => { for (let id = 1; id <= h; id++) recs().recordExam(u, id, true); });
+    // 公式タイムアタック
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    const taTier = (u) => $(`#ta-unit-list .unit-card[data-unit="${u}"]`).dataset.tier || 'none';
+    const expectTA = { 'positive-negative': 'gold', expressions: 'silver', equation: 'silver', polynomials: 'bronze', 'simultaneous-equations': 'bronze', 'expansion-factorization': 'none', 'square-roots': 'none', 'quadratic-equations': 'none' };
+    Object.entries(expectTA).forEach(([u, t]) => check(taTier(u) === t, `公式タイムアタック ${u}（${scores[u] ?? '記録なし'}点）: ${taTier(u)}（期待 ${t}）`));
+    const gold = $('#ta-unit-list .unit-card.tier-gold');
+    const bg = w.getComputedStyle(gold).backgroundImage;
+    check(/gradient/.test(bg) && w.getComputedStyle(gold, '::before').animationName === 'tier-shine', `金色のカードが光らない（${w.getComputedStyle(gold, '::before').animationName}）`);
+    check(!/gradient/.test(w.getComputedStyle($('#ta-unit-list .unit-card[data-unit="square-roots"]')).backgroundImage), '記録のないカードに色がついた');
+    // 選んでいる金のカードも、選択（✔・青い枠）がわかる
+    await pickTAUnitCard('positive-negative');
+    const sel = $('#ta-unit-list .unit-card.is-selected');
+    check(sel.dataset.tier === 'gold' && w.getComputedStyle(sel, '::after').content.includes('✔'), '金のカードを選んだときの表示');
+    check(pageOverflow() <= 0, '公式の設定画面が横にはみ出す');
+    // 認定試験
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-cert-units"]');
+    const certTier = (u) => $(`#cert-unit-list .cert-unit[data-unit="${u}"]`).dataset.tier || 'none';
+    const expectCert = { 'positive-negative': 'gold', expressions: 'silver', equation: 'bronze', polynomials: 'none', 'square-roots': 'none', 'quadratic-equations': 'none' };
+    Object.entries(expectCert).forEach(([u, t]) => check(certTier(u) === t, `認定試験 ${u}（第${cleared[u] || 0}試験まで）: ${certTier(u)}（期待 ${t}）`));
+    check(w.getComputedStyle($('#cert-unit-list .cert-unit.tier-gold'), '::before').animationName === 'tier-shine', '認定試験の金色のカードが光らない');
+    check(pageOverflow() <= 0, '認定試験の画面が横にはみ出す');
+    recs().clearAll();
+    await click('[data-action="go-title"]');
   });
 
   // ================================================================ ストーリーモード
