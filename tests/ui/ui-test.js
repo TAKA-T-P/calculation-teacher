@@ -1921,6 +1921,19 @@
     Object.entries(expectCert).forEach(([u, t]) => check(certTier(u) === t, `認定試験 ${u}（第${cleared[u] || 0}試験まで）: ${certTier(u)}（期待 ${t}）`));
     check(w.getComputedStyle($('#cert-unit-list .cert-unit.tier-gold'), '::before').animationName === 'tier-shine', '認定試験の金色のカードが光らない');
     check(pageOverflow() <= 0, '認定試験の画面が横にはみ出す');
+    // 公式タイムアタックの結果画面：最高記録（自己ベスト）でスコアのカードが金・銀・銅になる（3回ミスですぐ終える）
+    for (const [u, t] of [['positive-negative', 'gold'], ['expressions', 'silver'], ['square-roots', 'none']]) {
+      await click('[data-action="go-title"]');
+      await click('[data-action="go-ta-menu"]');
+      await click('[data-action="ta-mode"][data-mode="official"]');
+      await pickTAUnitCard(u);
+      await click('#ta-start-btn');
+      await playTA(() => false);
+      const card = $('#ta-result-body .score-card');
+      check((card.dataset.tier || 'none') === t, `結果画面 ${u}（自己ベスト ${recs().officialFor(u).bestScore}点）: ${card.dataset.tier || 'none'}（期待 ${t}）`);
+      if (t === 'gold') check(w.getComputedStyle(card, '::before').animationName === 'tier-shine', '結果画面の金色のカードが光らない');
+      check(pageOverflow() <= 0, '結果画面が横にはみ出す');
+    }
     recs().clearAll();
     await click('[data-action="go-title"]');
   });

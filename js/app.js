@@ -1701,8 +1701,10 @@
     const unit = unitLabelById(s.criteria.unit);
     let bestHtml = '';
     let titleHtml = '';
+    let tier = null; // 公式：最高記録（自己ベスト）で、スコアのカードを金・銀・銅にする
     if (s.isOfficial) {
       const best = rec.record.bestScore;
+      tier = tierForScore(best);
       if (rec.firstPlay) bestHtml = '<p class="best-badge">🎉 初めての公式記録！</p>';
       else if (rec.isBest) bestHtml = `<p class="best-badge best-badge--new">🎉 自己ベスト更新！<small>（これまで ${rec.prevBest}点）</small></p>`;
       else bestHtml = `<p class="best-line">自己ベスト：${best}点</p>`;
@@ -1722,7 +1724,7 @@
     $('#ta-result-body').innerHTML = `
       <h2 id="ta-result-heading" class="screen-title" tabindex="-1">${s.isOfficial ? '🏅 公式' : '🎯 カスタム'}タイムアタック結果</h2>
       <p class="summary-unit">${esc(unit)}</p>
-      <div class="score-card">
+      <div class="score-card${tier ? ` tier-${tier}` : ''}"${tier ? ` data-tier="${tier}"` : ''}>
         ${sum.gameOver ? `<p class="gameover-badge">💥 ${s.maxMisses}回ミスでゲームオーバー</p>` : ''}
         <p class="score-card__rate">スコア <span>${sum.score}</span>点</p>
         ${bestHtml}

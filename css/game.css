@@ -1393,30 +1393,30 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 }
 
 /* ---------- 単元カードの金・銀・銅（公式タイムアタック：自己ベスト3000/2200/1500点以上、認定試験：最終/第4/第3試験に合格） */
-.unit-card[data-tier], .cert-unit[data-tier] { position: relative; overflow: hidden; color: #3b2a00; }
-.unit-card.tier-gold, .cert-unit.tier-gold {
+.unit-card[data-tier], .cert-unit[data-tier], .score-card[data-tier] { position: relative; overflow: hidden; color: #3b2a00; }
+.unit-card.tier-gold, .cert-unit.tier-gold, .score-card.tier-gold {
   background: linear-gradient(135deg, #fff6c8 0%, #f7d65a 45%, #f1bf2a 70%, #fbe58c 100%);
   border-color: #d9a816;
   box-shadow: 0 3px 0 #c99412, 0 0 12px rgba(241, 191, 42, .55);
 }
-.unit-card.tier-silver, .cert-unit.tier-silver {
+.unit-card.tier-silver, .cert-unit.tier-silver, .score-card.tier-silver {
   background: linear-gradient(135deg, #fbfcfe 0%, #dfe4ec 45%, #c7cfdb 70%, #eef1f6 100%);
   border-color: #a9b3c2;
   box-shadow: 0 3px 0 #98a3b4;
 }
-.unit-card.tier-bronze, .cert-unit.tier-bronze {
+.unit-card.tier-bronze, .cert-unit.tier-bronze, .score-card.tier-bronze {
   background: linear-gradient(135deg, #fbe3cc 0%, #e2a774 45%, #c98451 70%, #f0c49c 100%);
   border-color: #b8743f;
   box-shadow: 0 3px 0 #a3612f;
 }
 .cert-unit[data-tier] { border-left-color: var(--rank-color, #c99412); }
 .unit-card[data-tier] .unit-card__sub, .cert-unit[data-tier] .cert-unit__next, .cert-unit[data-tier] .cert-unit__arrow { color: rgba(40, 28, 0, .75); }
-.unit-card.tier-silver, .cert-unit.tier-silver { color: #2a3342; }
+.unit-card.tier-silver, .cert-unit.tier-silver, .score-card.tier-silver { color: #2a3342; }
 /* 選んでいる金・銀・銅のカードは、青い枠で選択がわかるようにする */
 .unit-card[data-tier].is-selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary) inset, 0 3px 0 var(--primary); }
 .unit-card[data-tier].is-selected .unit-card__sub { color: rgba(40, 28, 0, .8); }
 /* 金色のカードは、ときどき光がすっと流れる */
-.unit-card.tier-gold::before, .cert-unit.tier-gold::before {
+.unit-card.tier-gold::before, .cert-unit.tier-gold::before, .score-card.tier-gold::before {
   content: "";
   position: absolute;
   top: -20%;
@@ -1434,7 +1434,12 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   100% { left: 130%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .unit-card.tier-gold::before, .cert-unit.tier-gold::before { animation: none; display: none; }
+  .unit-card.tier-gold::before, .cert-unit.tier-gold::before, .score-card.tier-gold::before { animation: none; display: none; }
 }
 /* 銅色の背景では、ランク名（オレンジ系）が読みにくいので濃い茶色にする */
 .cert-unit.tier-bronze .cert-unit__rank { color: #5b2600; }
+/* 公式タイムアタックの結果画面：金・銀・銅のスコアカードの文字を読みやすく（グレーの文字は濃く） */
+.score-card[data-tier] .score-card__rate, .score-card[data-tier] .best-line, .score-card[data-tier] .score-card__stats dt { color: rgba(40, 28, 0, .8); }
+.score-card[data-tier] .score-card__stats dd { color: #2a1d00; }
+.score-card[data-tier] > * { position: relative; z-index: 1; }
+.score-card.tier-gold::before { width: 30%; animation-duration: 4s; z-index: 0; }
