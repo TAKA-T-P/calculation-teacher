@@ -154,6 +154,8 @@
       this.results = [];            // 回答した問題の記録 { question, choice, correct, points, streak, at }
       this.locked = false;          // 正誤の演出中（次の問題を出すまで）は回答を受け付けない
       this.current = null;
+      this.currentAnswered = false; // 表示中の問題に回答したか
+      this.unanswered = null;       // 時間切れのとき、回答できずに終わった問題 { question, expected, at }（結果の集計には入れない）
     }
 
     get isOfficial() { return this.mode === MODES.OFFICIAL; }
@@ -166,6 +168,7 @@
       if (this.started) return;
       this.startedAt = this.now();
       this.current = this.nextPlayable();
+      this.currentAnswered = false;
     }
 
     elapsed(at = this.now()) {
@@ -263,6 +266,7 @@
       }
       const result = { question: q, choice: r.choice, expected: r.expected, correct: r.correct, points, streak: this.streak, misses: this.misses, at: at - this.startedAt, lossTime: at - this.startedAt > this.durationMs };
       this.results.push(result);
+      this.currentAnswered = true;
       this.locked = true;
       return result;
     }
@@ -274,6 +278,7 @@
       if (this.isGameOver) { this.finish(at); return false; }
       if (this.isTimeUp(at)) { this.finish(at); return false; }
       this.current = this.nextPlayable();
+      this.currentAnswered = false;
       return true;
     }
 
@@ -283,6 +288,11 @@
       this.ended = true;
       this.locked = true;
       this.endReason = this.isGameOver ? 'gameover' : 'timeup';
+      // 時間切れ（ロスタイムも過ぎた）で、表示中の問題に回答していなかった：結果画面で確認できるように残す
+      if (this.endReason === 'timeup' && this.started && this.current && !this.currentAnswered && this.isTimeUp(at)) {
+        const q = this.current;
+        this.unanswered = { question: q, expected: q.errorLine === null ? { type: 'allCorrect' } : { type: 'line', index: q.errorLine }, at: at - this.startedAt };
+      }
       this.endedAt = this.started ? Math.min(at, this.startedAt + this.durationMs) : at;
     }
 

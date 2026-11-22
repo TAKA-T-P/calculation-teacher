@@ -195,6 +195,40 @@ test('対象が1問だけのカスタムでは、同じ問題を続けて出し�
   s.answer(correctChoice(s.current)); clock.advance(100); s.advance();
   eq(s.current.id, id);
 });
+test('時間切れで回答できなかった問題は unanswered に残る（得点・正解数・回答数には入れない）。回答した・ゲームオーバー・途中でやめたときは残さない', () => {
+  // 時間切れ（ロスタイムも過ぎた）：表示中の問題が残る
+  const a = taSession({ mode: 'custom', unit: 'equation' }, 3);
+  a.s.start();
+  const r1 = a.s.answer(correctChoice(a.s.current)); a.clock.advance(500); a.s.advance();
+  const shown = a.s.current;
+  a.clock.advance(TA.CONFIG.durationMs + TA.CONFIG.lossTimeMs);
+  eq(a.s.answer(correctChoice(shown)), null, 'ロスタイムのあとに回答できた');
+  eq(a.s.ended, true);
+  assert(a.s.unanswered && a.s.unanswered.question === shown, '時間切れの問題が残らない');
+  eq(JSON.stringify(a.s.unanswered.expected), JSON.stringify(correctChoice(shown)), '正しい選択');
+  eq(a.s.results.length, 1); eq(a.s.results[0], r1);
+  const sum = a.s.summary();
+  eq(JSON.stringify([sum.answered, sum.correct, sum.wrong, sum.score]), JSON.stringify([1, 1, 0, r1.points]), '集計に時間切れの問題が入った');
+  // ロスタイム中に回答した：残さない
+  const b = taSession({ mode: 'custom', unit: 'equation' }, 4);
+  b.s.start(); b.clock.advance(TA.CONFIG.durationMs + 2000);
+  b.s.answer(correctChoice(b.s.current)); b.clock.advance(600); b.s.advance();
+  eq(b.s.ended, true); eq(b.s.unanswered, null, '回答した問題が時間切れとして残った');
+  // 回答の演出中に時間切れ：残さない
+  const c = taSession({ mode: 'custom', unit: 'equation' }, 5);
+  c.s.start(); c.clock.advance(TA.CONFIG.durationMs - 100);
+  c.s.answer(correctChoice(c.s.current)); c.clock.advance(600); c.s.advance();
+  eq(c.s.ended, true); eq(c.s.unanswered, null, '演出中の時間切れで残った');
+  // ゲームオーバー：残さない
+  const d = taSession({ mode: 'official', unit: 'equation' }, 6);
+  d.s.start();
+  for (let i = 0; i < 3; i++) { d.s.answer(wrongChoice(d.s.current)); d.clock.advance(500); d.s.advance(); }
+  eq(d.s.endReason, 'gameover'); eq(d.s.unanswered, null, 'ゲームオーバーで残った');
+  // 途中でやめた（時間が残っている）：残さない
+  const e = taSession({ mode: 'custom', unit: 'equation' }, 7);
+  e.s.start(); e.clock.advance(10000); e.s.finish();
+  eq(e.s.unanswered, null, '途中でやめたのに残った');
+});
 test('ロスタイム：0秒の時点で表示中の問題は、さらに5秒まで回答できる（正解・不正解とも記録され、そのあと終了）。表示は0秒のまま', () => {
   eq(TA.CONFIG.lossTimeMs, 5 * 1000);
   [true, false].forEach((ok) => {

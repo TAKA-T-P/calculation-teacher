@@ -898,6 +898,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .review-item__mark { font-weight: 900; }
 .review-item.is-ok .review-item__mark, .review-item.is-ok .review-item__result { color: var(--ok); }
 .review-item.is-ng .review-item__mark, .review-item.is-ng .review-item__result { color: var(--ng); }
+/* タイムアタックで時間切れになった（回答していない）問題 */
+.review-item.is-timeout { border-style: dashed; }
+.review-item.is-timeout .review-item__mark, .review-item.is-timeout .review-item__result { color: var(--muted); }
 .review-item__no { font-size: .85rem; color: var(--muted); }
 .review-item__math { overflow-x: auto; overflow-y: hidden; white-space: nowrap; }
 .review-item__result { font-size: .85rem; font-weight: 700; }

@@ -1226,6 +1226,16 @@
     const bestTitle = $('#ta-result-body .ta-title--best strong').textContent;
     check(nowTitle === w.TimeAttack.titleForScore(s.summary().score) && bestTitle === w.TimeAttack.titleForScore(best) && nowTitle !== bestTitle, `今回の結果と最高記録の称号: ${nowTitle} / ${bestTitle}`);
     check(!$('#ta-result-body .ta-title__up'), '下回った回に称号アップが出た');
+    // ロスタイムでも回答できずに時間切れになった問題も、最後に「⏱ 時間切れ」として並び、解説を見られる
+    check(s.unanswered && !s.results.some((r) => r.question === s.unanswered.question && r.at > 85000), '時間切れの問題が残っていない');
+    const cards = $$('#ta-result-body .review-item');
+    const lastCard = cards[cards.length - 1];
+    check(cards.length === s.results.length + 1 && lastCard.classList.contains('is-timeout') && lastCard.textContent.includes('時間切れ') && lastCard.textContent.includes('⏱'), `時間切れの問題のカード（${cards.length}枚・回答 ${s.results.length}問）`);
+    check(s.summary().answered === s.results.length && $('#ta-result-body .score-card').textContent.includes(`${s.summary().correct}問`), '時間切れの問題が集計に入った');
+    await click(lastCard);
+    check($('#explain-dialog').open && $('#explain-title').textContent.includes('時間切れ（未回答）') && $('#explain-body').textContent.includes('時間切れで、この問題には回答していません'), `時間切れの問題の解説: ${$('#explain-title').textContent}`);
+    check(!$('#explain-body .tag--chosen') && !$('#explain-body').textContent.includes('キミの答え'), '時間切れの問題に「キミの答え」が出ている');
+    await click('[data-action="explain-close"]');
   });
 
   await test('[TA] 3回ミスでゲームオーバー：時間が残っていても強制終了し、ハートが減り、結果画面に表示・記録される', async () => {
@@ -1264,7 +1274,11 @@
   });
 
   await test('[TA] カスタム：カテゴリ・難易度をしぼれる。公式記録は変わらず、履歴に残る。履歴から同じ条件で再挑戦できる', async () => {
+    // 公式の結果画面のボタンは「単元選択に戻る」（押すと公式の単元選択の画面）
+    const backBtn = inScreen('ta-result', '[data-action="ta-back-settings"]');
+    check(backBtn.textContent.trim() === '単元選択に戻る', `公式の結果画面のボタン: ${backBtn.textContent}`);
     await click('[data-action="ta-back-settings"]');
+    check(visible('ta-settings') && inScreen('ta-settings', '#ta-custom-fields').hidden, '「単元選択に戻る」で公式の単元選択に戻らない');
     // 公式の設定画面：記録がある単元は「自己ベスト ○点」と「称号「…」」を2行で表示（ルールの文は出さない）
     const bestEl = $('#ta-official-info .official-info__best');
     const best = recs().officialFor(ta().unit).bestScore;
@@ -1296,6 +1310,7 @@
     const h = recs().customHistory();
     check(h.length === 1 && h[0].categories.join() === '累乗' && h[0].score === s.score, `履歴 ${JSON.stringify(h[0])}`);
     check($('#ta-result-body').textContent.includes('公式の記録・称号は変わりません'), 'カスタムの説明');
+    check(inScreen('ta-result', '[data-action="ta-back-settings"]').textContent.trim() === '設定に戻る', 'カスタムの結果画面のボタンは「設定に戻る」のまま');
     // 記録画面のカスタム履歴から同じ条件で再挑戦 → 途中でやめると記録しない
     await click('[data-action="go-title"]');
     await click('[data-action="go-records"]');
@@ -1414,6 +1429,8 @@
     check($('#explain-dialog').open, '解説が開かない');
     await click('[data-action="explain-close"]');
     check($('#cert-result-actions').textContent.includes('次の試験へ'), '「次の試験へ」がない');
+    // 合格したときは「もう一度挑戦」を出さない
+    check(!$('#cert-result-actions').textContent.includes('もう一度挑戦') && !$('#cert-result-actions [data-action="cert-start"][data-exam="1"]'), '合格したのに「もう一度挑戦」がある');
     await click('[data-action="go-cert-list"]');
     check(examCard(2).querySelector('[data-action="cert-start"]'), '第2試験が解放されていない');
     check(examCard(1).textContent.includes('合格済み'), '合格済みの表示');
@@ -1432,6 +1449,9 @@
     await click('[data-action="next"]');
     check(visible('cert-result') && s.results.length === 3 && $('#cert-result-body').textContent.includes('第2試験 不合格'), '不合格の表示');
     check($('#cert-result-body').textContent.includes('ランクは下がりません') && $('#cert-result-body').textContent.includes('新人ティーチャー'), 'ランクの表示');
+    // 不合格のときは「もう一度挑戦」（同じ試験）がいちばん上
+    const retryBtn = $('#cert-result-actions .btn');
+    check(retryBtn && retryBtn.textContent.includes('もう一度挑戦') && retryBtn.dataset.exam === '2' && retryBtn.classList.contains('btn--primary'), '不合格のときの「もう一度挑戦」');
     check(sndNow().debug.log.some((e) => e.played && e.name === 'fail'), '不合格の効果音');
     checkTalk('#cert-result-body', 'cert-fail', '認定試験（不合格）');
     const c = recs().certFor('equation');
@@ -1785,7 +1805,10 @@
     await plays();
     checkTalk('#cert-result-body', 'cert-master', '最終試験の初合格');
     check(recs().certFor('expressions').highestCleared === 5, 'ランクが記録されない');
-    await click('#cert-result-actions [data-action="cert-start"][data-exam="5"]');
+    // 合格した結果画面には「もう一度挑戦」がないので、試験一覧からもう一度挑戦する
+    check(!$('#cert-result-actions [data-action="cert-start"]') && $('#cert-result-actions .btn--primary').dataset.action === 'go-cert-list', '最終試験の合格後のボタン');
+    await click('#cert-result-actions [data-action="go-cert-list"]');
+    await click(examCard(5).querySelector('[data-action="cert-start"]'));
     const s = app().session;
     for (let i = 0; i < s.exam.maxQuestions && !visible('cert-result'); i++) { await answerExam(true); await click('[data-action="next"]'); }
     checkTalk('#cert-result-body', 'cert-pass', '最終試験の再合格');

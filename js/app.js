@@ -1324,12 +1324,12 @@
     return `<p class="review-guide">問題をタップすると、解説が見られます</p>
       <ol class="review-list" aria-label="問題ごとの結果（タップで解説）">${items.map((r, i) => `
         <li>
-          <button type="button" class="review-item ${r.correct ? 'is-ok' : 'is-ng'}" data-action="${action}" data-index="${i}"
-            aria-label="${i + 1}問目（${r.correct ? '正解' : 'まちがい'}）の解説を見る">
-            <span class="review-item__mark" aria-hidden="true">${r.correct ? '✔' : '✖'}</span>
+          <button type="button" class="review-item ${r.timeout ? 'is-timeout' : r.correct ? 'is-ok' : 'is-ng'}" data-action="${action}" data-index="${i}"
+            aria-label="${i + 1}問目（${r.timeout ? '時間切れ・未回答' : r.correct ? '正解' : 'まちがい'}）の解説を見る">
+            <span class="review-item__mark" aria-hidden="true">${r.timeout ? '⏱' : r.correct ? '✔' : '✖'}</span>
             <span class="review-item__no">${i + 1}問目</span>
             <span class="review-item__math">${R.mathHtml(r.question.question, false)}</span>
-            <span class="review-item__result">${r.correct ? (r.points ? `+${r.points}` : '正解') : (r.points < 0 ? `−${-r.points}` : 'まちがい')}</span>
+            <span class="review-item__result">${r.timeout ? '時間切れ' : r.correct ? (r.points ? `+${r.points}` : '正解') : (r.points < 0 ? `−${-r.points}` : 'まちがい')}</span>
             <span class="review-item__retry" aria-hidden="true">📖</span>
           </button>
         </li>`).join('')}</ol>`;
@@ -1360,12 +1360,13 @@
       : (chosen && chosen.type === 'allCorrect' ? '<p class="explain-note">キミの答え：○ 全部正しい！</p>' : '');
     const solution = q.correctSolution.map((latex, i) =>
       `<li class="solution__line${i === 0 && !isEq ? ' row--indent' : ''}"><span class="row__no">${lineLabel(i)}</span><span class="row__math fit-math">${lineMathHtml(latex, isEq)}</span></li>`).join('');
-    $('#explain-title').textContent = `${no}問目　${r.correct ? '✔ 正解' : '✖ まちがい'}`;
+    $('#explain-title').textContent = `${no}問目　${r.timeout ? '⏱ 時間切れ（未回答）' : r.correct ? '✔ 正解' : '✖ まちがい'}`;
     $('#explain-body').innerHTML = `
       <p class="paper__instruction">${R.richTextHtml(q.instruction || S.defaultInstruction(q.unit))}</p>
       <div class="paper__question fit-math">${R.mathHtml(q.question, true)}</div>
       <h3 class="feedback__title">生徒の答案</h3>
       <ol class="solution${eqGroupClass(q)}">${lines}</ol>
+      ${r.timeout ? '<p class="explain-note">⏱ 時間切れで、この問題には回答していません（得点・正解率には入りません）。</p>' : ''}
       ${allCorrectNote}
       <h3 class="feedback__title">${q.errorLine === null ? '計算のポイント' : 'まちがいの理由'}${q.errorType ? `<span class="error-type">${esc(q.errorType)}</span>` : ''}</h3>
       <p class="feedback__text">${R.richTextHtml(q.explanation)}</p>
@@ -1726,6 +1727,8 @@
         <p class="screen-note">カスタムの結果は履歴に保存されました（公式の記録・称号は変わりません）。</p>`;
     }
     const items = s.results.map((r) => ({ ...r }));
+    // ロスタイムでも回答できずに時間切れになった問題も、最後に「時間切れ」として並べる（解説を見られる。得点・正解率には入れない）
+    if (s.unanswered) items.push({ question: s.unanswered.question, expected: s.unanswered.expected, choice: null, correct: false, points: 0, timeout: true });
     $('#ta-result-body').innerHTML = `
       <h2 id="ta-result-heading" class="screen-title" tabindex="-1">${s.isOfficial ? '🏅 公式' : '🎯 カスタム'}タイムアタック結果</h2>
       <p class="summary-unit">${esc(unit)}</p>
@@ -1744,11 +1747,19 @@
       ${talkHtml(dialogueFor(app.ta.result, D.timeAttackGroup({ official: s.isOfficial, isBest: !!(rec && rec.isBest), gameOver: sum.gameOver, score: sum.score })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(items, 'ta-explain')}`;
+    // 「設定に戻る」ボタン：公式は単元を選ぶだけなので「単元選択に戻る」（役割は同じ）
+    const back = document.querySelector('section[data-screen="ta-result"] [data-action="ta-back-settings"]');
+    if (back) back.textContent = s.isOfficial ? '単元選択に戻る' : '設定に戻る';
     showStoryNoticeIn($('#ta-result-body'), app.ta.result.storyNotices, 'afterbegin');
   }
 
   function openTAExplain(index) {
-    const r = app.ta.result && app.ta.result.session.results[index];
+    const res = app.ta.result;
+    if (!res) return;
+    const s = res.session;
+    // 最後の「時間切れ」の問題（回答していない）
+    const r = index < s.results.length ? s.results[index]
+      : (index === s.results.length && s.unanswered ? { question: s.unanswered.question, choice: null, correct: false, timeout: true } : null);
     if (r) openExplain(index + 1, r);
   }
 
@@ -1932,11 +1943,12 @@
       ${talkHtml(dialogueFor(app.cert.last, D.certGroup({ passed, firstClear: rec.firstClear, rankUp: rec.rankUp, isFinal })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(s.results.map((r, i) => ({ ...r, question: s.questions[i] })), 'cert-explain')}`;
-    // 合格して次の試験があるときは「次の試験へ」を主なボタンにし、「もう一度挑戦」は控えめにする
-    const retryClass = passed && nextExam ? 'btn--secondary' : 'btn--primary';
-    const actions = [`<button type="button" class="btn ${retryClass} btn--lg" data-action="cert-start" data-exam="${s.exam.id}">もう一度挑戦</button>`];
-    if (passed && nextExam) actions.unshift(`<button type="button" class="btn btn--primary btn--lg" data-action="cert-start" data-exam="${nextExam.id}">次の試験へ（${nextExam.name}）</button>`);
-    actions.push('<button type="button" class="btn btn--secondary btn--lg" data-action="go-cert-list">認定試験一覧に戻る</button>');
+    // 合格：「もう一度挑戦」は出さない。次の試験があれば「次の試験へ」を主なボタンにする（最終試験の合格は「認定試験一覧に戻る」が主）
+    // 不合格：「もう一度挑戦」を主なボタンにする
+    const actions = [];
+    if (!passed) actions.push(`<button type="button" class="btn btn--primary btn--lg" data-action="cert-start" data-exam="${s.exam.id}">もう一度挑戦</button>`);
+    if (passed && nextExam) actions.push(`<button type="button" class="btn btn--primary btn--lg" data-action="cert-start" data-exam="${nextExam.id}">次の試験へ（${nextExam.name}）</button>`);
+    actions.push(`<button type="button" class="btn ${passed && !nextExam ? 'btn--primary' : 'btn--secondary'} btn--lg" data-action="go-cert-list">認定試験一覧に戻る</button>`);
     actions.push('<button type="button" class="btn btn--ghost btn--lg" data-action="go-title">タイトルへ</button>');
     $('#cert-result-actions').innerHTML = actions.join('');
     showStoryNoticeIn($('#cert-result-body'), app.cert.last.storyNotices, 'afterbegin');
