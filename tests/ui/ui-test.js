@@ -1893,6 +1893,46 @@
     }
   });
 
+  await test('[表示] 「← もどる」などの戻るボタンは、せまい画面（360px）でも改行しない。長い見出しも画面に収まる', async () => {
+    const before = frame.style.width;
+    frame.style.width = '360px';
+    await sleep(100);
+    try {
+      await openGame(4);
+      const backOk = (where) => {
+        const b = $$('.btn--back').find((x) => x.offsetParent);
+        check(b, `${where}: 戻るボタンがない`);
+        const lh = parseFloat(w.getComputedStyle(b).lineHeight) || 24;
+        const r = b.getBoundingClientRect();
+        const text = b.textContent.trim();
+        check(r.height <= Math.max(48, lh * 1.5 + 12) && b.scrollWidth <= b.clientWidth + 1, `${where}: 「${text}」が改行している（高さ ${Math.round(r.height)}）`);
+        const h = b.closest('.screen-header').querySelector('.screen-title');
+        if (h) check(h.getBoundingClientRect().right <= w.innerWidth + 1 && pageOverflow() <= 0, `${where}: 見出しが画面からはみ出す`);
+      };
+      const screens = [
+        ['遊び方', async () => click('[data-action="go-howto"]')],
+        ['設定', async () => click('[data-action="go-options"]')],
+        ['トレーニング', async () => click('[data-action="go-settings"]')],
+        ['タイムアタック', async () => click('[data-action="go-ta-menu"]')],
+        ['公式タイムアタック', async () => { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); }],
+        ['カスタムタイムアタック', async () => { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="custom"]'); }],
+        ['認定試験', async () => click('[data-action="go-cert-units"]')],
+        ['認定試験の一覧', async () => { await click('[data-action="go-cert-units"]'); await pickCertUnit('expansion-factorization'); }],
+        ['記録', async () => click('[data-action="go-records"]')],
+      ];
+      for (const [name, go] of screens) {
+        if (!visible('title')) await click('[data-action="go-title"]');
+        await go();
+        await sleep(50);
+        backOk(name);
+      }
+    } finally {
+      frame.style.width = before;
+      await sleep(100);
+    }
+    await openGame(4);
+  });
+
   await test('[単元カード] 公式タイムアタックは自己ベスト3000点以上で金・2200点以上で銀・1500点以上で銅。認定試験は最終試験で金・第4試験で銀・第3試験で銅（金は光る）', async () => {
     await openGame(4);
     recs().clearAll();

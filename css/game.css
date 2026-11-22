@@ -122,8 +122,10 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   gap: 12px;
   margin-bottom: 12px;
 }
-.screen-title { margin: 0; font-size: 1.4rem; }
-.btn--back { min-height: 44px; padding: 4px 14px; font-size: .9rem; }
+/* 見出しは長いとき（「🎯 カスタムタイムアタック」など）、せまい画面では文字を少し小さくし、それでも入らなければ見出しのほうを折り返す */
+.screen-title { margin: 0; min-width: 0; font-size: clamp(1.05rem, 4.6vw, 1.4rem); line-height: 1.35; overflow-wrap: anywhere; }
+/* 「← もどる」などの戻るボタンは改行しない（見出しに押されて縮まない） */
+.btn--back { min-height: 44px; padding: 4px 14px; font-size: .9rem; white-space: nowrap; flex: 0 0 auto; }
 .screen-footer { margin-top: 24px; display: flex; justify-content: center; }
 
 /* ============================================================ ① タイトル */
