@@ -214,6 +214,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 /* 「あそびかた」「記録を見る」を横並びに */
 .title-menu__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .title-menu__pair .btn { padding-left: 8px; padding-right: 8px; white-space: nowrap; }
+/* タイトル画面のボタンは、上下の余白を少しせまくして縦の長さを短めに（押しやすさのため 48px 以上は保つ） */
+.title-menu .btn--xl { min-height: 56px; padding-top: 8px; padding-bottom: 8px; }
+.title-menu .btn--lg { min-height: 50px; padding-top: 6px; padding-bottom: 6px; }
 .coming-soon {
   list-style: none;
   margin: 8px 0 0;

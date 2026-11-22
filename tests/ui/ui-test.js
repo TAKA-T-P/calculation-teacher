@@ -1352,6 +1352,9 @@
     const how = $('[data-screen="title"] [data-action="go-howto"]').getBoundingClientRect();
     const rec = $('[data-screen="title"] [data-action="go-records"]').getBoundingClientRect();
     const last = $$('[data-screen="title"] .title-menu > .btn').pop().getBoundingClientRect();
+    // タイトルのボタンは縦を少し短め（トレーニング 56px・ほかは 50px）。押しやすさのため 48px 以上
+    const hs = ['go-settings', 'go-ta-menu', 'go-cert-units', 'go-howto', 'go-records'].map((x) => Math.round($(`[data-screen="title"] [data-action="${x}"]`).getBoundingClientRect().height));
+    check(hs[0] >= 52 && hs[0] <= 60 && hs.slice(1).every((h) => h >= 48 && h <= 54), `タイトルのボタンの高さ ${hs}`);
     check(Math.abs(how.top - rec.top) < 2 && how.right <= rec.left && how.top > last.bottom, `横並び・一番下になっていない（あそびかた ${Math.round(how.left)},${Math.round(how.top)}／記録 ${Math.round(rec.left)},${Math.round(rec.top)}）`);
     await click('[data-action="go-options"]');
     const link = $('#lab-link');
@@ -1904,7 +1907,12 @@
     check(w.matchMedia('(prefers-color-scheme: dark)').matches || (bg[0] >= 240 && bg[0] > bg[1] + 15 && bg[2] > bg[1]), `薄い桃色ではない: ${bg}`);
     check(!$('#story-new-badge').hidden, '記録画面のボタンの NEW');
     const br = btn.getBoundingClientRect();
-    check(br.height >= 48 && br.right <= w.innerWidth && pageOverflow() <= 0, '記録画面のボタンの大きさ・はみ出し');
+    // 「ティーチャー認定」のタブと同じ行の右側に、1行で収まる
+    const cr = $('#tab-cert').getBoundingClientRect();
+    const lh = parseFloat(w.getComputedStyle(btn).lineHeight) || 30;
+    check(Math.abs((br.top + br.bottom) / 2 - (cr.top + cr.bottom) / 2) < 4 && br.left >= cr.right, `「ティーチャー認定」の右にない（タブ ${Math.round(cr.right)},${Math.round(cr.top)}・ボタン ${Math.round(br.left)},${Math.round(br.top)}）`);
+    check(br.height <= Math.max(cr.height, lh * 1.6) + 4 && br.height >= 44, `ボタンが1行に収まらない（高さ ${Math.round(br.height)}）`);
+    check(br.right <= w.innerWidth && pageOverflow() <= 0, '記録画面のボタンがはみ出す');
     await openStoryList();
     const head = $('.story-head').textContent;
     check(head.includes('あの日の赤ペンが、未来を変えた。') && head.includes('ケイくん、シホさんと歩む1年間の物語'), 'タイトル');

@@ -28,8 +28,11 @@
 }
 
 /* ============================================================ 「記録を見る」画面の「📖 ストーリー」（薄い桃色） */
-.records-story { margin: 0 0 14px; display: flex; justify-content: center; }
-.records-story .btn--story { width: min(360px, 100%); }
+/* タブ（公式・カスタム・認定）と同じ並びに置く。タブの入れ物は並びに参加させる（display: contents） */
+.records-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 12px; }
+.records-nav > .tabs { display: contents; }
+.records-nav__story { min-height: 44px; padding: 6px 12px; gap: .25em; white-space: nowrap; flex: 0 0 auto; }
+.records-nav__story .btn__icon { font-size: 1em; }
 .btn--story {
   background: #ffe3ec;
   color: #8a2f4e;
