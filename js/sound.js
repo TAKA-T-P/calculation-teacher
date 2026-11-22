@@ -195,6 +195,20 @@
         { f: N.C4, t: 0.3, d: 0.34, type: 'sine', v: 0.5 },
       ],
     },
+    // タイムアタックの結果画面に移るときの短いジングル（すばやい上昇音から明るい和音）
+    taResult: {
+      group: 'long', gain: 0.36, minGap: 800,
+      notes: [
+        { f: N.G4, t: 0, d: 0.09, type: 'triangle', v: 0.9 },
+        { f: N.C5, t: 0.07, d: 0.09, type: 'triangle', v: 0.9 },
+        { f: N.E5, t: 0.14, d: 0.09, type: 'triangle', v: 0.9 },
+        { f: N.G5, t: 0.21, d: 0.1, type: 'triangle', v: 1 },
+        { f: N.C5, t: 0.32, d: 0.42, type: 'triangle', v: 0.75 },
+        { f: N.E5, t: 0.32, d: 0.42, type: 'triangle', v: 0.75 },
+        { f: N.G5, t: 0.32, d: 0.42, type: 'triangle', v: 0.7 },
+        { f: N.C6, t: 0.32, d: 0.42, type: 'sine', v: 0.5 },
+      ],
+    },
     // 自己ベスト更新：キラキラした上昇音と和音
     best: {
       group: 'long', gain: 0.36, minGap: 1000,

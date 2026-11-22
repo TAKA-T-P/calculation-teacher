@@ -1692,7 +1692,12 @@
       hideTAOverlay();
       renderTAResult();
       show('ta-result', 'replace');
-      if (s.isOfficial && rec.isBest && !rec.firstPlay && sum.score > 0) sfx('best'); // 自己ベスト更新
+      // 結果画面に移ったら短いジングル（画面を変えると長い音は止まるので、表示のあとに鳴らす）
+      sfx('taResult');
+      // 自己ベスト更新の音は、ジングルが終わってから鳴らす（重ねない）
+      if (s.isOfficial && rec.isBest && !rec.firstPlay && sum.score > 0) {
+        later(() => { if (app.screen === 'ta-result') sfx('best'); }, Math.round(window.SoundLib.recipeDuration('taResult') * 1000) + 80);
+      }
     }, 1100);
   }
 

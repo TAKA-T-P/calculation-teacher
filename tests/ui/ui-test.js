@@ -1117,7 +1117,9 @@
     const rec = recs().officialFor('equation');
     check(rec.bestScore === sum.score && rec.plays === 1 && rec.maxStreak === sum.maxStreak, `公式記録 ${JSON.stringify(rec)}`);
     const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
-    ['countdown', 'go', 'quickCorrect', 'warning', 'timeup'].forEach((n) => check(names.includes(n), `効果音 ${n} が鳴っていない`));
+    ['countdown', 'go', 'quickCorrect', 'warning', 'timeup', 'taResult'].forEach((n) => check(names.includes(n), `効果音 ${n} が鳴っていない`));
+    // 結果画面に移るときのジングルは、タイムアップの音のあと（結果画面を表示してから）鳴る
+    check(names.lastIndexOf('taResult') > names.lastIndexOf('timeup'), `ジングルの順番: ${names}`);
     check(names.filter((n) => n === 'countdown').length === 3, 'カウントダウン音の回数');
     // 問題ごとの解説（スコアは変わらない）
     check($$('#ta-result-body .review-item').length === sum.answered, '問題ごとの結果の数');
@@ -1198,7 +1200,7 @@
     checkTalk('#ta-result-body', 'ta-gameover', 'タイムアタック（ゲームオーバー）');
     check(recs().officialFor('equation').plays === 3, 'ゲームオーバーの回が記録されない');
     const names = sndNow().debug.log.filter((e) => e.played).map((e) => e.name);
-    check(names.includes('fail') && !names.includes('timeup'), `ゲームオーバーの効果音 ${names}`);
+    check(names.includes('fail') && !names.includes('timeup') && names.lastIndexOf('taResult') > names.lastIndexOf('fail'), `ゲームオーバーの効果音・結果画面のジングル ${names}`);
     // 「称号アップ！」のバッジは途中で折り返さない（いちばん長い称号名でも、バッジは1行のまま）
     const longest = [...w.TimeAttack.TITLES].sort((a, b) => b.name.length - a.name.length)[0];
     const sample = d.createElement('div');

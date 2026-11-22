@@ -2630,17 +2630,17 @@
       "answerLines": [
         "x^2-y^2",
         "=(x+y)(x-y)",
-        "=\\{(\\sqrt3+\\sqrt2)+(\\sqrt3-\\sqrt2)\\}\\{(\\sqrt3+\\sqrt2)-(\\sqrt3-\\sqrt2)\\}",
+        "=2\\sqrt3(x-y)",
         "=2\\sqrt3\\times2\\sqrt2",
         "=2\\sqrt6"
       ],
       "errorLine": 4,
       "errorType": "係数どうしのかけ算を忘れた誤り",
-      "explanation": "$2\\sqrt3\\times2\\sqrt2$ は、係数どうし $2\\times2=4$、根号どうし $\\sqrt3\\times\\sqrt2=\\sqrt6$ をかけて $4\\sqrt6$ です。係数を $2$ のままにしたところが誤りです。因数分解してから代入し、$x+y=2\\sqrt3$、$x-y=2\\sqrt2$ としたところまでは正しくできています。",
+      "explanation": "$2\\sqrt3\\times2\\sqrt2$ は、係数どうし $2\\times2=4$、根号どうし $\\sqrt3\\times\\sqrt2=\\sqrt6$ をかけて $4\\sqrt6$ です。係数を $2$ のままにしたところが誤りです。因数分解してから、$x+y=2\\sqrt3$、$x-y=2\\sqrt2$ を順に代入したところまでは正しくできています。",
       "correctSolution": [
         "x^2-y^2",
         "=(x+y)(x-y)",
-        "=\\{(\\sqrt3+\\sqrt2)+(\\sqrt3-\\sqrt2)\\}\\{(\\sqrt3+\\sqrt2)-(\\sqrt3-\\sqrt2)\\}",
+        "=2\\sqrt3(x-y)",
         "=2\\sqrt3\\times2\\sqrt2",
         "=4\\sqrt6"
       ],
