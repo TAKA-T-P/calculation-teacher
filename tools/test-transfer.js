@@ -9,6 +9,7 @@ const RT = require('../js/record-transfer.js');
 const Rec = require('../js/records.js');
 const TA = require('../js/time-attack.js');
 const C = require('../js/certification.js');
+const SR = require('../js/story-records.js');
 
 let passed = 0;
 let failed = 0;
@@ -69,7 +70,7 @@ function craft(bytes, tag = 'CT1') {
 console.log('--- コードの生成');
 test('[1] 記録がない状態でもコードを発行でき、読み込める（空の記録として）', () => {
   const code = RT.createCode(Rec.emptyData());
-  assert(code.startsWith('CT1-'), code);
+  assert(code.startsWith('CT2-'), code);
   const d = RT.decode(code);
   assert(d.ok, JSON.stringify(d));
   assert(RT.isEmpty(d.data) && d.summary.empty, '空になっていない');
@@ -95,7 +96,7 @@ test('[9・10] カスタム履歴・効果音の設定・称号名はコード�
   Object.values(withoutCustom.timeAttack.official).forEach((r) => { r.title = 'ちがう称号'; });
   eq(RT.createCode(rec), RT.createCode(withoutCustom), 'カスタム履歴・称号名でコードが変わった');
   const d = RT.decode(RT.createCode(rec));
-  same(Object.keys(d.data).sort(), ['certification', 'official']);
+  same(Object.keys(d.data).sort(), ['certification', 'official', 'story']);
   assert(!JSON.stringify(d.data).includes('custom') && !JSON.stringify(d.data).includes('title') && !JSON.stringify(d.data).includes('volume'), '余計な項目');
 });
 test('[11] 称号（10段階）とティーチャーランクは、読み込んだ記録から既存のロジックで計算できる', () => {
@@ -149,6 +150,74 @@ test('単元の番号表は固定（番号を変えると古いコードが別�
   eq(fixed, RT.createCode({ timeAttack: { official: { equation: { bestScore: 2450, bestDate: '2026-11-20T10:00:00.123Z', maxStreak: 11, plays: 4 } } } }));
 });
 
+// ================================================================ ストーリーの累積正解数（CT2）と古いコード（CT1）
+console.log('--- ストーリーの累積正解数（CT2）・古いコード（CT1）');
+// ストーリーモードを入れる前のアプリ（CT1）で作ったコード。これからも読めなければならない（形式の固定）
+const CT1_SAMPLE = 'CT1-AQOTE_eV25jQAQsEAQcCAfaPjK8BA4HwslIBAwErVXW-';
+test('[CT2] 累積正解数がコードに入り、正確に戻る（0・境界・大きな値）。既読・名前・裏ワザの解放は入れない', () => {
+  [0, 19, 20, 499, 500, 12345, RT.LIMITS.count].forEach((n) => {
+    const code = RT.createCode(fullRecords(), { totalCorrect: n, readEpisodes: [1, 2], teacherName: '田中', unlockAll: true });
+    assert(code.startsWith('CT2-'), code);
+    const d = RT.decode(code);
+    assert(d.ok && d.version === 2, JSON.stringify(d));
+    same(d.data.story, { totalCorrect: n }, `${n}問`);
+    eq(d.summary.storyTotalCorrect, n);
+  });
+  const d = RT.decode(RT.createCode(fullRecords(), { totalCorrect: 77 }));
+  same(d.data.official, RT.decode(RT.createCode(fullRecords())).data.official, '公式の記録は CT1 のときと同じ');
+  same(d.data.certification, RT.decode(RT.createCode(fullRecords())).data.certification, '認定の記録は CT1 のときと同じ');
+  assert(!/田中|readEpisodes|unlockAll/.test(JSON.stringify(d.data)), '名前・既読・裏ワザがコードに入った');
+  eq(RT.createCode(fullRecords(), { totalCorrect: 77 }), RT.createCode(fullRecords(), { totalCorrect: 77 }), '同じ記録から同じコード');
+  assert(RT.createCode(fullRecords(), { totalCorrect: 77 }) !== RT.createCode(fullRecords(), { totalCorrect: 78 }), '正解数でコードが変わらない');
+});
+test('[CT2] 累積正解数だけがある記録も「記録あり」。記録なしのコードは短いまま', () => {
+  assert(!RT.isEmpty(RT.extract(Rec.emptyData(), { totalCorrect: 5 })), '正解数だけの記録が空扱い');
+  assert(RT.isEmpty(RT.extract(Rec.emptyData(), { totalCorrect: 0 })));
+  const d = RT.decode(RT.createCode(Rec.emptyData(), { totalCorrect: 5 }));
+  eq(d.summary.empty, false);
+  assert(RT.createCode(Rec.emptyData()).length <= 16, RT.createCode(Rec.emptyData()));
+});
+test('[CT1] ストーリー追加前に作ったコード（CT1）も読める。累積正解数は「含まれていない」（null）', () => {
+  const d = RT.decode(CT1_SAMPLE);
+  assert(d.ok && d.version === 1, JSON.stringify(d));
+  eq(d.data.story, null);
+  eq(d.summary.storyTotalCorrect, null);
+  same(d.data.official.equation, { bestScore: 2450, bestDate: '2026-11-20T10:00:00.123Z', maxStreak: 11, plays: 4 });
+  eq(d.data.certification['square-roots'].highestCleared, 2);
+  eq(d.data.certification['square-roots'].exams['3'].attempts, 1);
+  // この版で CT1 の形を作ると、同じコードになる（形式が変わっていない）
+  eq(RT.encode(d.data, 1), CT1_SAMPLE);
+  // CT1 のコードを CT2 として（CRC の形式を変えて）読ませると、壊れたコードとして拒否する
+  eq(RT.decode(CT1_SAMPLE.replace('CT1-', 'CT2-')).ok, false);
+});
+test('[CT2] 不正な累積正解数（上限をこえる・途中で切れる）は拒否する', () => {
+  const big = []; let n = RT.LIMITS.count + 1; do { let b = n % 128; n = Math.floor(n / 128); if (n) b += 128; big.push(b); } while (n);
+  eq(RT.decode(craft([0, 0, ...big], 'CT2')).reason, 'corrupt', '上限をこえる');
+  assert(RT.decode(craft([0, 0, 5], 'CT2')).ok, '正しい CT2');
+  eq(RT.decode(craft([0, 0, 5], 'CT2')).data.story.totalCorrect, 5);
+  assert(!RT.decode(craft([0, 0], 'CT2')).ok, '累積正解数がない CT2');
+  assert(!RT.decode(craft([0, 0, 5], 'CT1')).ok, 'CT1 に余分なデータ');
+});
+test('[CT2] ストーリーの累積正解数を置き換える。既読・名前・裏ワザはこの端末のまま。保存できなければ元のまま', () => {
+  const storage = makeStorage({ 'calcTeacher.story': JSON.stringify({ version: 1, totalCorrect: 30, readEpisodes: [1, 2], teacherName: '田中', boyName: 'ケイ', girlName: 'シホ' }) });
+  const st = SR.createStoryStore({ storage });
+  const r = st.replaceTotalCorrect(RT.decode(RT.createCode(fullRecords(), { totalCorrect: 260 })).data.story.totalCorrect);
+  assert(r.ok && r.previous === 30, JSON.stringify(r));
+  const again = SR.createStoryStore({ storage });
+  same([again.totalCorrect, again.unlockedCount(), again.isRead(2), again.names().teacher], [260, 7, true, '田中']);
+  // 読み戻すと内容が違う（保存に失敗）
+  const bad = makeStorage({}, {});
+  bad.setItem = (k, v) => { bad.data[k] = String(v).slice(0, 3); };
+  const st2 = SR.createStoryStore({ storage: bad });
+  st2.addCorrectAnswer({});
+  const r2 = st2.replaceTotalCorrect(500);
+  same([r2.ok, r2.reason, st2.totalCorrect], [false, 'save-failed', 1]);
+  eq(SR.createStoryStore({ storage: null }).replaceTotalCorrect(5).reason, 'unavailable');
+  const newer = SR.createStoryStore({ storage: makeStorage({ 'calcTeacher.story': '{"version":9}' }) });
+  eq(newer.replaceTotalCorrect(5).reason, 'newer-version');
+  eq(st.replaceTotalCorrect(-1).reason, 'invalid');
+});
+
 // ================================================================ コードの読み込み
 console.log('--- コードの読み込み');
 const GOOD = RT.createCode(fullRecords());
@@ -168,7 +237,7 @@ test('[4] 1文字だけ変わったコードは、すべて検出する（記録
   for (let i = 0; i < body.length; i++) {
     for (const ch of ['A', 'z', '0', '-', '_', 'Q']) {
       if (body[i] === ch) continue;
-      const d = RT.decode(`CT1-${body.slice(0, i)}${ch}${body.slice(i + 1)}`);
+      const d = RT.decode(`${RT.TAG}-${body.slice(0, i)}${ch}${body.slice(i + 1)}`);
       if (!d.ok) detected++;
       else {
         // 最後の文字の使われないビットだけが変わった場合は、同じ記録になる（記録は変わらない）
@@ -196,7 +265,8 @@ test('[6] 形式が違う入力は拒否する', () => {
   eq(RT.decode('CT1-AAAA!').reason, 'format');
 });
 test('[7] 対応していない形式のバージョンは拒否する（新しいアプリで作ったコード）', () => {
-  eq(RT.decode(GOOD.replace('CT1-', 'CT2-')).reason, 'version');
+  eq(RT.decode(GOOD.replace('CT2-', 'CT3-')).reason, 'version');
+  eq(RT.decode(GOOD.replace('CT2-', 'CT0-')).reason, 'version');
   eq(RT.decode('CT9-AAAAAAAA').reason, 'version');
   // 番号表にない単元番号（新しいアプリの番号表）も「アプリを更新してください」
   eq(RT.decode(craft([1, 99, 0, 0, 0, 0, 0])).reason, 'version');

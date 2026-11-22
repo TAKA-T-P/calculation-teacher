@@ -54,8 +54,11 @@
     await sleep(40);
   }
   async function pickCertUnit(unit) {
-    await pickUnit('#cert-unit-select', unit);
     await click(`#cert-unit-list [data-action="cert-unit"][data-unit="${unit}"]`);
+  }
+  /** 公式タイムアタックの単元カードを押す */
+  async function pickTAUnitCard(unit) {
+    await click(`#ta-unit-list [data-action="ta-unit"][data-unit="${unit}"]`);
   }
   async function test(name, fn) {
     try {
@@ -1002,7 +1005,17 @@
     await click('[data-action="ta-mode"][data-mode="official"]');
     check(visible('ta-settings') && inScreen('ta-settings', '#ta-custom-fields').hidden, '公式でカテゴリ・難易度が選べてしまう');
     check($('#ta-official-info').textContent.includes('全カテゴリ・全難易度'), '公式ルールの表示');
-    await pickUnit('#ta-unit-select', 'equation');
+    // 単元はプルダウンではなく、8単元のカードから選ぶ。「出題できる問題：○問」のカードは出さない
+    const unitCards = $$('#ta-unit-list .unit-card');
+    check(!$('#ta-unit-select') && unitCards.length === app().units.length && unitCards.length === 8, `公式の単元カード ${unitCards.length}`);
+    check(unitCards.every((c, i) => c.querySelector('.unit-card__name').textContent === `中${app().units[i].grade}・${app().units[i].label}` && c.querySelector('.unit-card__sub').textContent === '記録なし'), '単元カードの表示');
+    check($('#ta-summary').hidden, '公式で「出題できる問題」のカードが出ている');
+    await pickTAUnitCard('equation');
+    const sel = $('#ta-unit-list .unit-card.is-selected');
+    check(sel && sel.dataset.unit === 'equation' && sel.getAttribute('aria-checked') === 'true' && $$('#ta-unit-list .unit-card.is-selected').length === 1, '選んだカードが選択表示にならない');
+    check($('#ta-summary').hidden && !$('#ta-start-btn').disabled, '公式で「出題できる問題」が出る・スタートできない');
+    $$('#ta-unit-list .unit-card').forEach((c) => { const r = c.getBoundingClientRect(); check(r.height >= 48 && r.right <= w.innerWidth, `単元カードの大きさ・はみ出し ${c.textContent}`); });
+    check(pageOverflow() <= 0, '公式の設定画面が横にはみ出す');
     sndNow().debug.clearLog(); sndNow().debug.resetThrottle();
     await click('#ta-start-btn');
     check(visible('ta-play'), 'プレイ画面へ進まない');
@@ -1217,7 +1230,10 @@
   await test('[認定] 最初は第1試験だけ挑戦できる。ヒントは使えない。3問正解で合格し、昇格・次の試験の解放が表示・保存される', async () => {
     await click('[data-action="go-title"]');
     await click('[data-action="go-cert-units"]');
-    check($('#cert-unit-select').options.length === app().units.length && $$('#cert-unit-list .cert-unit').length === 1 && $('#cert-unit-list').textContent.includes('ティーチャー見習い'), '単元のプルダウンと選んだ単元のカード');
+    const certCards = $$('#cert-unit-list .cert-unit');
+    check(!$('#cert-unit-select') && certCards.length === app().units.length && certCards.length === 8, `単元のカードが8つ並ばない（${certCards.length}）`);
+    check(certCards.every((c, i) => c.dataset.unit === app().units[i].unit && c.querySelector('.cert-unit__name').textContent === `中${app().units[i].grade}・${app().units[i].label}` && c.textContent.includes('ティーチャー見習い')), '単元カードの表示');
+    check(pageOverflow() <= 0 && certCards.every((c) => c.getBoundingClientRect().right <= w.innerWidth), '認定試験の単元カードが横にはみ出す');
     await pickCertUnit('equation');
     check(visible('cert-list'), '試験一覧');
     check(examCard(1).querySelector('[data-action="cert-start"]') && !examCard(1).querySelector('button').disabled, '第1試験が始められない');
@@ -1393,6 +1409,8 @@
     recs().recordExam('expressions', 2, true);
     recs().recordExam('expressions', 3, false);
     recs().addCustom({ unit: 'equation', categories: ['移項'], difficulties: [1], score: 400, correct: 2, wrong: 1, maxStreak: 2 });
+    const storyW = () => w.__calcTeacher.storyStore;
+    storyW().replaceTotalCorrect(260); // ストーリーの累積正解数（CT2 で引き継ぐ）
     const srcSnap = JSON.stringify(recs().snapshot());
     await click('[data-action="go-options"]');
     // ---- 設定画面：KEC数学科ラボ → 記録の引継ぎ → 記録を消す の順
@@ -1400,7 +1418,7 @@
     const card = inScreen('options', '.transfer-card');
     const reset = inScreen('options', '[data-action="reset-records"]').getBoundingClientRect();
     check(card && card.textContent.includes('記録の引継ぎ') && card.textContent.includes('別の端末でも、今までの記録を使えるようにできます。'), '記録の引継ぎの見出し・説明');
-    check(card.textContent.includes('公式タイムアタックとティーチャー認定試験の記録を引き継ぎます。') && card.textContent.includes('カスタムタイムアタックの履歴は引き継ぎません。'), '補足説明');
+    check(card.textContent.includes('公式タイムアタック・ティーチャー認定試験の記録と、ストーリーの累積正解数を引き継ぎます。') && card.textContent.includes('カスタムタイムアタックの履歴は引き継ぎません。'), '補足説明');
     check(!/エクスポート|インポート/.test(card.textContent), '専門用語が出ている');
     const cr = card.getBoundingClientRect();
     check(lab.bottom <= cr.top + 1 && cr.bottom <= reset.top + 1, `並び順（ラボ ${Math.round(lab.bottom)} / 引継ぎ ${Math.round(cr.top)}〜${Math.round(cr.bottom)} / 記録を消す ${Math.round(reset.top)}）`);
@@ -1415,7 +1433,8 @@
     await click('[data-action="transfer-make"]');
     await click('[data-action="transfer-issue"]');
     const code = $('#transfer-code').value;
-    check(code.startsWith('CT1-') && code === RTw.createCode(recs().snapshot()), `コード: ${code}`);
+    check(code.startsWith('CT2-') && code === RTw.createCode(recs().snapshot(), storyW().snapshot()), `コード: ${code}`);
+    check(RTw.decode(code).data.story.totalCorrect === 260, 'コードに累積正解数が入っていない');
     check(mk.textContent.includes('引継ぎコードができました！') && mk.textContent.includes('コピーしたコードを、引き継ぎたい端末に送ってください。'), '発行後の表示');
     check($('#transfer-empty').hidden, '記録があるのに「まだ引き継ぐ記録がありません」');
     check(JSON.stringify(recs().snapshot()) === srcSnap, 'コードをつくったら記録が変わった');
@@ -1441,6 +1460,7 @@
     recs().recordOfficial('square-roots', { score: 500, maxStreak: 2 }, w.TimeAttack.titleForScore);
     recs().addCustom({ unit: 'positive-negative', categories: null, difficulties: [1, 2, 3, 4], score: 777, correct: 3, wrong: 0, maxStreak: 3 });
     const myCustom = JSON.stringify(recs().customHistory());
+    storyW().replaceTotalCorrect(5); // 別の端末の累積正解数
     const soundBefore = w.localStorage.getItem(SOUND_KEY);
     const destBefore = JSON.stringify(recs().snapshot());
     await click('[data-action="transfer-load"]');
@@ -1451,9 +1471,9 @@
     const tryCode = async (text) => { input.value = text; await click('[data-action="transfer-check"]'); return $('#transfer-input-error').textContent; };
     check((await tryCode('こんにちは')).includes('引継ぎコードが正しくありません'), '形式違いのメッセージ');
     check((await tryCode(code.slice(0, code.length - 3))).includes('コードの一部が足りないか'), '途中で切れたコードのメッセージ');
-    check((await tryCode(code.replace('CT1-', 'CT2-'))).includes('アプリを更新してから'), '非対応バージョンのメッセージ');
+    check((await tryCode(code.replace('CT2-', 'CT3-'))).includes('アプリを更新してから'), '非対応バージョンのメッセージ');
     const body = code.slice(4);
-    const flipped = `CT1-${body.slice(0, 5)}${body[5] === 'A' ? 'B' : 'A'}${body.slice(6)}`;
+    const flipped = `CT2-${body.slice(0, 5)}${body[5] === 'A' ? 'B' : 'A'}${body.slice(6)}`;
     check((await tryCode(flipped)).includes('記録を読み込めませんでした'), '壊れたコードのメッセージ');
     check(!$('[data-step="input"]', ld).hidden && JSON.stringify(recs().snapshot()) === destBefore, '不正なコードで記録が変わった');
     // 空白・改行が混じったコードを貼り付けて確認する → まだ書き換えない
@@ -1462,7 +1482,9 @@
     const pv = $('#transfer-preview').textContent;
     check(pv.includes('方程式：最高2,450点（🎯赤ペンマスター）') && pv.includes('正負の数：最高1,860点'), `公式の確認: ${pv}`);
     check(pv.includes('文字式：第2試験までクリア（一人前ティーチャー）') && pv.includes('記録なし'), `認定の確認: ${pv}`);
-    check(!$('#transfer-warning').hidden && $('#transfer-warning').textContent.includes('引継ぎコードの内容に置き換えます') && $('#transfer-warning').textContent.includes('カスタムタイムアタックの履歴と効果音設定は変更されません'), '上書きの注意が出ない');
+    check(pv.includes('ストーリー') && $('#transfer-story').textContent === '累積正解数：260問（第7話まで読めます）', `ストーリーの確認: ${$('#transfer-story') && $('#transfer-story').textContent}`);
+    check(!$('#transfer-warning').hidden && $('#transfer-warning').textContent.includes('ストーリーの累積正解数を、引継ぎコードの内容に置き換えます') && $('#transfer-warning').textContent.includes('カスタムタイムアタックの履歴・効果音の設定・ストーリーの既読と名前は変更されません'), '上書きの注意が出ない');
+    check(storyW().totalCorrect === 5, '確認しただけで累積正解数が変わった');
     check(JSON.stringify(recs().snapshot()) === destBefore, '確認しただけで記録が変わった');
     // キャンセル → 変わらない
     await click('#transfer-load-dialog [data-step="confirm"] [data-action="transfer-close"]');
@@ -1482,7 +1504,8 @@
     check(recs().certFor('expressions').highestCleared === 2 && recs().certFor('expressions').exams['3'].attempts === 1, '認定記録');
     check(JSON.stringify(recs().customHistory()) === myCustom, 'カスタム履歴が変わった');
     check(w.localStorage.getItem(SOUND_KEY) === soundBefore, '効果音の設定が変わった');
-    check(RTw.createCode(recs().snapshot()) === code, '引き継いだ記録から同じコードにならない（正確に復元できていない）');
+    check(storyW().totalCorrect === 260 && storyW().unlockedCount() === 7, `累積正解数が引き継がれない（${storyW().totalCorrect}）`);
+    check(RTw.createCode(recs().snapshot(), storyW().snapshot()) === code, '引き継いだ記録から同じコードにならない（正確に復元できていない）');
     // 記録を確認する → 記録画面に新しい記録・称号が出る（再起動せずに反映）
     await click('[data-action="transfer-show-records"]');
     check(!ld.open && visible('records'), '記録画面に移らない');
@@ -1493,15 +1516,26 @@
     // 再読み込みしても残る
     await openGame(2);
     check(recs().officialFor('equation').bestScore === 2450 && JSON.stringify(recs().customHistory()) === myCustom, '再読み込みで記録が戻った');
+    check(storyW().totalCorrect === 260, '再読み込みで累積正解数が戻った');
+    // ストーリー追加前のコード（CT1）も読める。累積正解数は入っていないので、この端末の正解数はそのまま
+    await click('[data-action="go-options"]');
+    await click('[data-action="transfer-load"]');
+    $('#transfer-input').value = 'CT1-AQOTE_eV25jQAQsEAQcCAfaPjK8BA4HwslIBAwErVXW-';
+    await click('[data-action="transfer-check"]');
+    check($('#transfer-story').textContent.includes('このコードには入っていません'), `CT1 のコードのストーリーの表示: ${$('#transfer-story') && $('#transfer-story').textContent}`);
+    await click('[data-action="transfer-apply"]');
+    check(!$('[data-step="done"]', $('#transfer-load-dialog')).hidden && recs().certFor('square-roots').highestCleared === 2 && storyW().totalCorrect === 260, 'CT1 のコードの引継ぎ');
+    await click('#transfer-load-dialog [data-step="done"] [data-action="transfer-close"]');
   });
 
   await test('[引継ぎ] 記録がないときもコードをつくれる（「まだ引き継ぐ記録がありません」）。記録のない端末では上書きの注意を出さない', async () => {
     recs().clearAll();
+    w.__calcTeacher.storyStore.resetProgress(); // 累積正解数も0（記録のない端末）
     await click('[data-action="go-options"]');
     await click('[data-action="transfer-make"]');
     await click('[data-action="transfer-issue"]');
     const code = $('#transfer-code').value;
-    check(code.startsWith('CT1-') && !$('#transfer-empty').hidden && $('#transfer-empty').textContent.includes('まだ引き継ぐ記録がありません'), '空の記録のコード');
+    check(code.startsWith('CT2-') && !$('#transfer-empty').hidden && $('#transfer-empty').textContent.includes('まだ引き継ぐ記録がありません'), '空の記録のコード');
     await click('#transfer-make-dialog [data-step="result"] [data-action="transfer-close"]');
     const full = w.RecordTransfer.createCode({ timeAttack: { official: { equation: { bestScore: 600, bestDate: '2026-11-20T00:00:00.000Z', maxStreak: 3, plays: 1 } } } });
     await click('[data-action="transfer-load"]');
@@ -1833,7 +1867,7 @@
     await click('[data-action="go-title"]');
     await click('[data-action="go-ta-menu"]');
     await click('[data-action="ta-mode"][data-mode="official"]');
-    await pickUnit('#ta-unit-select', 'polynomials');
+    await pickTAUnitCard('polynomials');
     await click('#ta-start-btn');
     await waitFor(() => ta().session && ta().session.started, 'START!', 8000);
     for (const ok of [true, true, false]) { (ok ? taCorrectEl() : taWrongEl()).click(); await sleep(TA_FEEDBACK + 60); }

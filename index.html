@@ -165,7 +165,7 @@
           <button type="button" class="btn btn--secondary" data-action="transfer-make">📋 引継ぎコードをつくる</button>
           <button type="button" class="btn btn--secondary" data-action="transfer-load">📥 引継ぎコードを読み込む</button>
         </div>
-        <p class="options-note">公式タイムアタックとティーチャー認定試験の記録を引き継ぎます。<br>カスタムタイムアタックの履歴は引き継ぎません。</p>
+        <p class="options-note">公式タイムアタック・ティーチャー認定試験の記録と、ストーリーの累積正解数を引き継ぎます。<br>カスタムタイムアタックの履歴は引き継ぎません。</p>
       </section>
       <div class="options-danger">
         <button type="button" class="btn btn--danger-outline" data-action="reset-records">🗑 記録を消す</button>
@@ -346,7 +346,7 @@
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
         <h2 id="cert-units-heading" class="screen-title" tabindex="-1">🎓 認定試験</h2>
       </header>
-      <p class="screen-lead">単元ごとに5つの試験があります。順番に合格して、マスターティーチャーをめざそう！<br>単元をえらんで、下のカードから試験に進もう。</p>
+      <p class="screen-lead">単元ごとに5つの試験があります。順番に合格して、マスターティーチャーをめざそう！<br>単元のカードをえらんで、試験に進もう。</p>
       <div class="cert-unit-list" id="cert-unit-list"></div>
     </section>
 
@@ -448,7 +448,7 @@
   <dialog class="dialog transfer-dialog" id="transfer-make-dialog" aria-labelledby="transfer-make-title">
     <div class="transfer-step" data-step="intro">
       <h2 id="transfer-make-title" class="dialog__title">引継ぎコードをつくる</h2>
-      <p>今までの公式タイムアタックとティーチャー認定試験の記録を、別の端末へ引き継ぐためのコードをつくります。</p>
+      <p>今までの公式タイムアタック・ティーチャー認定試験の記録と、ストーリーの累積正解数を、別の端末へ引き継ぐためのコードをつくります。</p>
       <div class="dialog__actions">
         <button type="button" class="btn btn--secondary" data-action="transfer-close">キャンセル</button>
         <button type="button" class="btn btn--primary" data-action="transfer-issue">引継ぎコードを発行する</button>
@@ -463,7 +463,7 @@
         <button type="button" class="btn btn--primary" data-action="transfer-copy">📋 コードをコピー</button>
         <p class="transfer-status" id="transfer-copy-status" role="status"></p>
       </div>
-      <p class="transfer-note">コピーしたコードを、引き継ぎたい端末に送ってください。<br>このコードには現在の公式記録と認定記録が含まれています。コードを持っている人は記録を読み込めるので、自分の端末以外には送らないでください。</p>
+      <p class="transfer-note">コピーしたコードを、引き継ぎたい端末に送ってください。<br>このコードには現在の公式記録・認定記録と、ストーリーの累積正解数が含まれています。コードを持っている人は記録を読み込めるので、自分の端末以外には送らないでください。</p>
       <div class="dialog__actions">
         <button type="button" class="btn btn--secondary" data-action="transfer-close">閉じる</button>
       </div>
@@ -476,7 +476,7 @@
       <h2 id="transfer-load-title" class="dialog__title">引継ぎコードを読み込む</h2>
       <p>別の端末でつくった引継ぎコードを貼り付けてください。</p>
       <label class="visually-hidden" for="transfer-input">引継ぎコード</label>
-      <textarea class="transfer-code" id="transfer-input" rows="4" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="CT1-…"></textarea>
+      <textarea class="transfer-code" id="transfer-input" rows="4" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="CT2-…"></textarea>
       <p class="transfer-status transfer-status--error" id="transfer-input-error" role="alert"></p>
       <div class="dialog__actions">
         <button type="button" class="btn btn--secondary" data-action="transfer-close">キャンセル</button>
@@ -488,8 +488,8 @@
       <p>次の記録を引き継ぎます。</p>
       <div id="transfer-preview"></div>
       <div class="transfer-warning" id="transfer-warning" hidden>
-        <p><strong>この端末の公式タイムアタック記録とティーチャー認定試験の記録を、引継ぎコードの内容に置き換えます。</strong></p>
-        <p>カスタムタイムアタックの履歴と効果音設定は変更されません。</p>
+        <p><strong>この端末の公式タイムアタック記録・ティーチャー認定試験の記録と、ストーリーの累積正解数を、引継ぎコードの内容に置き換えます。</strong></p>
+        <p>カスタムタイムアタックの履歴・効果音の設定・ストーリーの既読と名前は変更されません。</p>
         <p>今の公式記録を残したい場合は、先に引継ぎコードをつくって保存してください。</p>
       </div>
       <p class="transfer-status transfer-status--error" id="transfer-apply-error" role="alert"></p>
@@ -500,7 +500,7 @@
     </div>
     <div class="transfer-step" data-step="done" hidden>
       <h2 class="dialog__title">記録の引継ぎが完了しました！</h2>
-      <p>公式タイムアタックの記録とティーチャー認定試験の記録が引き継がれました。</p>
+      <p>公式タイムアタック・ティーチャー認定試験の記録と、ストーリーの累積正解数が引き継がれました。</p>
       <div class="dialog__actions">
         <button type="button" class="btn btn--secondary" data-action="transfer-close">閉じる</button>
         <button type="button" class="btn btn--primary" data-action="transfer-show-records">🏆 記録を確認する</button>

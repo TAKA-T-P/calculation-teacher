@@ -3,9 +3,11 @@
  * 引継ぎコード（公式タイムアタックとティーチャー認定試験の記録を、別の端末へ移すための短い文字列）の
  * 作成と読み込み。DOM・localStorage にはふれない（Node.js からテストできる）。
  *
- * ■ コードの形式（CT1）
- *   "CT1-" + Base64URL( 記録のバイト列 + CRC32(4バイト) )
- *   - CRC32 は「"CT1" の文字 + 記録のバイト列」から計算する（形式のバージョンもチェックの対象に含める）。
+ * ■ コードの形式（CT2。CT1 も読める）
+ *   "CT2-" + Base64URL( 記録のバイト列 + CRC32(4バイト) )
+ *   - CRC32 は「"CT2" の文字 + 記録のバイト列」から計算する（形式のバージョンもチェックの対象に含める）。
+ *   - CT2 は、CT1 の記録のバイト列のあとに「ストーリーの累積正解数」を足したもの。
+ *     CT1 のコード（ストーリー追加前に作ったコード）も読み込める（累積正解数は「含まれていない」として扱う）。
  *   - 暗号化ではない。コードを持っている人は記録を読み込める。
  *
  * ■ 記録のバイト列（項目名は書かず、決まった順に数を並べる。数は可変長整数 varint）
@@ -22,6 +24,7 @@
  *   - 称号名・ティーチャーランク名・試験のクリア状況（最高クリア試験から決まる）は入れない（読み込んだ側で計算する）。
  *   - カスタムタイムアタックの履歴と効果音の設定は入れない。
  *   - 単元は ID の順に並べるので、同じ記録からはいつも同じコードになる。
+ *   （CT2 のみ）ストーリーの累積正解数（ストーリーの話の解放に使う。既読・名前・裏ワザの解放は入れない）
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
@@ -33,8 +36,10 @@
   'use strict';
 
   const PREFIX = 'CT';
-  const FORMAT_VERSION = 1;
-  const TAG = `${PREFIX}${FORMAT_VERSION}`;      // "CT1"
+  const FORMAT_VERSION = 2;                     // 作るコードの形式
+  const SUPPORTED_VERSIONS = [1, 2];            // 読み込める形式（CT1：公式・認定だけ／CT2：＋ストーリーの累積正解数）
+  const TAG = `${PREFIX}${FORMAT_VERSION}`;      // "CT2"
+  const tagOf = (version) => `${PREFIX}${version}`;
   const BASE_MS = Date.UTC(2026, 0, 1);         // 日時の基準（2026-01-01）
   const MAX_EXAM = 5;                           // 認定試験の数（certification.js の EXAMS と同じ。テストで一致を確かめる）
 
@@ -197,11 +202,17 @@
   // ------------------------------------------------------------ 記録から引継ぎデータを取り出す
   /**
    * records.js の記録（snapshot() など）から、引継ぎに使う部分だけを取り出す。
-   * 結果：{ official: {単元: {bestScore, bestDate, maxStreak, plays}}, certification: {単元: {highestCleared, exams: {id: {cleared, attempts, firstClearedAt}}}} }
+   * 結果：{ official: {単元: {bestScore, bestDate, maxStreak, plays}}, certification: {単元: {highestCleared, exams: {id: {cleared, attempts, firstClearedAt}}}},
+   *         story: { totalCorrect } | null }
    * 単元IDとして安全でないもの・日時として正しくないものは含めない（その単元・その日時だけ）。
    */
-  function extract(records) {
-    const out = { official: {}, certification: {} };
+  function extract(records, story) {
+    const out = { official: {}, certification: {}, story: null };
+    // ストーリーの累積正解数（story-records.js の snapshot() など。渡されなければ null＝コードに含めない記録）
+    if (story && typeof story === 'object') {
+      const t = Number(story.totalCorrect);
+      out.story = { totalCorrect: Number.isSafeInteger(t) && t > 0 ? Math.min(t, LIMITS.count) : 0 };
+    }
     const ta = (records && records.timeAttack) || {};
     Object.keys(ta.official || {}).sort().forEach((unit) => {
       const r = ta.official[unit];
@@ -245,7 +256,11 @@
   }
 
   // ------------------------------------------------------------ コードを作る
-  function encode(transfer) {
+  /**
+   * 引継ぎデータからコードを作る。version は通常 FORMAT_VERSION（2）。1 は古い形式（テスト用）
+   */
+  function encode(transfer, version = FORMAT_VERSION) {
+    const tag = tagOf(version);
     const w = new Writer();
     let last = BASE_MS;
     const date = (iso) => {
@@ -280,15 +295,19 @@
       w.uint(rest.length);
       rest.forEach((id) => { w.uint(id); w.uint(c.exams[String(id)].attempts); });
     });
+    if (version >= 2) w.uint((transfer.story && transfer.story.totalCorrect) || 0); // ストーリーの累積正解数
     const payload = Uint8Array.from(w.bytes);
-    const crc = crc32(Uint8Array.from([...TAG].map((ch) => ch.charCodeAt(0)).concat([...payload])));
+    const crc = crc32(Uint8Array.from([...tag].map((ch) => ch.charCodeAt(0)).concat([...payload])));
     const all = Uint8Array.from([...payload, (crc >>> 24) & 255, (crc >>> 16) & 255, (crc >>> 8) & 255, crc & 255]);
-    return `${TAG}-${toBase64Url(all)}`;
+    return `${tag}-${toBase64Url(all)}`;
   }
 
-  /** 記録（records.js の形）から、そのまま引継ぎコードを作る */
-  function createCode(records) {
-    return encode(extract(records));
+  /**
+   * 記録（records.js の形）とストーリーの記録（story-records.js の snapshot()）から、引継ぎコードを作る。
+   * ストーリーの記録を渡さなければ、累積正解数は 0 としてコードに入れる。
+   */
+  function createCode(records, story) {
+    return encode(extract(records, story || { totalCorrect: 0 }));
   }
 
   // ------------------------------------------------------------ コードを読む
@@ -308,31 +327,33 @@
     try {
       const code = cleanInput(text);
       const m = /^([A-Za-z]{2})(\d{1,3})-([A-Za-z0-9_-]*)$/.exec(code);
-      if (!m || m[1].toUpperCase() !== PREFIX) throw new TransferError('format', '「CT1-」で始まる引継ぎコードではありません');
-      if (Number(m[2]) !== FORMAT_VERSION) throw new TransferError('version', `形式 ${m[1]}${m[2]} には対応していません`);
+      if (!m || m[1].toUpperCase() !== PREFIX) throw new TransferError('format', '「CT2-」で始まる引継ぎコードではありません');
+      const version = Number(m[2]);
+      if (!SUPPORTED_VERSIONS.includes(version)) throw new TransferError('version', `形式 ${m[1]}${m[2]} には対応していません`);
+      const tag = tagOf(version);
       if (code.length > LIMITS.codeChars) throw new TransferError('corrupt', 'コードが長すぎます');
       const all = fromBase64Url(m[3]);
       if (all.length < 6) throw new TransferError('truncated', 'コードが短すぎます');
       if (all.length > LIMITS.bytes) throw new TransferError('corrupt', 'データが大きすぎます');
       // 先に構造を読み、残りがちょうど CRC32 の4バイトか確かめる（足りなければ途中で切れている）
       const r = new Reader(all);
-      const data = readPayload(r);
+      const data = readPayload(r, version);
       const rest = all.length - r.pos;
       if (rest < 4) throw new TransferError('truncated', 'チェック情報が足りません');
       if (rest > 4) throw new TransferError('corrupt', '余分なデータがあります');
       const payload = all.slice(0, r.pos);
-      const expected = crc32(Uint8Array.from([...TAG].map((ch) => ch.charCodeAt(0)).concat([...payload])));
+      const expected = crc32(Uint8Array.from([...tag].map((ch) => ch.charCodeAt(0)).concat([...payload])));
       const actual = ((all[r.pos] << 24) | (all[r.pos + 1] << 16) | (all[r.pos + 2] << 8) | all[r.pos + 3]) >>> 0;
       if (expected !== actual) throw new TransferError('corrupt', 'チェック情報が一致しません');
       validate(data);
-      return { ok: true, data, summary: summarize(data) };
+      return { ok: true, data, version, summary: summarize(data) };
     } catch (e) {
       if (e instanceof TransferError) return { ok: false, reason: e.reason, detail: e.message };
       return { ok: false, reason: 'corrupt', detail: String(e && e.message) };
     }
   }
 
-  function readPayload(r) {
+  function readPayload(r, version = FORMAT_VERSION) {
     let last = BASE_MS;
     const date = () => {
       const z = r.uint();
@@ -348,7 +369,7 @@
       if (n > max) throw new TransferError('corrupt', '数が大きすぎます');
       return n;
     };
-    const data = { official: {}, certification: {} };
+    const data = { official: {}, certification: {}, story: null };
     const nOfficial = count(LIMITS.units);
     for (let i = 0; i < nOfficial; i++) {
       const unit = readUnit(r);
@@ -373,12 +394,18 @@
       }
       data.certification[unit] = { highestCleared: h, exams };
     }
+    // CT2：ストーリーの累積正解数（CT1 のコードには含まれていない → null）
+    if (version >= 2) data.story = { totalCorrect: count(LIMITS.count) };
     return data;
   }
 
   /** 引継ぎデータが、アプリの仕様と矛盾しないか確かめる（矛盾していれば TransferError） */
   function validate(data) {
     const bad = (msg) => { throw new TransferError('corrupt', msg); };
+    if (data.story !== null && data.story !== undefined) {
+      const t = data.story.totalCorrect;
+      if (!Number.isSafeInteger(t) || t < 0 || t > LIMITS.count) bad('累積正解数が正しくありません');
+    }
     Object.entries(data.official).forEach(([unit, r]) => {
       if (!isSafeUnitId(unit)) bad(`単元ID: ${unit}`);
       if (r.bestScore !== null && (!Number.isSafeInteger(r.bestScore) || r.bestScore < 0 || r.bestScore > LIMITS.score)) bad('最高スコアが正しくありません');
@@ -407,7 +434,8 @@
   function summarize(data) {
     const units = [...new Set([...Object.keys(data.official), ...Object.keys(data.certification)])].sort();
     return {
-      empty: units.length === 0,
+      empty: units.length === 0 && !(data.story && data.story.totalCorrect > 0),
+      storyTotalCorrect: data.story ? data.story.totalCorrect : null, // null：コードに含まれていない（CT1）
       units: units.map((unit) => ({
         unit,
         bestScore: data.official[unit] ? data.official[unit].bestScore : null,
@@ -416,13 +444,14 @@
     };
   }
 
-  /** 引継ぎデータに記録が1つもないか（公式の最高スコアも、認定の挑戦記録もない） */
+  /** 引継ぎデータに記録が1つもないか（公式の最高スコアも、認定の挑戦記録も、ストーリーの累積正解数もない） */
   function isEmpty(transfer) {
-    return Object.keys(transfer.official || {}).length === 0 && Object.keys(transfer.certification || {}).length === 0;
+    return Object.keys(transfer.official || {}).length === 0 && Object.keys(transfer.certification || {}).length === 0
+      && !(transfer.story && transfer.story.totalCorrect > 0);
   }
 
   return {
-    TAG, FORMAT_VERSION, BASE_MS, MAX_EXAM, UNIT_CODES, LIMITS,
+    TAG, FORMAT_VERSION, SUPPORTED_VERSIONS, BASE_MS, MAX_EXAM, UNIT_CODES, LIMITS,
     extract, encode, createCode, decode, cleanInput, validate, summarize, isEmpty, isSafeUnitId,
     // テスト用
     _internal: { crc32, toBase64Url, fromBase64Url, TransferError },

@@ -276,6 +276,7 @@
       case 'ta-toggle-category': sfx('tap'); toggleTACategory(Number(el.dataset.index)); break;
       case 'ta-toggle-category-all': sfx('tap'); toggleTACategoryAll(); break;
       case 'ta-toggle-difficulty': sfx('tap'); toggleTADifficulty(el.dataset.difficulty); break;
+      case 'ta-unit': sfx('tap'); selectTAUnit(el.dataset.unit); break;
       case 'ta-start': startTA(); break;
       case 'ta-answer': answerTA(el.dataset.index); break;
       case 'ta-retry': startTA(); break;
@@ -531,9 +532,10 @@
   /** その時点の最新の記録からコードをつくる（記録は変更しない） */
   function issueTransferCode() {
     const snap = records.snapshot();
-    const code = RT.createCode(snap);
+    const storySnap = storyStore.snapshot(); // ストーリーの累積正解数もコードに入れる（CT2）
+    const code = RT.createCode(snap, storySnap);
     $('#transfer-code').value = code;
-    $('#transfer-empty').hidden = !RT.isEmpty(RT.extract(snap));
+    $('#transfer-empty').hidden = !RT.isEmpty(RT.extract(snap, storySnap));
     $('#transfer-copy-status').textContent = '';
     showTransferStep($('#transfer-make-dialog'), 'result');
   }
@@ -588,7 +590,8 @@
     err.textContent = '';
     app.transfer = { data: res.data };
     $('#transfer-preview').innerHTML = transferPreviewHtml(res.data);
-    $('#transfer-warning').hidden = !records.hasTransferable();
+    // 上書きの注意：この端末に公式・認定の記録があるか、コードの累積正解数でこの端末の累積正解数が置き換わるとき
+    $('#transfer-warning').hidden = !(records.hasTransferable() || (res.data.story && storyStore.totalCorrect > 0));
     $('#transfer-apply-error').textContent = '';
     showTransferStep($('#transfer-load-dialog'), 'confirm');
   }
@@ -614,11 +617,17 @@
       return `<li><span class="transfer-list__unit">${esc(label(u))}</span>：${esc(text)}</li>`;
     }).join('');
     const empty = RT.isEmpty(data) ? '<p class="transfer-empty">このコードには記録が入っていません（記録のない状態が引き継がれます）。</p>' : '';
+    // ストーリーの累積正解数（CT1 の古いコードには入っていないので、この端末の正解数をそのまま使う）
+    const storyText = data.story
+      ? `累積正解数：${data.story.totalCorrect.toLocaleString('ja-JP')}問（第${window.StoryRecords.unlockedCount(data.story.totalCorrect)}話まで読めます）`
+      : 'このコードには入っていません（この端末の累積正解数はそのままです）';
     return `${empty}
       <h3 class="transfer-list__title">公式タイムアタック</h3>
       <ul class="transfer-list">${officialItems}</ul>
       <h3 class="transfer-list__title">ティーチャー認定試験</h3>
-      <ul class="transfer-list">${certItems}</ul>`;
+      <ul class="transfer-list">${certItems}</ul>
+      <h3 class="transfer-list__title">ストーリー</h3>
+      <ul class="transfer-list"><li id="transfer-story">${esc(storyText)}</li></ul>`;
   }
 
   /** 最終確認のあと、記録を置き換えて保存する。保存できたことを確かめてから完了を表示する */
@@ -632,12 +641,25 @@
       err.textContent = TRANSFER_ERRORS.corrupt;
       return;
     }
+    // 先にストーリーの累積正解数を置き換え、公式・認定の記録が保存できなかったときは元に戻す（片方だけ引き継がない）
+    let storyPrev = null;
+    if (t.data.story) {
+      const sr = storyStore.replaceTotalCorrect(t.data.story.totalCorrect);
+      if (!sr.ok) {
+        err.textContent = TRANSFER_SAVE_ERRORS[sr.reason] || TRANSFER_SAVE_ERRORS['save-failed'];
+        sfx('incorrect');
+        return;
+      }
+      storyPrev = sr.previous;
+    }
     const res = records.replaceTransferable(t.data, TA.titleForScore);
     if (!res.ok) {
+      if (storyPrev !== null) storyStore.replaceTotalCorrect(storyPrev);
       err.textContent = TRANSFER_SAVE_ERRORS[res.reason] || TRANSFER_SAVE_ERRORS['save-failed'];
       sfx('incorrect');
       return;
     }
+    story.renderTitleBadge();
     app.transfer = null;
     showTransferStep($('#transfer-load-dialog'), 'done');
     sfx('correct');
@@ -1237,7 +1259,6 @@
     if (!el || el.tagName !== 'SELECT') return;
     if (el.id === 'unit-select') { sfx('tap'); selectUnit(el.value); }
     else if (el.id === 'ta-unit-select') { sfx('tap'); selectTAUnit(el.value); }
-    else if (el.id === 'cert-unit-select') { sfx('tap'); app.cert.unit = el.value; renderCertUnits(); }
   }
 
   /** カテゴリのボタン（トレーニング・カスタムタイムアタック共通） */
@@ -1426,11 +1447,8 @@
     const official = app.ta.mode === TA.MODES.OFFICIAL;
     if (!app.ta.unit) app.ta.unit = app.config.unit;
     $('#ta-settings-heading').textContent = official ? '🏅 公式タイムアタック' : '🎯 カスタムタイムアタック';
-    $('#ta-unit-list').innerHTML = unitSelectHtml('ta-unit-select', app.ta.unit, (u) => {
-      if (!official) return ''; // カスタム：単元名だけ（問題数は出さない）
-      const best = records.officialFor(u.unit).bestScore;
-      return best === null ? '記録なし' : `ベスト ${best}点`;
-    });
+    // 公式：単元ごとのカード（8単元を並べて選ぶ）。カスタム：プルダウン（単元名だけ）
+    $('#ta-unit-list').innerHTML = official ? taUnitCardsHtml(app.ta.unit) : unitSelectHtml('ta-unit-select', app.ta.unit);
     $('#ta-custom-fields').hidden = official;
     const info = $('#ta-official-info');
     info.hidden = !official;
@@ -1458,7 +1476,20 @@
     else text = `出題できる問題：<strong>${n}問</strong>（${TA.CONFIG.durationMs / 1000}秒のあいだ、くり返し出題されます）${official ? '' : '<br><small>カスタムの結果は履歴に残ります。公式の記録・称号は変わりません。</small>'}`;
     $('#ta-summary').innerHTML = text;
     $('#ta-summary').classList.toggle('is-empty', n === 0);
+    $('#ta-summary').hidden = official && n > 0; // 公式では「出題できる問題：○問」は出さない（出題できないときだけ理由を出す）
     $('#ta-start-btn').disabled = n === 0;
+  }
+
+  /** 公式タイムアタックの単元カード（中1〜中3の8単元。自己ベストつき）。押すとその単元を選ぶ */
+  function taUnitCardsHtml(selected) {
+    return `<div class="unit-cards" role="radiogroup" aria-label="単元">${app.units.map((u) => {
+      const best = records.officialFor(u.unit).bestScore;
+      const on = u.unit === selected;
+      return `<button type="button" class="unit-card${on ? ' is-selected' : ''}" role="radio" aria-checked="${on}" data-action="ta-unit" data-unit="${esc(u.unit)}">
+          <span class="unit-card__name">中${u.grade}・${esc(u.label)}</span>
+          <span class="unit-card__sub">${best === null ? '記録なし' : `ベスト ${best.toLocaleString('ja-JP')}点`}</span>
+        </button>`;
+    }).join('')}</div>`;
   }
 
   // ============================================================ タイムアタック：プレイ
@@ -1744,9 +1775,8 @@
 
   function renderCertUnits() {
     if (!app.cert.unit || !app.units.some((u) => u.unit === app.cert.unit)) app.cert.unit = app.config.unit;
-    const u = app.units.find((x) => x.unit === app.cert.unit) || app.units[0];
-    $('#cert-unit-list').innerHTML = unitSelectHtml('cert-unit-select', u.unit, (x) => C.rankFor(records.certFor(x.unit).highestCleared).name)
-      + certUnitCardHtml(u);
+    // 単元ごとのカード（8単元）を並べる。押すとその単元の試験一覧へ
+    $('#cert-unit-list').innerHTML = app.units.map(certUnitCardHtml).join('');
   }
 
   /** 認定試験の単元カード（ランク・次の試験）。タップするとその単元の試験一覧へ */
@@ -1758,8 +1788,7 @@
         <span class="cert-unit__icon" aria-hidden="true">${rank.icon}</span>
         <span class="cert-unit__body">
           <span class="cert-unit__name">中${u.grade}・${esc(u.label)}</span>
-          <span class="cert-unit__rank">${esc(rank.name)}</span>
-          <span class="cert-unit__next">${next ? `次は ${next.name}` : '🎉 すべての試験に合格！'}</span>
+          <span class="cert-unit__status"><span class="cert-unit__rank">${esc(rank.name)}</span><span class="cert-unit__next">${next ? `次は ${next.name}` : '🎉 すべての試験に合格！'}</span></span>
         </span>
         <span class="cert-unit__arrow" aria-hidden="true">›</span>
       </button>`;

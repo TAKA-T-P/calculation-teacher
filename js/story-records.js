@@ -228,9 +228,36 @@
       return save() ? { ok: true } : { ok: false, reason: 'save-failed' };
     }
 
+    /**
+     * 引継ぎコードの累積正解数に置き換える（既読・名前・裏ワザの解放はこの端末のまま）。
+     * 保存できたことを読み戻して確かめる。できなければ、この端末の記録は元のまま。
+     * @returns {{ok:boolean, reason?:'newer-version'|'unavailable'|'save-failed'|'invalid', previous?:number}}
+     */
+    function replaceTotalCorrect(total) {
+      if (!Number.isSafeInteger(total) || total < 0) return { ok: false, reason: 'invalid' };
+      if (status.readOnly) return { ok: false, reason: 'newer-version' };
+      if (!storage) return { ok: false, reason: 'unavailable' };
+      const prev = data;
+      const next = { ...data, totalCorrect: total };
+      const text = JSON.stringify(next);
+      try {
+        storage.setItem(STORAGE_KEY, text);
+        if (storage.getItem(STORAGE_KEY) !== text) throw new Error('読み戻した内容が違います');
+      } catch (e) {
+        try { storage.setItem(STORAGE_KEY, JSON.stringify(prev)); } catch (e2) { /* そのまま */ }
+        status.lastError = 'save-failed';
+        return { ok: false, reason: 'save-failed' };
+      }
+      data = next;
+      status.lastError = null;
+      listeners.forEach((fn) => { try { fn(); } catch (e) { /* 無視 */ } });
+      return { ok: true, previous: prev.totalCorrect };
+    }
+
     return {
       status,
       thresholds: thresholds.slice(),
+      replaceTotalCorrect,
       get totalCorrect() { return data.totalCorrect; },
       unlockedCount: unlocked,
       addCorrectAnswer,
