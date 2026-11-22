@@ -257,6 +257,51 @@
       'story-title': async () => storyShot('title'),
       'story-list': async () => storyShot('list'),
       'story-records': async () => storyShot('records'),
+      // カスタムタイムアタックで指定した問題が出るまで進め、横スクロールの式を調べる（?shot=ta-question&id=J1-EX-0097）
+      'ta-question': async () => {
+        const id = params.get('id');
+        const q0 = app().questions.find((x) => x.id === id);
+        w.__calcTeacher.setVariantRng(() => 0.99);
+        await click('[data-action="go-ta-menu"]');
+        await click('[data-action="ta-mode"][data-mode="custom"]');
+        await pickUnit('#ta-unit-select', q0.unit);
+        await click('[data-action="ta-toggle-category-all"]');
+        await click($$('[data-action="ta-toggle-category"]').find((b) => b.textContent.includes(q0.category)));
+        await click('[data-action="ta-toggle-difficulty"][data-difficulty="all"]');
+        await click(`[data-action="ta-toggle-difficulty"][data-difficulty="${q0.difficulty}"]`);
+        await click('#ta-start-btn');
+        await waitFor(() => app().ta.session && app().ta.session.started, 'START', 8000);
+        while (app().ta.session.current.id !== id) {
+          const q = app().ta.session.current;
+          $(`section[data-screen="ta-play"] [data-action="ta-answer"][data-index="${q.errorLine === null ? 'all' : q.errorLine}"]`).click();
+          await sleep(700);
+        }
+        await d.fonts.ready; await sleep(200);
+        w.__scrollInfo = $$('#ta-body .fit-math').filter((el) => el.offsetParent && el.classList.contains('is-scrollable')).map((el) => el.textContent.slice(0, 30));
+      },
+      // 全問題を正答版／誤答版で出し、プレイ中・採点後に横スクロールになる式の問題IDを調べる（?shot=scroll-scan&v=wrong|correct）
+      'scroll-scan': async () => {
+        w.__calcTeacher.setVariantRng(params.get('v') === 'correct' ? () => 0 : () => 0.99);
+        const play = new Set();
+        const graded = new Set();
+        const scrollIds = () => $$('.fit-math').filter((el) => el.offsetParent && el.classList.contains('is-scrollable'));
+        for (const u of app().units.map((x) => x.unit)) {
+          await configure({ unit: u, count: 'all' });
+          await click('#start-btn');
+          const s = app().session;
+          while (!s.finished) {
+            const id = s.current.id;
+            await d.fonts.ready; await sleep(60);
+            if (scrollIds().length) play.add(id);
+            await answer(true);
+            await d.fonts.ready; await sleep(60);
+            if (scrollIds().some((el) => el.closest('#sheet, .paper'))) graded.add(id);
+            await click('[data-action="next"]');
+          }
+          await click('.summary-actions [data-action="go-settings"]');
+        }
+        w.__scrollInfo = [`プレイ中: ${[...play].join(',') || 'なし'}`, `採点後の答案: ${[...graded].filter((x) => !play.has(x)).join(',') || 'なし'}`];
+      },
       // 指定した問題を出すまで進める（?shot=question&id=J2-PO-0035&v=wrong|correct&graded=1）。横スクロールの式を結果に出す
       question: async () => {
         const id = params.get('id');

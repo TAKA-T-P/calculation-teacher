@@ -4,6 +4,7 @@
  *   node tools/data-additions/stage6/replace-questions.js <バッチファイル> <ID> [<ID> ...] [--note "…"]
  *
  * - 中1の問題（grade 1）は置きかえない（第6段階の指示：既存の中1の300問は変更しない）。
+ *   ご承認を得た例外だけ、--allow-grade1 を付けて置きかえられる（例：スマホ縦画面で式が長すぎる J1-EX-0097）。
  * - 指定した ID 以外の問題は変更しない（置きかえ前後で比べて確かめる）。
  * - 置きかえたあと、問題ごとに自動検証し、ERROR があれば元にもどして止まる。
  */
@@ -16,7 +17,8 @@ const ROOT = path.join(__dirname, '..', '..', '..');
 const args = process.argv.slice(2);
 const noteAt = args.indexOf('--note');
 const NOTE = noteAt >= 0 ? args[noteAt + 1] : '第6段階で追加。出題バランスの調整のため内容を変更。解説・ヒント・誤答の自然さ・誤り行の一意性・答えの形・難易度とカテゴリを AI が確認。数学講師は未確認。';
-const rest = noteAt >= 0 ? args.filter((_, i) => i !== noteAt && i !== noteAt + 1) : args;
+const ALLOW_GRADE1 = args.includes('--allow-grade1');
+const rest = (noteAt >= 0 ? args.filter((_, i) => i !== noteAt && i !== noteAt + 1) : args).filter((a) => a !== '--allow-grade1');
 const [batchArg, ...ids] = rest;
 if (!batchArg || !ids.length) {
   console.error('使い方: node replace-questions.js <バッチファイル> <ID> [<ID> ...] [--note "…"]');
@@ -30,7 +32,7 @@ for (const [file, list] of Object.entries(batch)) {
   const data = JSON.parse(fs.readFileSync(p, 'utf8'));
   let changed = false;
   for (const q of list.filter((x) => ids.includes(x.id))) {
-    if (q.grade === 1) { console.error(`${q.id}: 中1の問題は置きかえません`); process.exit(1); }
+    if (q.grade === 1 && !ALLOW_GRADE1) { console.error(`${q.id}: 中1の問題は置きかえません（ご承認を得た例外は --allow-grade1）`); process.exit(1); }
     const i = data.questions.findIndex((x) => x.id === q.id);
     if (i < 0) { console.error(`${q.id}: data/${file} にありません`); process.exit(1); }
     if (!touched.has(file)) touched.set(file, fs.readFileSync(p, 'utf8'));

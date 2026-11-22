@@ -677,6 +677,9 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
   box-shadow: inset 0 0 0 1px var(--red-pen);
 }
 .row--selectable.is-answer .row__mark { color: var(--red-pen); }
+/* 採点後の「✖ 最初のミス」は式の下の行（右寄せ）に出し、式の幅をせまくしない（スマホ縦でも式が横スクロールにならないように） */
+.row--selectable.is-answer .row__math { grid-column: 2 / -1; }
+.row--selectable.is-answer .row__mark:not(:empty) { grid-column: 2 / -1; grid-row: 2; justify-self: end; line-height: 1.2; margin-top: -2px; }
 .paper.is-correct .row--selectable.is-answer { animation: pop .35s ease-out; }
 .row--selectable.is-chosen-wrong {
   border-style: dashed;
