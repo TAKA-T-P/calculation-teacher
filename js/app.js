@@ -47,6 +47,20 @@
   });
   const storyData = window.StoryData.createStoryData();
   const bgm = window.StoryBgm;
+  // エンディング演出（公式タイムアタック・認定試験の全単元で最高の称号）。「見たか」は calcTeacher.ending に保存する
+  const E = window.Ending;
+  const endingStore = E.createEndingStore({
+    storage: (() => { try { return window.localStorage; } catch (e) { return null; } })(),
+  });
+  // 曲の音量・ON/OFF は「ストーリーBGM」の設定にしたがう
+  const endingMusic = E.createMusicPlayer({
+    AudioContextClass: window.AudioContext || window.webkitAudioContext || null,
+    fetch: window.fetch ? window.fetch.bind(window) : null,
+    getVolume: () => {
+      try { const st = bgm.getSettings(); return st.enabled ? window.StoryBgmLib.volumeToGain(st.volume) : 0; } catch (e) { return 0; }
+    },
+  });
+  const ending = { kind: null, timers: [], entries: [], token: null };
   const story = window.Story.createStoryController({
     data: storyData, store: storyStore, bgm,
     show: (name, mode) => show(name, mode),
@@ -83,6 +97,7 @@
     document.addEventListener('change', onChange);
     initSound();
     initStory();
+    initEnding();
     renderTitleTalk();
     // タイムアタック中に画面が表に戻ったら、すぐに残り時間を更新する（裏にいた間も時間は減っている）
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tickTA(); });
@@ -173,7 +188,7 @@
   function onPopState(e) {
     const target = (e.state && e.state.screen) || 'title';
     // 並べて表示・解説のポップアップを開いているときの「戻る」は、それを閉じるだけにする
-    const popup = ['#compare-dialog', '#explain-dialog', '#transfer-make-dialog', '#transfer-load-dialog', '#reset-dialog', '#story-names-dialog', '#story-log-dialog', '#story-reset-dialog'].map((sel) => $(sel)).find((d) => d.open);
+    const popup = ['#ending-dialog', '#compare-dialog','#explain-dialog', '#transfer-make-dialog', '#transfer-load-dialog', '#reset-dialog', '#story-names-dialog', '#story-log-dialog', '#story-reset-dialog'].map((sel) => $(sel)).find((d) => d.open);
     if (popup) {
       history.pushState({ screen: app.screen }, '');
       popup.close();
@@ -295,6 +310,9 @@
       case 'explain-close': sfx('tap'); $('#explain-dialog').close(); break;
       // ---------- ストーリー
       case 'toggle-bgm': bgm.setEnabled(!bgm.getSettings().enabled); break;
+      // ---------- エンディング
+      case 'ending-replay': sfx('tap'); openEnding(el.dataset.kind); break;
+      case 'ending-close': closeEnding(); break;
       default:
         if (action.startsWith('story-')) { try { story.handleAction(action, el); } catch (err) { console.error(err); } }
         break;
@@ -493,6 +511,7 @@
 
   function resetRecords() {
     const r = records.clearAll();
+    if (r.ok) endingStore.clear(); // エンディングを見た記録も消す（👑 も消え、もう一度すべて獲得するとまた流れる）
     if (r.ok) setResetStatus('記録を消しました。');
     else if (r.reason === 'newer-version') setResetStatus('新しい版のアプリで保存された記録のため、消せませんでした。', true);
     else setResetStatus('記録を消せませんでした。ブラウザの設定を確認してください。', true);
@@ -1479,6 +1498,7 @@
     $('#ta-summary').classList.toggle('is-empty', n === 0);
     $('#ta-summary').hidden = official && n > 0; // 公式では「出題できる問題：○問」は出さない（出題できないときだけ理由を出す）
     $('#ta-start-btn').disabled = n === 0;
+    renderEndingCrowns();
   }
 
   // 単元カードの色（金・銀・銅）。公式タイムアタックは自己ベスト、認定試験はクリアした試験で決める
@@ -1522,6 +1542,8 @@
   function startTA() {
     if (!app.ta.mode || taPoolSize() === 0) return;
     clearTATimers();
+    // この回で全単元の最高称号がそろう可能性があれば、エンディングの曲を操作の中で準備しておく（時間切れは操作の外なので）
+    if (app.ta.mode === TA.MODES.OFFICIAL) primeEnding(E.KINDS.OFFICIAL, app.ta.unit);
     try {
       app.ta.session = new TA.TimeAttackSession(app.questions, taConfig(), {
         rng,
@@ -1686,7 +1708,7 @@
     let rec;
     if (s.isOfficial) rec = records.recordOfficial(s.criteria.unit, sum, TA.titleForScore);
     else rec = records.addCustom({ unit: s.criteria.unit, categories: s.criteria.categories, difficulties: s.criteria.difficulties, ...sum });
-    app.ta.result = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices() };
+    app.ta.result = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices(), ending: s.isOfficial && endingDue(E.KINDS.OFFICIAL) };
     if (sum.gameOver) { showTAOverlay('ゲームオーバー', 'gameover'); sfx('fail'); }
     else { showTAOverlay('タイムアップ！', 'timeup'); sfx('timeup'); }
     later(() => {
@@ -1696,8 +1718,16 @@
       // 結果画面に移ったら短いジングル（画面を変えると長い音は止まるので、表示のあとに鳴らす）
       sfx('taResult');
       // 自己ベスト更新の音は、ジングルが終わってから鳴らす（重ねない）
-      if (s.isOfficial && rec.isBest && !rec.firstPlay && sum.score > 0) {
-        later(() => { if (app.screen === 'ta-result') sfx('best'); }, Math.round(window.SoundLib.recipeDuration('taResult') * 1000) + 80);
+      const jingleMs = Math.round(window.SoundLib.recipeDuration('taResult') * 1000) + 80;
+      const withBest = s.isOfficial && rec.isBest && !rec.firstPlay && sum.score > 0;
+      if (withBest) {
+        later(() => { if (app.screen === 'ta-result') sfx('best'); }, jingleMs);
+      }
+      // 全単元で最高称号がそろった：結果を少し見せてから（音が終わってから）エンディングへ
+      if (app.ta.result.ending) {
+        const res = app.ta.result;
+        const wait = jingleMs + (withBest ? Math.round(window.SoundLib.recipeDuration('best') * 1000) : 0) + 900;
+        later(() => { if (app.screen === 'ta-result' && app.ta.result === res) autoEnding(E.KINDS.OFFICIAL); }, wait);
       }
     }, 1100);
   }
@@ -1744,6 +1774,7 @@
         </dl>
         ${titleHtml}
       </div>
+      ${app.ta.result.ending ? endingBannerHtml(E.KINDS.OFFICIAL) : ''}
       ${talkHtml(dialogueFor(app.ta.result, D.timeAttackGroup({ official: s.isOfficial, isBest: !!(rec && rec.isBest), gameOver: sum.gameOver, score: sum.score })))}
       ${saveWarningHtml()}
       ${resultCardsHtml(items, 'ta-explain')}`;
@@ -1813,6 +1844,7 @@
     if (!app.cert.unit || !app.units.some((u) => u.unit === app.cert.unit)) app.cert.unit = app.config.unit;
     // 単元ごとのカード（8単元）を並べる。押すとその単元の試験一覧へ
     $('#cert-unit-list').innerHTML = app.units.map(certUnitCardHtml).join('');
+    renderEndingCrowns();
   }
 
   /** 認定試験の単元カード（ランク・次の試験）。タップするとその単元の試験一覧へ */
@@ -1872,6 +1904,7 @@
     const unit = app.cert.unit;
     const c = records.certFor(unit);
     if (!C.isUnlocked(c.highestCleared, examId)) return; // 解放されていない試験は始めない
+    if (Number(examId) === C.EXAMS[C.EXAMS.length - 1].id) primeEnding(E.KINDS.CERT, unit); // 最終試験：エンディングの曲を準備
     let s;
     try {
       s = new C.CertificationSession(app.questions, { unit, examId }, rng, { variantRng });
@@ -1897,7 +1930,7 @@
     const sum = s.summary();
     const passed = sum.outcome === C.OUTCOME.PASS;
     const rec = records.recordExam(s.unit, s.exam.id, passed);
-    app.cert.last = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices() };
+    app.cert.last = { session: s, summary: sum, record: rec, storyNotices: takeStoryNotices(), ending: passed && endingDue(E.KINDS.CERT) };
     app.session = null;
     app.mode = 'training';
     renderCertResult();
@@ -1906,6 +1939,12 @@
     else if (rec.firstClear && s.exam.id === C.EXAMS[C.EXAMS.length - 1].id) sfx('master'); // 最終試験に初合格
     else if (rec.rankUp) sfx('rankup');
     else sfx('pass');
+    // 全単元でマスターティーチャーになった：結果を少し見せてから（音が終わってから）エンディングへ
+    if (app.cert.last.ending) {
+      const last = app.cert.last;
+      const wait = Math.round(window.SoundLib.recipeDuration('master') * 1000) + 900;
+      setTimeout(() => { if (app.screen === 'cert-result' && app.cert.last === last) autoEnding(E.KINDS.CERT); }, wait);
+    }
   }
 
   function renderCertResult() {
@@ -1930,6 +1969,7 @@
       <p class="summary-unit">${esc(unitLabelById(s.unit))}・${s.exam.name}</p>
       ${verdict}
       ${celebrate}
+      ${app.cert.last.ending ? endingBannerHtml(E.KINDS.CERT) : ''}
       <div class="score-card">
         <dl class="score-card__stats">
           <div><dt>回答</dt><dd>${sum.answered}問</dd></div>
@@ -1959,6 +1999,137 @@
     if (!last) return;
     const r = last.session.results[index];
     if (r) openExplain(index + 1, { ...r, question: last.session.questions[index] });
+  }
+
+  // ============================================================ エンディング
+  // 条件・表示する内容・曲は ending.js。ここでは画面（ダイアログ）と、流すタイミングだけを扱う
+  function initEnding() {
+    const dlg = $('#ending-dialog');
+    dlg.addEventListener('close', cleanupEnding); // Esc・ブラウザの「戻る」で閉じたときも後片付けする
+    document.addEventListener('visibilitychange', () => { if (document.hidden && dlg.open) closeEnding(); });
+  }
+
+  /** まだ見ていなくて、全単元で最高の称号・ランクがそろっているか */
+  function endingDue(kind) {
+    try { return !endingStore.hasSeen(kind) && E.isComplete(kind, app.units, records); } catch (e) { return false; }
+  }
+
+  /** 操作の中で呼ぶ：この単元で条件がそろう可能性があれば、曲を読み込んでおく */
+  function primeEnding(kind, unit) {
+    try { if (!endingStore.hasSeen(kind) && E.wouldComplete(kind, app.units, records, unit)) endingMusic.prime(); } catch (e) { /* 無視 */ }
+  }
+
+  /** 結果画面から自動で流す（その間にボタンで見ていたら流さない） */
+  function autoEnding(kind) {
+    if (!endingStore.hasSeen(kind) && !$('#ending-dialog').open) openEnding(kind);
+  }
+
+  /** 全単元がそろっていれば今の記録を、そうでなければ（記録の引継ぎなど）初めて見たときの記録を表示する */
+  function endingEntries(kind) {
+    if (E.isComplete(kind, app.units, records)) return E.entriesFor(kind, app.units, records);
+    return endingStore.savedEntries(kind);
+  }
+
+  function endingBannerHtml(kind) {
+    const intro = E.introFor(kind, app.units.length);
+    return `<div class="ending-banner">
+        <p class="ending-banner__title">👑 ${esc(intro.heading)}</p>
+        <p class="ending-banner__text">${esc(intro.text.replace(/\n/g, ''))}</p>
+        <button type="button" class="btn btn--primary" data-action="ending-replay" data-kind="${kind}">🎬 エンディングを見る</button>
+      </div>`;
+  }
+
+  /** 単元選択画面の右上の 👑（一度エンディングを見たら出す） */
+  function renderEndingCrowns() {
+    const ta = $('#ta-ending-crown');
+    if (ta) ta.hidden = !(app.ta.mode === TA.MODES.OFFICIAL && endingStore.hasSeen(E.KINDS.OFFICIAL));
+    const cert = $('#cert-ending-crown');
+    if (cert) cert.hidden = !endingStore.hasSeen(E.KINDS.CERT);
+  }
+
+  function endingSlideHtml(step) {
+    const list = ending.entries;
+    if (step === 0) {
+      const intro = E.introFor(ending.kind, list.length);
+      return `<div class="ending-slide ending-slide--intro">
+          <p class="ending-slide__kicker">${esc(intro.kicker)}</p>
+          <h2 class="ending-slide__heading">${esc(intro.heading)}</h2>
+          <p class="ending-slide__text">${esc(intro.text).replace(/\n/g, '<br>')}</p>
+        </div>`;
+    }
+    if (step <= list.length) {
+      const e = list[step - 1];
+      return `<div class="ending-slide ending-slide--unit">
+          <p class="ending-slide__count">${step} / ${list.length}</p>
+          <p class="ending-slide__unit">${esc(e.label)}</p>
+          <p class="ending-slide__icon" aria-hidden="true">${esc(e.icon)}</p>
+          <p class="ending-slide__title">${esc(e.title)}</p>
+          <p class="ending-slide__main">${esc(e.main)}</p>
+          <p class="ending-slide__sub">${esc(e.sub)}</p>
+        </div>`;
+    }
+    return `<div class="ending-slide ending-slide--credits">
+        <p class="ending-slide__thanks">THANK YOU FOR PLAYING!</p>
+        <p class="ending-slide__credit">${esc(E.CREDIT)}</p>
+      </div>`;
+  }
+
+  function showEndingStep(step) {
+    $('#ending-stage').innerHTML = endingSlideHtml(step);
+    $('#ending-dialog').dataset.step = String(step);
+    document.querySelectorAll('#ending-progress li').forEach((li, i) => { li.classList.toggle('is-lit', i < step); });
+  }
+
+  function openEnding(kind) {
+    if (!Object.values(E.KINDS).includes(kind)) return;
+    const dlg = $('#ending-dialog');
+    if (dlg.open) return;
+    const entries = endingEntries(kind);
+    if (!entries || !entries.length) return;
+    try { endingStore.markSeen(kind, entries); } catch (e) { /* 保存できなくても流す */ }
+    stopSfx('long');
+    clearEndingTimers();
+    ending.kind = kind;
+    ending.entries = entries;
+    $('#ending-progress').innerHTML = entries.map((e) => `<li><span>${esc(e.icon)}</span></li>`).join('');
+    dlg.dataset.kind = kind;
+    dlg.classList.remove('is-end');
+    $('#ending-skip').textContent = 'スキップ ›';
+    showEndingStep(0);
+    dlg.showModal();
+    $('#ending-skip').focus({ preventScroll: true });
+    // 曲の読み込みを少しだけ待ってから、曲と表示を同時に始める（読めなければ音なしで進む）
+    const token = {};
+    ending.token = token;
+    endingMusic.play().catch(() => false).then(() => {
+      if (!dlg.open || ending.token !== token) return;
+      const T = E.TIMELINE;
+      for (let i = 1; i <= entries.length + 1; i++) {
+        ending.timers.push(setTimeout(() => showEndingStep(i), T.introMs + T.perUnitMs * (i - 1)));
+      }
+      ending.timers.push(setTimeout(() => {
+        dlg.classList.add('is-end');
+        $('#ending-skip').textContent = 'とじる';
+      }, E.totalMs(entries.length)));
+    });
+  }
+
+  function clearEndingTimers() {
+    ending.timers.forEach((t) => clearTimeout(t));
+    ending.timers = [];
+  }
+
+  function cleanupEnding() {
+    clearEndingTimers();
+    ending.token = null;
+    try { endingMusic.stop(); } catch (e) { /* 無視 */ }
+    renderEndingCrowns();
+  }
+
+  function closeEnding() {
+    const dlg = $('#ending-dialog');
+    if (dlg.open) dlg.close(); // close イベントで後片付けする
+    else cleanupEnding();
   }
 
   // ============================================================ 記録画面
@@ -2161,6 +2332,9 @@
     get story() { return story; },
     get storyData() { return storyData; },
     get bgm() { return bgm; },
+    get endingStore() { return endingStore; },
+    get endingMusic() { return endingMusic; },
+    openEnding: (kind) => openEnding(kind),
     /** 自動テスト用：生徒キャラクターの抽選を固定する（出題順の乱数には影響しない） */
     setDialogueRng(fn) { dialogueRng = fn || Math.random; },
     rerenderTitleTalk: () => renderTitleTalk(),

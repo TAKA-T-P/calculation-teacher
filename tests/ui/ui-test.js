@@ -316,6 +316,25 @@
         const sc = $$('.fit-math').filter((el) => el.offsetParent && el.classList.contains('is-scrollable')).map((el) => `${el.closest('[class]').className}:${el.textContent.slice(0, 40)}`);
         w.__scrollInfo = sc;
       },
+      // エンディング（?shot=ending&kind=cert|official&step=0〜9）・単元選択画面の 👑（?shot=ending-crown&kind=...）
+      ending: async () => {
+        const kind = params.get('kind') || 'cert';
+        const R = w.__calcTeacher.records;
+        app().units.forEach((u) => {
+          if (kind === 'cert') { for (let id = 1; id <= 5; id++) R.recordExam(u.unit, id, true); } else R.recordOfficial(u.unit, { score: 3000 + u.grade * 111, maxStreak: 14 }, w.TimeAttack.titleForScore);
+        });
+        w.__calcTeacher.openEnding(kind);
+        const step = Number(params.get('step') || 0);
+        if (step > 9) await waitFor(() => $('#ending-dialog').classList.contains('is-end'), '最後', 30000);
+        else await waitFor(() => Number($('#ending-dialog').dataset.step) === step, `step ${step}`, 30000);
+        await sleep(900);
+      },
+      'ending-crown': async () => {
+        const kind = params.get('kind') || 'cert';
+        w.__calcTeacher.endingStore.markSeen(kind, []);
+        if (kind === 'cert') await click('[data-action="go-cert-units"]');
+        else { await click('[data-action="go-ta-menu"]'); await click('[data-action="ta-mode"][data-mode="official"]'); }
+      },
       'story-read': async () => storyShot('read'),
       'story-end': async () => storyShot('end'),
       'story-names': async () => storyShot('names'),
@@ -2458,6 +2477,101 @@
     await click('[data-action="story-reset"]');
     await click('[data-action="story-reset-confirm"]');
     check(story().unlockedCount() === 1 && storyCard(12).disabled, 'リセットで裏ワザの解放が戻らない');
+  });
+
+  // ================================================================ エンディング
+  const endingDlg = () => $('#ending-dialog');
+  const endingStep = () => Number(endingDlg().dataset.step);
+  async function resetForEnding() {
+    ['calcTeacher.records', 'calcTeacher.ending'].forEach((k) => localStorage.removeItem(k));
+    await openGame(3);
+  }
+
+  await test('[エンディング] 認定試験：最後の単元で最終試験に合格すると自動で流れ（8単元を2秒ごと→製作）、そのあと単元選択画面に 👑 が出て見返せる', async () => {
+    await resetForEnding();
+    const units = app().units.map((u) => u.unit);
+    units.forEach((u) => { for (let id = 1; id <= (u === 'expressions' ? 4 : 5); id++) recs().recordExam(u, id, true); });
+    await click('[data-action="go-cert-units"]');
+    check($('#cert-ending-crown').hidden, 'まだ見ていないのに 👑 が出ている');
+    await pickCertUnit('expressions');
+    await click('[data-action="cert-start"][data-exam="5"]');
+    const s = app().session;
+    for (let i = 0; i < s.exam.maxQuestions && !visible('cert-result'); i++) { await answerExam(true); await click('[data-action="next"]'); }
+    check(visible('cert-result') && $('#cert-result-body .ending-banner'), '結果画面にエンディングの知らせが出ない');
+    check(!endingDlg().open, 'すぐに流れた（結果を見せてから流す）');
+    await waitFor(() => endingDlg().open, 'エンディングが自動で始まる', 6000);
+    check(endingStep() === 0 && $('#ending-stage').textContent.includes('全8単元 制覇！') && $('#ending-stage').textContent.includes('マスターティーチャー'), `はじめの表示: ${$('#ending-stage').textContent}`);
+    check(w.__calcTeacher.endingStore.hasSeen('cert') && !w.__calcTeacher.endingStore.hasSeen('official'), '見た記録');
+    await waitFor(() => endingStep() === 1, '1つ目の単元', 4000);
+    check($('#ending-stage').textContent.includes('中1・正負の数') && $('#ending-stage').textContent.includes('最終試験 合格') && $$('#ending-progress li.is-lit').length === 1, `1つ目: ${$('#ending-stage').textContent}`);
+    const t1 = Date.now();
+    await waitFor(() => endingStep() === 2, '2つ目の単元', 3000);
+    const gap = Date.now() - t1;
+    check(gap > 1700 && gap < 2400, `単元の間隔が2秒ではない（${gap}ms）`);
+    check($('#ending-stage').textContent.includes('中1・文字式'), '2つ目の単元');
+    check(pageOverflow() <= 0 && $('#ending-stage').getBoundingClientRect().right <= w.innerWidth, 'エンディングが横にはみ出す');
+    check($('#ending-skip').textContent.includes('スキップ'), 'スキップボタン');
+    await click('#ending-skip');
+    check(!endingDlg().open && visible('cert-result'), 'スキップで結果画面に戻らない');
+    await click('#cert-result-actions [data-action="go-cert-list"]');
+    await click('section[data-screen="cert-list"] [data-action="go-cert-units"]');
+    check(visible('cert-units'), '単元選択に戻れない');
+    const crown = $('#cert-ending-crown');
+    check(!crown.hidden, '見たあとに 👑 が出ない');
+    const cr = crown.getBoundingClientRect();
+    const hr = $('section[data-screen="cert-units"] .screen-header').getBoundingClientRect();
+    check(cr.right <= w.innerWidth && cr.right > hr.right - 4 && cr.width >= 44, `👑 が右上にない（${Math.round(cr.left)}〜${Math.round(cr.right)} / 幅 ${w.innerWidth}）`);
+    await click(crown);
+    check(endingDlg().open && endingStep() === 0, '👑 で見返せない');
+    // 最後まで見る：製作の表示と「とじる」
+    await waitFor(() => endingDlg().classList.contains('is-end'), '最後まで', 26000);
+    check($('#ending-stage').textContent.includes('製作　T.TAKEMOTO / KEC Glows') && $('#ending-skip').textContent === 'とじる' && $$('#ending-progress li.is-lit').length === 8, `最後の表示: ${$('#ending-stage').textContent}`);
+    await click('#ending-skip');
+    check(!endingDlg().open && visible('cert-units'), 'とじるで単元選択に戻らない');
+    // 再読み込みしても 👑 は残る。公式タイムアタックの 👑 は出ない（別々）
+    await openGame(3);
+    await click('[data-action="go-cert-units"]');
+    check(!$('#cert-ending-crown').hidden, '再読み込みで 👑 が消えた');
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    check($('#ta-ending-crown').hidden, '公式タイムアタックの 👑 が出ている');
+  });
+
+  await test('[エンディング] 公式タイムアタック：全単元で「神の赤ペン」の状態で遊び終えると流れる。👑 は公式だけ（カスタムには出ない）。記録のリセットで 👑 も消える', async () => {
+    await resetForEnding();
+    app().units.forEach((u) => recs().recordOfficial(u.unit, { score: 3000, maxStreak: 15 }, w.TimeAttack.titleForScore));
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    check($('#ta-ending-crown').hidden, 'まだ見ていないのに 👑 が出ている');
+    await pickTAUnitCard('equation');
+    await click('#ta-start-btn');
+    await playTA(() => false); // 3回ミスですぐ終わる（自己ベストは3000点のまま）
+    check($('#ta-result-body .ending-banner'), '結果画面にエンディングの知らせが出ない');
+    await waitFor(() => endingDlg().open, 'エンディングが自動で始まる', 8000);
+    check($('#ending-stage').textContent.includes('神の赤ペン'), `はじめの表示: ${$('#ending-stage').textContent}`);
+    // ブラウザの「戻る」でエンディングを閉じる（結果画面のまま）
+    w.history.back();
+    await waitFor(() => !endingDlg().open, '戻るで閉じる', 3000);
+    check(visible('ta-result'), '戻るで結果画面から離れた');
+    await click('section[data-screen="ta-result"] [data-action="ta-back-settings"]');
+    check(visible('ta-settings') && !$('#ta-ending-crown').hidden, '公式の単元選択に 👑 が出ない');
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="custom"]');
+    check($('#ta-ending-crown').hidden, 'カスタムに 👑 が出ている');
+    // 一度見たら、もう一度遊んでも自動では流れない
+    await click('[data-action="go-ta-menu"]');
+    await click('[data-action="ta-mode"][data-mode="official"]');
+    await click('#ta-start-btn');
+    await playTA(() => false);
+    await sleep(4000);
+    check(!endingDlg().open, '2回目も自動で流れた');
+    // 記録のリセット
+    await click('[data-action="go-title"]');
+    await click('[data-action="go-options"]');
+    await click('[data-action="reset-records"]');
+    await click('[data-action="reset-confirm"]');
+    check(!w.__calcTeacher.endingStore.hasSeen('official') && localStorage.getItem('calcTeacher.ending') === null, 'リセットで見た記録が消えない');
   });
 
   await test('[20] 開発者用プレビュー（preview.html）が従来どおり動く', async () => {

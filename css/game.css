@@ -1453,3 +1453,186 @@ h1:focus, h2:focus, h3:focus, p:focus { outline: none; }
 .record-card[data-tier] .record-card__stats dt { color: rgba(40, 28, 0, .8); }
 .record-card[data-tier] .record-card__stats dd { color: #2a1d00; }
 .record-card.tier-gold::before { z-index: 0; }
+
+/* ============================================================ エンディング（全単元で最高の称号） */
+/* 単元選択画面の右上の 👑：一度エンディングを見たら出る。押すと見返せる */
+.ending-crown {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border: 2px solid #e2b33c;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6d4, #f6d77a 70%);
+  box-shadow: 0 2px 8px rgba(180, 130, 0, .35);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  animation: crown-glow 2.4s ease-in-out infinite;
+}
+.ending-crown[hidden] { display: none; }
+.ending-crown:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+@keyframes crown-glow {
+  0%, 100% { box-shadow: 0 2px 8px rgba(180, 130, 0, .35); }
+  50% { box-shadow: 0 0 0 5px rgba(246, 215, 122, .45), 0 2px 12px rgba(180, 130, 0, .5); }
+}
+
+/* 結果画面：全単元がそろったときの知らせ */
+.ending-banner {
+  margin: 12px 0;
+  padding: 14px 16px;
+  text-align: center;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #1d2547, #3a2d6b);
+  color: #fff7dc;
+  border: 2px solid #e2b33c;
+}
+.ending-banner__title { margin: 0; font-size: clamp(1.05rem, 5vw, 1.35rem); font-weight: 900; color: #ffd76a; }
+.ending-banner__text { margin: 6px 0 12px; font-size: .9rem; font-weight: 700; line-height: 1.6; }
+
+/* 演出の画面（全画面のダイアログ）。ゲームの配色とは別に、夜空と金色でそろえる（ライト・ダーク共通） */
+.ending {
+  --ending-gold: #ffd76a;
+  --ending-text: #fff7dc;
+  --ending-muted: #c9c3e6;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: var(--ending-text);
+  background: radial-gradient(ellipse at 50% 120%, #4b2f7a 0%, #1b1f45 45%, #0a0d22 100%);
+}
+.ending::backdrop { background: #0a0d22; }
+.ending[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+/* きらめく星 */
+.ending__sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 78% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 30% 70%, #ffe9a8 50%, transparent 51%),
+    radial-gradient(2px 2px at 88% 62%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 30%, #ffe9a8 50%, transparent 51%),
+    radial-gradient(2px 2px at 20% 88%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 66% 85%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 42% 8%, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 95% 35%, #ffe9a8 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 5% 45%, #fff 50%, transparent 51%);
+  animation: ending-twinkle 3s ease-in-out infinite alternate;
+}
+@keyframes ending-twinkle { from { opacity: .45; } to { opacity: 1; } }
+.ending__stage {
+  position: relative;
+  width: min(560px, calc(100vw - 32px));
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.ending-slide { width: 100%; animation: ending-in .6s ease-out both; }
+:where(.ending-slide) :where(p, h2) { margin: 0; } /* 各部品の margin を優先する */
+@keyframes ending-in {
+  from { opacity: 0; transform: translateY(14px) scale(.96); }
+  to { opacity: 1; transform: none; }
+}
+.ending-slide__kicker { font-size: clamp(.95rem, 4.2vw, 1.15rem); font-weight: 800; color: var(--ending-muted); letter-spacing: .08em; }
+.ending-slide__heading {
+  margin: 10px 0 14px;
+  font-size: clamp(2rem, 11vw, 3.4rem);
+  font-weight: 900;
+  color: var(--ending-gold);
+  text-shadow: 0 0 18px rgba(255, 200, 80, .55);
+  white-space: nowrap;
+}
+.ending-slide__text { font-size: clamp(1rem, 4.6vw, 1.25rem); font-weight: 800; line-height: 1.7; }
+.ending-slide__count { font-size: .9rem; font-weight: 800; color: var(--ending-muted); letter-spacing: .1em; }
+.ending-slide__unit { margin-top: 6px; font-size: clamp(1.2rem, 6vw, 1.6rem); font-weight: 900; }
+.ending-slide__icon {
+  margin: 10px 0 4px;
+  font-size: clamp(3.6rem, 20vw, 5.5rem);
+  line-height: 1.15;
+  filter: drop-shadow(0 0 16px rgba(255, 210, 90, .7));
+  animation: ending-pop .7s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+@keyframes ending-pop {
+  from { opacity: 0; transform: scale(.4) rotate(-12deg); }
+  to { opacity: 1; transform: none; }
+}
+.ending-slide__title {
+  font-size: clamp(1.5rem, 8vw, 2.3rem);
+  font-weight: 900;
+  color: var(--ending-gold);
+  text-shadow: 0 0 14px rgba(255, 200, 80, .5);
+  white-space: nowrap;
+}
+.ending-slide__main { margin-top: 12px; font-size: clamp(1.05rem, 5vw, 1.3rem); font-weight: 800; }
+.ending-slide__sub { margin-top: 4px; font-size: .95rem; font-weight: 700; color: var(--ending-muted); }
+.ending-slide--credits { animation-duration: 1.2s; }
+.ending-slide__thanks { font-size: clamp(1rem, 4.6vw, 1.5rem); font-weight: 900; letter-spacing: .08em; color: var(--ending-gold); white-space: nowrap; }
+.ending-slide__credit { margin-top: 22px; font-size: clamp(.95rem, 4.4vw, 1.35rem); font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+/* 8単元の進み具合（表示した単元から光る） */
+.ending__progress {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ending__progress li {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 106, .35);
+  font-size: 1rem;
+}
+.ending__progress li span { opacity: 0; }
+.ending__progress li.is-lit { border-color: var(--ending-gold); background: rgba(255, 215, 106, .18); }
+.ending__progress li.is-lit span { opacity: 1; animation: ending-pop .5s ease-out both; }
+.ending__skip {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  right: 12px;
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 1px solid rgba(255, 247, 220, .5);
+  border-radius: 999px;
+  background: rgba(10, 13, 34, .4);
+  color: var(--ending-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ending__skip:focus-visible { outline: 3px solid var(--ending-gold); outline-offset: 2px; }
+/* 最後まで見たら「とじる」を下の中央に大きく出す */
+.ending.is-end .ending__skip {
+  top: auto;
+  right: 0;
+  bottom: max(28px, env(safe-area-inset-bottom));
+  left: 0;
+  width: max-content;
+  margin: 0 auto;
+  min-width: 160px;
+  padding: 10px 28px;
+  background: var(--ending-gold);
+  color: #1b1f45;
+  border-color: var(--ending-gold);
+  font-size: 1.05rem;
+  font-weight: 900;
+  animation: ending-in .5s ease-out both;
+}
+@media (max-width: 359px) {
+  .ending__progress li { width: 28px; height: 28px; font-size: .9rem; }
+}

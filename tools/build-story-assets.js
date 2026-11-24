@@ -7,6 +7,8 @@
  * - BGM ：BGMer の SHORT 版 MP3 → 先頭・末尾の無音を切り、ラウドネスをそろえて MP3（160kbps）。assets/story/bgm/
  *         漢太鼓（exam）は元の音が非常に大きいので、ほかの曲より小さめにそろえる（会話を読みやすくするため）。
  *         曲の長さとループの位置を data/story/episodes.json の bgm.tracks に書き込む。
+ * - エンディングの曲（BGMer「21世紀の幕開け」）：先頭・末尾の無音を切り、ラウドネスをそろえて assets/ending/ending.mp3 に。
+ *         ループしない（曲の終わりの余韻はそのまま）。元の音源は「素材フォルダ/mp3/」か、リポジトリ直下に置く。
  * - 元の素材フォルダ（容量が大きい）はリポジトリに入れない（.gitignore）。変換後のファイルだけを公開する。
  */
 'use strict';
@@ -19,6 +21,8 @@ const SRC = path.resolve(process.argv[2] || path.join(ROOT, 'ストーリーモ�
 const OUT_BG = path.join(ROOT, 'assets', 'story', 'backgrounds');
 const OUT_BGM = path.join(ROOT, 'assets', 'story', 'bgm');
 const EPISODES = path.join(ROOT, 'data', 'story', 'episodes.json');
+const OUT_ENDING = path.join(ROOT, 'assets', 'ending');
+const ENDING_SRC = '21世紀の幕開け.mp3';
 
 const BACKGROUNDS = {
   'classroom-spring': '桜の見える春の教室.png',
@@ -116,7 +120,26 @@ function buildBgm() {
   console.log('data/story/episodes.json の bgm.tracks を更新しました。');
 }
 
-if (!fs.existsSync(SRC)) { console.error(`素材フォルダがありません: ${SRC}`); process.exit(1); }
-const only = process.env.ONLY; // 'bg' または 'bgm' で片方だけ
-if (only !== 'bgm') buildBackgrounds();
-if (only !== 'bg') buildBgm();
+/** エンディングの曲（ループしない。末尾の余韻は残し、無音だけを切る） */
+function buildEnding() {
+  const src = [path.join(SRC, 'mp3', ENDING_SRC), path.join(ROOT, ENDING_SRC)].find((f) => fs.existsSync(f));
+  if (!src) { console.log(`エンディング：元の音源がないので飛ばします（${ENDING_SRC}）`); return; }
+  fs.mkdirSync(OUT_ENDING, { recursive: true });
+  const r = soundRange(src);
+  const start = Math.max(0, r.head - 0.02);
+  const len = Math.min(r.total, r.tail + 0.3) - start;
+  const before = loudness(src);
+  const gainDb = round3(TARGET_LUFS.default - before.lufs);
+  const out = path.join(OUT_ENDING, 'ending.mp3');
+  const filter = `volume=${gainDb}dB,afade=t=in:d=0.01,afade=t=out:st=${round3(len - 0.3)}:d=0.3`;
+  ffmpeg(['-y', '-v', 'error', '-ss', String(round3(start)), '-t', String(round3(len)), '-i', src, '-af', filter,
+    '-c:a', 'libmp3lame', '-b:a', '160k', '-ar', '48000', '-ac', '2', '-map_metadata', '-1', out]);
+  const after = loudness(out);
+  console.log(`エンディング：${round3(r.total)}秒 → ${round3(duration(out))}秒 / ${before.lufs} → ${after.lufs} LUFS・ピーク ${after.peak} dBFS / ${Math.round(fs.statSync(out).size / 1024)}KB`);
+}
+
+const only = process.env.ONLY; // 'bg'・'bgm'・'ending' のどれか1つだけ
+if (only !== 'ending' && !fs.existsSync(SRC)) { console.error(`素材フォルダがありません: ${SRC}`); process.exit(1); }
+if (!only || only === 'bg') buildBackgrounds();
+if (!only || only === 'bgm') buildBgm();
+if (!only || only === 'ending') buildEnding();

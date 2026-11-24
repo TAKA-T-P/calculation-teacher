@@ -152,7 +152,7 @@
           <summary>使用している音楽（クレジット）</summary>
           <p>音楽：<a href="https://bgmer.net/" target="_blank" rel="noopener">BGMer</a>（フリーBGM・SHORT版）</p>
           <ul id="bgm-credit-list">
-            <li>かのうせいのかたまり</li><li>きみは相棒</li><li>涙の結晶</li><li>きみはやりとげた</li><li>漢太鼓</li><li>こもれびの手紙</li><li>僕らのエピローグ</li>
+            <li>かのうせいのかたまり</li><li>きみは相棒</li><li>涙の結晶</li><li>きみはやりとげた</li><li>漢太鼓</li><li>こもれびの手紙</li><li>僕らのエピローグ</li><li>21世紀の幕開け（エンディング）</li>
           </ul>
         </details>
       </section>
@@ -288,6 +288,7 @@
       <header class="screen-header">
         <button type="button" class="btn btn--ghost btn--back" data-action="go-ta-menu" aria-label="モード選択へ戻る">← もどる</button>
         <h2 id="ta-settings-heading" class="screen-title" tabindex="-1"></h2>
+        <button type="button" class="ending-crown" id="ta-ending-crown" data-action="ending-replay" data-kind="official" aria-label="エンディングを見る" title="エンディングを見る" hidden>👑</button>
       </header>
       <fieldset class="setting">
         <legend class="setting__label">単元をえらぶ</legend>
@@ -346,6 +347,7 @@
       <header class="screen-header">
         <button type="button" class="btn btn--ghost btn--back" data-action="go-title" aria-label="タイトルへ戻る">← タイトル</button>
         <h2 id="cert-units-heading" class="screen-title" tabindex="-1">🎓 認定試験</h2>
+        <button type="button" class="ending-crown" id="cert-ending-crown" data-action="ending-replay" data-kind="cert" aria-label="エンディングを見る" title="エンディングを見る" hidden>👑</button>
       </header>
       <p class="screen-lead">単元ごとに5つの試験があります。順番に合格して、マスターティーチャーをめざそう！<br>単元のカードをえらんで、試験に進もう。</p>
       <div class="cert-unit-list" id="cert-unit-list"></div>
@@ -438,6 +440,14 @@
   </div>
 
   <!-- やめる確認 -->
+  <!-- エンディング（公式タイムアタック・認定試験の全単元で最高の称号）。中身は app.js が入れる -->
+  <dialog class="ending" id="ending-dialog" aria-label="エンディング">
+    <div class="ending__sky" aria-hidden="true"></div>
+    <div class="ending__stage" id="ending-stage" role="status" aria-live="polite"></div>
+    <ol class="ending__progress" id="ending-progress" aria-hidden="true"></ol>
+    <button type="button" class="ending__skip" id="ending-skip" data-action="ending-close">スキップ ›</button>
+  </dialog>
+
   <dialog class="dialog" id="quit-dialog" aria-labelledby="quit-title">
     <h2 id="quit-title" class="dialog__title">トレーニングをやめますか？</h2>
     <p id="quit-text">ここまでの結果は保存されません。</p>
@@ -602,6 +612,7 @@
   <script src="js/story-data.js"></script>
   <script src="js/story-bgm.js"></script>
   <script src="js/story.js"></script>
+  <script src="js/ending.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
