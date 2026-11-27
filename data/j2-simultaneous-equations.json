@@ -3166,22 +3166,22 @@
       "question": "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
       "answerLines": [
         "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
+        "\\begin{cases}2(x+y)-3(x-y)=6\\\\x+y=6\\end{cases}",
         "\\begin{cases}-x+5y=6\\\\x+y=6\\end{cases}",
         "\\begin{array}{r}-x+5y=6\\\\+)\\ x+y=6\\\\\\hline 6y=0\\end{array}",
         "y=0",
-        "x=6",
         "x=6,\\ y=0"
       ],
-      "errorLine": 2,
+      "errorLine": 3,
       "errorType": "式どうしをたすとき、右辺をひいてしまった誤り",
       "explanation": "2つの式をたすときは、右辺もたすので $6+6=12$ です。$6-6=0$ としたところが誤りです。上の式を $6$ 倍して $2(x+y)-3(x-y)=6$、$-x+5y=6$ と整理したところは正しくできています。正しくは $6y=12$ で、$y=2$、$x=4$ です。",
       "correctSolution": [
         "\\begin{cases}\\frac{x+y}{3}-\\frac{x-y}{2}=1\\\\x+y=6\\end{cases}",
+        "\\begin{cases}2(x+y)-3(x-y)=6\\\\x+y=6\\end{cases}",
         "\\begin{cases}-x+5y=6\\\\x+y=6\\end{cases}",
         "\\begin{array}{r}-x+5y=6\\\\+)\\ x+y=6\\\\\\hline 6y=12\\end{array}",
         "y=2",
         "x+2=6",
-        "x=4",
         "x=4,\\ y=2"
       ],
       "hint": "式どうしをたすとき、右辺はどう計算しますか？"
@@ -3332,23 +3332,23 @@
       "question": "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
       "answerLines": [
         "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
+        "\\begin{cases}3(x-1)+2(y+2)=18\\\\2x-(y-4)=6\\end{cases}",
         "\\begin{cases}3x+2y=17\\\\2x-y=2\\end{cases}",
         "\\begin{array}{r}3x+2y=17\\\\+)\\ 4x-2y=4\\\\\\hline 7x=21\\end{array}",
         "x=3",
         "-y=8",
-        "y=-8",
         "x=3,\\ y=-8"
       ],
-      "errorLine": 4,
+      "errorLine": 5,
       "errorType": "代入したあと移項するときの符号ミス",
       "explanation": "$x=3$ を $2x-y=2$ に代入すると $6-y=2$ です。$6$ を右辺に移項すると $-6$ になるので、$-y=2-6=-4$ です。$2+6=8$ としたところが誤りです。2つの式の整理（$3(x-1)+2(y+2)=18$、$2x-(y-4)=6$）と、$x=3$ を求めたところまでは正しくできています。正しくは $y=4$ です。",
       "correctSolution": [
         "\\begin{cases}\\frac{x-1}{2}+\\frac{y+2}{3}=3\\\\0.2x-0.1(y-4)=0.6\\end{cases}",
+        "\\begin{cases}3(x-1)+2(y+2)=18\\\\2x-(y-4)=6\\end{cases}",
         "\\begin{cases}3x+2y=17\\\\2x-y=2\\end{cases}",
         "\\begin{array}{r}3x+2y=17\\\\+)\\ 4x-2y=4\\\\\\hline 7x=21\\end{array}",
         "x=3",
         "-y=-4",
-        "y=4",
         "x=3,\\ y=4"
       ],
       "hint": "$6-y=2$ で、$6$ を移項すると符号はどうなりますか？"
